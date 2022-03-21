@@ -21,8 +21,6 @@ class HorizontalCardWithTitle extends StatefulWidget {
     State < StatefulWidget > createState() {
         return new _HorizontalCardWithTitle(card);
     }
-
-
 }
 
 class _HorizontalCardWithTitle extends State < HorizontalCardWithTitle > {
