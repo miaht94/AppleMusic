@@ -34,6 +34,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  flutter_sfsymbols: ^2.0.0
+  scroll_snap_list: ^0.8.4
 
 dev_dependencies:
   flutter_test:
@@ -58,9 +60,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/icons/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -76,33 +78,33 @@ flutter:
   fonts:
     - family: Roboto
       fonts:
-        - asset: fonts/Roboto-Thin.ttf
+        - asset: assets/fonts/Roboto-Thin.ttf
           weight: 100
-        - asset: fonts/Roboto-ThinItalic.ttf
+        - asset: assets/fonts/Roboto-ThinItalic.ttf
           style: italic
-        - asset: fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Regular.ttf
           weight: 400
-        - asset: fonts/Roboto-Italic.ttf
+        - asset: assets/fonts/Roboto-Italic.ttf
           weight: 400
           style: italic
-        - asset: fonts/Roboto-Light.ttf
+        - asset: assets/fonts/Roboto-Light.ttf
           weight: 300
-        - asset: fonts/Roboto-LightItalic.ttf
+        - asset: assets/fonts/Roboto-LightItalic.ttf
           weight: 300
           style: italic
-        - asset: fonts/Roboto-Medium.ttf
+        - asset: assets/fonts/Roboto-Medium.ttf
           weight: 500
-        - asset: fonts/Roboto-MediumItalic.ttf
+        - asset: assets/fonts/Roboto-MediumItalic.ttf
           weight: 500
           style: italic
-        - asset: fonts/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
           weight: 700
-        - asset: fonts/Roboto-BoldItalic.ttf
+        - asset: assets/fonts/Roboto-BoldItalic.ttf
           weight: 700
           style: italic
-        - asset: fonts/Roboto-Black.ttf
+        - asset: assets/fonts/Roboto-Black.ttf
           weight: 900
-        - asset: fonts/Roboto-BlackItalic.ttf
+        - asset: assets/fonts/Roboto-BlackItalic.ttf
           weight: 900
           style: italic
 #
