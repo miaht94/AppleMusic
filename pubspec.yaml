@@ -80,6 +80,7 @@ flutter:
       fonts:
         - asset: assets/fonts/Roboto-Thin.ttf
           weight: 100
+<<<<<<< Updated upstream
         - asset:  assets/fonts/Roboto-ThinItalic.ttf
           style: italic
         - asset:  assets/fonts/Roboto-Regular.ttf
@@ -107,6 +108,10 @@ flutter:
         - asset:  assets/fonts/Roboto-BlackItalic.ttf
           weight: 900
           style: italic
-#
+    - family: sficonsets
+      fonts:
+        - asset: packages/flutter_sfsymbols/fonts/sficonsets.ttf
+
+  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
