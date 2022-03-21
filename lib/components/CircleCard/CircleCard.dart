@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
+import 'HScrollCircleConstant.dart';
 
 class CircleCard extends StatelessWidget{
   const CircleCard({Key? key,
@@ -48,6 +49,8 @@ class CircleCard extends StatelessWidget{
               Text(
                 artist,
                 textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontFamily: kFontFamily,
                   color: Colors.black,

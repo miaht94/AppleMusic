@@ -63,11 +63,11 @@ class HScrollSquareCardWithText extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: kDefaultPadding * 2),
+                padding: EdgeInsets.only(left: kDefaultPadding * 1.5),
                 child: BoldTitle(title: title),
               ),
               Padding(
-                padding: EdgeInsets.only(right: kDefaultPadding * 2),
+                padding: EdgeInsets.only(right: kDefaultPadding),
                 child: SeeAllButton(),
               ),
             ],

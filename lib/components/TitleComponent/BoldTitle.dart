@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
+import 'TitleComponentConstant.dart';
 
 class BoldTitle extends StatelessWidget {
   const BoldTitle({
@@ -18,7 +19,7 @@ class BoldTitle extends StatelessWidget {
         fontFamily: kFontFamily,
         color: Colors.black,
         fontWeight: FontWeight.w900,
-        fontSize: SQUARE_CARD_FONT_SIZE_TITLE,
+        fontSize: FONT_SIZE_TITLE,
         fontStyle: FontStyle.normal,
       ),
     );

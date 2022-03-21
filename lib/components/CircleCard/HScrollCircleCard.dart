@@ -1,7 +1,9 @@
+import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import 'CircleCard.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
+import 'HScrollCircleConstant.dart';
 
 
 
@@ -42,7 +44,7 @@ class _HScrollCircleCardState extends State<HScrollCircleCard> {
         itemBuilder: (context, index) {
           if (index == 0){
             return SizedBox(
-              width: 10,
+              width: kDefaultCardPadding / 2,
             );
           }
           return CircleCard(

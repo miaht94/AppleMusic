@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
+import 'HScrollSquareConstant.dart';
 
 class SquareCard extends StatelessWidget{
   const SquareCard({Key? key,
@@ -50,6 +51,8 @@ class SquareCard extends StatelessWidget{
               ),
               Text(
                 name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontFamily: kFontFamily,
@@ -61,6 +64,8 @@ class SquareCard extends StatelessWidget{
               ),
               Text(
                 artist,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontFamily: kFontFamily,
