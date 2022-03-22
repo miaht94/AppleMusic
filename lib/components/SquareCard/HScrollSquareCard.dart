@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
-import 'squareCard.dart';
+import 'SquareCard.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'HScrollSquareConstant.dart';
 
