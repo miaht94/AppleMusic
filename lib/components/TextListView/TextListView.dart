@@ -54,7 +54,7 @@ class TextListButton extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(2),
+        padding: EdgeInsets.all(0),
         height: 45,
         child: Container(
             child: Row(
@@ -66,7 +66,7 @@ class TextListButton extends StatelessWidget{
                           Divider(
                             height: 20,
                             thickness: 0.8,
-                            indent: 18,
+                            indent: kDefaultPadding*2,
                             endIndent: 0,
                             color: Colors.grey,
                           ),
@@ -75,7 +75,7 @@ class TextListButton extends StatelessWidget{
                               ConstrainedBox(
                                 constraints: BoxConstraints(minWidth: 356),
                                 child: Container(
-                                    padding: EdgeInsets.only(left:17),
+                                    padding: EdgeInsets.only(left:kDefaultPadding*2),
                                     child: Column(
 
                                       mainAxisAlignment: MainAxisAlignment.center,

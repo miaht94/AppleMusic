@@ -24,13 +24,7 @@ var sampleData = [
     "artist_name": "Taylor Swift",
     "song_name": "cardigan",
     "art_url":"https://upload.wikimedia.org/wikipedia/vi/f/f8/Taylor_Swift_-_Folklore.png"
-  },
-  {
-    "artist_name": "Taylor Swift",
-    "song_name": "everyday i love you",
-    "art_url":"https://upload.wikimedia.org/wikipedia/vi/f/f8/Taylor_Swift_-_Folklore.png"
   }
-
 ];
 
 class HScrollCardList extends StatefulWidget {
