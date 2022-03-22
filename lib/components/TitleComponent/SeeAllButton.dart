@@ -14,6 +14,8 @@ class SeeAllButton extends StatelessWidget {
       onTap: onSeeAllClick,
       child: Text(
         "Xem tất cả",
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.left,
         style: const TextStyle(
           fontFamily: kFontFamily,

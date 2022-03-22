@@ -21,12 +21,13 @@ class CircleCard extends StatelessWidget{
   @override
   Widget build (BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final WIDTH = size.height * CIRCLE_IMAGE_RATIO;
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
-        width: size.width * CIRCLE_CARD_WIDTH_RATIO,
+        width: WIDTH,
         height: size.height * CIRCLE_CARD_HEIGHT_RATIO,
-        padding: EdgeInsets.only(left: kDefaultPadding),
+        margin: EdgeInsets.only(left: kDefaultPadding),
         child: InkWell(
           onTap: onCardTap,
           child: ListView(
@@ -38,8 +39,8 @@ class CircleCard extends StatelessWidget{
                 shape: CircleBorder(
                 ),
                 child: Container(
-                  height: size.width * CIRCLE_CARD_WIDTH_RATIO,
-                  width: size.width * CIRCLE_CARD_WIDTH_RATIO,
+                  height: WIDTH,
+                  width: WIDTH,
                   child: Image.network(
                     imageUrl,
                     fit: BoxFit.cover,

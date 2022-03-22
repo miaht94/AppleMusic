@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import 'TitleComponentConstant.dart';
 
-class BoldTitle extends StatelessWidget {
-  const BoldTitle({
+class PageTitle extends StatelessWidget {
+  const PageTitle({
     Key? key,
     required this.title,
   }) : super(key: key);
@@ -20,8 +20,8 @@ class BoldTitle extends StatelessWidget {
       style: const TextStyle(
         fontFamily: kFontFamily,
         color: Colors.black,
-        fontWeight: FontWeight.w900,
-        fontSize: FONT_SIZE_BOLD_TITLE,
+        fontWeight: FontWeight.w500,
+        fontSize: FONT_SIZE_PAGE_TITLE,
         fontStyle: FontStyle.normal,
       ),
     );

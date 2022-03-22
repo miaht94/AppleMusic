@@ -23,16 +23,17 @@ class SquareCard extends StatelessWidget{
   @override
   Widget build (BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final WIDTH = size.height * SQUARE_IMAGE_RATIO;
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
-        width: size.width * SQUARE_CARD_WIDTH_RATIO,
+        width: WIDTH,
         height: size.height * SQUARE_CARD_HEIGHT_RATIO,
-        padding: EdgeInsets.only(left: kDefaultPadding),
+        margin :EdgeInsets.only(left: kDefaultPadding),
         child: InkWell(
           onTap: onCardTap,
           child: ListView(
-            physics: NeverScrollableScrollPhysics(),
+            physics:NeverScrollableScrollPhysics(),
             children: [
               Card(
                 margin: EdgeInsets.zero,
@@ -40,9 +41,9 @@ class SquareCard extends StatelessWidget{
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(SQUARE_CARD_RADIUS),
                 ),
-                child: Container(
-                  height: size.width * SQUARE_CARD_WIDTH_RATIO,
-                  width: size.width * SQUARE_CARD_WIDTH_RATIO,
+                child:Container(
+                  height: WIDTH,
+                  width: WIDTH,
                   child: Image.network(
                     imageUrl,
                     fit: BoxFit.cover,

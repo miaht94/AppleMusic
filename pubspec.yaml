@@ -80,7 +80,6 @@ flutter:
       fonts:
         - asset: assets/fonts/Roboto-Thin.ttf
           weight: 100
-<<<<<<< Updated upstream
         - asset:  assets/fonts/Roboto-ThinItalic.ttf
           style: italic
         - asset:  assets/fonts/Roboto-Regular.ttf

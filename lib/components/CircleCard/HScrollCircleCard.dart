@@ -31,15 +31,17 @@ class _HScrollCircleCardState extends State<HScrollCircleCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ScrollSnapList(
+    final size = MediaQuery.of(context).size;
+    final WIDTH = size.height * CIRCLE_IMAGE_RATIO;
+    return
+      ScrollSnapList(
         onItemFocus: _onItemFocus,
         shrinkWrap: true,
         selectedItemAnchor: SelectedItemAnchor.START,
         padding: const EdgeInsets.only(top: kDefaultPadding),
         scrollDirection: Axis.horizontal,
         key: sslKey,
-        itemSize: MediaQuery.of(context).size.width * CIRCLE_CARD_WIDTH_RATIO,
+        itemSize: WIDTH + kDefaultPadding,
         itemCount: widget.listItem.length + 1,
         itemBuilder: (context, index) {
           if (index == 0){
@@ -53,7 +55,6 @@ class _HScrollCircleCardState extends State<HScrollCircleCard> {
             id: index - 1,
           );
         },
-        )
     );
   }
 }
