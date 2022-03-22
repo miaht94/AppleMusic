@@ -4,6 +4,7 @@ import 'package:apple_music/components/SongCardInPlaylist/HScroll_CardList.dart'
 import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylist.dart';
 import 'package:apple_music/components/TextListView/TextListView.dart';
 import 'package:apple_music/components/squareCard/HScrollSquareCardWithText.dart';
+import 'package:apple_music/test.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -78,12 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: HScrollCardListWithText(title: "Tiêu điểm")
+      body: Test()
     );
   }
 }

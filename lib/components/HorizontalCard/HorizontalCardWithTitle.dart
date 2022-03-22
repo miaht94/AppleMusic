@@ -47,7 +47,7 @@ class _HorizontalCardWithTitle extends State < HorizontalCardWithTitle > {
                     Text(card.title, style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18)),
                     Text(card.primaryDes, style: TextStyle(color: kPrimaryDesColor, fontSize: kPrimaryDesFontSize, fontWeight: kPrimaryDesFontWeight)),
                     Padding(padding: EdgeInsets.only(bottom: 6)),
-                    HorizontalCard(primaryImagePath: card.primaryImagePath, secondaryImagePath: card.secondaryImagePath, secondaryDes: card.secondaryDes)
+                    HorizontalCard(id: card.id, primaryImagePath: card.primaryImagePath, secondaryImagePath: card.secondaryImagePath, secondaryDes: card.secondaryDes)
                 ]),
         );
     }

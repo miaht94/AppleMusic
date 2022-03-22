@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
+import 'package:uuid/uuid.dart';
 
 class HorizontalCardWithTitleModel {
-    HorizontalCardWithTitleModel(this._category, this._title, this._primaryDes ,this._primaryImagePath,  this._secondaryDes, this._secondaryImagePath);
+    HorizontalCardWithTitleModel(this._category, this._title, this._primaryDes ,this._primaryImagePath,  this._secondaryDes, this._secondaryImagePath) {
+      id = Uuid().v4();
+    }
     String _title;
     String _primaryImagePath;
     String _secondaryImagePath;
     String _primaryDes;
     String _secondaryDes;
     String _category;
+    late String id;
 
     String get title {
         return _title;
