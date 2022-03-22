@@ -83,4 +83,8 @@ doc/api/
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
+<<<<<<< HEAD
 **/test.dart
+=======
+**/test.dart
+>>>>>>> 20d579d7abb2d1a477d0e24b0b8a74ff61994f5e

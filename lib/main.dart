@@ -6,6 +6,7 @@ import 'package:apple_music/components/TextListView/TextListView.dart';
 import 'package:apple_music/components/squareCard/HScrollSquareCardWithText.dart';
 import 'package:apple_music/test.dart';
 import 'package:flutter/material.dart';
+import 'test.dart';
 
 void main() {
   runApp(const MyApp());

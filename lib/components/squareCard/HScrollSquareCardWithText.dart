@@ -3,6 +3,7 @@ import 'package:apple_music/constant.dart';
 import 'HScrollSquareCard.dart';
 import '../TitleComponent/SeeAllButton.dart';
 import '../TitleComponent/BoldTitle.dart';
+import 'HScrollSquareConstant.dart';
 
 class HScrollSquareCardWithText extends StatelessWidget{
   HScrollSquareCardWithText({Key? key,
@@ -56,6 +57,7 @@ class HScrollSquareCardWithText extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return
       Column(
         children: [
@@ -75,8 +77,8 @@ class HScrollSquareCardWithText extends StatelessWidget{
           Align(
             alignment: Alignment.centerRight,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 186,
+              width: size.width,
+              height: size.height * SQUARE_CARD_HEIGHT_RATIO,
               child: HScrollSquareCard(listItem: listItem),
             ),
           ),

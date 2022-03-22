@@ -1,4 +1,5 @@
 const double CIRCLE_CARD_RADIUS = 100;
 const double CIRCLE_CARD_FONT_SIZE_TEXT = 10;
-const double CIRCLE_CARD_WIDTH_RATIO = 0.262;
-const double CIRCLE_CARD_HEIGHT_RATIO = 0.315;
+const double CIRCLE_CARD_WIDTH_RATIO = 0.265;
+const double CIRCLE_CARD_HEIGHT_RATIO = 0.165;
+const double CIRCLE_IMAGE_RATIO = 0.133;
