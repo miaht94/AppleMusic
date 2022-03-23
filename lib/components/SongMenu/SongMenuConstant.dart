@@ -1,0 +1,2 @@
+const double SONG_MENU_ITEM_HEIGHT_RATIO = 0.041;
+const double SONG_MENU_ITEM_TITLE_FONT_SIZE = 17;
