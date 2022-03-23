@@ -8,6 +8,7 @@ class SquareCard extends StatelessWidget{
     required this.name,
     required this.artist,
     required this.id,
+    required this.width,
 
   }): super(key: key);
 
@@ -15,6 +16,7 @@ class SquareCard extends StatelessWidget{
   final String name;
   final String artist;
   final int id;
+  final double width;
 
   onCardTap() {
     print("ID: ${id}");
@@ -23,16 +25,15 @@ class SquareCard extends StatelessWidget{
   @override
   Widget build (BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final WIDTH = size.height * SQUARE_IMAGE_RATIO;
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
-        width: WIDTH,
-        height: size.height * SQUARE_CARD_HEIGHT_RATIO,
+        width: width,
         margin :EdgeInsets.only(left: kDefaultPadding),
         child: InkWell(
           onTap: onCardTap,
           child: ListView(
+            shrinkWrap: true,
             physics:NeverScrollableScrollPhysics(),
             children: [
               Card(
@@ -42,8 +43,8 @@ class SquareCard extends StatelessWidget{
                   borderRadius: BorderRadius.circular(SQUARE_CARD_RADIUS),
                 ),
                 child:Container(
-                  height: WIDTH,
-                  width: WIDTH,
+                  height: width,
+                  width: width,
                   child: Image.network(
                     imageUrl,
                     fit: BoxFit.cover,

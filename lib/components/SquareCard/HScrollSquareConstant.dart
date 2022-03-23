@@ -5,3 +5,4 @@ const int SQUARE_CARD_GREY = 0xff939393;
 const double SQUARE_CARD_FONT_SIZE_TEXT = 13;
 const double SQUARE_CARD_RADIUS = 5;
 const double SQUARE_IMAGE_RATIO = 0.169;
+const double RENCENTLY_VIEWED_WIDTH_RATIO = 0.415;
