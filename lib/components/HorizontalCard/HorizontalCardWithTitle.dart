@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
-import 'package:apple_music/model/HorizontalCardWithTitleModel.dart';
+import 'package:apple_music/models/HorizontalCardWithTitleModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

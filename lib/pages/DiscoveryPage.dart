@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../components/squareCard/HScrollSquareCardWithText.dart';
 import '../components/CircleCard/HScrollCircleCardWithText.dart';
 import '../components/HorizontalCard/HorizontalCardsWithTitle.dart';
-import '../model/HorizontalCardWithTitleModel.dart';
+import '../models/HorizontalCardWithTitleModel.dart';
 import '../components/SongCardInPlaylist/HScrollCardListWithText.dart';
 import '../components/TextListView/TextListView.dart';
 import '../components/TitleComponent/PageTitleBox.dart';

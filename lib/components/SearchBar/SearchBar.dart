@@ -17,10 +17,9 @@ class _SearchBarState extends State < SearchBar > {
     late TextEditingController inputController;
     FocusNode focusNode = FocusNode(canRequestFocus: true);
     bool xMarkVisible = false;
+    Function(String)? onSubmitSearchBar;
     @override
     void initState() {
-        // TODO: implement initState
-
         super.initState();
         inputController = TextEditingController(text: "");
         inputController.addListener(() {
@@ -85,6 +84,9 @@ class _SearchBarState extends State < SearchBar > {
                                         child: TextField(
                                             autocorrect: false,
                                             focusNode: focusNode,
+                                            onSubmitted: (String value) {
+                                              onSubmitSearchBar!(value);
+                                            },
                                             controller: inputController,
                                             textAlignVertical: TextAlignVertical.center,
                                             decoration: InputDecoration(
@@ -108,7 +110,8 @@ class _SearchBarState extends State < SearchBar > {
                                 ]),
                         ),
                     ),
-                    Flexible(flex: 1,child: Container()),
+                    if (focusNode.hasFocus)
+                        Flexible(flex: 1,child: Container()),
                     if (focusNode.hasFocus)
                         Expanded(
                             flex: 2,
