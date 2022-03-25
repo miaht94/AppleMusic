@@ -16,7 +16,7 @@ class VerticalBigCardWithTitle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-      Text(model.title, style: TextStyle(color: kVCardTitleColor)),
+      Text(model.title, style: TextStyle(color: kVCardTitleColor, fontSize: kCardTitleSize)),
       SizedBox(height: 5,),
       VerticalBigCard(description: model.description, imagePath: model.imagePath, footerColor: model.footerColor,)
     ]);

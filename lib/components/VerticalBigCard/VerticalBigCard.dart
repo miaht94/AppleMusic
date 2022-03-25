@@ -100,7 +100,7 @@ class _VerticalBigCardState extends State < VerticalBigCard > with SingleTickerP
                           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(kVCardBorderRadius), bottomRight: Radius.circular(kVCardBorderRadius))
                         ),
                         alignment: Alignment.center,
-                        child: Text(widget.description, style: TextStyle(color: Colors.white.withOpacity(0.9)), textAlign: TextAlign.center,), 
+                        child: Text(widget.description, style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: kCardDesSize), textAlign: TextAlign.center,), 
                       ),
                     ),
                   )

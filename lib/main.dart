@@ -1,3 +1,4 @@
+import 'package:apple_music/components/CustomBottomAppBar/CustomBottomAppBar.dart';
 import 'package:apple_music/pages/DiscoveryPage.dart';
 import 'package:apple_music/components/HorizontalCard/HorizontalCard.dart';
 import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListWithText.dart';
@@ -5,6 +6,8 @@ import 'package:apple_music/components/SongCardInPlaylist/HScroll_CardList.dart'
 import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylist.dart';
 import 'package:apple_music/components/TextListView/TextListView.dart';
 import 'package:apple_music/components/squareCard/HScrollSquareCardWithText.dart';
+import 'package:apple_music/pages/LibraryPage.dart';
+import 'package:apple_music/pages/ListeningNow.dart';
 import 'package:apple_music/test.dart';
 import 'package:flutter/material.dart';
 import 'test.dart';
@@ -14,7 +17,9 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({
+    Key ? key
+  }): super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -23,7 +28,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        
+
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -41,7 +46,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({
+    Key ? key,
+    required this.title
+  }): super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -55,23 +63,19 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State < MyHomePage > createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State < MyHomePage > {
   int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  late PageController pageController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pageController = new PageController();
+    // ..addListener(() {pageController.animateToPage(((pageController.page as int) + 1) % 3, duration: Duration(milliseconds: 300), curve: Curves.easeIn);});
   }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -80,8 +84,59 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    Size size = MediaQuery.of(context).size;
+    GlobalKey bodyKey = GlobalKey();
     return Scaffold(
-      body: Test()
+
+      body:
+      Stack(children: [
+        Positioned(
+          top: 0,
+          left: 0,
+          width: size.width,
+          height: size.height,
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+
+              // This is the theme of your application.
+              //
+              // Try running your application with "flutter run". You'll see the
+              // application has a blue toolbar. Then, without quitting the app, try
+              // changing the primarySwatch below to Colors.green and then invoke
+              // "hot reload" (press "r" in the console where you ran "flutter run",
+              // or simply save your changes to "hot reload" in a Flutter IDE).
+              // Notice that the counter didn't reset back to zero; the application
+              // is not restarted.
+              primarySwatch: Colors.blue,
+            ),
+            home:
+            Scaffold(key: bodyKey, body: PageView(
+              /// [PageView.scrollDirection] defaults to [Axis.horizontal].
+              /// Use [Axis.vertical] to scroll vertically.
+              scrollDirection: Axis.horizontal,
+              controller: pageController,
+              children: const < Widget > [
+                Center(
+                  child: ListeningNow(),
+                ),
+                Center(
+                  child: DiscoveryPage(),
+                ),
+                Center(
+                  child: LibraryPage(),
+                ),
+              ],
+            ))
+          )
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          child: CustomBottomAppBar(pageController: pageController)
+        )
+      ], )
+
     );
   }
 }

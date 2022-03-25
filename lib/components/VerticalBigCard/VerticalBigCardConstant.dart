@@ -16,3 +16,6 @@ const double kVCardShadowBlurRadius = 10;
 const Color kVCardDesBackgroundColor = Color.fromRGBO(164, 130, 69, 0.6);
 
 const Color kVCardTitleColor = Color.fromRGBO(140, 140, 140, 1); 
+const double kCardTitleSize = 14;
+
+const double kCardDesSize = 12;
