@@ -30,9 +30,13 @@ Using Pixel 3XL Android Emulator is recommended.
 
 
 ## Authors
+
 Tran Xuan Bach
+
 Nguyen Viet Anh
+
 Dang The Hoang Anh
 
 **Class:** Mobile Application Development (INT3120 20)
+
 University of Engineering and Technology, VNU
