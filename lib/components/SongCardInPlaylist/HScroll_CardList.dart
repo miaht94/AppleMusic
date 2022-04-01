@@ -3,27 +3,32 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylist.dart';
+import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListConstants.dart';
 
 var sampleData = [
   {
     "artist_name": "Taylor Swift",
     "song_name": "Lover",
-    "art_url":"https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png"
+    "art_url":
+        "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png"
   },
   {
     "artist_name": "Taylor Swift",
     "song_name": "Red",
-    "art_url":"https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"
+    "art_url":
+        "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"
   },
   {
     "artist_name": "Taylor Swift, Ed Sheeran",
     "song_name": "Everything Has Changed",
-    "art_url":"https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"
+    "art_url":
+        "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"
   },
   {
     "artist_name": "Taylor Swift",
     "song_name": "cardigan",
-    "art_url":"https://upload.wikimedia.org/wikipedia/vi/f/f8/Taylor_Swift_-_Folklore.png"
+    "art_url":
+        "https://upload.wikimedia.org/wikipedia/vi/f/f8/Taylor_Swift_-_Folklore.png"
   }
 ];
 
@@ -48,29 +53,34 @@ class _HScrollCardListState extends State<HScrollCardList> {
       width: 350,
       child: Material(
         child: InkWell(
-          child: ListView.builder(
-            padding: const EdgeInsets.all(0),
-              itemBuilder: (context, index) {
-                return SongCardInPlaylist(songName: sampleData[index]['song_name']!, artistName: sampleData[index]['artist_name']!, artURL: sampleData[index]['art_url']! );
-              },
-              itemCount: sampleData.length
-          )
-        ),
+            child: ListView.builder(
+                padding: const EdgeInsets.all(0),
+                itemBuilder: (context, index) {
+                  return SongCardInPlaylist(
+                      songName: sampleData[index]['song_name']!,
+                      artistName: sampleData[index]['artist_name']!,
+                      artURL: sampleData[index]['art_url']!);
+                },
+                itemCount: sampleData.length)),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final WIDTH = size.height * SQUARE_IMAGE_RATIO;
     return Container(
       height: 220,
       child: Column(
         children: <Widget>[
           Expanded(
             child: ScrollSnapList(
-              margin: EdgeInsets.symmetric(vertical: 10),
+              selectedItemAnchor: SelectedItemAnchor.START,
+              // padding: const EdgeInsets.only(t),
+              shrinkWrap: true,
               onItemFocus: _onItemFocus,
-              itemSize: 360,
+              itemSize: size.height - 30,
               itemBuilder: _buildListItem,
               itemCount: 3,
               key: sslKey,
