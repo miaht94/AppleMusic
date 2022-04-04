@@ -1,21 +1,41 @@
 import 'package:flutter/material.dart';
-import 'audioWidget.dart';
+import 'ProgessBarObject.dart';
+import 'ProgressBarConstant.dart';
 
 
 class ProgessBarWidget extends StatefulWidget {
-  const ProgessBarWidget({
+   ProgessBarWidget({
     Key? key,
+    required this.currentTime,
+    required this.totalTime,
   }) : super(key: key);
 
-
-  @override
+  Duration currentTime;
+  Duration totalTime;
+   @override
   State<ProgessBarWidget> createState() => _ProgessBarWidgetState();
 }
 
 class _ProgessBarWidgetState extends State<ProgessBarWidget> with TickerProviderStateMixin{
-  final Color cardPaiterColor = Colors.redAccent;
   Animation<double>? animation;
   AnimationController? controller;
+
+  onChanged(newTime) {
+    setState(() {
+      widget.currentTime = newTime;
+    });
+  }
+
+  _incrementCounter() async {
+    for (var i = 0; i < 100; i++) { //Loop 100 times
+      await Future.delayed(
+          const Duration(seconds: 1), () { // Delay 500 milliseconds
+        setState(() {
+          widget.currentTime = widget.currentTime + Duration(seconds: 1); //Increment Counter
+        });
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -30,18 +50,20 @@ class _ProgessBarWidgetState extends State<ProgessBarWidget> with TickerProvider
   }
   @override
   Widget build(BuildContext context) {
+    print(widget.currentTime);
     return Center(
-
       child: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AudioWidget(
-              barColor: Color.fromRGBO(211,195 , 195, 1.0),
-              thumbColor: Color.fromRGBO(211, 195, 195, 1.0),
+            ProgressBarObject(
+              barColor: BAR_COLOR,
+              thumbColor: THUMB_COLOR,
               thumbSize: animation!.value,
               controller: controller,
-              totalTime: Duration(hours: 1,minutes: 2, seconds: 30),
+              currentTime: widget.currentTime,
+              totalTime: widget.totalTime,
+              onChanged: onChanged,
             ),
           ],
         ),

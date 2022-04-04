@@ -3,41 +3,50 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 
+import 'ProgressBarConstant.dart';
 
-class AudioWidget extends LeafRenderObjectWidget {
-  const AudioWidget({
+
+class ProgressBarObject extends LeafRenderObjectWidget {
+  const ProgressBarObject({
     Key? key,
     required this.barColor,
     required this.thumbColor,
     required this.thumbSize,
     required this.totalTime,
+    required this.currentTime,
     required this.controller,
+    required this.onChanged,
   }) : super(key: key);
 
   final Color barColor;
   final Color thumbColor;
   final double thumbSize;
   final Duration totalTime;
+  final Duration currentTime;
   final AnimationController? controller;
+  final onChanged;
 
   @override
-  RenderAudioWidget createRenderObject(BuildContext context) {
-    return RenderAudioWidget(
+  RenderProgessBarObject createRenderObject(BuildContext context) {
+    return RenderProgessBarObject(
       barColor: barColor,
       thumbColor: thumbColor,
       thumbSize: thumbSize,
       controller: controller,
       totalTime: totalTime,
+      currentTime: currentTime,
+      onChanged: onChanged,
     );
   }
 
   @override
-  void updateRenderObject(BuildContext context, RenderAudioWidget renderObject) {
+  void updateRenderObject(BuildContext context, RenderProgessBarObject renderObject) {
     renderObject
         ..barColor = barColor
         ..thumbColor = thumbColor
         ..thumbSize = thumbSize
-        ..totalTime = totalTime;
+        ..totalTime = totalTime
+        ..currentTime = currentTime;
   }
 
   @override
@@ -49,16 +58,20 @@ class AudioWidget extends LeafRenderObjectWidget {
   }
 }
 
-class RenderAudioWidget extends RenderBox {
-  RenderAudioWidget({
+class RenderProgessBarObject extends RenderBox {
+  RenderProgessBarObject({
     required Color barColor,
     required Color thumbColor,
     required Duration totalTime,
     required double thumbSize,
     required AnimationController? controller,
+    required Duration currentTime,
+    required onChanged,
+
   })  : _barColor = barColor,
         _thumbSize = thumbSize,
         _totalTime = totalTime,
+        _currentTime = currentTime,
         _thumbColor = thumbColor
       {
 
@@ -70,17 +83,30 @@ class RenderAudioWidget extends RenderBox {
         }
         ..onUpdate = (DragUpdateDetails details) {
           _updateThumbPosition(details.localPosition);
-          _updateThumbSize(thumbSize * 2.5);
+          _updateThumbSize(thumbSize * ON_CLICK_THUMB_SIZE_RATIO);
         }
         ..onEnd = (DragEndDetails details){
+          _updateCurrentTime();
+          onChanged(_currentTime);
           controller!.reverse();
       };
   }
 
-  double _currentThumbValue = 0.5;
+  double _currentThumbValue = 0.0;
 
   Color get barColor => _barColor;
   Color _barColor;
+
+  Duration get currentTime => _currentTime;
+  Duration _currentTime;
+  set currentTime(Duration value){
+    if (value == _currentTime)
+      return;
+    _currentTime = value;
+    _currentThumbValue = _getCurrentPosition();
+    markNeedsPaint();
+  }
+
   set barColor(Color value){
     if (value == _barColor)
       return;
@@ -96,6 +122,7 @@ class RenderAudioWidget extends RenderBox {
     _thumbColor = value;
     markNeedsPaint();
   }
+
   Duration get totalTime => _totalTime;
   Duration _totalTime;
   set totalTime(Duration value){
@@ -121,12 +148,12 @@ class RenderAudioWidget extends RenderBox {
   @override
   Size computeDryLayout(BoxConstraints constraints) {
     final desiredWidth = constraints.maxWidth;
-    final desiredHeight = 20.0;
+    final desiredHeight = DESIRED_HEIGHT;
     final desiredSize = Size(desiredWidth, desiredHeight);
     return constraints.constrain(desiredSize);
   }
 
-  static const _minDesiredWidth = 100.0;
+  static const _minDesiredWidth = MIN_DESIRED_WIDTH;
   @override
   double computeMinIntrinsicWidth(double height) => _minDesiredWidth;
   @override
@@ -191,8 +218,8 @@ class RenderAudioWidget extends RenderBox {
 
   void PaintRemainBar(Canvas canvas) {
     final remainBarPaint = Paint()
-      ..color = barColor.withOpacity(0.2)
-      ..strokeWidth = 3;
+      ..color = barColor.withOpacity(REMAIN_BAR_OPACITY)
+      ..strokeWidth = STROKE_WIDTH;
     final startDx = _currentThumbValue * size.width;
     final point3 = Offset(startDx, size.height / 2);
     final point4 = Offset(size.width, size.height / 2);
@@ -202,7 +229,7 @@ class RenderAudioWidget extends RenderBox {
   void paintPlayedBar(Canvas canvas) {
     final playedBarPaint = Paint()
       ..color = barColor
-      ..strokeWidth = 3;
+      ..strokeWidth = STROKE_WIDTH;
     final EndDx = _currentThumbValue * size.width;
     final point1 = Offset(0, size.height / 2);
     final point2 = Offset(EndDx, size.height / 2);
@@ -228,6 +255,10 @@ class RenderAudioWidget extends RenderBox {
     markNeedsPaint();
   }
 
+  void _updateCurrentTime() {
+    _currentTime = _getDuration(_currentThumbValue);
+  }
+
   void _updateThumbSize(double newThumbSize) {
     if (_thumbSize == newThumbSize) {
       return;
@@ -247,6 +278,13 @@ class RenderAudioWidget extends RenderBox {
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
     return "${twoDigitHours}$twoDigitMinutes:$twoDigitSeconds";
+  }
+
+  double _getCurrentPosition() {
+    if (_currentTime == null) {
+      return 0;
+    }
+    return _currentTime.inMilliseconds / _totalTime.inMilliseconds;
   }
 
 }
