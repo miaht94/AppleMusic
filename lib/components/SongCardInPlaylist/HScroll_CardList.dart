@@ -48,9 +48,12 @@ class _HScrollCardListState extends State<HScrollCardList> {
   }
 
   Widget _buildListItem(BuildContext context, int index) {
+
+    final size = MediaQuery.of(context).size;
+    final WIDTH = size.width;
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5),
-      width: 350,
+      margin: EdgeInsets.symmetric(horizontal:20),
+      width: size.width - 40,
       child: Material(
         child: InkWell(
             child: ListView.builder(
@@ -69,18 +72,19 @@ class _HScrollCardListState extends State<HScrollCardList> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final WIDTH = size.height * SQUARE_IMAGE_RATIO;
+    final WIDTH = size.width;
+
     return Container(
       height: 220,
       child: Column(
         children: <Widget>[
           Expanded(
             child: ScrollSnapList(
+              // margin: EdgeInsets.symmetric(horizontal: 10),
               selectedItemAnchor: SelectedItemAnchor.START,
-              // padding: const EdgeInsets.only(t),
               shrinkWrap: true,
               onItemFocus: _onItemFocus,
-              itemSize: size.height - 30,
+              itemSize: size.width-40,
               itemBuilder: _buildListItem,
               itemCount: 3,
               key: sslKey,

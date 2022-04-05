@@ -45,6 +45,7 @@ dependencies:
   flutter_signin_button: ^2.0.0
   flutter_icons: ^1.1.0
   loader_overlay: ^2.0.6
+  palette_generator: ^0.3.3
   
 dev_dependencies:
   flutter_test:
