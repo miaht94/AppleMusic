@@ -64,7 +64,6 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
   _onItemTapUp(id) {
     if(_PlayingLyric != null) {
       widget.onTimeChanged(lyrics[id].startingTime);
-      widget.onPositionChanged(lyrics[id].startingTime);
     }
   }
 

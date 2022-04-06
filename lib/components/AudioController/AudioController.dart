@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import '../Lyrics/ListLyrics.dart';
 import '../ProgressBar/ProgessBarWidget.dart';
 
-
-
 class AudioController extends StatefulWidget {
   AudioController({
     Key? key,
@@ -23,6 +21,7 @@ class _AudioControllerState extends State<AudioController> {
   onTimeChanged(newTime) {
     setState(() {
       widget.currentTime = newTime;
+      widget.currentPosition = newTime;
     });
   }
 
