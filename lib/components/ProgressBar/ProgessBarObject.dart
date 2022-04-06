@@ -15,7 +15,9 @@ class ProgressBarObject extends LeafRenderObjectWidget {
     required this.totalTime,
     required this.currentTime,
     required this.controller,
-    required this.onChanged,
+    required this.onTimeChanged,
+    required this.onPositionChanged,
+
   }) : super(key: key);
 
   final Color barColor;
@@ -24,7 +26,8 @@ class ProgressBarObject extends LeafRenderObjectWidget {
   final Duration totalTime;
   final Duration currentTime;
   final AnimationController? controller;
-  final onChanged;
+  final onTimeChanged;
+  final onPositionChanged;
 
   @override
   RenderProgessBarObject createRenderObject(BuildContext context) {
@@ -35,7 +38,8 @@ class ProgressBarObject extends LeafRenderObjectWidget {
       controller: controller,
       totalTime: totalTime,
       currentTime: currentTime,
-      onChanged: onChanged,
+      onTimeChanged: onTimeChanged,
+      onPositionChanged: onPositionChanged,
     );
   }
 
@@ -66,7 +70,8 @@ class RenderProgessBarObject extends RenderBox {
     required double thumbSize,
     required AnimationController? controller,
     required Duration currentTime,
-    required onChanged,
+    required onTimeChanged,
+    required onPositionChanged,
 
   })  : _barColor = barColor,
         _thumbSize = thumbSize,
@@ -84,11 +89,12 @@ class RenderProgessBarObject extends RenderBox {
         ..onUpdate = (DragUpdateDetails details) {
           _updateThumbPosition(details.localPosition);
           _updateThumbSize(thumbSize * ON_CLICK_THUMB_SIZE_RATIO);
+          onPositionChanged(_getDuration(_currentThumbValue));
         }
         ..onEnd = (DragEndDetails details){
-          _updateCurrentTime();
-          onChanged(_currentTime);
           controller!.reverse();
+          _updateCurrentTime();
+          onTimeChanged(_currentTime);
       };
   }
 
@@ -104,6 +110,7 @@ class RenderProgessBarObject extends RenderBox {
       return;
     _currentTime = value;
     _currentThumbValue = _getCurrentPosition();
+
     markNeedsPaint();
   }
 

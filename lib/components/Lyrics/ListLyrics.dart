@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
-
 import '../../models/LyricModel.dart';
+import 'LyricConstant.dart';
 import 'LyricWidget.dart';
 
 class ListLyrics extends StatefulWidget{
-  const ListLyrics({Key? key}) : super(key: key);
+  ListLyrics({Key? key,
+    required this.currentTime,
+    required this.onTimeChanged,
+    required this.currentPosition,
+    required this.onPositionChanged,
+    required this.lyrics,
+  })
+      : super(key: key);
+
+  Duration currentTime;
+  Duration currentPosition;
+  List<Lyric> lyrics;
+
+  var onTimeChanged;
+  var onPositionChanged;
 
   @override
   State<ListLyrics> createState() => _ListLyricsState();
@@ -12,14 +26,16 @@ class ListLyrics extends StatefulWidget{
 
 class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
 
-  final lyrics = Lyrics.getLyrics();
-  var _PlayingLyric = GlobalKey().currentContext;
+  var _PlayingLyric;
   var _PlayingId;
+  var lyrics;
 
   late List<AnimationController?> animationControllers;
   late List<AnimationController?> animationBlurs;
 
   initState() {
+    lyrics = widget.lyrics;
+    _PlayingLyric = lyrics[0].key.currentContext;
     super.initState();
     animationControllers = [];
     animationBlurs = [];
@@ -45,33 +61,56 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     }
   }
 
-  BuildContext get PlayingLyric => _PlayingLyric!;
-
-  set PlayingLyric(BuildContext newContext){
-    _PlayingLyric = newContext;
+  _onItemTapUp(id) {
+    if(_PlayingLyric != null) {
+      widget.onTimeChanged(lyrics[id].startingTime);
+      widget.onPositionChanged(lyrics[id].startingTime);
+    }
   }
 
-  _onItemTapUp(id) {
+  _handleAnimation(id) {
     if(_PlayingId != null){
-      animationControllers[_PlayingId]!.animateTo(1.0, duration: Duration(milliseconds: 500));
-      animationBlurs[_PlayingId]!.animateTo(1.0, duration: Duration(milliseconds: 500));
+      animationControllers[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
+      animationBlurs[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
     }
+
     setState(() {
       if (_PlayingLyric != lyrics[id].key.currentContext){
         _PlayingLyric = lyrics[id].key.currentContext;
         _PlayingId = id;
-        }});
-    Scrollable.ensureVisible(
-        _PlayingLyric!,
-        alignment: 0.1,
-        duration: Duration(milliseconds: 400),
-        curve: Curves.easeInOut
-    );
+      }});
+
+    animationControllers[id]!.animateTo(MAX_SCALE,duration: Duration(milliseconds: 200));
+    animationBlurs[id]!.animateTo(MIN_BLUR,duration: Duration(milliseconds: 200));
+
+    if(_PlayingLyric != null) {
+      Scrollable.ensureVisible(
+          _PlayingLyric!,
+          alignment: 0.1,
+          duration: Duration(milliseconds: SCROLL_ANIMATION_DURATION),
+          curve: Curves.easeOutCubic
+      );
+    }
   }
 
+  _checkCurrentlyric() {
+
+    for(var i = 0; i < lyrics.length; i ++){
+      if (widget.currentPosition < lyrics[i].startingTime){
+        var id = i - 1;
+        _handleAnimation(id);
+        break;
+      }
+    }
+    if (widget.currentPosition >= lyrics[lyrics.length - 1].startingTime){
+      _handleAnimation(lyrics.length - 1);
+    }
+  }
 
   @override
   Widget build(BuildContext context){
+    _checkCurrentlyric();
+
     return
         SingleChildScrollView(
           child: Column(

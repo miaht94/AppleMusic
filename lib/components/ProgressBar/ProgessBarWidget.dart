@@ -8,10 +8,17 @@ class ProgessBarWidget extends StatefulWidget {
     Key? key,
     required this.currentTime,
     required this.totalTime,
+    required this.onTimeChanged,
+    required this.onPositionChanged,
+
   }) : super(key: key);
 
   Duration currentTime;
   Duration totalTime;
+
+  var onTimeChanged;
+  var onPositionChanged;
+
    @override
   State<ProgessBarWidget> createState() => _ProgessBarWidgetState();
 }
@@ -19,23 +26,6 @@ class ProgessBarWidget extends StatefulWidget {
 class _ProgessBarWidgetState extends State<ProgessBarWidget> with TickerProviderStateMixin{
   Animation<double>? animation;
   AnimationController? controller;
-
-  onChanged(newTime) {
-    setState(() {
-      widget.currentTime = newTime;
-    });
-  }
-
-  _incrementCounter() async {
-    for (var i = 0; i < 100; i++) { //Loop 100 times
-      await Future.delayed(
-          const Duration(seconds: 1), () { // Delay 500 milliseconds
-        setState(() {
-          widget.currentTime = widget.currentTime + Duration(seconds: 1); //Increment Counter
-        });
-      });
-    }
-  }
 
   @override
   void initState() {
@@ -48,9 +38,9 @@ class _ProgessBarWidgetState extends State<ProgessBarWidget> with TickerProvider
         });
       });
   }
+
   @override
   Widget build(BuildContext context) {
-    print(widget.currentTime);
     return Center(
       child: Container(
         child: Column(
@@ -63,7 +53,8 @@ class _ProgessBarWidgetState extends State<ProgessBarWidget> with TickerProvider
               controller: controller,
               currentTime: widget.currentTime,
               totalTime: widget.totalTime,
-              onChanged: onChanged,
+              onTimeChanged: widget.onTimeChanged,
+              onPositionChanged: widget.onPositionChanged,
             ),
           ],
         ),

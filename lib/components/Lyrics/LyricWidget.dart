@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 
 import '../../models/LyricModel.dart';
+import 'LyricConstant.dart';
 
 class LyricWidget extends StatefulWidget{
   LyricWidget(Key? key, this.lyric, this.onTap,
@@ -35,17 +36,14 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
 
   _onTapUp() {
     widget.onTap(widget.id);
-    widget._controller?.animateTo(1.05,duration: Duration(milliseconds: 300));
-    widget._blur?.animateTo(0.01,duration: Duration(milliseconds: 300));
   }
   _onTapDown() {
-    widget._controller?.animateTo(0.95,duration: Duration(milliseconds: 100));
+    widget._controller?.animateTo(MIN_SCALE,duration: Duration(milliseconds: TAP_DOWN_ANIMATION_DURATION));
   }
 
   _onTapCancel() {
-    widget._controller?.animateTo(1.0,duration: Duration(milliseconds: 500));
-    widget._blur?.animateTo(1.0,duration: Duration(milliseconds: 500));
-
+    widget._controller?.animateTo(NORMAL_SCALE,duration: Duration(milliseconds: CANCEL_ANIMATION_DURATION));
+    widget._blur?.animateTo(NORMAL_BLUR,duration: Duration(milliseconds: CANCEL_ANIMATION_DURATION));
   }
 
   @override
@@ -67,18 +65,16 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
             decoration:  BoxDecoration(
               color: Colors.white.withOpacity(
                   (widget._controller!.value >= 1.0) ? 0.0
-                      : (1.0 - widget._controller!.value) * 1.5),
-              borderRadius: BorderRadius.circular(12),
+                      : (1.0 - widget._controller!.value) * OPACITY_SCALE),
+              borderRadius: BorderRadius.circular(LYRIC_BORDER),
             ),
 
-            width: 500,
+            width: LYRIC_WIDTH,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: AnimatedDefaultTextStyle(
-                duration: Duration(milliseconds: 700),
-                style: TextStyle(fontSize: 25, color: Colors.white ),
-                child: Text(widget.lyric.lyric),
-                curve: Curves.fastOutSlowIn,
+              child: Text(
+                  widget.lyric.lyric,
+                  style: TextStyle(fontSize: LYRIC_FONT_SIZE, color: LYRIC_FONT_COLOR),
               ),
             ),
           ),
