@@ -11,10 +11,10 @@ const double VerticalComponentPadding = 20;
 
 
 // CONFIG FOR OAUTH2 GOOGLE API (WITHOUT SECRET KEY, DON'T FIND IT)
-Uri REDIRECT_URI = Uri.parse("http://localhost:8080/verify");
+Uri REDIRECT_URI = Uri.parse("http://koyomiku39.moe/verify");
 
-const String SV_HOSTNAME = "10.0.2.2";
-const int SV_PORT = 8080;
+const String SV_HOSTNAME = "koyomiku39.moe";
+const int SV_PORT = 80;
  
 
 // API ENTRY

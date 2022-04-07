@@ -15,9 +15,6 @@ import 'package:apple_music/pages/LoginPage.dart';
 import 'package:apple_music/test.dart';
 import 'package:flutter/material.dart';
 import 'test.dart';
-import 'package:visa/auth-data.dart';
-import 'package:visa/google.dart';
-
 import 'dart:io';
 
 import 'package:oauth2/oauth2.dart' as oauth2;
@@ -67,7 +64,7 @@ class _MyHomePageState extends State < MyHomePage > {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body:
-      LoginPage()
+      Test()
     );
   }
 }
