@@ -15,10 +15,6 @@ import 'package:apple_music/pages/LoginPage.dart';
 import 'package:apple_music/test.dart';
 import 'package:flutter/material.dart';
 import 'test.dart';
-<<<<<<< HEAD
-=======
-
->>>>>>> 6f8e0a06fae53ff2f8d9d8f822b831f9294a4084
 import 'dart:io';
 
 import 'package:oauth2/oauth2.dart' as oauth2;

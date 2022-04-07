@@ -16,9 +16,10 @@ class LoginPage extends StatelessWidget {
   Future<String> authGoogle() async {
     // var grant = oauth2.AuthorizationCodeGrant(identifier, authorizationEndpoint, tokenEndpoint);
     // var authorizationUrl = grant.getAuthorizationUrl(redirectUrl, scopes: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']);
+    
     await redirect(Uri(scheme: "http", host: SV_HOSTNAME, port: SV_PORT, path: "oauth"));
     var responseUrl = await listen(redirectUrl);
-    Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, path: 'verify', port: SV_PORT, queryParameters: {"code": responseUrl.queryParameters['code'], "state": responseUrl.queryParameters['state']});
+    Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, path: 'verify2', port: SV_PORT, queryParameters: {"code": responseUrl.queryParameters['code'], "state": responseUrl.queryParameters['state']});
     var responseJson = await http.get(httpURI);
     print(responseJson.body);
     return responseJson.body;
@@ -29,8 +30,10 @@ class LoginPage extends StatelessWidget {
   }
 
   Future<Uri> listen(Uri redirectUrl) async {
-    Completer<Uri> com = Completer();  
+    Completer<Uri> com = Completer();
+    print("Listening");
     linkStream.listen((String? link) {
+      print(link);
       if (link.toString().startsWith(redirectUrl.toString())) {
         com.complete(Uri.parse(link!));
       }

@@ -11,6 +11,7 @@ const double VerticalComponentPadding = 20;
 
 
 // CONFIG FOR OAUTH2 GOOGLE API (WITHOUT SECRET KEY, DON'T FIND IT)
+// Uri REDIRECT_URI = Uri.parse("http://koyomiku39.moe/verify");
 Uri REDIRECT_URI = Uri.parse("http://koyomiku39.moe/verify");
 
 const String SV_HOSTNAME = "koyomiku39.moe";

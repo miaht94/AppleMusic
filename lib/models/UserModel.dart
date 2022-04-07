@@ -5,6 +5,6 @@ class UserModel {
   String email;
   
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(json['data']['name'], json['data']['avatarURL'], json['data']['email']);
+    return UserModel(json['data']['name']['S'], json['data']['avatarURL']['S'], json['data']['email']['S']);
   }
 }
