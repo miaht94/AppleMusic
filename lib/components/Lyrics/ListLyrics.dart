@@ -63,7 +63,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
 
   _onItemTapUp(id) {
     if(_PlayingLyric != null) {
-      widget.onTimeChanged(lyrics[id].startingTime);
+      widget.onTimeChanged(lyrics[id].startTime);
     }
   }
 
@@ -94,14 +94,14 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
 
   _checkCurrentlyric() {
 
-    for(var i = 0; i < lyrics.length; i ++){
-      if (widget.currentPosition < lyrics[i].startingTime){
+    for(var i = 1; i < lyrics.length; i ++){
+      if (widget.currentPosition < lyrics[i].startTime){
         var id = i - 1;
         _handleAnimation(id);
         break;
       }
     }
-    if (widget.currentPosition >= lyrics[lyrics.length - 1].startingTime){
+    if (widget.currentPosition >= lyrics[lyrics.length - 1].startTime){
       _handleAnimation(lyrics.length - 1);
     }
   }

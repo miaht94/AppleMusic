@@ -1,10 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Lyric{
-  const Lyric(this.key, this.lyric, this.startingTime);
+  const Lyric(this.key, this.lyric, this.startTime);
   final GlobalKey key;
   final String lyric;
-  final Duration startingTime;
+  final Duration startTime;
+  Lyric._({required this.key, required this.lyric, required this.startTime});
+
+  factory Lyric.fromJson(Map<String, dynamic> json) {
+    return Lyric._(
+        key: GlobalKey(),
+        lyric: json['text'],
+        startTime: Duration(milliseconds : ((json['start']).toDouble() * 1000).toInt()),
+    );
+  }
 }
 
 class Lyrics{
@@ -24,4 +36,26 @@ class Lyrics{
       Lyric(GlobalKey(), 'Mang câu hát đi thật xa', Duration(seconds: 45)),
     ];
   }
+
+  static  Future<List<Lyric>> fetchLyrics(url) async {
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes))['scripts'];
+      List<Lyric> list = [];
+      if (response.body != null) {
+        list = data.map((item) => Lyric.fromJson(item)).toList();
+      }
+      print(list);
+      return list;
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+    return [];
+  }
+
+  // static List<Lyric> getLyricsFromUrl(url) {
+  //   return [
+  //
+  //   ]
+  // }
 }
