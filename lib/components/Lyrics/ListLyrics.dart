@@ -68,27 +68,29 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
   }
 
   _handleAnimation(id) {
-    if(_PlayingId != null){
-      animationControllers[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
-      animationBlurs[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
-    }
-
-    setState(() {
-      if (_PlayingLyric != lyrics[id].key.currentContext){
-        _PlayingLyric = lyrics[id].key.currentContext;
-        _PlayingId = id;
-      }});
-
-    animationControllers[id]!.animateTo(MAX_SCALE,duration: Duration(milliseconds: 200));
-    animationBlurs[id]!.animateTo(MIN_BLUR,duration: Duration(milliseconds: 200));
-
-    if(_PlayingLyric != null) {
-      Scrollable.ensureVisible(
-          _PlayingLyric!,
-          alignment: 0.1,
-          duration: Duration(milliseconds: SCROLL_ANIMATION_DURATION),
-          curve: Curves.easeOutCubic
-      );
+    if (_PlayingId != id) {
+      if(_PlayingId != null){
+        animationControllers[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
+        animationBlurs[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
+      }
+      
+      setState(() {
+        if (_PlayingLyric != lyrics[id].key.currentContext){
+          _PlayingLyric = lyrics[id].key.currentContext;
+          _PlayingId = id;
+        }});
+      
+      animationControllers[id]!.animateTo(MAX_SCALE,duration: Duration(milliseconds: 200));
+      animationBlurs[id]!.animateTo(MIN_BLUR,duration: Duration(milliseconds: 200));
+      
+      if(_PlayingLyric != null) {
+        Scrollable.ensureVisible(
+            _PlayingLyric!,
+            alignment: 0.1,
+            duration: Duration(milliseconds: SCROLL_ANIMATION_DURATION),
+            curve: Curves.easeOutCubic
+        );
+      }
     }
   }
 
