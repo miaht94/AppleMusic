@@ -48,14 +48,10 @@ class Lyrics{
       print(list);
       return list;
     } else {
+
       print('Request failed with status: ${response.statusCode}.');
     }
     return [];
   }
 
-  // static List<Lyric> getLyricsFromUrl(url) {
-  //   return [
-  //
-  //   ]
-  // }
 }

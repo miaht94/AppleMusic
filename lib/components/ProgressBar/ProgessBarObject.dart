@@ -151,7 +151,6 @@ class RenderProgessBarObject extends RenderBox {
   @override
   void performLayout() {
     size = computeDryLayout(constraints);
-    print(size);
   }
   @override
   Size computeDryLayout(BoxConstraints constraints) {

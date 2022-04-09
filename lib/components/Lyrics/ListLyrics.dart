@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+
 import '../../models/LyricModel.dart';
 import 'LyricConstant.dart';
 import 'LyricWidget.dart';
@@ -29,6 +31,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
   var _PlayingLyric;
   var _PlayingId;
   var lyrics;
+  Timer? timer;
 
   late List<AnimationController?> animationControllers;
   late List<AnimationController?> animationBlurs;
@@ -59,11 +62,21 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
         lowerBound: 0.0,
       ));
     }
+    super.initState();
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => _checkCurrentlyric());
+
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   _onItemTapUp(id) {
     if(_PlayingLyric != null) {
       widget.onTimeChanged(lyrics[id].startTime);
+      _handleAnimation(id);
     }
   }
 
@@ -73,7 +86,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
         animationControllers[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
         animationBlurs[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
       }
-      
+
       setState(() {
         if (_PlayingLyric != lyrics[id].key.currentContext){
           _PlayingLyric = lyrics[id].key.currentContext;
@@ -92,11 +105,16 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
         );
       }
     }
+    else{
+      animationControllers[id]!.animateTo(MAX_SCALE,duration: Duration(milliseconds: 200));
+      animationBlurs[id]!.animateTo(MIN_BLUR,duration: Duration(milliseconds: 200));
+    }
   }
 
   _checkCurrentlyric() {
+    var start =  1;
 
-    for(var i = 1; i < lyrics.length; i ++){
+    for(var i = start; i < lyrics.length; i ++){
       if (widget.currentPosition < lyrics[i].startTime){
         var id = i - 1;
         _handleAnimation(id);
@@ -110,28 +128,36 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context){
-    _checkCurrentlyric();
-
+    var children = List.generate(lyrics.length + 1, (index) {
+      return (index < lyrics.length) ?
+      LyricWidget(
+          lyrics[index].key,
+          lyrics[index],
+          _onItemTapUp,
+          animationControllers[index],
+          animationBlurs[index],
+          index
+      )
+          : const SizedBox(
+        width: double.infinity,
+        height: 1000,
+      );
+    }
+    );
+    
+    children.insert(0,
+        const SizedBox(
+      width: double.infinity,
+      height: 200,
+        )
+    );
+    
     return
         SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(lyrics.length + 1, (index) {
-              return (index < lyrics.length) ?
-                LyricWidget(
-                    lyrics[index].key,
-                    lyrics[index],
-                    _onItemTapUp,
-                  animationControllers[index],
-                    animationBlurs[index],
-                    index
-                )
-                  : SizedBox(
-                    width: double.infinity,
-                    height: 1000,
-                  );
-            }
-            ),
+            children: children
+              ,
           ),
       );
   }
