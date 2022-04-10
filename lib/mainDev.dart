@@ -15,6 +15,8 @@ import 'package:apple_music/pages/LoginPage.dart';
 import 'package:apple_music/test.dart';
 import 'package:flutter/material.dart';
 import 'test.dart';
+import 'services/service_locator.dart';
+
 import 'dart:io';
 
 import 'package:oauth2/oauth2.dart' as oauth2;
@@ -22,6 +24,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter/services.dart' show PlatformException;
 void main() {
+  setUpGetIt();
   runApp(const MyApp());
 }
 
@@ -59,6 +62,8 @@ class _MyHomePageState extends State < MyHomePage > {
   void initState() {
     super.initState();
   }
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

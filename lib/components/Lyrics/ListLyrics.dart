@@ -63,7 +63,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
       ));
     }
     super.initState();
-    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => _checkCurrentlyric());
+    timer = Timer.periodic(CHECK_DURATION, (Timer t) => _checkCurrentlyric());
 
   }
 
@@ -76,6 +76,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
   _onItemTapUp(id) {
     if(_PlayingLyric != null) {
       widget.onTimeChanged(lyrics[id].startTime);
+      widget.onPositionChanged(lyrics[id].startTime);
       _handleAnimation(id);
     }
   }

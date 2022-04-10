@@ -12,6 +12,7 @@ const int TAP_DOWN_ANIMATION_DURATION = 100;
 const int CANCEL_ANIMATION_DURATION = 500;
 const int RESIZE_ANIMATION_DURATION = 500;
 const int SCROLL_ANIMATION_DURATION = 400;
+const Duration CHECK_DURATION = Duration(milliseconds: 500);
 
 const double LYRIC_BORDER = 12;
 const double LYRIC_WIDTH = 500;
