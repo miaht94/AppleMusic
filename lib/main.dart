@@ -98,7 +98,12 @@ class _MyHomePageState extends State < MyHomePage > {
           bottom: 0,
           left: 0,
           child: CustomBottomAppBar(pageController: pageController)
-        )
+        ),
+        // Positioned(
+        //     bottom: 0,
+        //     left: 0,
+        //     child: Text("HelloWorld")
+        // ),
       ], )
 
     );

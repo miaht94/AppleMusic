@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:apple_music/components/CustomBottomAppBar/CustomBottomAppBar.dart';
 import 'package:apple_music/constant.dart';
+import 'package:apple_music/models/AlbumViewModel.dart';
+import 'package:apple_music/pages/AlbumPage.dart';
+import 'package:apple_music/pages/ArtistPage.dart';
 import 'package:apple_music/pages/DiscoveryPage.dart';
 import 'package:apple_music/components/HorizontalCard/HorizontalCard.dart';
 import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListWithText.dart';
@@ -69,7 +72,7 @@ class _MyHomePageState extends State < MyHomePage > {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body:
-      Test()
+      ArtistView()
     );
   }
 }

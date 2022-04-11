@@ -1,3 +1,4 @@
+import 'package:apple_music/models/AlbumSongLIstViewModel.dart';
 import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
@@ -11,13 +12,12 @@ class AlbumSongListView extends StatelessWidget {
     required this.songList,
   }) : super(key: key);
 
-  final List<Song> songList;
+  final List<AlbumSongListViewModel> songList;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Align(
+    return Column(children: [
+      Align(
           alignment: Alignment.centerRight,
           child: ListView.builder(
               padding: const EdgeInsets.all(0),
@@ -28,12 +28,10 @@ class AlbumSongListView extends StatelessWidget {
                     songName: songList[index].songName,
                     trackNumber: songList[index].trackNumber,
                     collaboration: songList[index].collaboration,
-                    value: songList[index].value
-                  );
+                    value: songList[index].value);
               },
-              itemCount: songList.length)
-      )]
-    );
+              itemCount: songList.length))
+    ]);
   }
 }
 
@@ -58,8 +56,8 @@ class AlbumSongButton extends StatelessWidget {
         height: 45,
         child: Container(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
               Expanded(
                   child: Column(
                 children: [
@@ -73,31 +71,29 @@ class AlbumSongButton extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.only(left: kDefaultPadding * 2),
+                          padding: EdgeInsets.only(left: kDefaultPadding * 2),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text("$trackNumber",
                                   style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.grey)),
+                                      fontSize: 13, color: Colors.grey)),
                             ],
                           )),
                       Container(
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Container(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              padding: EdgeInsets.only(left: 20),
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   // mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text(songName,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.black)),
-                              ])),
+                                  children: <Widget>[
+                                    Text(songName,
+                                        style: TextStyle(
+                                            fontSize: 15, color: Colors.black)),
+                                  ])),
                         ),
                       ),
                       Expanded(

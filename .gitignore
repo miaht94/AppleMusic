@@ -85,3 +85,4 @@ doc/api/
 
 **/test.dart
 **/mainDev.dart
+.flutter-plugins-dependencies
