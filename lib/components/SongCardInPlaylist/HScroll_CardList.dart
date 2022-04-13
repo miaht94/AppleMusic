@@ -86,7 +86,7 @@ class _HScrollCardListState extends State<HScrollCardList> {
               onItemFocus: _onItemFocus,
               itemSize: size.width-40,
               itemBuilder: _buildListItem,
-              itemCount: 3,
+              itemCount: 1,
               key: sslKey,
             ),
           ),

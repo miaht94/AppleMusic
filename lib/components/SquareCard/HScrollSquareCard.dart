@@ -1,3 +1,4 @@
+import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import 'SquareCard.dart';
@@ -11,7 +12,7 @@ class HScrollSquareCard extends StatefulWidget {
     required this.listItem,
   }) : super(key: key);
 
-  final List<Map<String, String>> listItem;
+  final  List<HScrollSquareCardModel> listItem;
 
   @override
   State<HScrollSquareCard> createState() => _HScrollSquareCardState();
@@ -47,9 +48,9 @@ class _HScrollSquareCardState extends State<HScrollSquareCard> {
             );
           }
           return SquareCard(
-            imageUrl: widget.listItem[index - 1]['imageUrl']!,
-            name: widget.listItem[index - 1]['name']!,
-            artist: widget.listItem[index - 1]['author']!,
+            imageUrl: widget.listItem[index - 1].artURL,
+            name: widget.listItem[index - 1].albumName,
+            artist: widget.listItem[index - 1].albumArtist,
             id: index - 1,
             width: WIDTH,
           );

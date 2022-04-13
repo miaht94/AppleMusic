@@ -1,4 +1,6 @@
 import 'package:apple_music/components/HorizontalCard/HorizontalCardsWithTitle.dart';
+import 'package:apple_music/models/HScrollCircleModel.dart';
+import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:flutter/material.dart';
 import '../components/squareCard/HScrollSquareCardWithText.dart';
 import '../components/CircleCard/HScrollCircleCardWithText.dart';
@@ -28,11 +30,11 @@ class DiscoveryPage extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-            child: HScrollSquareCardWithText(title: "Đừng bỏ lỡ",),
+            child: HScrollSquareCardWithText(title: "Đừng bỏ lỡ", cards: HScrollSquareCardModel.getSampleData()),
           ),
           Container(
             padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-            child: HScrollCircleCardWithText(title: "Nghệ Sĩ Được Yêu Thích",),
+            child: HScrollCircleCardWithText(title: "Nghệ Sĩ Được Yêu Thích", cards: HScrollCircleCardModel.getSampleData()),
           ),
           Container(
             padding: EdgeInsets.only(bottom: VerticalComponentPadding),

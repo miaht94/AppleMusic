@@ -1,11 +1,10 @@
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
+import 'package:apple_music/models/HScrollCircleModel.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import 'CircleCard.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'HScrollCircleConstant.dart';
-
-
 
 class HScrollCircleCard extends StatefulWidget {
   const HScrollCircleCard({
@@ -13,7 +12,7 @@ class HScrollCircleCard extends StatefulWidget {
     required this.listItem,
   }) : super(key: key);
 
-  final List<Map<String, String>> listItem;
+  final List<HScrollCircleCardModel> listItem;
 
   @override
   State<HScrollCircleCard> createState() => _HScrollCircleCardState();
@@ -50,8 +49,8 @@ class _HScrollCircleCardState extends State<HScrollCircleCard> {
             );
           }
           return CircleCard(
-            imageUrl: widget.listItem[index - 1]['imageUrl']!,
-            artist: widget.listItem[index - 1]['artist']!,
+            imageUrl: widget.listItem[index - 1].artURL!,
+            artist: widget.listItem[index - 1].artistName!,
             id: index - 1,
           );
         },

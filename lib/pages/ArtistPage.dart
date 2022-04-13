@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListWithText.dart';
 import 'package:apple_music/components/SquareCard/HScrollSquareCardWithText.dart';
 import 'package:apple_music/constant.dart';
+import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -27,7 +28,7 @@ class _ArtistViewState extends State<ArtistView> {
 
   bool get isShrink {
     return _scrollController.hasClients &&
-        _scrollController.offset > (200 - kToolbarHeight);
+        _scrollController.offset > (300 - kToolbarHeight);
   }
 
   @override
@@ -50,7 +51,14 @@ class _ArtistViewState extends State<ArtistView> {
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
         SliverAppBar(
-                    leading: Icon(SFSymbols.chevron_left, color:Colors.red),
+                    leading: Container(
+                      padding: EdgeInsets.only(left:10),
+                      child: Row(
+                          children: <Widget>[
+                            Icon(SFSymbols.chevron_left, color:Colors.red)
+                          ]
+                      ),
+                    ),
                     pinned: true,
                     floating: false,
                     backgroundColor: Colors.white,
@@ -63,11 +71,25 @@ class _ArtistViewState extends State<ArtistView> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Align(
-                                  alignment: Alignment.bottomCenter, child: Text("Taylor Swift", style: TextStyle(
-                                color: isShrink ? Colors.black : Colors.white,
-                                fontSize: 18.0,
-                              ))),
+                              Visibility(
+                                visible: isShrink ? false : true,
+                                child: Align(
+                                    alignment: Alignment.bottomCenter, child: Text("Taylor Swift", style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                ))),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left:30),
+                                child: Visibility(
+                                  visible: isShrink ? true : false,
+                                  child: Align(
+                                      alignment: Alignment.bottomCenter, child: Text("Taylor Swift", style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18.0,
+                                  ))),
+                                ),
+                              ),
                               Expanded(
                                   child:
                                   Visibility(
@@ -110,7 +132,7 @@ class _ArtistViewState extends State<ArtistView> {
                       HScrollCardListWithText(title: "Ca Khúc Mới Hay Nhất"),
                       Container(
                         padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-                        child: HScrollSquareCardWithText(title: "Album đã phát hành",),
+                        child: HScrollSquareCardWithText(title: "Album đã phát hành", cards: HScrollSquareCardModel.getSampleData()),
                       )
                     ]
                 ),
