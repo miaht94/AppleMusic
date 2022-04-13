@@ -3,6 +3,8 @@ import 'package:apple_music/components/ButtonPausePlay/PausePlayButton.dart';
 import 'package:apple_music/components/ButtonPlaylist/PlaylistButton.dart';
 import 'package:apple_music/components/Lyrics/ListLyrics.dart';
 import 'package:apple_music/components/LyricsScrollView/LyricsFrame.dart';
+import 'package:apple_music/components/PlayingSongCard/CurrentArtWork.dart';
+import 'package:apple_music/components/PlayingSongCard/CurrentPlaylist.dart';
 import 'package:apple_music/components/PlayingSongCard/CurrentSongCard.dart';
 import 'package:apple_music/components/ProgressBar/ProgessBarWidget.dart';
 import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylist.dart';
@@ -54,18 +56,14 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
               child: _buildChildWindow()
             ),
             Positioned(
-              bottom: 150.0,
+              bottom: 200.0,
               width: size.width * 0.99,
               child: _buildProgessBar()
             ),
+            _buildCurrentSong(),
+            _buildCurrentArtWork(),
             Positioned(
-                top: 100.0,
-                left: 0.0,
-                right: 0.0,
-                child: _buildCurrentSong(),
-            ),
-            Positioned(
-              bottom: 75.0,
+              bottom: 70.0,
               left: 100.0,
               right: 100.0,
               height: 100.0,
@@ -99,19 +97,27 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
           blur: 0,
           backgroundImagePath: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Taylor_Swift_2_-_2019_by_Glenn_Francis.jpg/800px-Taylor_Swift_2_-_2019_by_Glenn_Francis.jpg",
           child: Container(
+            padding: EdgeInsets.only(left: 20.0),
             child: ValueListenableBuilder<ChildWindowState>(
                 valueListenable: _audioManager.childWindowNotifier,
                 builder: (_, value, __) {
-                  switch (value) {
-                    case ChildWindowState.lyrics:
-                      return _buildLyrics();
-
-                    case ChildWindowState.playlist:
-                      return _buildPlaylist();
-
-                    case ChildWindowState.song:
-                      return _buildSongWindow();
-                  }
+                  var size = MediaQuery.of(context).size;
+                  return Stack(
+                      children: [
+                        AnimatedOpacity(
+                          opacity: (value != ChildWindowState.lyrics)? 0.0: 1.0,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn,
+                          child: _buildLyrics()
+                        ),
+                        AnimatedOpacity(
+                          opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn,
+                          child: _buildPlaylist(),
+                        ),
+                      ],
+                    );
                 }
             ),
           ),
@@ -119,12 +125,8 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
   }
 
   Widget _buildPlaylist() {
-    var size = MediaQuery.of(context).size;
     return
-      Container(
-        child: Text("Playlist",
-          style: TextStyle(color: Colors.white),),
-      );
+      CurrentPlaylist();
   }
 
   Widget _buildSongWindow() {
@@ -173,9 +175,12 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
       );
   }
 
+  Widget _buildCurrentArtWork() {
+    return CurrentArtWork();
+  }
+
   Widget _buildCurrentSong() {
-    return
-      CurrentSongCard();
+    return CurrentSongCard();
   }
 
   Widget _buildProgessBar() {

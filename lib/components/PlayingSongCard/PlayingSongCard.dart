@@ -1,3 +1,4 @@
+import 'package:apple_music/components/PlayingSongCard/PlayingSongCardConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -10,6 +11,7 @@ class PlayingSongCard extends StatefulWidget {
     this.songNameFontSize,
     this.artistFontSize,
     this.songNameColor,
+    this.hasArtWork,
   }) : super(key: key);
   final String songName;
   final String artistName;
@@ -19,6 +21,8 @@ class PlayingSongCard extends StatefulWidget {
   double ? songNameFontSize = 14;
   double ? artistFontSize = 11;
   Color ? songNameColor = Colors.grey;
+  bool ? hasArtWork = true;
+
   @override
   _PlayingSongCardState createState() => _PlayingSongCardState();
 }
@@ -32,20 +36,10 @@ class _PlayingSongCardState extends State<PlayingSongCard> {
             height: widget.size,
             child: Row(
                 children: <Widget>[
-                  Container(
-                      height:  widget.imageSize,
-                      width: widget.imageSize,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5.0),
-                        child: Image.network(
-                          widget.artURL,
-                          fit: BoxFit.fill,
-                        ),
-                      )
-                  ),
+                  _buildArtWork(),
                   Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
+                        padding: const EdgeInsets.only(left: PLAYING_PADDING),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,4 +74,25 @@ class _PlayingSongCardState extends State<PlayingSongCard> {
             )
     );
   }
+
+  Widget _buildArtWork(){
+    if(widget.hasArtWork != null && widget.hasArtWork! == true){
+      return
+        Container(
+            height:  widget.imageSize,
+            width: widget.imageSize,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5.0),
+              child: Image.network(
+                widget.artURL,
+                fit: BoxFit.fill,
+              ),
+            )
+        );
+    } else{
+      return SizedBox(
+      );
+    }
+  }
 }
+
