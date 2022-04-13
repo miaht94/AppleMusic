@@ -49,8 +49,8 @@ class _HScrollCircleCardState extends State<HScrollCircleCard> {
             );
           }
           return CircleCard(
-            imageUrl: widget.listItem[index - 1].artURL!,
-            artist: widget.listItem[index - 1].artistName!,
+            imageUrl: widget.listItem[index - 1].artURL,
+            artist: widget.listItem[index - 1].artistName,
             id: index - 1,
           );
         },
