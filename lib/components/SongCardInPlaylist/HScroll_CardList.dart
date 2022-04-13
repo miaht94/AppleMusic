@@ -86,6 +86,7 @@ class _HScrollCardListState extends State<HScrollCardList> {
       child: Material(
         child: InkWell(
             child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(0),
                 itemBuilder: (context, index) {
                   return SongCardInPlaylist(
