@@ -11,9 +11,14 @@ class AudioManager {
   );
   var isDraging = false;
   final pausePlayButtonNotifier = ValueNotifier<PausePlayButtonState>(PausePlayButtonState.paused);
+  final childWindowNotifier = ValueNotifier<ChildWindowState>(ChildWindowState.lyrics);
+  final playlistNotifier = ValueNotifier<List<IndexedAudioSource>>([]);
+  final currentSongNotifier = ValueNotifier<AudioMetadata>(
+      AudioMetadata(artist: "",artwork: "", title: ""));
 
-  static const url = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3";
+
   late AudioPlayer _audioPlayer;
+  late ConcatenatingAudioSource _playlist;
 
   AudioManager(){
     _init();
@@ -21,8 +26,34 @@ class AudioManager {
 
   void _init() async{
     _audioPlayer = AudioPlayer();
-    await _audioPlayer.setUrl(url);
+    _initPlaylist();
 
+    _listenForPositionChange();
+    _listenForTotalDurationChange();
+    _listenForPlayerStateChange();
+    _listenForSequenceState();
+  }
+
+  void _initPlaylist() async{
+    const listSongs = [
+      "https://www.soundhelix.com/examples/mp3//SoundHelix-Song-1.mp3",
+      "https://www.soundhelix.com/examples/mp3//SoundHelix-Song-2.mp3",
+      "https://www.soundhelix.com/examples/mp3//SoundHelix-Song-3.mp3"
+    ];
+    List<AudioSource> listAudioSources = [];
+    for (var value in listSongs) {
+      listAudioSources.add(AudioSource.uri(Uri.parse(value),
+          tag:AudioMetadata(title: "Song ${listSongs.indexOf(value)}",
+              artist: "Taylor Swift",
+              artwork: "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png")
+      ));
+    }
+
+    _playlist = ConcatenatingAudioSource(children: listAudioSources);
+    await _audioPlayer.setAudioSource(_playlist);
+  }
+
+  void _listenForPositionChange(){
     _audioPlayer.positionStream.listen((position) {
       if (!isDraging) {
         final oldState = progressNotifier.value;
@@ -33,7 +64,9 @@ class AudioManager {
         );
       }
     });
+  }
 
+  void _listenForTotalDurationChange(){
     _audioPlayer.durationStream.listen((totalDuration) {
       final oldState = progressNotifier.value;
       progressNotifier.value = ProgressBarState(
@@ -42,7 +75,9 @@ class AudioManager {
         dragPosition: oldState.dragPosition,
       );
     });
+  }
 
+  void _listenForPlayerStateChange(){
     _audioPlayer.playerStateStream.listen((playerState) {
       final isPlaying = playerState.playing;
       final processingState = playerState.processingState;
@@ -58,10 +93,20 @@ class AudioManager {
         _audioPlayer.pause();
       }
     });
-
   }
 
+  void _listenForSequenceState(){
+    _audioPlayer.sequenceStateStream.listen((sequenceState) {
+      if (sequenceState == null) return;
 
+      final currentItem = sequenceState.currentSource;
+      final currentSongData = currentItem?.tag;
+      currentSongNotifier.value = currentSongData;
+
+      final playlist = sequenceState.effectiveSequence;
+      playlistNotifier.value = playlist;
+    });
+  }
 
   void play() {
     _audioPlayer.play();
@@ -74,6 +119,18 @@ class AudioManager {
   void seek(Duration position) {
     isDraging = false;
     _audioPlayer.seek(position);
+  }
+
+  void lyricWindow() {
+    childWindowNotifier.value = ChildWindowState.lyrics;
+  }
+
+  void songWindow() {
+    childWindowNotifier.value = ChildWindowState.song;
+  }
+
+  void playlistWindow() {
+    childWindowNotifier.value = ChildWindowState.playlist;
   }
 
   void drag(Duration position) {
@@ -105,4 +162,20 @@ class ProgressBarState {
 
 enum PausePlayButtonState{
   paused ,playing,loading
+}
+
+enum ChildWindowState{
+  lyrics,playlist,song
+}
+
+class AudioMetadata {
+  final String artwork;
+  final String title;
+  final String artist;
+
+  AudioMetadata({
+    required this.artwork,
+    required this.title,
+    required this.artist,
+  });
 }

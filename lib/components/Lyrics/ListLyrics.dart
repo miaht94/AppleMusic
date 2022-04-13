@@ -31,6 +31,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
   var _PlayingLyric;
   var _PlayingId;
   var lyrics;
+  late final List<Widget> children;
   Timer? timer;
 
   late List<AnimationController?> animationControllers;
@@ -44,18 +45,12 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     animationBlurs = [];
     for (var i = 0; i < lyrics.length; i++){
       animationControllers.add(AnimationController(
-        duration: const Duration(
-          milliseconds: 300,
-        ),
         vsync: this,
         value: 1.0,
         upperBound: 1.5,
         lowerBound: 0.5,
       ));
       animationBlurs.add(AnimationController(
-        duration: const Duration(
-          milliseconds: 300,
-        ),
         vsync: this,
         value: 1.0,
         upperBound: 5.0,
@@ -64,6 +59,30 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     }
     super.initState();
     timer = Timer.periodic(CHECK_DURATION, (Timer t) => _checkCurrentlyric());
+
+    children = List.generate(lyrics.length + 1, (index) {
+      return (index < lyrics.length) ?
+      LyricWidget(
+          lyrics[index].key,
+          lyrics[index],
+          _onItemTapUp,
+          animationControllers[index],
+          animationBlurs[index],
+          index
+      )
+          : const SizedBox(
+        width: double.infinity,
+        height: 1000,
+      );
+    }
+    );
+
+    children.insert(0,
+        const SizedBox(
+          width: double.infinity,
+          height: 200,
+        )
+    );
 
   }
 
@@ -75,8 +94,8 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
 
   _onItemTapUp(id) {
     if(_PlayingLyric != null) {
-      widget.onTimeChanged(lyrics[id].startTime);
       widget.onPositionChanged(lyrics[id].startTime);
+      widget.onTimeChanged(lyrics[id].startTime);
       _handleAnimation(id);
     }
   }
@@ -94,8 +113,8 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
           _PlayingId = id;
         }});
       
-      animationControllers[id]!.animateTo(MAX_SCALE,duration: Duration(milliseconds: 200));
-      animationBlurs[id]!.animateTo(MIN_BLUR,duration: Duration(milliseconds: 200));
+      animationControllers[id]!.animateTo(MAX_SCALE,duration: Duration(milliseconds: TAP_UP_ANIMATION_DURATION));
+      animationBlurs[id]!.animateTo(MIN_BLUR,duration: Duration(milliseconds: TAP_UP_ANIMATION_DURATION));
       
       if(_PlayingLyric != null) {
         Scrollable.ensureVisible(
@@ -129,29 +148,6 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context){
-    var children = List.generate(lyrics.length + 1, (index) {
-      return (index < lyrics.length) ?
-      LyricWidget(
-          lyrics[index].key,
-          lyrics[index],
-          _onItemTapUp,
-          animationControllers[index],
-          animationBlurs[index],
-          index
-      )
-          : const SizedBox(
-        width: double.infinity,
-        height: 1000,
-      );
-    }
-    );
-    
-    children.insert(0,
-        const SizedBox(
-      width: double.infinity,
-      height: 200,
-        )
-    );
     
     return
         SingleChildScrollView(
