@@ -4,10 +4,16 @@ import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListWithTex
 import 'package:apple_music/components/SquareCard/HScrollSquareCardWithText.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
+import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:uuid/uuid.dart';
+
+import '../models/ArtistViewModel.dart';
 
 class ArtistView extends StatefulWidget {
+  final ArtistViewModel artistViewModel;
+  const ArtistView({Key? key, required this.artistViewModel}) : super(key: key);
   @override
   State<ArtistView> createState() => _ArtistViewState();
 }
@@ -67,7 +73,7 @@ class _ArtistViewState extends State<ArtistView> {
                               Visibility(
                                 visible: isShrink ? false : true,
                                 child: Align(
-                                    alignment: Alignment.bottomCenter, child: Text("Taylor Swift", style: TextStyle(
+                                    alignment: Alignment.bottomCenter, child: Text(widget.artistViewModel.artistName, style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18.0,
                                 ))),
@@ -77,7 +83,7 @@ class _ArtistViewState extends State<ArtistView> {
                                 child: Visibility(
                                   visible: isShrink ? true : false,
                                   child: Align(
-                                      alignment: Alignment.bottomCenter, child: Text("Taylor Swift", style: TextStyle(
+                                      alignment: Alignment.bottomCenter, child: Text(widget.artistViewModel.artistName, style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18.0,
                                   ))),
@@ -111,7 +117,7 @@ class _ArtistViewState extends State<ArtistView> {
                         ),
                       ),
                       background: Image.network(
-                        'https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg',
+                        widget.artistViewModel.artURL,
                         fit: BoxFit.fitWidth,
                       ),
                     ),
@@ -121,11 +127,11 @@ class _ArtistViewState extends State<ArtistView> {
       body: ListView(
           shrinkWrap: true,
           children:[
-                      ArtistHighlightAlbum(),
-                      HScrollCardListWithText(title: "Ca Khúc Mới Hay Nhất"),
+                      ArtistHighlightAlbum(album: widget.artistViewModel.highlightAlbum),
+                      HScrollCardListWithText(title: "Ca Khúc Mới Hay Nhất", cards: widget.artistViewModel.topSongList ),
                       Container(
                         padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-                        child: HScrollSquareCardWithText(title: "Album đã phát hành", cards: HScrollSquareCardModel.getSampleData()),
+                        child: HScrollSquareCardWithText(title: "Album đã phát hành", cards: widget.artistViewModel.albumList),
                       )
                     ]
                 ),
@@ -133,99 +139,27 @@ class _ArtistViewState extends State<ArtistView> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //       extendBodyBehindAppBar: true,
-  //     body: NestedScrollView(
-  //       controller: _scrollController,
-  //       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-  //         return <Widget>[
-  //           SliverAppBar(
-  //             leading: Icon(SFSymbols.chevron_left, color:Colors.red),
-  //             pinned: true,
-  //             snap: false,
-  //             floating: false,
-  //             backgroundColor: Colors.white,
-  //             expandedHeight: 300.0,
-  //             flexibleSpace: FlexibleSpaceBar(
-  //               title: Container(
-  //                 alignment: Alignment.bottomLeft,
-  //                 padding: EdgeInsets.only(left: 10),
-  //                 child: Row(
-  //                     children: <Widget>[
-  //                       Align(
-  //                           alignment: Alignment.bottomLeft, child: Text("Taylor Swift", style: TextStyle(
-  //                         color: isShrink ? Colors.black : Colors.white,
-  //                         fontSize: 18.0,
-  //                       ))),
-  //                       Expanded(
-  //                           child:
-  //                           Align(
-  //                             alignment: Alignment.bottomRight,
-  //                             child: ElevatedButton(
-  //                               onPressed: () {},
-  //                               child: Icon(SFSymbols.play_fill, color: Colors.white, size:14),
-  //                               style: ElevatedButton.styleFrom(
-  //                                 shape: CircleBorder(),
-  //                                 padding: EdgeInsets.all(0),
-  //                                 primary: Colors.red, // <-- Button color
-  //                                 onPrimary: Colors.red, // <-- Splash color
-  //                               ),
-  //                             ),
-  //                           )
-  //                       )
-  //                     ]
-  //                 ),
-  //               ),
-  //               background: Image.network(
-  //                 'https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg',
-  //                 fit: BoxFit.fitWidth,
-  //               ),
-  //             ),
-  //           )
-  //         ];
-  //         },
-  //         body:
-  //         // SliverList(
-  //         //     delegate: SliverChildListDelegate(
-  //                 Row(children:[
-  //                   ArtistHighlightAlbum(),
-  //                   HScrollCardListWithText(title: "Ca Khúc Mới Hay Nhất"),
-  //                   Container(
-  //                     padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-  //                     child: HScrollSquareCardWithText(title: "Album đã phát hành",),
-  //                   ),
-  //                   Container(
-  //                     padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-  //                     child: HScrollSquareCardWithText(title: "Album đã phát hành",),
-  //                   ),
-  //                   Container(
-  //                     padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-  //                     child: HScrollSquareCardWithText(title: "Album đã phát hành",),
-  //                   ),
-  //                 ]
-  //         //     )
-  //         // )
-  //
-  //     ),
-  //   );
-  //
-  // }
 }
 
 class ArtistHighlightAlbum extends StatelessWidget {
+  const ArtistHighlightAlbum({
+    Key? key,
+    required this.album
+  }) : super(key: key);
+
+  final ArtistHighlightAlbumModel album;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Row(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left:20,top:20,bottom:20,right:10),
+              padding: EdgeInsets.only(left:20,bottom:20,right:10),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5.0),
                   child: Image.network(
-                    "https://i.scdn.co/image/ab67616d0000b273e53252ce47982a3d555a6b3b",
+                    album.artURL,
                     height: 100,
                     width: 100,
                   ),
@@ -236,11 +170,11 @@ class ArtistHighlightAlbum extends StatelessWidget {
                    crossAxisAlignment: CrossAxisAlignment.start,
                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                                Text("21 thg 12, 2022".toUpperCase(), style: TextStyle(fontSize: 11, color: Colors.grey)),
+                                Text(album.albumYear.toString(), style: TextStyle(fontSize: 11, color: Colors.grey)),
                                 SizedBox(height: 5),
-                                Text("Message In A Bottle (Taylor's Version)", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                Text(album.albumName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                 SizedBox(height: 5),
-                                Text("Taylor Swift", style: TextStyle(fontSize: 11, color: Colors.grey)),
+                                Text(album.albumArtist, style: TextStyle(fontSize: 11, color: Colors.grey)),
                                 SizedBox(height: 5),
                                 Container(
                                   height:19,
@@ -264,4 +198,34 @@ class ArtistHighlightAlbum extends StatelessWidget {
   }
 }
 
+class ArtistHighlightAlbumModel {
+  ArtistHighlightAlbumModel(this._albumName, this._albumArtist, this._albumYear, this._artURL) {
+    id = Uuid().v4();
+  }
+  String _albumName;
+  String _albumArtist;
+  String _artURL;
+  int _albumYear;
+  late String id;
+
+  String get albumName{
+    return _albumName;
+  }
+
+  String get albumArtist{
+    return _albumArtist;
+  }
+
+  int get albumYear{
+    return _albumYear;
+  }
+
+  String get artURL{
+    return _artURL;
+  }
+
+  static ArtistHighlightAlbumModel getSampleData() {
+    return new ArtistHighlightAlbumModel("Message In A Bottle (Taylor's Version)", "Taylor Swift", 2022, "https://upload.wikimedia.org/wikipedia/en/4/47/Taylor_Swift_-_Red_%28Taylor%27s_Version%29.png" );
+  }
+}
 

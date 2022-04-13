@@ -1,9 +1,12 @@
 import 'dart:math';
 
+import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:flutter/material.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylist.dart';
 import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListConstants.dart';
+
+import '../../models/SongCardInPlaylistModel.dart';
 
 var sampleData = [
   {
@@ -33,8 +36,15 @@ var sampleData = [
 ];
 
 class HScrollCardList extends StatefulWidget {
+  HScrollCardList({Key? key,
+    required this.cards
+  }): super(key: key);
+
+  final List<SongCardInPlaylistModel> cards;
+
   @override
   _HScrollCardListState createState() => _HScrollCardListState();
+
 }
 
 class _HScrollCardListState extends State<HScrollCardList> {
@@ -51,6 +61,25 @@ class _HScrollCardListState extends State<HScrollCardList> {
 
     final size = MediaQuery.of(context).size;
     final WIDTH = size.width;
+
+    // var i = 0;
+    List<SongCardInPlaylistModel> seperatedCards = [];
+
+    _buildListItem(context, index){
+      print("index:" +index.toString());
+      print(widget.cards.length);
+
+      for (int j = 0; j<widget.cards.length; j++){
+        if(j>=index*4 && j<=index*4+3) {
+          print(widget.cards[j].songName + " is added to page " +
+              index.toString());
+          seperatedCards.add(widget.cards[j]);
+        }
+      }
+    }
+
+    _buildListItem(context, index);
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal:20),
       width: size.width - 40,
@@ -60,11 +89,11 @@ class _HScrollCardListState extends State<HScrollCardList> {
                 padding: const EdgeInsets.all(0),
                 itemBuilder: (context, index) {
                   return SongCardInPlaylist(
-                      songName: sampleData[index]['song_name']!,
-                      artistName: sampleData[index]['artist_name']!,
-                      artURL: sampleData[index]['art_url']!);
+                      songName: seperatedCards[index].songName,
+                      artistName: seperatedCards[index].songArtist!,
+                      artURL: seperatedCards[index].artURL);
                 },
-                itemCount: sampleData.length)),
+                itemCount: seperatedCards.length)),
       ),
     );
   }
@@ -84,9 +113,9 @@ class _HScrollCardListState extends State<HScrollCardList> {
               selectedItemAnchor: SelectedItemAnchor.START,
               shrinkWrap: true,
               onItemFocus: _onItemFocus,
-              itemSize: size.width-40,
+              itemSize: size.width,
               itemBuilder: _buildListItem,
-              itemCount: 1,
+              itemCount: ((widget.cards.length-1)/4+1).floor(),
               key: sslKey,
             ),
           ),

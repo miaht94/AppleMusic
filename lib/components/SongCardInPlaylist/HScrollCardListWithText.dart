@@ -1,4 +1,5 @@
 import 'package:apple_music/components/SongCardInPlaylist/HScroll_CardList.dart';
+import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import '../TitleComponent/SeeAllButton.dart';
@@ -7,11 +8,11 @@ import '../TitleComponent/BoldTitle.dart';
 class HScrollCardListWithText extends StatelessWidget{
   HScrollCardListWithText({Key? key,
     required this.title,
-
+    required this.cards
   }): super(key: key);
 
   final String title;
-  
+  final List<SongCardInPlaylistModel> cards;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class HScrollCardListWithText extends StatelessWidget{
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 230,
-              child: HScrollCardList(),
+              child: HScrollCardList(cards: cards),
             ),
           ),
         ],
