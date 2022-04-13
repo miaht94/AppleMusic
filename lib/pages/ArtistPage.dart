@@ -51,14 +51,7 @@ class _ArtistViewState extends State<ArtistView> {
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
         SliverAppBar(
-                    leading: Container(
-                      padding: EdgeInsets.only(left:10),
-                      child: Row(
-                          children: <Widget>[
-                            Icon(SFSymbols.chevron_left, color:Colors.red)
-                          ]
-                      ),
-                    ),
+                    leading: Icon(SFSymbols.chevron_left, color:Colors.red),
                     pinned: true,
                     floating: false,
                     backgroundColor: Colors.white,
