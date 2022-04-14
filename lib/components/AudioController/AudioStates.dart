@@ -29,3 +29,7 @@ class AudioMetadata {
     required this.artist,
   });
 }
+
+enum RepeatState{
+  repeatPlaylist, repeatCurrentItem, noRepeat
+}

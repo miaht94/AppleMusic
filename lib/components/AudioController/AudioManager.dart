@@ -18,7 +18,7 @@ class AudioManager {
   final isFirstSongNotifier = ValueNotifier<bool>(true);
   final isLastSongNotifier = ValueNotifier<bool>(true);
   final isShuffleNotifier = ValueNotifier<bool>(false);
-
+  final repeatNotifier = ValueNotifier<RepeatState>(RepeatState.noRepeat);
   late AudioPlayer _audioPlayer;
   late ConcatenatingAudioSource _playlist;
 
@@ -180,6 +180,21 @@ class AudioManager {
       await _audioPlayer.shuffle();
     }
     await _audioPlayer.setShuffleModeEnabled(enable);
+  }
+
+  void repeat() {
+    final  nextIndex = (repeatNotifier.value.index + 1) % RepeatState.values.length;
+    repeatNotifier.value = RepeatState.values[nextIndex];
+    switch (repeatNotifier.value) {
+      case RepeatState.noRepeat:
+        _audioPlayer.setLoopMode(LoopMode.off);
+        break;
+      case RepeatState.repeatCurrentItem:
+        _audioPlayer.setLoopMode(LoopMode.one);
+        break;
+      case RepeatState.repeatPlaylist:
+        _audioPlayer.setLoopMode(LoopMode.all);
+    }
   }
 
   void drag(Duration position) {

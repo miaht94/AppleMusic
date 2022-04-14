@@ -9,6 +9,7 @@ import 'package:apple_music/components/PlayingSongCard/CurrentArtWork.dart';
 import 'package:apple_music/components/PlayingSongCard/CurrentPlaylist.dart';
 import 'package:apple_music/components/PlayingSongCard/CurrentSongCard.dart';
 import 'package:apple_music/components/ProgressBar/ProgessBarWidget.dart';
+import 'package:apple_music/components/RepeatButton/RepeatButton.dart';
 import 'package:apple_music/components/ShuffleButton/ShuffleButton.dart';
 import 'package:apple_music/models/LyricModel.dart';
 import 'package:flutter/material.dart';
@@ -242,22 +243,26 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
           valueListenable: _audioManager.childWindowNotifier,
           builder: (_, value, __) {
             var size = MediaQuery.of(context).size;
-            return Row(
-              children: [
-                AnimatedOpacity(
-                    opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeIn,
-                    child: AbsorbPointer(
-                      absorbing: (value != ChildWindowState.playlist) ? true : false,
-                      child:  _buldShuffleButton(),
-                    )
-                ),
-              ]
+            return AnimatedOpacity(
+                opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeIn,
+                child: AbsorbPointer(
+                  absorbing: (value != ChildWindowState.playlist) ? true : false,
+                  child:  Row(
+                    children: [
+                      _buldShuffleButton(),
+                      _buildRepeatButton(),
+                    ],
+                  ),
+                )
             );
           }
       ),
     );
+  }
+  Widget _buildRepeatButton() {
+    return RepeatButton();
   }
 
   Widget _buldShuffleButton() {
