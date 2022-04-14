@@ -9,6 +9,7 @@ import 'package:apple_music/components/PlayingSongCard/CurrentArtWork.dart';
 import 'package:apple_music/components/PlayingSongCard/CurrentPlaylist.dart';
 import 'package:apple_music/components/PlayingSongCard/CurrentSongCard.dart';
 import 'package:apple_music/components/ProgressBar/ProgessBarWidget.dart';
+import 'package:apple_music/components/ShuffleButton/ShuffleButton.dart';
 import 'package:apple_music/models/LyricModel.dart';
 import 'package:flutter/material.dart';
 import '../../services/service_locator.dart';
@@ -97,6 +98,11 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
               height: 64.0,
               child: _buldPreviousSongButton(),
             ),
+            Positioned(
+              top: 130.0,
+              right: 10.0,
+              child: _buildManagePlaylist(),
+            ),
           ],
         ),
       );
@@ -112,9 +118,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
               width: size.width,
               height: size.height,
               blur: 0,
-              backgroundImagePath:(currentSong.artwork != "")
-                  ? currentSong.artwork
-                  : "https://i1.sndcdn.com/artworks-000427399239-nqi3tb-t500x500.jpg",
+              backgroundImagePath:currentSong.artwork,
               child: Container(
                 padding: EdgeInsets.only(left: 20.0),
                 child: ValueListenableBuilder<ChildWindowState>(
@@ -229,6 +233,35 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
 
   Widget _buldNextSongButton() {
     return NextSongButton();
+  }
+
+  Widget _buildManagePlaylist() {
+    return
+    Container(
+      child: ValueListenableBuilder<ChildWindowState>(
+          valueListenable: _audioManager.childWindowNotifier,
+          builder: (_, value, __) {
+            var size = MediaQuery.of(context).size;
+            return Row(
+              children: [
+                AnimatedOpacity(
+                    opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn,
+                    child: AbsorbPointer(
+                      absorbing: (value != ChildWindowState.playlist) ? true : false,
+                      child:  _buldShuffleButton(),
+                    )
+                ),
+              ]
+            );
+          }
+      ),
+    );
+  }
+
+  Widget _buldShuffleButton() {
+    return ShuffleButton();
   }
 
   Widget _buldPreviousSongButton() {

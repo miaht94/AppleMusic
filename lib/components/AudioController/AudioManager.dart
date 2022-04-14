@@ -174,6 +174,14 @@ class AudioManager {
     childWindowNotifier.value = ChildWindowState.playlist;
   }
 
+  void shuffle() async{
+    final enable = !_audioPlayer.shuffleModeEnabled;
+    if (enable) {
+      await _audioPlayer.shuffle();
+    }
+    await _audioPlayer.setShuffleModeEnabled(enable);
+  }
+
   void drag(Duration position) {
     isDraging = true;
     final oldState = progressNotifier.value;
