@@ -4,6 +4,7 @@ import 'package:apple_music/components/ButtonLyric/LyricButtonIcon.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:apple_music/components/AudioController/AudioStates.dart';
 
 class LyricButton extends StatefulWidget{
   @override

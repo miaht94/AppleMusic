@@ -2,6 +2,7 @@ import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCardConstant.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:apple_music/components/AudioController/AudioStates.dart';
 
 class CurrentArtWork extends StatefulWidget{
 

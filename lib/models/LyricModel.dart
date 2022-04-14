@@ -24,16 +24,16 @@ class Lyrics{
   static const lyricSize = 24.0;
   static List<Lyric> getLyrics() {
     return [
-      Lyric(GlobalKey(), 'Chẳng phải em là hồn của cây', Duration(seconds: 0 )),
-      Lyric(GlobalKey(), 'Mang câu hát đi thật xa Mang câu hát đi thật xa Mang câu hát đi thật xa', Duration(seconds: 5)),
-      Lyric(GlobalKey(), 'Sống trong bao câu chuyện buồn', Duration(seconds: 10)),
-      Lyric(GlobalKey(), lyric, Duration(seconds: 15)),
-      Lyric(GlobalKey(), 'Mang câu hát đi thật xa', Duration(seconds: 20)),
-      Lyric(GlobalKey(), lyric, Duration(seconds: 25)),
-      Lyric(GlobalKey(), 'Mang câu hát đi thật xa', Duration(seconds: 30)),
-      Lyric(GlobalKey(), 'Mang câu hát đi thật xa', Duration(seconds: 35)),
-      Lyric(GlobalKey(), 'Mang câu hát đi thật xa', Duration(seconds: 40)),
-      Lyric(GlobalKey(), 'Mang câu hát đi thật xa', Duration(seconds: 45)),
+      Lyric(GlobalKey(), 'Bài hát: Đông Kiếm Em - Thái Vũ', Duration(seconds: 0 )),
+      Lyric(GlobalKey(), 'Tôi hát cho màu xanh mãi xanh,', Duration(seconds: 18)),
+      Lyric(GlobalKey(), 'cho một người lặng im biết yêu.', Duration(seconds: 23)),
+      Lyric(GlobalKey(), "Và tôi viết cho mùa yêu xốn xang,", Duration(seconds: 30)),
+      Lyric(GlobalKey(), 'cho một đời nhớ thương vẹn nguyên.', Duration(seconds: 38)),
+      Lyric(GlobalKey(), "Cô đơn đến thê", Duration(seconds: 46)),
+      Lyric(GlobalKey(), 'mưa rơi lách tách kì cục đợi ai.', Duration(seconds: 48)),
+      Lyric(GlobalKey(), 'Sâu trong ánh mắt', Duration(seconds: 53)),
+      Lyric(GlobalKey(), 'tôi ngu ngơ, mơ thời gian dừng trôi.', Duration(seconds: 55)),
+      Lyric(GlobalKey(), 'Còn lại đây nhớ mong, còn lại tôi với ai?', Duration(minutes: 1, seconds: 2)),
     ];
   }
 

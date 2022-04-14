@@ -3,17 +3,17 @@ import 'package:apple_music/components/ButtonPausePlay/PausePlayButton.dart';
 import 'package:apple_music/components/ButtonPlaylist/PlaylistButton.dart';
 import 'package:apple_music/components/Lyrics/ListLyrics.dart';
 import 'package:apple_music/components/LyricsScrollView/LyricsFrame.dart';
+import 'package:apple_music/components/NextPreviousButton/NextSongButton.dart';
+import 'package:apple_music/components/NextPreviousButton/PreviousSongButton.dart';
 import 'package:apple_music/components/PlayingSongCard/CurrentArtWork.dart';
 import 'package:apple_music/components/PlayingSongCard/CurrentPlaylist.dart';
 import 'package:apple_music/components/PlayingSongCard/CurrentSongCard.dart';
 import 'package:apple_music/components/ProgressBar/ProgessBarWidget.dart';
-import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylist.dart';
 import 'package:apple_music/models/LyricModel.dart';
 import 'package:flutter/material.dart';
 import '../../services/service_locator.dart';
 import 'AudioManager.dart';
-
-
+import 'package:apple_music/components/AudioController/AudioStates.dart';
 
 class AudioUi extends StatefulWidget {
   AudioUi({
@@ -63,7 +63,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
             _buildCurrentSong(),
             _buildCurrentArtWork(),
             Positioned(
-              bottom: 70.0,
+              bottom: 60.0,
               left: 100.0,
               right: 100.0,
               height: 100.0,
@@ -83,6 +83,20 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
               height: 64.0,
               child: _buildPlaylistButton(),
             ),
+            Positioned(
+              bottom: 85.0,
+              right: 50.0,
+              width: 64.0,
+              height: 64.0,
+              child: _buldNextSongButton(),
+            ),
+            Positioned(
+              bottom: 85.0,
+              left: 30.0,
+              width: 64.0,
+              height: 64.0,
+              child: _buldPreviousSongButton(),
+            ),
           ],
         ),
       );
@@ -91,52 +105,52 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
   Widget _buildChildWindow() {
     final size = MediaQuery.of(context).size;
     return
-        LyricsFrame(
-          width: size.width,
-          height: size.height,
-          blur: 0,
-          backgroundImagePath: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Taylor_Swift_2_-_2019_by_Glenn_Francis.jpg/800px-Taylor_Swift_2_-_2019_by_Glenn_Francis.jpg",
-          child: Container(
-            padding: EdgeInsets.only(left: 20.0),
-            child: ValueListenableBuilder<ChildWindowState>(
-                valueListenable: _audioManager.childWindowNotifier,
-                builder: (_, value, __) {
-                  var size = MediaQuery.of(context).size;
-                  return Stack(
-                      children: [
-                        AnimatedOpacity(
-                          opacity: (value != ChildWindowState.lyrics)? 0.0: 1.0,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeIn,
-                          child: _buildLyrics()
-                        ),
-                        AnimatedOpacity(
-                          opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeIn,
-                          child: _buildPlaylist(),
-                        ),
-                      ],
-                    );
-                }
-            ),
-          ),
+      ValueListenableBuilder<AudioMetadata>(
+          valueListenable: _audioManager.currentSongNotifier,
+          builder: (_,currentSong,__){
+            return LyricsFrame(
+              width: size.width,
+              height: size.height,
+              blur: 0,
+              backgroundImagePath:(currentSong.artwork != "")
+                  ? currentSong.artwork
+                  : "https://i1.sndcdn.com/artworks-000427399239-nqi3tb-t500x500.jpg",
+              child: Container(
+                padding: EdgeInsets.only(left: 20.0),
+                child: ValueListenableBuilder<ChildWindowState>(
+                    valueListenable: _audioManager.childWindowNotifier,
+                    builder: (_, value, __) {
+                      var size = MediaQuery.of(context).size;
+                      return Stack(
+                          children: [
+                            AnimatedOpacity(
+                              opacity: (value != ChildWindowState.lyrics)? 0.0: 1.0,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeIn,
+                              child: AbsorbPointer(
+                                absorbing: (value != ChildWindowState.lyrics) ? true : false,
+                                child: _buildLyrics(),
+                              )
+                            ),
+                            AnimatedOpacity(
+                              opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeIn,
+                              child: _buildPlaylist(),
+                            ),
+                          ],
+                        );
+                    }
+                ),
+              ),
       );
+          }
+        );
   }
 
   Widget _buildPlaylist() {
     return
       CurrentPlaylist();
-  }
-
-  Widget _buildSongWindow() {
-    var size = MediaQuery.of(context).size;
-
-    return
-      Container(
-        child: Text("Song Window",
-        style: TextStyle(color: Colors.white),),
-      );
   }
 
   Widget _buildLyrics() {
@@ -211,5 +225,13 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
 
   Widget _buildPlaylistButton() {
     return PlaylistButton();
+  }
+
+  Widget _buldNextSongButton() {
+    return NextSongButton();
+  }
+
+  Widget _buldPreviousSongButton() {
+    return PreviousSongButton();
   }
 }

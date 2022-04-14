@@ -1,4 +1,5 @@
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCardConstant.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -46,12 +47,14 @@ class _PlayingSongCardState extends State<PlayingSongCard> {
                           children: [
                             Text(widget.songName,
                                 style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     fontSize: widget.songNameFontSize,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white70,
                                 )),
                             Text(widget.artistName,
                                 style: TextStyle(
+                                    overflow: TextOverflow.ellipsis,
                                     fontSize: widget.artistFontSize,
                                     color: Colors.grey,
                                 )),
@@ -59,15 +62,13 @@ class _PlayingSongCardState extends State<PlayingSongCard> {
                         ),
                       )
                   ),
-                  const Expanded(
-                      child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Icon(SFSymbols.ellipsis,
-                                size:18,
-                                color: Colors.grey,)
-                          )
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Icon(SFSymbols.ellipsis,
+                            size:18,
+                            color: Colors.grey,)
                       )
                   ),
                 ]
