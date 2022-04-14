@@ -119,7 +119,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
               width: size.width,
               height: size.height,
               blur: 0,
-              backgroundImagePath:currentSong.artwork,
+              backgroundImagePath: currentSong.artwork,
               child: Container(
                 padding: EdgeInsets.only(left: 20.0),
                 child: ValueListenableBuilder<ChildWindowState>(
@@ -132,8 +132,8 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                               opacity: (value != ChildWindowState.lyrics)? 0.0: 1.0,
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.easeIn,
-                              child: AbsorbPointer(
-                                absorbing: (value != ChildWindowState.lyrics) ? true : false,
+                              child: IgnorePointer(
+                                ignoring: (value != ChildWindowState.lyrics) ? true : false,
                                 child: _buildLyrics(),
                               )
                             ),
@@ -141,7 +141,10 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                               opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.easeIn,
-                              child: _buildPlaylist(),
+                              child: IgnorePointer(
+                                ignoring: (value != ChildWindowState.playlist) ? true : false,
+                                child: _buildPlaylist(),
+                              ),
                             ),
                           ],
                         );

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCard.dart';
 import 'package:apple_music/services/service_locator.dart';
@@ -22,17 +24,12 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
 
             List<Widget> children = [];
 
-            children.insert(0,
-                const SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                )
-            );
-
-            for (IndexedAudioSource song in playlist) {
+            for (int index = 0; index < playlist.length; index++) {
+              IndexedAudioSource song = playlist[index];
               children.add(
                   Container(
-                    padding: EdgeInsets.only(top: 10.0),
+                    key: ValueKey(index),
+                    margin: EdgeInsets.only(top: 10.0),
                     child: PlayingSongCard(
                       songName: song.tag.title,
                       artistName: song.tag.artist,
@@ -48,11 +45,15 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
                 );
               };
             return
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+              Container(
+                margin: EdgeInsets.only(top: 50),
+                child: ReorderableListView(
+                    proxyDecorator: _proxyDecorator,
+                    onReorder: ((oldIndex, newIndex){
+                      if (oldIndex < newIndex) newIndex--;
+                       _audioManager.move(oldIndex, newIndex);
+                  }),
                   children: children
-                  ,
                 ),
               );
             } else
@@ -60,5 +61,22 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
               SizedBox();
         },
       );
+  }
+
+  Widget _proxyDecorator(Widget child, int index, Animation<double> animation) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget? child) {
+        final double animValue = Curves.easeInOut.transform(animation.value);
+        final double elevation = lerpDouble(0, 0.1, animValue)!;
+        return Material(
+          color: Color.fromRGBO(255, 255, 255, 0.0),
+          shadowColor: Color.fromRGBO(255, 255, 255, 0.01),
+          child: child,
+
+        );
+      },
+      child: child,
+    );
   }
 }

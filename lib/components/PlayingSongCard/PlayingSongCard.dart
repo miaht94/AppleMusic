@@ -62,15 +62,15 @@ class _PlayingSongCardState extends State<PlayingSongCard> {
                         ),
                       )
                   ),
-                  Align(
+                  (widget.hasArtWork != null && widget.hasArtWork! == true) ? Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
                           padding: EdgeInsets.all(12.0),
-                          child: Icon(SFSymbols.ellipsis,
+                          child: Icon(SFSymbols.bars,
                             size:18,
                             color: Colors.grey,)
                       )
-                  ),
+                  ): SizedBox(),
                 ]
             )
     );

@@ -10,6 +10,7 @@ class AudioManager {
     ),
   );
   var isDraging = false;
+  var isMoving = false;
   final pausePlayButtonNotifier = ValueNotifier<PausePlayButtonState>(PausePlayButtonState.paused);
   final childWindowNotifier = ValueNotifier<ChildWindowState>(ChildWindowState.lyrics);
   final playlistNotifier = ValueNotifier<List<IndexedAudioSource>>([]);
@@ -121,10 +122,11 @@ class AudioManager {
   void _listenForSequenceState(){
     _audioPlayer.sequenceStateStream.listen((sequenceState) {
       if (sequenceState == null) return;
-
       final currentItem = sequenceState.currentSource;
-      final currentSongData = currentItem?.tag;
-      currentSongNotifier.value = currentSongData;
+      if (!isMoving) {
+        final currentSongData = currentItem?.tag;
+        currentSongNotifier.value = currentSongData;
+      }
 
       final playlist = sequenceState.effectiveSequence;
       playlistNotifier.value = playlist;
@@ -205,6 +207,12 @@ class AudioManager {
       total: oldState.total,
       dragPosition: position,
     );
+  }
+
+  void move(currentIndex, newIndex) async {
+    isMoving = true;
+    await _playlist.move(currentIndex, newIndex).then((value) => {isMoving = false});
+
   }
 
   void dispose() {
