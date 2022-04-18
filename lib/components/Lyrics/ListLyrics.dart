@@ -119,7 +119,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
       if(_PlayingLyric != null) {
         Scrollable.ensureVisible(
             _PlayingLyric!,
-            alignment: 0.1,
+            alignment: LYRIC_SCROLL_ALIGHTMENT,
             duration: Duration(milliseconds: SCROLL_ANIMATION_DURATION),
             curve: Curves.easeOutCubic
         );

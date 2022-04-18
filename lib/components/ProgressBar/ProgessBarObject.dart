@@ -237,7 +237,7 @@ class RenderProgessBarObject extends RenderBox {
     final playedBarPaint = Paint()
       ..color = barColor
       ..strokeWidth = STROKE_WIDTH;
-    final EndDx = _currentThumbValue * size.width;
+    final EndDx = _currentThumbValue * size.width ?? 0;
     final point1 = Offset(0, size.height / 2);
     final point2 = Offset(EndDx, size.height / 2);
     canvas.drawLine(point1, point2, playedBarPaint);

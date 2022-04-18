@@ -58,7 +58,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
               child: _buildChildWindow()
             ),
             Positioned(
-              bottom: 200.0,
+              bottom: 190.0,
               width: size.width * 0.99,
               child: _buildProgessBar()
             ),
