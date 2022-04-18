@@ -118,7 +118,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
             return LyricsFrame(
               width: size.width,
               height: size.height,
-              blur: 0,
+              blur: 10,
               backgroundImagePath: currentSong.artwork,
               child: Container(
                 padding: EdgeInsets.only(left: 20.0),
@@ -139,7 +139,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                             ),
                             AnimatedOpacity(
                               opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
-                              duration: const Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 300),            
                               curve: Curves.easeIn,
                               child: IgnorePointer(
                                 ignoring: (value != ChildWindowState.playlist) ? true : false,

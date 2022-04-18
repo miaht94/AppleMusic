@@ -164,6 +164,8 @@ class LyricsFrameRender extends RenderProxyBox {
   }
 
   getImageInfoFromNetwork(String backgroundImagePath) async {
+    if (backgroundImagePath == "")
+      backgroundImagePath = "https://media.2dep.vn/upload/thucquyen/2021/11/25/ro-tin-taylor-swift-an-trua-voi-tai-tu-gong-yoo-ngay-hop-tac-khong-con-xa-1637805528-1.jpg";
     Uri uri = Uri.parse(backgroundImagePath);
     http.Response res = await http.get(uri);
     image = await loadImage(res.bodyBytes);
@@ -189,7 +191,8 @@ class LyricsFrameRender extends RenderProxyBox {
       // minHeight: height * (1 - headerHeightFraction - footerHeightFraction + (headerHeightFraction + footerHeightFraction) * 0.5),
       // maxHeight: height * (1 - headerHeightFraction - footerHeightFraction + (headerHeightFraction + footerHeightFraction) * 0.5)
       minHeight: 0,
-      maxHeight: size.height - childTopAlignFraction * size.height - headerHeightFraction*0.7*size.height - footerHeightFraction*0.7*size.height
+      maxHeight: size.height,
+      // maxHeight: size.height - childTopAlignFraction * size.height - headerHeightFraction*0.7*size.height - footerHeightFraction*0.7*size.height
     );
     child!.layout(childConstrain);
   
@@ -206,11 +209,7 @@ class LyricsFrameRender extends RenderProxyBox {
     ImageFilterLayer layerFront1 = ImageFilterLayer(imageFilter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur, tileMode: ui.TileMode.decal));
     ImageFilterLayer layerFront2 = ImageFilterLayer(imageFilter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur, tileMode: ui.TileMode.decal));
     ImageFilterLayer layerBack = ImageFilterLayer(imageFilter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur, tileMode: ui.TileMode.decal));
-    BackdropFilterLayer backdropFilterLayer = BackdropFilterLayer(filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur ));
-    BackdropFilterLayer backdropFilterLayerHeader = BackdropFilterLayer(filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur ));
-    BackdropFilterLayer backdropFilterLayerFooter = BackdropFilterLayer(filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur));
-    // ClipRectLayer headClipRectLayer = ClipRectLayer(clipRect: Rect.fromCenter(center: center, width: width, height: height))
-    // canvas.drawRect(Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height), painter..color = Colors.brown);
+    // BackdropFilterLayer backdropFilterLayer = BackdropFilterLayer(filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur ));
 
     context.pushClipRect(needsCompositing, offsetOrigin, Offset.zero & sizeOrigin, (context, offset_) { 
       if (_image != null) {
@@ -223,55 +222,20 @@ class LyricsFrameRender extends RenderProxyBox {
       Rect imageClip = Rect.fromCenter(center: Offset(imageWidth / 2, imageHeight / 2), width: fitWidth ? imageWidth : imageHeight * size.width / size.height, height: fitWidth ? imageWidth * size.height / size.width : imageHeight);
       // context.canvas.drawImageRect(_image!, imageClip, Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height), painter);
        // Backdrop blur background
-      context.pushLayer(backdropFilterLayer, (context, offset) { }, offset);
-      // Draw Background
-      context.pushLayer(layerBack, (context_, offset_) {
-        Paint painter = Paint()..color = ui.Color.fromARGB(255, 0, 0, 0)..blendMode = BlendMode.srcOver;
-        painter.imageFilter = ui.ImageFilter.blur(sigmaX: blur*0.5, sigmaY: blur*0.5, tileMode: ui.TileMode.clamp);
-        context_.canvas.drawImageRect(_image!, imageClip, offset & size, painter);
-        // painter.imageFilter = ui.ImageFilter.blur(sigmaX: blur*0.5, sigmaY: blur*0.5, tileMode: ui.TileMode.clamp);
-        context_.canvas.drawRect(Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height), painter..color = ui.Color.fromARGB(134, 0, 0, 0));
-      }, offset);
-      
-     
-
-      // Draw Child
-      // context.pushLayer(OffsetLayer(offset: ui.Offset(offsetOrigin.dx , offsetOrigin.dy)), (context_, offset) {
-        context.paintChild(child!, offsetOrigin.translate(0, sizeOrigin.height * childTopAlignFraction + sizeOrigin.height * headerHeightFraction * 0.7));
-      // }, offset);
-
-      // // Backdrop blur header
-      // context.pushClipRect(needsCompositing, offset, offset & Size(width, height * (headerHeightFraction - headerHeightFraction/5)), (context_, offset_) {
-      //   context_.pushLayer(backdropFilterLayerHeader, (context, offset) { }, offset);
-      // });
-      // Draw header
+      // context.pushLayer(backdropFilterLayer, (context, offset) { }, offset);
+      Paint painter = Paint()..color = Color.fromARGB(255, 0, 0, 0)..blendMode = BlendMode.srcOver;
+      painter.imageFilter = ui.ImageFilter.blur(sigmaX: blur*0.8, sigmaY: blur*0.8, tileMode: ui.TileMode.decal);
+      context.canvas.drawImageRect(_image!, imageClip, offset & size, painter);
+      context.canvas.drawRect(Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height), painter..color = ui.Color.fromARGB(134, 0, 0, 0) ..imageFilter = ui.ImageFilter.blur(sigmaX: blur*0.8, sigmaY: blur*0.8, tileMode: ui.TileMode.clamp));
+      context.paintChild(child!, offsetOrigin);
       context.pushLayer(layerFront1, (context_, offset_) {
         Paint painter = Paint()..color = ui.Color.fromARGB(255, 0, 0, 0)..blendMode = BlendMode.srcOver;
-        // painter.imageFilter = ui.ImageFilter.blur(sigmaX: blur*0.5, sigmaY: blur*0.5, tileMode: ui.TileMode.clamp);
         context_.canvas.drawImageRect(_image!, Rect.fromLTWH(imageClip.left, imageClip.top, imageClip.width, imageClip.height * headerHeightFraction), Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height * headerHeightFraction), painter);
         context_.canvas.drawRect(Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height * headerHeightFraction), painter..color = ui.Color.fromARGB(130, 0, 0, 0) );
-      }, offset);
-      context.pushLayer(layerFront2, (context_, offset_) {
-        Paint painter = Paint()..color = ui.Color.fromARGB(255, 0, 0, 0)..blendMode = BlendMode.srcOver;
-        // painter.imageFilter = ui.ImageFilter.blur(sigmaX: blur*0.5, sigmaY: blur*0.5, tileMode: ui.TileMode.clamp);
+        painter..color = ui.Color.fromARGB(255, 0, 0, 0) ..blendMode = BlendMode.srcOver;
         context_.canvas.drawImageRect(_image!, Rect.fromLTWH(imageClip.left, imageClip.top + imageClip.height * (1 - footerHeightFraction), imageClip.width, imageClip.height * footerHeightFraction), Rect.fromLTWH(offset.dx, offset.dy + size.height * (1 - footerHeightFraction), size.width, size.height * footerHeightFraction), painter);
         context_.canvas.drawRect(Rect.fromLTWH(offset.dx, offset.dy + size.height * (1 - footerHeightFraction), size.width, size.height * footerHeightFraction), painter..color = ui.Color.fromARGB(130, 0, 0, 0) );
       }, offset);
-      // context.canvas.drawRect(Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height * headerHeightFraction), painter..color = ui.Color.fromRGBO(0, 0, 0, 0.4) ..imageFilter = ui.ImageFilter.blur(sigmaX: blur - 10, sigmaY: blur - 10, tileMode: ui.TileMode.decal));
-      // ClipRect header to draw backdrop blur
-      // context.pushClipRect(needsCompositing, offset, Rect.fromLTWH(offset.dx, offset.dy + (1 - footerHeightFraction) * size.height, size.width, size.height * footerHeightFraction), (context_, offset_) {
-      //   context_.pushLayer(backdropFilterLayerFooter, (context, offset) { }, offset);
-      // });
-      // Draw footer
-      // context.pushLayer(layerFront2, (context_, offset_) {
-      //   Paint painter = Paint()..color = ui.Color.fromRGBO(0, 0, 0, 0.4)..blendMode = BlendMode.srcOver;
-      //   context_.canvas.drawImageRect(_image!, Rect.fromLTWH(imageClip.left, imageClip.top, imageClip.width, imageClip.height * headerHeightFraction), Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height * headerHeightFraction), painter);
-      //   context_.canvas.drawRect(Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height * headerHeightFraction), painter);
-      // }, offset);
-
-      // context.canvas.drawRect(offset & size, painter);
-      // context.canvas.drawImageRect(image!, Rect.fromLTWH(0, 0, image!.width.toDouble(), image!.height.toDouble()), offset & size , painter);
-      // context.canvas.drawImage(image!, offset, Paint());
     }
     });
     
