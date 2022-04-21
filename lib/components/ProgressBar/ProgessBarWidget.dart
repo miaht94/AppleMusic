@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'ProgessBarObject.dart';
 import 'ProgressBarConstant.dart';
+import 'dart:math';
 
 
 class ProgessBarWidget extends StatefulWidget {

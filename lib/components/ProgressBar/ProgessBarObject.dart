@@ -227,7 +227,7 @@ class RenderProgessBarObject extends RenderBox {
     final remainBarPaint = Paint()
       ..color = barColor.withOpacity(REMAIN_BAR_OPACITY)
       ..strokeWidth = STROKE_WIDTH;
-    final startDx = _currentThumbValue * size.width;
+    final startDx = (!_currentThumbValue.isNaN) ? _currentThumbValue * size.width : 0.0;
     final point3 = Offset(startDx, size.height / 2);
     final point4 = Offset(size.width, size.height / 2);
     canvas.drawLine(point3, point4, remainBarPaint);
@@ -237,9 +237,9 @@ class RenderProgessBarObject extends RenderBox {
     final playedBarPaint = Paint()
       ..color = barColor
       ..strokeWidth = STROKE_WIDTH;
-    final EndDx = _currentThumbValue * size.width ?? 0;
+    final endDx = (!_currentThumbValue.isNaN) ? _currentThumbValue * size.width : 0.0;
     final point1 = Offset(0, size.height / 2);
-    final point2 = Offset(EndDx, size.height / 2);
+    final point2 = Offset(endDx, size.height / 2);
     canvas.drawLine(point1, point2, playedBarPaint);
   }
 
@@ -275,7 +275,10 @@ class RenderProgessBarObject extends RenderBox {
   }
 
   Duration _getDuration(double thumbValue){
-    return Duration(seconds: (_totalTime.inSeconds * thumbValue).toInt());
+    if(_totalTime.inSeconds.isFinite && thumbValue.isFinite){
+      return Duration(seconds: (_totalTime.inSeconds * thumbValue).toInt());
+    }
+    return Duration(seconds: 0);
   }
 
   String _getStringDuration(Duration duration){

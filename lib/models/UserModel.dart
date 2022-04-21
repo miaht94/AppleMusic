@@ -1,10 +1,11 @@
 class UserModel {
-  UserModel(this.name, this.avatarURL, this.email);
+  UserModel(this.name, this.avatarURL, this.email, this.playLists);
   String name;
   String avatarURL;
   String email;
+  List<dynamic> playLists;
   
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(json['data']['name']['S'], json['data']['avatarURL']['S'], json['data']['email']['S']);
+    return UserModel(json['name'], json['avatarURL'], json['email'], json['playlists']);
   }
 }

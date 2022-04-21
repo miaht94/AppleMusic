@@ -7,7 +7,7 @@ import 'HScrollSquareConstant.dart';
 
 
 class HScrollSquareCard extends StatefulWidget {
-  const HScrollSquareCard({
+   HScrollSquareCard({
     Key? key,
     required this.listItem,
   }) : super(key: key);

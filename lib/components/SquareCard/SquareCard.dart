@@ -1,9 +1,11 @@
+import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
+import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import 'HScrollSquareConstant.dart';
 
 class SquareCard extends StatelessWidget{
-  const SquareCard({Key? key,
+  SquareCard({Key? key,
     required this.imageUrl,
     required this.name,
     required this.artist,
@@ -17,9 +19,10 @@ class SquareCard extends StatelessWidget{
   final String artist;
   final int id;
   final double width;
+  late AudioPageRouteManager audioPageRouteManager = getIt<AudioPageRouteManager>();
 
   onCardTap() {
-    print("ID: ${id}");
+    Navigator.pushNamed(audioPageRouteManager.getMainContext(), '/playingPage');
   }
 
   @override
