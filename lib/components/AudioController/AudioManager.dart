@@ -1,3 +1,7 @@
+import 'package:apple_music/manager/CurrentUserManager.dart';
+import 'package:apple_music/models/LyricModel.dart';
+import 'package:apple_music/models/SongModel.dart';
+import 'package:apple_music/services/service_locator.dart';
 import "package:flutter/material.dart";
 import 'package:just_audio/just_audio.dart';
 import 'package:apple_music/components/AudioController/AudioStates.dart';
@@ -15,11 +19,13 @@ class AudioManager {
   final childWindowNotifier = ValueNotifier<ChildWindowState>(ChildWindowState.lyrics);
   final playlistNotifier = ValueNotifier<List<IndexedAudioSource>>([]);
   final currentSongNotifier = ValueNotifier<AudioMetadata>(
-      AudioMetadata(artist: "",artwork: "", title: ""));
+      AudioMetadata(artist: "",artwork: "", title: "", lyric: ""));
   final isFirstSongNotifier = ValueNotifier<bool>(true);
   final isLastSongNotifier = ValueNotifier<bool>(true);
   final isShuffleNotifier = ValueNotifier<bool>(false);
   final repeatNotifier = ValueNotifier<RepeatState>(RepeatState.noRepeat);
+
+  Future <List<Lyric>> ? currentLyricNotifier ;
   late AudioPlayer _audioPlayer;
   late ConcatenatingAudioSource _playlist;
 
@@ -35,41 +41,29 @@ class AudioManager {
     _listenForTotalDurationChange();
     _listenForPlayerStateChange();
     _listenForSequenceState();
+
   }
 
   void _initPlaylist() async{
-    const listSongs = [
-      {
-        "link": "https://c1-ex-swe.nixcdn.com/NhacCuaTui918/DongKiemEm-ThaiVu-4373753.mp3",
-        "title": "Đông Kiếm Em",
-        "artist" : "Thái Vũ",
-        "artwork" : "https://i1.sndcdn.com/artworks-000145857756-irf4fe-t500x500.jpg",
-      },
-      {
-        "link": "https://c1-ex-swe.nixcdn.com/NhacCuaTui935/LaLung-Vu-4749614.mp3",
-        "title": "Lạ Lùng",
-        "artist" : "Thái Vũ",
-        "artwork" : "https://i1.sndcdn.com/artworks-000427399239-nqi3tb-t500x500.jpg",
-      },
-      {
-        "link": "https://c1-ex-swe.nixcdn.com/NhacCuaTui1007/ChuyenRang1-ThinhSuy-6465355.mp3",
-        "title": "Chuyện Rằng",
-        "artist" : "Thịnh Suy",
-        "artwork" : "https://i.scdn.co/image/ab67616d0000b2734be34a1e036c97d22b5392d5",
-      },
-      {
-        "link": "https://c1-ex-swe.nixcdn.com/NhacCuaTui1009/SinhRaDaLaThuDoiLapNhau-EmceeLDaLABBadbies-6896982.mp3",
-        "title": "Sinh ra đã là thứ đối lập nhau",
-        "artist" : "EmceeLDaLABBadbies",
-        "artwork" : "https://i.scdn.co/image/ab67616d0000b27368acbddf50a87728633e8932",
-      },
-    ];
+    CurrentUserManager currentUserManager = getIt<CurrentUserManager>();
+    var userPlaylists = currentUserManager.getCurrentUser().playLists;
+    List<SongModel> listSongs = [];
+
+    for (var playlist in userPlaylists) {
+      List<dynamic> listSong = playlist["songs"];
+      for (String songUrl in listSong){
+        SongModel song = await SongModel.fetchSong(songUrl);
+        listSongs.add(song);
+      }
+    }
+
     List<AudioSource> listAudioSources = [];
     for (var value in listSongs) {
-      listAudioSources.add(AudioSource.uri(Uri.parse(value['link']!),
-          tag:AudioMetadata(title: value['title']!,
-              artist: value['artist']!,
-              artwork: value['artwork']!,)
+      listAudioSources.add(AudioSource.uri(Uri.parse(value.songUrl),
+          tag:AudioMetadata(title: value.songName,
+              artist: value.artist,
+              artwork: value.artwork,
+              lyric: value.songLyricUrl)
       ));
     }
 
@@ -126,6 +120,7 @@ class AudioManager {
       if (!isMoving) {
         final currentSongData = currentItem?.tag;
         currentSongNotifier.value = currentSongData;
+        currentLyricNotifier = Lyrics.fetchLyrics(currentSongData.lyric);
       }
 
       final playlist = sequenceState.effectiveSequence;

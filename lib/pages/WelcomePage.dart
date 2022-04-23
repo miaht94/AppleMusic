@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:apple_music/constant.dart';
+import 'package:apple_music/manager/CurrentUserManager.dart';
 import 'package:apple_music/models/UserModel.dart';
+import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -23,14 +25,18 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State < WelcomePage > with TickerProviderStateMixin {
+
+  CurrentUserManager currentUserManager = getIt<CurrentUserManager>();
+
   Future < UserModel > getUserInfo(String appToken) async {
     Uri httpURI = Uri(scheme: "http", host: SV_HOSTNAME, port: SV_PORT, path: MY_PROFILE_PATH, queryParameters: {
       'app_token': appToken
     });
     http.Response res = await http.get(httpURI);
     JsonDecoder decoder = JsonDecoder();
-  
-    return UserModel.fromJson(decoder.convert(res.body));
+    UserModel user = UserModel.fromJson(decoder.convert(res.body));
+    currentUserManager.setCurrentUser(user);
+    return user;
   }
 
   @override

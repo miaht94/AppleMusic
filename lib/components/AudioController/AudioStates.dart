@@ -1,3 +1,5 @@
+import 'package:apple_music/models/LyricModel.dart';
+
 class ProgressBarState {
   ProgressBarState({
     required this.current,
@@ -22,11 +24,13 @@ class AudioMetadata {
   final String artwork;
   final String title;
   final String artist;
+  final String lyric;
 
   AudioMetadata({
     required this.artwork,
     required this.title,
     required this.artist,
+    required this.lyric,
   });
 }
 

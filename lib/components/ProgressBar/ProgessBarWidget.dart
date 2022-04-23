@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'ProgessBarObject.dart';
 import 'ProgressBarConstant.dart';
+import 'dart:math';
 
 
 class ProgessBarWidget extends StatefulWidget {
@@ -52,7 +53,7 @@ class _ProgessBarWidgetState extends State<ProgessBarWidget> with TickerProvider
               thumbSize: animation!.value,
               controller: controller,
               currentTime: widget.currentTime,
-              totalTime: widget.totalTime,
+              totalTime: (widget.totalTime.compareTo(Duration.zero) == 0) ?const Duration(milliseconds: 1) : widget.totalTime,
               onTimeChanged: widget.onTimeChanged,
               onPositionChanged: widget.onPositionChanged,
             ),

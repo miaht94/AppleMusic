@@ -38,9 +38,13 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
   late List<AnimationController?> animationBlurs;
 
   initState() {
+    super.initState();
+    _init();
+  }
+
+  _init() {
     lyrics = widget.lyrics;
     _PlayingLyric = lyrics[0].key.currentContext;
-    super.initState();
     animationControllers = [];
     animationBlurs = [];
     for (var i = 0; i < lyrics.length; i++){
@@ -57,7 +61,6 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
         lowerBound: 0.0,
       ));
     }
-    super.initState();
     timer = Timer.periodic(CHECK_DURATION, (Timer t) => _checkCurrentlyric());
 
     children = List.generate(lyrics.length + 1, (index) {
@@ -83,7 +86,6 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
           height: 200,
         )
     );
-
   }
 
   @override
@@ -112,14 +114,14 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
           _PlayingLyric = lyrics[id].key.currentContext;
           _PlayingId = id;
         }});
-      
+
       animationControllers[id]!.animateTo(MAX_SCALE,duration: Duration(milliseconds: TAP_UP_ANIMATION_DURATION));
       animationBlurs[id]!.animateTo(MIN_BLUR,duration: Duration(milliseconds: TAP_UP_ANIMATION_DURATION));
-      
+
       if(_PlayingLyric != null) {
         Scrollable.ensureVisible(
             _PlayingLyric!,
-            alignment: 0.1,
+            alignment: LYRIC_SCROLL_ALIGHTMENT,
             duration: Duration(milliseconds: SCROLL_ANIMATION_DURATION),
             curve: Curves.easeOutCubic
         );
@@ -148,15 +150,17 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context){
-    
+    if(lyrics != widget.lyrics){
+      lyrics = widget.lyrics;
+      _init();
+    }
     return
-        SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: children
-              ,
-          ),
+      SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: children
+          ,
+        ),
       );
   }
 }
-

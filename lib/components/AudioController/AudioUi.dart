@@ -38,7 +38,6 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    _audioManager.dispose();
     super.dispose();
   }
 
@@ -47,64 +46,66 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
     final size = MediaQuery.of(context).size;
 
     return
-      Container(
-        color: Color.fromRGBO(21, 45, 75, 0.8235294117647058),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              child: _buildChildWindow()
-            ),
-            Positioned(
-              bottom: 200.0,
-              width: size.width * 0.99,
-              child: _buildProgessBar()
-            ),
-            _buildCurrentSong(),
-            _buildCurrentArtWork(),
-            Positioned(
-              bottom: 60.0,
-              left: 100.0,
-              right: 100.0,
-              height: 100.0,
-              child: Center(child: _buildButtonPausePlay())
-            ),
-            Positioned(
-              bottom: 0.0,
-              left: 50.0,
-              width: 64.0,
-              height: 64.0,
-              child: _buildLyricButton(),
-            ),
-            Positioned(
-              bottom: 0.0,
-              right: 50.0,
-              width: 64.0,
-              height: 64.0,
-              child: _buildPlaylistButton(),
-            ),
-            Positioned(
-              bottom: 85.0,
-              right: 50.0,
-              width: 64.0,
-              height: 64.0,
-              child: _buldNextSongButton(),
-            ),
-            Positioned(
-              bottom: 85.0,
-              left: 30.0,
-              width: 64.0,
-              height: 64.0,
-              child: _buldPreviousSongButton(),
-            ),
-            Positioned(
-              top: 130.0,
-              right: 10.0,
-              child: _buildManagePlaylist(),
-            ),
-          ],
+      Scaffold(
+        body: Container(
+          color: Color.fromRGBO(21, 45, 75, 0.8235294117647058),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                child: _buildChildWindow()
+              ),
+              Positioned(
+                bottom: 190.0,
+                width: size.width * 0.99,
+                child: _buildProgessBar()
+              ),
+              _buildCurrentSong(),
+              _buildCurrentArtWork(),
+              Positioned(
+                bottom: 60.0,
+                left: 100.0,
+                right: 100.0,
+                height: 100.0,
+                child: Center(child: _buildButtonPausePlay())
+              ),
+              Positioned(
+                bottom: 0.0,
+                left: 50.0,
+                width: 64.0,
+                height: 64.0,
+                child: _buildLyricButton(),
+              ),
+              Positioned(
+                bottom: 0.0,
+                right: 50.0,
+                width: 64.0,
+                height: 64.0,
+                child: _buildPlaylistButton(),
+              ),
+              Positioned(
+                bottom: 85.0,
+                right: 50.0,
+                width: 64.0,
+                height: 64.0,
+                child: _buldNextSongButton(),
+              ),
+              Positioned(
+                bottom: 85.0,
+                left: 30.0,
+                width: 64.0,
+                height: 64.0,
+                child: _buldPreviousSongButton(),
+              ),
+              Positioned(
+                top: 130.0,
+                right: 10.0,
+                child: _buildManagePlaylist(),
+              ),
+            ],
+          ),
         ),
       );
   }
@@ -166,34 +167,35 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
 
     return
       Container(
-        // child: FutureBuilder<List<Lyric>>(
-        //   future: Lyrics.fetchLyrics(lyricUrl),
-        //   builder: (BuildContext context, AsyncSnapshot<List<Lyric>> listSnapshot) {
-        //     Widget child;
-        //     if (listSnapshot.hasData) {
         child:
-        ValueListenableBuilder<ProgressBarState>(
-          valueListenable: _audioManager.progressNotifier,
-          builder: (_, value, __) {
-            return ListLyrics(
-              currentPosition: value.dragPosition,
-              currentTime: value.current,
-              onTimeChanged: _audioManager.seek,
-              onPositionChanged: _audioManager.drag,
-              // lyrics: listSnapshot.data!,
-              lyrics: Lyrics.getLyrics(),
-            );
-          },
-          // );
-          //   } else {
-          //     child = const SizedBox();
-          //   }
-          //   return Container(
-          //     child: child,
-          //   );
-          // }
-          // ),
-        ),
+        ValueListenableBuilder<AudioMetadata>(
+          valueListenable: _audioManager.currentSongNotifier,
+          builder: (_, currentSong, __) {
+            return FutureBuilder<List<Lyric>>(
+              future: _audioManager.currentLyricNotifier,
+              builder: (context, snapshot) {
+                if(snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                return ValueListenableBuilder<ProgressBarState>(
+                  valueListenable: _audioManager.progressNotifier,
+                  builder: (_, progressValue, __) {
+                      return ListLyrics(
+                        currentPosition: progressValue.dragPosition,
+                        currentTime: progressValue.current,
+                        onTimeChanged: _audioManager.seek,
+                        onPositionChanged: _audioManager.drag,
+                        lyrics: snapshot.data!,
+                      );
+                    }
+                  );
+                }
+                else {
+                      return
+                          SizedBox();
+                    }
+                  },
+                );
+              }
+            ),
       );
   }
 

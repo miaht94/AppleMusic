@@ -30,7 +30,6 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
 
   @override
   dispose() {
-    widget._controller!.dispose();
     super.dispose();
   }
 

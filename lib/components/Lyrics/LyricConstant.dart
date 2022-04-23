@@ -21,3 +21,5 @@ const double LYRIC_WIDTH = 500;
 
 const double LYRIC_FONT_SIZE = 40;
 const Color LYRIC_FONT_COLOR = Colors.white;
+
+const double LYRIC_SCROLL_ALIGHTMENT = 0.3;
