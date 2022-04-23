@@ -3,20 +3,12 @@ import 'package:apple_music/components/AudioController/AudioPageRouteManager.dar
 import 'package:apple_music/components/AudioController/AudioUi.dart';
 import 'package:apple_music/components/CustomBottomAppBar/CustomBottomAppBar.dart';
 import 'package:apple_music/pages/DiscoveryPage.dart';
-import 'package:apple_music/components/HorizontalCard/HorizontalCard.dart';
-import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListWithText.dart';
-import 'package:apple_music/components/SongCardInPlaylist/HScroll_CardList.dart';
-import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylist.dart';
-import 'package:apple_music/components/TextListView/TextListView.dart';
-import 'package:apple_music/components/squareCard/HScrollSquareCardWithText.dart';
 import 'package:apple_music/pages/LibraryPage.dart';
 import 'package:apple_music/pages/ListeningNow.dart';
 import 'package:apple_music/pages/LoginPage.dart';
 import 'package:apple_music/pages/WelcomePage.dart';
 import 'package:apple_music/services/service_locator.dart';
-import 'package:apple_music/test.dart';
 import 'package:flutter/material.dart';
-import 'test.dart';
 
 void main() {
   setUpGetIt();

@@ -29,12 +29,17 @@ class SongModel {
   }
 
   static Future <SongModel> fetchSong(String id) async {
-    Uri httpURI = Uri(scheme: "http", host: SV_HOSTNAME, port: SV_PORT, path: SONG_PATH, queryParameters: {
+    final Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, port: SV_PORT, path: SONG_PATH, queryParameters: {
       '_id': id
     });
     final  response = await http.get(httpURI);
-    JsonDecoder decoder = JsonDecoder();
-    SongModel song = SongModel.fromJson(decoder.convert(response.body));
-    return song;
+    if (response.statusCode == 200){
+      JsonDecoder decoder = JsonDecoder();
+      SongModel song = SongModel.fromJson(decoder.convert(response.body));
+      return song;
+    } else {
+      return Future.error('No song for Id(${id})');
+    }
+
   }
 }
