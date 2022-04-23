@@ -36,11 +36,11 @@ class _SearchBarState extends State < SearchBar > {
         });
       }
     }, );
-    focusNode.addListener(() {
-      if (focusNode.hasFocus) {
+    // focusNode.addListener(() {
+    //   if (focusNode.hasFocus) {
 
-      }
-    });
+    //   }
+    // });
 
   }
   void onTapDownCancelBtn() {

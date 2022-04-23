@@ -52,8 +52,13 @@ class AudioManager {
     for (var playlist in userPlaylists) {
       List<dynamic> listSong = playlist["songs"];
       for (String songUrl in listSong){
-        SongModel song = await SongModel.fetchSong(songUrl);
-        listSongs.add(song);
+        try {
+          SongModel song = await SongModel.fetchSong(songUrl);
+          listSongs.add(song);
+        } catch(e) {
+          
+        }
+        
       }
     }
 

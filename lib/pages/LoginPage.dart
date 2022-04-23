@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:apple_music/constant.dart';
+import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/pages/WelcomePage.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -22,6 +24,7 @@ class LoginPage extends StatelessWidget {
     Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, path: 'verify2', port: SV_PORT, queryParameters: {"code": responseUrl.queryParameters['code'], "state": responseUrl.queryParameters['state']});
     var responseJson = await http.get(httpURI);
     print(responseJson.body);
+    // GetIt.I.registerSingleton<CredentialModel>(CredentialModel())
     return responseJson.body;
   }
 
@@ -61,9 +64,11 @@ class LoginPage extends StatelessWidget {
                     onPressed: () async {
                       JsonDecoder decoder = const JsonDecoder();
                       Map<String, dynamic> response = decoder.convert(await authGoogle());
+                      
                       if (response['status'] == "Error") {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Xảy ra lỗi khi đăng nhập")));
                       } else {
+                        GetIt.I.registerSingleton<CredentialModelNotifier>(CredentialModelNotifier(CredentialModel(response["appToken"])));
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Đăng nhập thành công")));
                         Navigator.of(context).pushNamed("/welcomePage", arguments:  WelcomePageArgument(response['appToken']));
                       }

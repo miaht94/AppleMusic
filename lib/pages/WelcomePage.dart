@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/manager/CurrentUserManager.dart';
+import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/UserModel.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,7 +39,12 @@ class _WelcomePageState extends State < WelcomePage > with TickerProviderStateMi
     currentUserManager.setCurrentUser(user);
     return user;
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+  }
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context) !.settings.arguments as WelcomePageArgument;

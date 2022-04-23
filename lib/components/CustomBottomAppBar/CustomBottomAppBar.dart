@@ -61,7 +61,10 @@ class _CustomBottomAppBar extends State < CustomBottomAppBar > {
               flex: 1
             ),
              Flexible(
-              child: CustomAppBarButton(title: "Tìm kiếm", icon: SFSymbols.search),
+              child: CustomAppBarButton(title: "Tìm kiếm", icon: SFSymbols.search,
+              onTapHandler: () {
+                  widget.pageController.animateToPage(3, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+                }),
               flex: 1
             ),
           ], ),

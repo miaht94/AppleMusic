@@ -6,6 +6,7 @@ import 'package:apple_music/pages/DiscoveryPage.dart';
 import 'package:apple_music/pages/LibraryPage.dart';
 import 'package:apple_music/pages/ListeningNow.dart';
 import 'package:apple_music/pages/LoginPage.dart';
+import 'package:apple_music/pages/SearchPage.dart';
 import 'package:apple_music/pages/WelcomePage.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
@@ -64,9 +65,10 @@ class _MyHomePageState extends State < MyHomePage > {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    GlobalKey bodyKey = GlobalKey();
+  
     audioPageRouteManager.setMainContext(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body:
       Stack(children: [
         Positioned(
@@ -82,11 +84,13 @@ class _MyHomePageState extends State < MyHomePage > {
             ),
             
             home:
-            Scaffold(key: bodyKey, body:
+            Scaffold(
+            resizeToAvoidBottomInset: false,
+            body:
               PageView(
                 scrollDirection: Axis.horizontal,
                 controller: pageController,
-                children: const < Widget > [
+                children: < Widget > [
                   Center(
                     child: ListeningNow(),
                   ),
@@ -96,6 +100,7 @@ class _MyHomePageState extends State < MyHomePage > {
                   Center(
                     child: LibraryPage(),
                   ),
+                  SearchPage()
                 ],
               ))
           )

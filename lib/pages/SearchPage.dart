@@ -30,7 +30,8 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State < SearchPage > {
   void _initModelForHorizontalScrollCategory() {
-    GetIt.I.registerLazySingleton<SearchPageModelNotifier>(() => SearchPageModelNotifier(SearchPageModel()));
+    if (!GetIt.I.isRegistered<SearchPageModelNotifier>())
+      GetIt.I.registerLazySingleton<SearchPageModelNotifier>(() => SearchPageModelNotifier(SearchPageModel()));
   }
 
   void onTapElementOnHorizontalCate(CategoryModel model) {
