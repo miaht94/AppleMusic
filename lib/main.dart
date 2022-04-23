@@ -1,3 +1,4 @@
+import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:apple_music/components/AudioController/AudioUi.dart';
 import 'package:apple_music/components/CustomBottomAppBar/CustomBottomAppBar.dart';
@@ -57,10 +58,16 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State < MyHomePage > {
   late PageController pageController;
   late AudioPageRouteManager audioPageRouteManager = getIt<AudioPageRouteManager>();
+  final AudioManager _audioManager = getIt<AudioManager>();
   @override
   void initState() {
     super.initState();
     pageController = new PageController();
+  }
+
+  @override
+  void dispose(){
+    _audioManager.dispose();
   }
   @override
   Widget build(BuildContext context) {

@@ -38,7 +38,6 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    _audioManager.dispose();
     super.dispose();
   }
 
