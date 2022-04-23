@@ -4,6 +4,7 @@ import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/UserModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart'
 as http;
 import 'package:loader_overlay/loader_overlay.dart';
@@ -28,6 +29,7 @@ class _WelcomePageState extends State < WelcomePage > with TickerProviderStateMi
     });
     http.Response res = await http.get(httpURI);
     JsonDecoder decoder = JsonDecoder();
+  
     return UserModel.fromJson(decoder.convert(res.body));
   }
 

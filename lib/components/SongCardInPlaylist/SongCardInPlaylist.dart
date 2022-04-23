@@ -1,12 +1,12 @@
+import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 class SongCardInPlaylist extends StatefulWidget {
-  const SongCardInPlaylist({Key? key, required this.songName, required this.artistName, required this.artURL}) : super(key: key);
-  final String songName;
-  final String artistName;
-  final String artURL;
+  const SongCardInPlaylist({Key? key, required this.songCardInPlaylistModel}) : super(key: key);
+  
 
+  final SongCardInPlaylistModel songCardInPlaylistModel;
   @override
   _SongCardInPlaylistState createState() => _SongCardInPlaylistState();
 }
@@ -27,7 +27,7 @@ class _SongCardInPlaylistState extends State<SongCardInPlaylist> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5.0),
                       child: Image.network(
-                        widget.artURL,
+                        widget.songCardInPlaylistModel.artURL,
                         height: 37.0,
                         width: 37.0,
                       ),
@@ -51,8 +51,8 @@ class _SongCardInPlaylistState extends State<SongCardInPlaylist> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
-                                      Text(widget.songName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                                      Text(widget.artistName, style: TextStyle(fontSize: 11, color: Colors.grey)),
+                                      Text(widget.songCardInPlaylistModel.songName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                      Text(widget.songCardInPlaylistModel.artistName, style: TextStyle(fontSize: 11, color: Colors.grey)),
                                     ],
                                   )
                               ),

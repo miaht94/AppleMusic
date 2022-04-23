@@ -20,3 +20,7 @@ const int SV_PORT = 80;
 
 // API ENTRY
 String MY_PROFILE_PATH = "api/profile/me";
+String SEARCH_SONG_PATH = "api/songs";
+String SEARCH_ARTIST_PATH = "api/artistes";
+String SEARCH_PLAYLIST_PATH = "api/playlists";
+String SEARCH_ALBUM_PATH = "api/albums";
