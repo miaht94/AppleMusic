@@ -1,4 +1,5 @@
 import 'package:apple_music/manager/CurrentUserManager.dart';
+import 'package:apple_music/models/LyricModel.dart';
 import 'package:apple_music/models/SongModel.dart';
 import 'package:apple_music/services/service_locator.dart';
 import "package:flutter/material.dart";
@@ -23,6 +24,8 @@ class AudioManager {
   final isLastSongNotifier = ValueNotifier<bool>(true);
   final isShuffleNotifier = ValueNotifier<bool>(false);
   final repeatNotifier = ValueNotifier<RepeatState>(RepeatState.noRepeat);
+
+  Future <List<Lyric>> ? currentLyricNotifier ;
   late AudioPlayer _audioPlayer;
   late ConcatenatingAudioSource _playlist;
 
@@ -117,6 +120,7 @@ class AudioManager {
       if (!isMoving) {
         final currentSongData = currentItem?.tag;
         currentSongNotifier.value = currentSongData;
+        currentLyricNotifier = Lyrics.fetchLyrics(currentSongData.lyric);
       }
 
       final playlist = sequenceState.effectiveSequence;
