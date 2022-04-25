@@ -45,7 +45,7 @@ class ListeningNowPageModel {
             song.songName,
             song.artist,
             song.artwork,
-            song.id,
+            song.id
         ));
     }
     // fetch Favorite Artist
