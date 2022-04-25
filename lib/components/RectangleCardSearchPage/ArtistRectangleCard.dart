@@ -1,7 +1,9 @@
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/ArtistRectangleCardModel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:skeletons/skeletons.dart';
 
 class ArtistRectangleCard extends StatelessWidget {
   ArtistRectangleCard({Key? key, required this.artistRectangleCardModel, this.onTapArtistCard}) : super(key: key);
@@ -19,7 +21,14 @@ class ArtistRectangleCard extends StatelessWidget {
             width: 60,
             height: 60,
             margin: EdgeInsets.only(right: kDefaultPadding),
-            child: CircleAvatar(backgroundImage: Image.network(artistRectangleCardModel.artistImageURL).image),
+            child: CachedNetworkImage(
+              imageUrl: artistRectangleCardModel.artistImageURL, 
+              imageBuilder:(context, imageProvider) => 
+                CircleAvatar(backgroundImage: imageProvider),
+              placeholder: (context, url) => SkeletonAvatar(style: SkeletonAvatarStyle(shape: BoxShape.circle))
+              ),
+               
+              
             // child: CircleAvatar(backgroundImage : Image.network(albumRectangleCardModel.artURL,).image)
             ),
           Expanded(
@@ -49,29 +58,7 @@ class ArtistRectangleCard extends StatelessWidget {
                         Text("Ca sĩ", style: TextStyle(fontSize: 13, color: Colors.grey),)
                                           ],),
                       ),
-                      // Align(
-                      //     alignment: Alignment.centerRight,
-                      //     child: Padding(
-                      //       padding: EdgeInsets.all(12.0),
-                      //       child: Material(
-                            
-                      //         child: Ink(
-                      //           decoration: BoxDecoration(
-                      //             shape: BoxShape.circle
-                      //           ),
-                      //           child: InkWell(
-                      //             borderRadius: BorderRadius.circular(100),
-                      //             child: Icon(SFSymbols.ellipsis, size: 18),
-                      //             onTap: () {
-                      //               if (onTapArtistCard != null) {
-                      //                 onTapArtistCard!(artistRectangleCardModel);
-                      //               }
-                      //             },
-                      //           ),
-                      //         )
-                      //         )
-                      //     )
-                      //   )
+
                     ],
                   ),
                 )

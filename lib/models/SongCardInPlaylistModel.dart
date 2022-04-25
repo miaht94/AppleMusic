@@ -2,13 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 
 class SongCardInPlaylistModel {
-    SongCardInPlaylistModel(this._songName, this._artistName, this._artURL) {
+    SongCardInPlaylistModel(this._songName, this._artistName, this._artURL, this._genre) {
         id = Uuid().v4();
     }
     String _songName;
     String _artURL;
     String _artistName;
+    String _genre;
     late String id;
+
+    String get genre {
+      return _genre;
+    }
 
     String get songName {
         return _songName;
@@ -23,21 +28,21 @@ class SongCardInPlaylistModel {
     }
 
     static SongCardInPlaylistModel getSampleDataSingle() {
-        return new SongCardInPlaylistModel("Lover", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png");
+        return new SongCardInPlaylistModel("Lover", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png", "genre_empty");
     }
 
     static List < SongCardInPlaylistModel > getSampleDataList() {
         return [
-            new SongCardInPlaylistModel("Lover", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png"),
-            new SongCardInPlaylistModel("Red (Taylor's Version)", "Taylor Swift", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
-            new SongCardInPlaylistModel("Everything Has Changed", "Taylor Swift, Ed Sheeran", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
-            new SongCardInPlaylistModel("cardigan", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/f/f8/Taylor_Swift_-_Folklore.png"),
-            new SongCardInPlaylistModel("Everything Has Changed", "Taylor Swift, Ed Sheeran", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg")
+            new SongCardInPlaylistModel("Lover", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png", "genre_empty"),
+            new SongCardInPlaylistModel("Red (Taylor's Version)", "Taylor Swift", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "genre_empty"),
+            new SongCardInPlaylistModel("Everything Has Changed", "Taylor Swift, Ed Sheeran", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "genre_empty"),
+            new SongCardInPlaylistModel("cardigan", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/f/f8/Taylor_Swift_-_Folklore.png", "genre_empty"),
+            new SongCardInPlaylistModel("Everything Has Changed", "Taylor Swift, Ed Sheeran", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "genre_empty")
         ];
     }
 
     factory SongCardInPlaylistModel.fromJson(Map<String, dynamic> json) {
-        return new SongCardInPlaylistModel(json["song_name"], json["artist"]["artist_name"], json["album"]["art_url"]);
+        return new SongCardInPlaylistModel(json["song_name"], json["artist"]["artist_name"], json["album"]["art_url"], json["album"]["genre"]);
     }
 }
 //
