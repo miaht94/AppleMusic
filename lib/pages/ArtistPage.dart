@@ -168,17 +168,17 @@ class _ArtistViewState extends State<ArtistView> {
                 body: ListView(
                     shrinkWrap: true,
                     children: [
-                      ArtistHighlightAlbum(
-                          album: snapshot.data!.highlightSong),
-                      HScrollCardListWithText(title: "Ca Khúc Mới Hay Nhất",
-                          cards: snapshot.data!.topSongList),
-                      Container(
+                      snapshot.data!.highlightSong.songName != "NoHighlightSong" ? ArtistHighlightSong(
+                          album: snapshot.data!.highlightSong) : Container(),
+                      snapshot.data!.topSongList.length != 0 ? HScrollCardListWithText(title: "Ca Khúc Mới Hay Nhất",
+                          cards: snapshot.data!.topSongList) : Container(),
+                      snapshot.data!.albumList.length != 0 ? Container(
                         padding: EdgeInsets.only(
                             bottom: VerticalComponentPadding),
                         child: HScrollSquareCardWithText(
                             title: "Album đã phát hành",
                             cards: snapshot.data!.albumList),
-                      )
+                      ) : Container()
                     ]
                 ),
 
@@ -210,8 +210,8 @@ class _ArtistViewState extends State<ArtistView> {
 
 }
 
-class ArtistHighlightAlbum extends StatelessWidget {
-  const ArtistHighlightAlbum({
+class ArtistHighlightSong extends StatelessWidget {
+  const ArtistHighlightSong({
     Key? key,
     required this.album
   }) : super(key: key);
@@ -239,11 +239,11 @@ class ArtistHighlightAlbum extends StatelessWidget {
                    crossAxisAlignment: CrossAxisAlignment.start,
                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                                Text(album.albumYear.toString(), style: TextStyle(fontSize: 11, color: Colors.grey)),
+                                Text(album.songYear.toString(), style: TextStyle(fontSize: 11, color: Colors.grey)),
                                 SizedBox(height: 5),
-                                Text(album.albumName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                Text(album.songName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                 SizedBox(height: 5),
-                                Text(album.albumArtist, style: TextStyle(fontSize: 11, color: Colors.grey)),
+                                Text(album.songArtist, style: TextStyle(fontSize: 11, color: Colors.grey)),
                                 SizedBox(height: 5),
                                 Container(
                                   height:19,
@@ -276,15 +276,15 @@ class ArtistHighlightSongModel {
   int _albumYear;
   String _id;
 
-  String get albumName{
+  String get songName{
     return _songName;
   }
 
-  String get albumArtist{
+  String get songArtist{
     return _songArtist;
   }
 
-  int get albumYear{
+  int get songYear{
     return _albumYear;
   }
 
