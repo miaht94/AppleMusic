@@ -7,6 +7,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
+import '../models/ArtistViewModel.dart';
+import 'ArtistPage.dart';
+
 
 class AlbumView extends StatelessWidget {
 
@@ -98,11 +101,21 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                     ))
                 ),Container(
                     alignment: Alignment.topCenter,
-                    child: Text(widget.model.albumArtist, textAlign: TextAlign.center, style: TextStyle(
-                        color: Color.fromRGBO(251, 46, 70, 1),
-                        fontFamily: 'Roboto',
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ArtistView(artistViewModel: ArtistViewModel.getArtist(widget.model.albumArtist)),
+                          ),
+                        )
+                      },
+                      child: Text(widget.model.albumArtist, textAlign: TextAlign.center, style: TextStyle(
+                          color: Color.fromRGBO(251, 46, 70, 1),
+                          fontFamily: 'Roboto',
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     )
                 ),Container(
@@ -123,7 +136,9 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                         height: 2
                     ),)
                 ),
-                AlbumSongListView(songList: widget.model.songList),
+                Container(padding: EdgeInsets.only(
+                    bottom: 200),
+                    child: AlbumSongListView(songList: widget.model.songList)),
 
               ]
           ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
+import '../../models/ArtistViewModel.dart';
+import '../../pages/ArtistPage.dart';
 import 'HScrollCircleConstant.dart';
 
 class CircleCard extends StatelessWidget{
@@ -14,9 +16,14 @@ class CircleCard extends StatelessWidget{
   final String artist;
   final int id;
 
-  onCardTap() {
-    print("ID: ${id}");
-  }
+  // onCardTap(context) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => ArtistView(artistViewModel: ArtistViewModel.getArtist(this.artist)),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build (BuildContext context) {
@@ -29,8 +36,16 @@ class CircleCard extends StatelessWidget{
         height: size.height * CIRCLE_CARD_HEIGHT_RATIO,
         margin: EdgeInsets.only(left: kDefaultPadding),
         child: InkWell(
-          onTap: onCardTap,
+          onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ArtistView(artistViewModel: ArtistViewModel.getArtist(this.artist)),
+                ),
+              )
+          },
           child: ListView(
+            shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             children: [
               Card(
