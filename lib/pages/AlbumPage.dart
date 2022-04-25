@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:apple_music/components/AlbumSongListView/AlbumSongListView.dart';
+import 'package:apple_music/components/Other/PageLoadError.dart';
 import 'package:apple_music/components/TitleComponent/PageTitleBox.dart';
 import 'package:apple_music/models/AlbumViewModel.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,14 +34,13 @@ class AlbumView extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<AlbumViewModel> snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
-            children = <Widget>[
-             AlbumViewContent(model: snapshot.data!)
-            ];
-          }
-          else {
-            children = <Widget>[
-              Center(child: CircularProgressIndicator(color: Colors.red))
-            ];
+            if (snapshot.data!.albumName == "AlbumError"){
+              children = <Widget>[PageLoadError(title: "Lỗi tải Album")];
+            } else {
+              children = <Widget>[AlbumViewContent(model: snapshot.data!)];
+            }
+          } else {
+            children = <Widget>[Center(child: CircularProgressIndicator(color: Colors.red))];
           }
           return Stack(
             children: children,
@@ -50,7 +50,6 @@ class AlbumView extends StatelessWidget {
     );
   }
 }
-
 
 class AlbumViewContent extends StatefulWidget {
   const AlbumViewContent({Key? key, required this.model}) : super(key: key);
@@ -146,4 +145,3 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
     );
   }
 }
-        

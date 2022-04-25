@@ -65,13 +65,10 @@ class AlbumViewModel {
             result['album_description'] !=null ? result['album_description'] : "");
         print(convertedResult.albumName);
         return convertedResult;
-      } else {
-        throw Exception("Failed to Load");
-      }
-      return AlbumViewModel("Lover","ABC Swift", "Pop", "2019", AlbumSongListViewModel.getSampleData(), "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png", "Bức thư tình lãng mạn được viết bởi những giai điệu ngọt ngào.");;
+      } else { throw Exception("Failed to load"); }
     } catch (execute)  {
       print("$execute");
-      return AlbumViewModel("Album failed to load","", "", "", [], "", "");
+      return AlbumViewModel("AlbumError","", "", "", [], "", "");
     }
   }
 

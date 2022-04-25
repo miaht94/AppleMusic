@@ -64,15 +64,15 @@ class ArtistViewModel {
         // print(convertedResult.albumName);
         return convertedResult;
       } else {
-        throw Exception("Failed to Load Employees");
+        throw Exception("Failed to Load");
       }
     } catch (execute)  {
       print("$execute");
-      return ArtistViewModel.getSampleData();
+      return ArtistViewModel("ArtistError", ArtistHighlightSongModel.getSampleData(), SongCardInPlaylistModel.getSampleDataList(), HScrollSquareCardModel.getSampleData(), "", '');
     }
   }
 
   static ArtistViewModel getSampleData() {
-    return ArtistViewModel("Error", ArtistHighlightSongModel.getSampleData(), SongCardInPlaylistModel.getSampleDataList(), HScrollSquareCardModel.getSampleData(), "Taylor Alison Swift là một nữ ca sĩ kiêm sáng tác nhạc người Mỹ. Những đĩa nhạc trải dài trên nhiều thể loại khác nhau và các sáng tác tự sự, thường lấy cảm hứng từ cuộc sống cá nhân của chính cô, đã nhận được sự tán dương rộng rãi của giới truyền thông và giới phê bình.", 'https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg');
+    return ArtistViewModel("Taylor Swift", ArtistHighlightSongModel.getSampleData(), SongCardInPlaylistModel.getSampleDataList(), HScrollSquareCardModel.getSampleData(), "Taylor Alison Swift là một nữ ca sĩ kiêm sáng tác nhạc người Mỹ. Những đĩa nhạc trải dài trên nhiều thể loại khác nhau và các sáng tác tự sự, thường lấy cảm hứng từ cuộc sống cá nhân của chính cô, đã nhận được sự tán dương rộng rãi của giới truyền thông và giới phê bình.", 'https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg');
   }
 }
