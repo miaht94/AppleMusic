@@ -4,7 +4,9 @@ import 'package:apple_music/models/AlbumSongListViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+
+import '../constant.dart';
 
 class AlbumViewModel {
   AlbumViewModel(this._albumName, this._albumArtist, this._albumGenre, this._albumYear, this._songList, this._artURL, this._albumDescription) {
@@ -49,7 +51,11 @@ class AlbumViewModel {
 
   static Future<AlbumViewModel> getAlbum(albn,alba) async {
     try {
-      final response = await get(Uri.parse("http://koyomiku39.moe/api/album?album_name=" + albn +"&artist=" +alba));
+      final Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, port: SV_PORT, path: ALBUM_PATH, queryParameters: {
+        'album_name': albn,
+        'artist': alba
+      });
+      final  response = await http.get(httpURI);
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
         print(result['songs'][0]['song_name']);

@@ -27,4 +27,5 @@ String SEARCH_ALBUM_PATH = 'api/albums';
 String SONG_PATH = 'api/song';
 String PLAYLIST_PATH = 'api/playlist';
 String PAGE_PATH = 'api/page';
+String ALBUM_PATH = 'api/album';
 String ARTIST_PATH ='api/artist';

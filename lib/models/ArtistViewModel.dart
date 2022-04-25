@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/AlbumSongLIstViewModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/pages/ArtistPage.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 class ArtistViewModel {
@@ -46,7 +47,10 @@ class ArtistViewModel {
 
   static Future<ArtistViewModel> getArtist(artn) async {
     try {
-      final response = await get(Uri.parse("http://koyomiku39.moe/api/artist?artist_name=" + artn));
+      final Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, port: SV_PORT, path: ARTIST_PATH, queryParameters: {
+        'artist_name': artn
+      });
+      final  response = await http.get(httpURI);
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
         print(result['artist_name']);
