@@ -16,4 +16,6 @@ void setUpGetIt() {
   // getIt.registerLazySingleton<Map<String, GlobalKey>>(() => Map());
   getIt.registerLazySingleton<ContextMenuManager>(() => ContextMenuManager());
   getIt.registerLazySingleton<ListeningNowPageModel>(() => ListeningNowPageModel());
+  //adwadaw
+  //adwadawd
 }
