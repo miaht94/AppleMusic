@@ -28,3 +28,4 @@ String SONG_PATH = 'api/song';
 String PLAYLIST_PATH = 'api/playlist';
 String PAGE_PATH = 'api/page';
 String ARTIST_PATH ='api/artist';
+String ALBUM_PATH = "api/album";
