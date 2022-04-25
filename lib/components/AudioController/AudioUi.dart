@@ -171,7 +171,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
         ValueListenableBuilder<AudioMetadata>(
           valueListenable: _audioManager.currentSongNotifier,
           builder: (_, currentSong, __) {
-            return FutureBuilder<List<Lyric>>(
+            return FutureBuilder<List<LyricModel>>(
               future: _audioManager.currentLyricNotifier,
               builder: (context, snapshot) {
                 if(snapshot.hasData && snapshot.connectionState == ConnectionState.done) {

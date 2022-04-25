@@ -17,7 +17,7 @@ class ListLyrics extends StatefulWidget{
 
   Duration currentTime;
   Duration currentPosition;
-  List<Lyric> lyrics;
+  List<LyricModel> lyrics;
 
   var onTimeChanged;
   var onPositionChanged;

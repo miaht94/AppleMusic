@@ -1,7 +1,7 @@
-import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/LyricModel.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:apple_music/constant.dart';
+import 'package:http/http.dart' as http;
 
 class SongModel {
   SongModel(this.id,
@@ -34,11 +34,11 @@ class SongModel {
     });
     final  response = await http.get(httpURI);
     if (response.statusCode == 200){
-      JsonDecoder decoder = JsonDecoder();
-      SongModel song = SongModel.fromJson(decoder.convert(response.body));
+      final JsonDecoder decoder = JsonDecoder();
+      final SongModel song = SongModel.fromJson(decoder.convert(response.body));
       return song;
     } else {
-      return Future.error('No song for Id(${id})');
+      return Future.error('No song for Id($id)');
     }
 
   }

@@ -25,7 +25,7 @@ class AudioManager {
   final isShuffleNotifier = ValueNotifier<bool>(false);
   final repeatNotifier = ValueNotifier<RepeatState>(RepeatState.noRepeat);
 
-  Future <List<Lyric>> ? currentLyricNotifier ;
+  Future <List<LyricModel>> ? currentLyricNotifier ;
   late AudioPlayer _audioPlayer;
   late ConcatenatingAudioSource _playlist;
 
@@ -53,10 +53,9 @@ class AudioManager {
       List<dynamic> listSong = playlist["songs"];
       for (String songUrl in listSong){
         try {
-          SongModel song = await SongModel.fetchSong(songUrl);
+          final SongModel song = await SongModel.fetchSong(songUrl);
           listSongs.add(song);
         } catch(e) {
-          
         }
         
       }
@@ -125,7 +124,7 @@ class AudioManager {
       if (!isMoving) {
         final currentSongData = currentItem?.tag;
         currentSongNotifier.value = currentSongData;
-        currentLyricNotifier = Lyrics.fetchLyrics(currentSongData.lyric);
+        currentLyricNotifier = LyricModel.fetchLyrics(currentSongData.lyric);
       }
 
       final playlist = sequenceState.effectiveSequence;
