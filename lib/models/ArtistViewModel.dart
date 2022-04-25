@@ -54,7 +54,7 @@ class ArtistViewModel {
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
         print(result['artist_name']);
-        ArtistHighlightSongModel highlightSong = await ArtistHighlightSongModel.getHighlightSongByID(result["highlight_song"]["_id"]);
+        ArtistHighlightSongModel highlightSong = result["highlight_song"] != null ? await ArtistHighlightSongModel.getHighlightSongByID(result["highlight_song"]["_id"]) : ArtistHighlightSongModel("NoHighlightSong", "", 0, "", "");
         List<SongCardInPlaylistModel> topSongList = await SongCardInPlaylistModel.convert(result["top_song_list"]);
         List<HScrollSquareCardModel> albumList = await HScrollSquareCardModel.convert(result["album_list"]);
         ArtistViewModel convertedResult = ArtistViewModel(
