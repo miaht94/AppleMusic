@@ -9,6 +9,7 @@ import 'package:apple_music/models/SongModel.dart';
 import 'package:apple_music/models/VerticalCardWithTitleModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:palette_generator/palette_generator.dart';
 
 class ListeningNowPageModel {
 
@@ -35,7 +36,7 @@ class ListeningNowPageModel {
             playlist.playlistName,
             playlist.playlistDescription,
             playlist.artUrl,
-            const Color.fromRGBO(255, 206, 255, 0.6),
+          await getImagePalette(NetworkImage(playlist.artUrl)),
         ));
     }
     // fetch Recently played
@@ -63,13 +64,18 @@ class ListeningNowPageModel {
           playlist.playlistName,
           playlist.playlistDescription,
           playlist.artUrl,
-          const Color.fromRGBO(255, 162, 196, 0.6),
+          await getImagePalette(NetworkImage(playlist.artUrl)),
         ));
     }
     }catch (e){
       print(e);
     }
     return true;
+  }
+  Future<Color> getImagePalette (ImageProvider imageProvider) async {
+    final PaletteGenerator paletteGenerator = await PaletteGenerator
+        .fromImageProvider(imageProvider);
+    return paletteGenerator.dominantColor!.color;
   }
 
   Future <ListeningNowItem> fetchLiteningModelPage() async {
