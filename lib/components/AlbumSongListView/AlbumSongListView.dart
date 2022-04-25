@@ -1,10 +1,12 @@
-import 'package:apple_music/models/AlbumSongLIstViewModel.dart';
+import 'package:apple_music/models/AlbumSongListViewModel.dart';
 import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import '../TitleComponent/SeeAllButton.dart';
 import '../TitleComponent/BoldTitle.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
+import 'package:apple_music/services/service_locator.dart';
 
 class AlbumSongListView extends StatelessWidget {
   AlbumSongListView({
@@ -20,6 +22,7 @@ class AlbumSongListView extends StatelessWidget {
       Align(
           alignment: Alignment.centerRight,
           child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.all(0),
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
@@ -48,6 +51,9 @@ class AlbumSongButton extends StatelessWidget {
   final int trackNumber;
   final String collaboration;
   final String value;
+
+  late AudioPageRouteManager audioPageRouteManager =
+      getIt<AudioPageRouteManager>();
 
   @override
   Widget build(BuildContext context) {
@@ -80,20 +86,26 @@ class AlbumSongButton extends StatelessWidget {
                                       fontSize: 13, color: Colors.grey)),
                             ],
                           )),
-                      Container(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                              padding: EdgeInsets.only(left: 20),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  // mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Text(songName,
-                                        style: TextStyle(
-                                            fontSize: 15, color: Colors.black)),
-                                  ])),
+                      GestureDetector(
+                        onTap: () {
+                          print("id");
+                        },
+                        child: Container(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                                padding: EdgeInsets.only(left: 20),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    // mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Text(songName,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black)),
+                                    ])),
+                          ),
                         ),
                       ),
                       Expanded(

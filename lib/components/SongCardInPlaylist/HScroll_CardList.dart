@@ -8,32 +8,7 @@ import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListConstan
 
 import '../../models/SongCardInPlaylistModel.dart';
 
-var sampleData = [
-  {
-    "artist_name": "Taylor Swift",
-    "song_name": "Lover",
-    "art_url":
-        "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png"
-  },
-  {
-    "artist_name": "Taylor Swift",
-    "song_name": "Red",
-    "art_url":
-        "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"
-  },
-  {
-    "artist_name": "Taylor Swift, Ed Sheeran",
-    "song_name": "Everything Has Changed",
-    "art_url":
-        "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"
-  },
-  {
-    "artist_name": "Taylor Swift",
-    "song_name": "cardigan",
-    "art_url":
-        "https://upload.wikimedia.org/wikipedia/vi/f/f8/Taylor_Swift_-_Folklore.png"
-  }
-];
+
 
 class HScrollCardList extends StatefulWidget {
   HScrollCardList({Key? key,
@@ -66,13 +41,13 @@ class _HScrollCardListState extends State<HScrollCardList> {
     List<SongCardInPlaylistModel> seperatedCards = [];
 
     _buildListItem(context, index){
-      print("index:" +index.toString());
-      print(widget.cards.length);
+      // print("index:" +index.toString());
+      // print(widget.cards.length);
 
       for (int j = 0; j<widget.cards.length; j++){
         if(j>=index*4 && j<=index*4+3) {
-          print(widget.cards[j].songName + " is added to page " +
-              index.toString());
+          // print(widget.cards[j].songName + " is added to page " +
+          //     index.toString());
           seperatedCards.add(widget.cards[j]);
         }
       }

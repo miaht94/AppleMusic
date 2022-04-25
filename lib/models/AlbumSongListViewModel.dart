@@ -1,3 +1,5 @@
+// import 'dart:js';
+
 import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 
@@ -27,7 +29,6 @@ class AlbumSongListViewModel {
     return _value;
   }
 
-
   static List<AlbumSongListViewModel> getSampleData() {
     return [
     new AlbumSongListViewModel(1, "I Forgot That You Existed", "Value", 'none') ,
@@ -42,4 +43,16 @@ class AlbumSongListViewModel {
     new AlbumSongListViewModel(10, "Death By a Thousand Cuts", "Value", 'none'),
     ];
   }
+
+  static List<AlbumSongListViewModel> convert(json) {
+    List<AlbumSongListViewModel> list = [];
+    for (var object in json) {
+      list.add(AlbumSongListViewModel(object['track_number']!=null ? object['track_number']  : 0 ,object['song_name'] , object['_id'], object['collaboration']!=null ? object['collaboration'] : 'none'));
+      print(object['song_name'] + ' added');
+    }
+    list.sort((a, b) => a.trackNumber.compareTo(b.trackNumber));
+    return list;
+  }
+
+
 }
