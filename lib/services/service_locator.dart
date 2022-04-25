@@ -3,6 +3,7 @@ import 'package:apple_music/components/AudioController/AudioPageRouteManager.dar
 import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/manager/CurrentUserManager.dart';
+import 'package:apple_music/models/ListeningNowPageModel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
 final getIt = GetIt.instance;
@@ -14,4 +15,5 @@ void setUpGetIt() {
   getIt.registerLazySingleton<CurrentUserManager>(() => CurrentUserManager());
   // getIt.registerLazySingleton<Map<String, GlobalKey>>(() => Map());
   getIt.registerLazySingleton<ContextMenuManager>(() => ContextMenuManager());
+  getIt.registerLazySingleton<ListeningNowPageModel>(() => ListeningNowPageModel());
 }

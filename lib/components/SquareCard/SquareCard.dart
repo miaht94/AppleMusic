@@ -1,5 +1,10 @@
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:apple_music/services/service_locator.dart';
+
+import 'package:apple_music/models/AlbumViewModel.dart';
+import 'package:apple_music/models/HScrollSquareModel.dart';
+import 'package:apple_music/pages/AlbumPage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import 'HScrollSquareConstant.dart';
@@ -10,8 +15,7 @@ class SquareCard extends StatelessWidget{
     required this.name,
     required this.artist,
     required this.id,
-    required this.width,
-
+    required this.width
   }): super(key: key);
 
   final String imageUrl;
@@ -19,14 +23,21 @@ class SquareCard extends StatelessWidget{
   final String artist;
   final int id;
   final double width;
-  late AudioPageRouteManager audioPageRouteManager = getIt<AudioPageRouteManager>();
 
-  onCardTap() {
-    Navigator.pushNamed(audioPageRouteManager.getMainContext(), '/playingPage');
-  }
+  // HScrollSquareCardModel model;
+
+  // late AudioPageRouteManager audioPageRouteManager = getIt<AudioPageRouteManager>();
+  //
+  // onCardTap() {
+  //   Navigator.pushNamed(audioPageRouteManager.getMainContext(), '/playingPage');
+  // }
+
+  // final Function(HScrollSquareCardModel)? onTapSquareCard;
+
 
   @override
   Widget build (BuildContext context) {
+
     final size = MediaQuery.of(context).size;
     return Align(
       alignment: Alignment.topLeft,
@@ -34,7 +45,17 @@ class SquareCard extends StatelessWidget{
         width: width,
         margin :EdgeInsets.only(left: kDefaultPadding),
         child: InkWell(
-          onTap: onCardTap,
+          onTap: () {
+            //if ... != null
+            //onTapSquareCard(model);
+            print(this.name);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AlbumView(albumViewModel: AlbumViewModel.getAlbum(this.name, this.artist)),
+              ),
+            );
+          },
           child: ListView(
             shrinkWrap: true,
             physics:NeverScrollableScrollPhysics(),

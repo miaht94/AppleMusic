@@ -41,11 +41,16 @@ class _HScrollCircleCardState extends State<HScrollCircleCard> {
         scrollDirection: Axis.horizontal,
         key: sslKey,
         itemSize: WIDTH + kDefaultPadding,
-        itemCount: widget.listItem.length + 1,
+        itemCount: widget.listItem.length + 2,
         itemBuilder: (context, index) {
-          if (index == 0){
+          if (index == 0 ){
             return SizedBox(
               width: kDefaultCardPadding / 2,
+            );
+          }
+          if (index == widget.listItem.length + 1) {
+            return SizedBox(
+              width: kDefaultCardPadding,
             );
           }
           return CircleCard(

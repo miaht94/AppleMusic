@@ -8,7 +8,7 @@ class LyricWidget extends StatefulWidget{
   LyricWidget(Key? key, this.lyric, this.onTap,
       this._controller,this._blur, this.id)
       : super(key:key);
-  final Lyric lyric;
+  final LyricModel lyric;
   final void Function(int) onTap;
   final AnimationController? _controller;
   final AnimationController? _blur;

@@ -40,11 +40,16 @@ class _HScrollSquareCardState extends State<HScrollSquareCard> {
         scrollDirection: Axis.horizontal,
         key: sslKey,
         itemSize: WIDTH + kDefaultPadding,
-        itemCount: widget.listItem.length + 1,
+        itemCount: widget.listItem.length + 2,
         itemBuilder: (context, index) {
           if (index == 0){
-            return SizedBox(
+            return const SizedBox(
               width: kDefaultPadding / 2,
+            );
+          }
+          if (index == widget.listItem.length + 1){
+            return const SizedBox(
+              width: kDefaultPadding,
             );
           }
           return SquareCard(
