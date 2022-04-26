@@ -30,10 +30,9 @@ class AudioManager {
   late ConcatenatingAudioSource _playlist;
 
   AudioManager(){
-    _init();
   }
 
-  void _init() async{
+  void init() async{
     _audioPlayer = AudioPlayer();
     _initPlaylist();
 
