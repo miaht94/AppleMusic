@@ -1,3 +1,7 @@
+import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
+import 'package:apple_music/components/ContextMenu/ContextMenuItem.dart';
+import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
+import 'package:apple_music/components/ContextMenu/SongContextMenu.dart';
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/components/HorizontalScrollCategory/HorizontalScrollCategory.dart';
 import 'package:apple_music/components/RectangleCardSearchPage/AlbumRectangleCard.dart';
@@ -17,6 +21,7 @@ import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -44,7 +49,9 @@ class _SearchPageState extends State < SearchPage > {
     _initModelForHorizontalScrollCategory();
   }
 
-
+  void onTapSongCardMoreButton(SongCardInPlaylistModel songCardInPlaylistModel) {
+    GetIt.I.get<ContextMenuManager>().insertOverlay(SongContextMenu(name: "SongContextMenu",songCardInPlaylistModel: songCardInPlaylistModel));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +89,7 @@ class _SearchPageState extends State < SearchPage > {
                               switch(searchMode) {
                                 case "song_name":
                                   for (SongCardInPlaylistModel model in data) {
-                                    renderList.add(SongCardInPlaylistBigger(songCardInPlaylistModel: model,));
+                                    renderList.add(SongCardInPlaylistBigger(songCardInPlaylistModel: model, onTapSongCardInPlaylist: onTapSongCardMoreButton,));
                                   }
                                   break;
                                 case "artist_name":

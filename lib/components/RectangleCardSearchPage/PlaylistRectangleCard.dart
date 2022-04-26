@@ -1,8 +1,10 @@
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/PlaylistRectangleCardModel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:skeletons/skeletons.dart';
 
 class PlaylistRectangleCard extends StatelessWidget {
   PlaylistRectangleCard({Key? key, required this.playlistRectangleCardModel}) : super(key: key);
@@ -20,11 +22,28 @@ class PlaylistRectangleCard extends StatelessWidget {
             height: 60,
             margin: EdgeInsets.only(right: kDefaultPadding),
             decoration: BoxDecoration(
+              // image: DecorationImage(
+              //   image: Image.network(playlistRectangleCardModel.artURL).image, 
+              //   fit: BoxFit.cover
+              // ),
+              borderRadius: BorderRadius.all(Radius.circular(8))
+            ),
+            child: CachedNetworkImage(
+              imageUrl: playlistRectangleCardModel.artURL,
+              fit: BoxFit.cover,
+              placeholder: (context, _) => SkeletonAvatar(),
+              imageBuilder: (context, imageProvider) =>
+              Container(
+            width: 60,
+            height: 60,
+            
+            decoration: BoxDecoration(
               image: DecorationImage(
-                image: Image.network(playlistRectangleCardModel.artURL).image, 
+                image: imageProvider,
                 fit: BoxFit.cover
               ),
               borderRadius: BorderRadius.all(Radius.circular(8))
+            ),),
             ),
             // child: CircleAvatar(backgroundImage : Image.network(albumRectangleCardModel.artURL,).image)
             ),

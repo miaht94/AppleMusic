@@ -1,6 +1,8 @@
 import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:apple_music/components/AudioController/AudioUi.dart';
+import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
+import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/CustomBottomAppBar/CustomBottomAppBar.dart';
 import 'package:apple_music/pages/DiscoveryPage.dart';
 import 'package:apple_music/pages/LibraryPage.dart';
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
         '/homePage': (context) => const MyHomePage(),
         '/playingPage': (context) => AudioUi(),
       },
-      initialRoute: '/loginPage',
+      initialRoute: '/homePage',
     );
   }
 }
@@ -52,6 +54,7 @@ class _MyHomePageState extends State < MyHomePage > {
   late PageController pageController;
   late AudioPageRouteManager audioPageRouteManager = getIt<AudioPageRouteManager>();
   final AudioManager _audioManager = getIt<AudioManager>();
+  ContextMenuManager contextMenuManager = getIt<ContextMenuManager>();
   @override
   void initState() {
     super.initState();
@@ -65,8 +68,9 @@ class _MyHomePageState extends State < MyHomePage > {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-  
+    contextMenuManager.context = context;
     audioPageRouteManager.setMainContext(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body:
@@ -91,15 +95,15 @@ class _MyHomePageState extends State < MyHomePage > {
                 scrollDirection: Axis.horizontal,
                 controller: pageController,
                 children: < Widget > [
-                  Center(
-                    child: ListeningNow(),
-                  ),
-                  Center(
-                    child: DiscoveryPage(),
-                  ),
-                  Center(
-                    child: LibraryPage(),
-                  ),
+                  // Center(
+                  //   child: ListeningNow(),
+                  // ),
+                  // Center(
+                  //   child: DiscoveryPage(),
+                  // ),
+                  // Center(
+                  //   child: LibraryPage(),
+                  // ),
                   SearchPage()
                 ],
               ))
@@ -110,11 +114,32 @@ class _MyHomePageState extends State < MyHomePage > {
           left: 0,
           child: CustomBottomAppBar(pageController: pageController)
         ),
-        // Positioned(
-        //     bottom: 0,
-        //     left: 0,
-        //     child: Text("HelloWorld")
-        // ),
+        
+        // ContextMenu(action: [
+        //   GestureDetector(
+        //     onTap: () => print("abc"),
+        //     child: Text("abc")), 
+        //   GestureDetector(
+        //     onTap: () => print("abc"),
+        //     child: Text("abc")), 
+        //     GestureDetector(
+        //     onTap: () => print("abc"),
+        //     child: Text("abc")), 
+        //     GestureDetector(
+        //     onTap: () => print("abc"),
+        //     child: Text("abc")), 
+        //     GestureDetector(
+        //     onTap: () => print("abc"),
+        //     child: Text("abc")), 
+        //     GestureDetector(
+        //     onTap: () => print("abc"),
+        //     child: Text("abc")), 
+        //     GestureDetector(
+        //     onTap: () => print("abc"),
+        //     child: Text("abc")), 
+        // ],)
+
+
       ], )
 
     );

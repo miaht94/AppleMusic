@@ -8,12 +8,16 @@ import 'package:http/http.dart' as http;
 import '../constant.dart';
 
 class SongCardInPlaylistModel {
-    SongCardInPlaylistModel(this._songName, this._artistName, this._artURL, this._id);
-
+    SongCardInPlaylistModel(this._songName, this._artistName, this._artURL, this._id, this._genre);
     String _songName;
     String _artURL;
     String _artistName;
+    String _genre;
     String _id;
+
+    String get genre {
+      return _genre;
+    }
 
     String get songName {
         return _songName;
@@ -32,21 +36,21 @@ class SongCardInPlaylistModel {
     }
 
     static SongCardInPlaylistModel getSampleDataSingle() {
-        return new SongCardInPlaylistModel("Lover", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png", "123456");
+        return new SongCardInPlaylistModel("Lover", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png", "123456", "genre_empty");
     }
 
     static List < SongCardInPlaylistModel > getSampleDataList() {
         return [
-            new SongCardInPlaylistModel("Lover", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png", "123456"),
-            new SongCardInPlaylistModel("Red (Taylor's Version)", "Taylor Swift", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "123456"),
-            new SongCardInPlaylistModel("Everything Has Changed", "Taylor Swift, Ed Sheeran", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "123456"),
-            new SongCardInPlaylistModel("cardigan", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/f/f8/Taylor_Swift_-_Folklore.png", "123456"),
-            new SongCardInPlaylistModel("Everything Has Changed", "Taylor Swift, Ed Sheeran", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "123456")
+            new SongCardInPlaylistModel("Lover", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png", "123456", "genre_empty"),
+            new SongCardInPlaylistModel("Red (Taylor's Version)", "Taylor Swift", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "123456", "genre_empty"),
+            new SongCardInPlaylistModel("Everything Has Changed", "Taylor Swift, Ed Sheeran", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "123456", "genre_empty"),
+            new SongCardInPlaylistModel("cardigan", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/f/f8/Taylor_Swift_-_Folklore.png", "123456", "genre_empty"),
+            new SongCardInPlaylistModel("Everything Has Changed", "Taylor Swift, Ed Sheeran", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "123456", "genre_empty")
         ];
     }
 
     factory SongCardInPlaylistModel.fromJson(Map<String, dynamic> json) {
-        return new SongCardInPlaylistModel(json["song_name"], json["artist"]["artist_name"], json["album"]["art_url"], json["_id"]);
+        return new SongCardInPlaylistModel(json["song_name"], json["artist"]["artist_name"], json["album"]["art_url"], json["_id"], json["album"]["genre"]);
     }
 
 
