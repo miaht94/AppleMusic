@@ -53,8 +53,8 @@ class _PausePlayButtonState extends State<PausePlayButton> {
 
                 case PausePlayButtonState.loading:
                   return  Container(
-                    width: widget.buttonSize! / 1.5,
-                    height: widget.buttonSize! / 1.5,
+                    width: (widget.buttonSize?? BUTTON_SIZE) / 1.5,
+                    height: (widget.buttonSize?? BUTTON_SIZE) / 1.5,
                     child: const CircularProgressIndicator(),
                   );
               }
