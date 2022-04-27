@@ -217,19 +217,14 @@ class AudioManager {
     await _playlist.clear();
   }
 
-  Future<void> clearAndAddASong(String songId) async {
-    await clear();
-    late SongModel value;
-    try {
-      value = await SongModel.fetchSong(songId);
-    } catch(e) {
+  Future<void> addAndPlayASong(String songId) async {
+    await insertNext(songId);
+    int CurrentIndex = _audioPlayer.currentIndex ?? 0;
+    if (CurrentIndex != _playlist.length){
+      CurrentIndex ++;
     }
-    await _playlist.add(AudioSource.uri(Uri.parse(value.songUrl),
-        tag:AudioMetadata(title: value.songName,
-            artist: value.artist,
-            artwork: value.artwork,
-            lyric: value.songLyricUrl)
-    ));
+    _audioPlayer.seek(Duration(seconds: 2),index : CurrentIndex);
+    play();
   }
 
   Future<void> clearAndAddAList(List<String> playLists) async {

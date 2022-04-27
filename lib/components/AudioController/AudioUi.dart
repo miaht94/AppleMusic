@@ -65,7 +65,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
               _buildCurrentSong(),
               _buildCurrentArtWork(),
               Positioned(
-                bottom: 60.0,
+                bottom: 68.0,
                 left: 100.0,
                 right: 100.0,
                 height: 100.0,
