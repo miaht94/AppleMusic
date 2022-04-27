@@ -1,6 +1,9 @@
+import 'package:advance_notification/advance_notification.dart';
 import 'package:apple_music/components/AudioController/AudioManager.dart';
+import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuItem.dart';
+import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -27,6 +30,8 @@ class SongContextMenu extends ContextMenu{
             iconData: SFSymbols.text_insert,
             onTapItem: () {
               GetIt.I.get<AudioManager>().insertNext(songCardInPlaylistModel.id);
+              GetIt.I.get<ContextMenuManager>().removeOverlay("SongContextMenu");
+              AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           ),
           ContextMenuItem(
