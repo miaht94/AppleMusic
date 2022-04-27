@@ -59,6 +59,7 @@ class _MyHomePageState extends State < MyHomePage > {
   void initState() {
     super.initState();
     pageController = new PageController();
+    _audioManager.init();
   }
 
   @override
@@ -95,9 +96,9 @@ class _MyHomePageState extends State < MyHomePage > {
                 scrollDirection: Axis.horizontal,
                 controller: pageController,
                 children: < Widget > [
-                  // Center(
-                  //   child: ListeningNow(),
-                  // ),
+                  Center(
+                    child: AudioUi(),
+                  ),
                   // Center(
                   //   child: DiscoveryPage(),
                   // ),

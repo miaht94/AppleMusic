@@ -44,33 +44,34 @@ class AudioManager {
   }
 
   void _initPlaylist() async{
-    CurrentUserManager currentUserManager = getIt<CurrentUserManager>();
-    var userPlaylists = currentUserManager.getCurrentUser().playLists;
-    List<SongModel> listSongs = [];
-
-    for (var playlist in userPlaylists) {
-      List<dynamic> listSong = playlist["songs"];
-      for (String songUrl in listSong){
-        try {
-          final SongModel song = await SongModel.fetchSong(songUrl);
-          listSongs.add(song);
-        } catch(e) {
-        }
-        
-      }
-    }
-
-    List<AudioSource> listAudioSources = [];
-    for (var value in listSongs) {
-      listAudioSources.add(AudioSource.uri(Uri.parse(value.songUrl),
-          tag:AudioMetadata(title: value.songName,
-              artist: value.artist,
-              artwork: value.artwork,
-              lyric: value.songLyricUrl)
-      ));
-    }
-
-    _playlist = ConcatenatingAudioSource(children: listAudioSources);
+    // CurrentUserManager currentUserManager = getIt<CurrentUserManager>();
+    // var userPlaylists = currentUserManager.getCurrentUser().playLists;
+    // List<SongModel> listSongs = [];
+    //
+    // for (var playlist in userPlaylists) {
+    //   List<dynamic> listSong = playlist["songs"];
+    //   for (String songUrl in listSong){
+    //     try {
+    //       final SongModel song = await SongModel.fetchSong(songUrl);
+    //       listSongs.add(song);
+    //     } catch(e) {
+    //     }
+    //   }
+    // }
+    //
+    // List<AudioSource> listAudioSources = [];
+    // for (var value in listSongs) {
+    //   listAudioSources.add(AudioSource.uri(Uri.parse(value.songUrl),
+    //       tag:AudioMetadata(title: value.songName,
+    //           artist: value.artist,
+    //           artwork: value.artwork,
+    //           lyric: value.songLyricUrl)
+    //   ));
+    // }
+    //
+    // _playlist = ConcatenatingAudioSource(children: listAudioSources);
+    // await _audioPlayer.setAudioSource(_playlist);
+    _playlist = ConcatenatingAudioSource(children: []);
     await _audioPlayer.setAudioSource(_playlist);
   }
 
@@ -117,17 +118,18 @@ class AudioManager {
   }
 
   void _listenForSequenceState(){
-    _audioPlayer.sequenceStateStream.listen((sequenceState) {
+    _audioPlayer.sequenceStateStream.listen((sequenceState) async{
       if (sequenceState == null) return;
       final currentItem = sequenceState.currentSource;
-      if (!isMoving) {
-        final currentSongData = currentItem?.tag;
+      if (!isMoving && currentItem != null) {
+        final currentSongData = currentItem.tag;
         currentSongNotifier.value = currentSongData;
-        currentLyricNotifier = LyricModel.fetchLyrics(currentSongData.lyric);
+        currentLyricNotifier =  LyricModel.fetchLyrics(currentSongData.lyric);
       }
 
       final playlist = sequenceState.effectiveSequence;
       playlistNotifier.value = playlist;
+      print("After insert :  ${_playlist.length}}");
 
       if (playlist.isEmpty || currentItem == null) {
         isFirstSongNotifier.value = true;
@@ -207,10 +209,85 @@ class AudioManager {
     );
   }
 
-  void move(currentIndex, newIndex) async {
+  Future<void> move(currentIndex, newIndex) async {
     isMoving = true;
     await _playlist.move(currentIndex, newIndex).then((value) => {isMoving = false});
+  }
 
+  Future<void> clear() async {
+    await _playlist.clear();
+  }
+
+  Future<void> clearAndAddASong(String songId) async {
+    await clear();
+    late SongModel value;
+    try {
+      value = await SongModel.fetchSong(songId);
+    } catch(e) {
+    }
+    await _playlist.add(AudioSource.uri(Uri.parse(value.songUrl),
+        tag:AudioMetadata(title: value.songName,
+            artist: value.artist,
+            artwork: value.artwork,
+            lyric: value.songLyricUrl)
+    ));
+  }
+
+  Future<void> clearAndAddAList(List<String> playLists) async {
+    await clear();
+    List<SongModel> listSongs = [];
+
+      for (String songUrl in playLists){
+        try {
+          final SongModel song = await SongModel.fetchSong(songUrl);
+          listSongs.add(song);
+        } catch(e) {
+      }
+    }
+    for (SongModel value in listSongs){
+      await _playlist.add(AudioSource.uri(Uri.parse(value.songUrl),
+          tag:AudioMetadata(title: value.songName,
+              artist: value.artist,
+              artwork: value.artwork,
+              lyric: value.songLyricUrl)
+      ));
+    }
+  }
+
+  Future<void> insertNext(String songId) async {
+    late SongModel value;
+    try {
+      value = await SongModel.fetchSong(songId);
+    } catch(e) {
+    }
+    int CurrentIndex = _audioPlayer.currentIndex ?? 0;
+    if (_audioPlayer.currentIndex != _playlist.length && CurrentIndex != 0){
+      CurrentIndex ++;
+    }
+    await _playlist.insert(CurrentIndex,AudioSource.uri(Uri.parse(value.songUrl),
+        tag:AudioMetadata(title: value.songName,
+            artist: value.artist,
+            artwork: value.artwork,
+            lyric: value.songLyricUrl)
+    ));
+  }
+
+  Future<void> insertTail(String songId) async {
+    late SongModel value;
+    try {
+      value = await SongModel.fetchSong(songId);
+    } catch(e) {
+    }
+    if(_playlist.length == 0){
+      await insertNext(songId);
+      return;
+    }
+    await _playlist.insert(_playlist.length ,AudioSource.uri(Uri.parse(value.songUrl),
+        tag:AudioMetadata(title: value.songName,
+            artist: value.artist,
+            artwork: value.artwork,
+            lyric: value.songLyricUrl)
+    ));
   }
 
   void dispose() {
