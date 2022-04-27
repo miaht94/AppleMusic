@@ -11,7 +11,6 @@ import 'package:apple_music/pages/LoginPage.dart';
 import 'package:apple_music/pages/SearchPage.dart';
 import 'package:apple_music/pages/WelcomePage.dart';
 import 'package:apple_music/services/service_locator.dart';
-import 'package:apple_music/test.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -60,6 +59,8 @@ class _MyHomePageState extends State < MyHomePage > {
   @override
   void initState() {
     super.initState();
+    pageController = new PageController();
+    _audioManager.init();
     pageController = PageController();
   }
 
@@ -97,17 +98,16 @@ class _MyHomePageState extends State < MyHomePage > {
                 scrollDirection: Axis.horizontal,
                 controller: pageController,
                 children: < Widget > [
-                  // Center(
-                  //   child: ListeningNow(),
-                  // ),
+                  Center(
+                    child: AudioUi(),
+                  ),
                   // Center(
                   //   child: DiscoveryPage(),
                   // ),
                   // Center(
                   //   child: LibraryPage(),
                   // ),
-                  SearchPage(),
-                  // Test()
+                  SearchPage()
                 ],
               ))
           )

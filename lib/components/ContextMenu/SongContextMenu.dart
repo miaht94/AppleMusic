@@ -1,3 +1,4 @@
+import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuItem.dart';
 import 'package:apple_music/constant.dart';
@@ -6,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:get_it/get_it.dart';
 import 'package:skeletons/skeletons.dart';
 
 class SongContextMenu extends ContextMenu{
@@ -24,14 +26,14 @@ class SongContextMenu extends ContextMenu{
             title: "Phát tiếp theo", 
             iconData: SFSymbols.text_insert,
             onTapItem: () {
-              throw UnimplementedError();
+              GetIt.I.get<AudioManager>().insertNext(songCardInPlaylistModel.id);
             },
           ),
           ContextMenuItem(
             title: "Phát cuối cùng", 
             iconData: SFSymbols.text_append,
             onTapItem: () {
-              throw UnimplementedError();
+              GetIt.I.get<AudioManager>().insertTail(songCardInPlaylistModel.id);
             },
           ),
           ContextMenuItem(

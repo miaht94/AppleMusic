@@ -20,12 +20,12 @@ class LyricModel{
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes))['scripts'];
-      List<LyricModel> list = [];
+      // List<LyricModel> list = [];
       if (response.body != null) {
-        list = data.map((item) => LyricModel.fromJson(item)).toList();
+        print("fetch lyric");
+        return data.map((item) => LyricModel.fromJson(item)).toList();
       }
-      print(list);
-      return list;
+      // return list;
     } else {
 
       print('Request failed with status: ${response.statusCode}.');
