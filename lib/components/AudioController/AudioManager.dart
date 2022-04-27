@@ -16,7 +16,7 @@ class AudioManager {
   var isDraging = false;
   var isMoving = false;
   final pausePlayButtonNotifier = ValueNotifier<PausePlayButtonState>(PausePlayButtonState.paused);
-  final childWindowNotifier = ValueNotifier<ChildWindowState>(ChildWindowState.lyrics);
+  final childWindowNotifier = ValueNotifier<ChildWindowState>(ChildWindowState.playlist);
   final playlistNotifier = ValueNotifier<List<IndexedAudioSource>>([]);
   final currentSongNotifier = ValueNotifier<AudioMetadata>(
       AudioMetadata(artist: "",artwork: "", title: "", lyric: ""));
@@ -260,7 +260,7 @@ class AudioManager {
     } catch(e) {
     }
     int CurrentIndex = _audioPlayer.currentIndex ?? 0;
-    if (_audioPlayer.currentIndex != _playlist.length && CurrentIndex != 0){
+    if (CurrentIndex != _playlist.length){
       CurrentIndex ++;
     }
     await _playlist.insert(CurrentIndex,AudioSource.uri(Uri.parse(value.songUrl),

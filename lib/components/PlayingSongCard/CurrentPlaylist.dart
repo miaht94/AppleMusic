@@ -16,6 +16,7 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
   final _audioManager = getIt<AudioManager>();
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return
       ValueListenableBuilder<List<IndexedAudioSource>>(
         valueListenable: _audioManager.playlistNotifier,
@@ -38,12 +39,19 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
                       imageSize: 50,
                       songNameFontSize: 16,
                       artistFontSize: 12,
-                      songNameColor: Color.fromRGBO(255, 255, 255, 0.95),
+                      songNameColor: Color.fromRGBO(255, 255, 255, 1),
                       hasArtWork: true,
                     ),
                   )
                 );
               };
+            children.add(
+                SizedBox(
+                  key: ValueKey(-1),
+                  height: 200,
+                  width: size.width,
+                )
+            );
             return
               Container(
                 margin: EdgeInsets.only(top: 200),
