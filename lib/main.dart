@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/welcomePage': (context) => const WelcomePage(),
         '/homePage': (context) => const MyHomePage(),
         '/playingPage': (context) => AudioUi(),
+        // '/test': (context) => Test()
       },
       initialRoute: '/homePage',
     );
@@ -52,7 +53,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State < MyHomePage > {
   late PageController pageController;
-  late AudioPageRouteManager audioPageRouteManager = getIt<AudioPageRouteManager>();
+  AudioPageRouteManager audioPageRouteManager = getIt<AudioPageRouteManager>();
   final AudioManager _audioManager = getIt<AudioManager>();
   ContextMenuManager contextMenuManager = getIt<ContextMenuManager>();
   @override
@@ -60,6 +61,7 @@ class _MyHomePageState extends State < MyHomePage > {
     super.initState();
     pageController = new PageController();
     _audioManager.init();
+    pageController = PageController();
   }
 
   @override

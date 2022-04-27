@@ -35,7 +35,6 @@ class AudioManager {
   void init() async{
     _audioPlayer = AudioPlayer();
     _initPlaylist();
-
     _listenForPositionChange();
     _listenForTotalDurationChange();
     _listenForPlayerStateChange();

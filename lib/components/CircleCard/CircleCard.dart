@@ -1,5 +1,7 @@
+import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
+import 'package:get_it/get_it.dart';
 import '../../models/ArtistViewModel.dart';
 import '../../pages/ArtistPage.dart';
 import 'HScrollCircleConstant.dart';
@@ -37,8 +39,9 @@ class CircleCard extends StatelessWidget{
         margin: EdgeInsets.only(left: kDefaultPadding),
         child: InkWell(
           onTap: () => {
+            
               Navigator.push(
-                context,
+                GetIt.I.get<AudioPageRouteManager>().getMainContext(),
                 MaterialPageRoute(
                   builder: (context) => ArtistView(artistViewModel: ArtistViewModel.getArtist(this.artist)),
                 ),

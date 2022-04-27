@@ -6,7 +6,6 @@ import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/pages/WelcomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uni_links/uni_links.dart';

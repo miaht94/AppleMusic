@@ -7,10 +7,12 @@ import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/models/SongModel.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
+import 'package:video_player/video_player.dart';
 
 import '../components/Other/PageLoadError.dart';
 import '../models/ArtistViewModel.dart';
@@ -26,7 +28,9 @@ class ArtistView extends StatefulWidget {
 class _ArtistViewState extends State<ArtistView> {
 
   late ScrollController _scrollController = ScrollController();
-
+  final videoPlayerController = VideoPlayerController.network(
+      'https://mvod.itunes.apple.com/itunes-assets/HLSMusic126/v4/8e/3a/c8/8e3ac8b5-07d2-88f6-5f75-d60dd244e946/P364264761_default.m3u8');
+  late ChewieController chewieController;
   bool lastStatus = true;
 
   _scrollListener() {
@@ -44,6 +48,17 @@ class _ArtistViewState extends State<ArtistView> {
 
   @override
   void initState() {
+    chewieController = ChewieController(
+      videoPlayerController: videoPlayerController,
+      aspectRatio: 16 / 16,
+      fullScreenByDefault: false ,
+      autoPlay: true,
+      looping: true,
+      showControls : false,
+      showOptions : false,
+      showControlsOnInitialize : false
+    );
+    
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     super.initState();
@@ -57,6 +72,7 @@ class _ArtistViewState extends State<ArtistView> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return FutureBuilder<ArtistViewModel>(
         future: widget.artistViewModel,
         builder: (BuildContext context, AsyncSnapshot<ArtistViewModel> snapshot) {
@@ -157,10 +173,7 @@ class _ArtistViewState extends State<ArtistView> {
                               ]
                           ),
                         ),
-                        background: Image.network(
-                          snapshot.data!.artURL,
-                          fit: BoxFit.fitWidth,
-                        ),
+                        background: FittedBox(fit: BoxFit.fitWidth,child: Container(width: size.width,child: Chewie(controller: chewieController))),
                       ),
                     )
                   ];

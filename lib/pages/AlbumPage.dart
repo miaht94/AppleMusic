@@ -15,7 +15,7 @@ import 'ArtistPage.dart';
 class AlbumView extends StatelessWidget {
 
   final Future<AlbumViewModel> albumViewModel;
-
+  
   const AlbumView({Key? key, required this.albumViewModel}) : super(key: key);
   @override
   Widget build(BuildContext context) {
