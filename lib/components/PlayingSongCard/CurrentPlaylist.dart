@@ -39,7 +39,7 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
                       imageSize: 50,
                       songNameFontSize: 16,
                       artistFontSize: 12,
-                      songNameColor: Color.fromRGBO(255, 255, 255, 1),
+                      songNameColor: (_audioManager.getCurrentSongIndex() == index)  ? Color.fromRGBO(255, 255, 255, 1) : Color.fromRGBO(255, 255, 255, 0.60),
                       hasArtWork: true,
                     ),
                   )

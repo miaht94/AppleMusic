@@ -50,13 +50,15 @@ class _PlayingSongCardState extends State<PlayingSongCard> {
                                     overflow: TextOverflow.ellipsis,
                                     fontSize: widget.songNameFontSize,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white70,
+                                    color: (widget.songNameColor != null) ? widget.songNameColor: Colors.white70,
                                 )),
                             Text(widget.artistName,
                                 style: TextStyle(
                                     overflow: TextOverflow.ellipsis,
                                     fontSize: widget.artistFontSize,
-                                    color: Colors.grey,
+                                    color: (widget.songNameColor != null &&
+                                        widget.hasArtWork != null && widget.hasArtWork! == true
+                                    ) ? widget.songNameColor: Colors.grey,
                                 )),
                           ],
                         ),

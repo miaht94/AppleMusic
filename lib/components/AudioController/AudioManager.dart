@@ -289,6 +289,10 @@ class AudioManager {
     ));
   }
 
+  int getCurrentSongIndex(){
+    return _audioPlayer.currentIndex ?? 0;
+  }
+
   void dispose() {
     _audioPlayer.dispose();
   }
