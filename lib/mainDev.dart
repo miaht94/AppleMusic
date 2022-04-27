@@ -26,7 +26,7 @@ import 'services/service_locator.dart';
 
 import 'dart:io';
 
-import 'package:oauth2/oauth2.dart' as oauth2;
+// import 'package:oauth2/oauth2.dart' as oauth2;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter/services.dart' show PlatformException, SystemChrome, SystemUiMode, SystemUiOverlay;

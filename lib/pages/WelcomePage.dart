@@ -5,12 +5,14 @@ import 'package:apple_music/manager/CurrentUserManager.dart';
 import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/UserModel.dart';
 import 'package:apple_music/services/service_locator.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart'
 as http;
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:skeletons/skeletons.dart';
 class WelcomePageArgument {
   final String appToken;
   WelcomePageArgument(this.appToken);
@@ -97,7 +99,13 @@ class Welcome extends AnimatedWidget {
             Container(
               width: screenSize.width / 3,
               height: screenSize.width / 3,
-              child: CircleAvatar(backgroundImage: Image.network(avatarURL).image, ),
+              child: CachedNetworkImage(
+                imageUrl: avatarURL,
+                imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider, ),
+                placeholder: (context, url) => 
+                  SkeletonAvatar(style: SkeletonAvatarStyle(shape: BoxShape.circle),),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ),
             SizedBox(height: screenSize.height/20,),
             Container(
@@ -112,7 +120,7 @@ class Welcome extends AnimatedWidget {
                 InkWell(
                   borderRadius: BorderRadius.circular(30),
                   onTap: () {
-                    Navigator.of(context).pushNamed('/homePage');
+                    Navigator.of(context).popAndPushNamed('/homePage');
                   },
                   child: Container( 
                     alignment: Alignment.center,

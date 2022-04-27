@@ -11,6 +11,7 @@ import 'package:apple_music/pages/LoginPage.dart';
 import 'package:apple_music/pages/SearchPage.dart';
 import 'package:apple_music/pages/WelcomePage.dart';
 import 'package:apple_music/services/service_locator.dart';
+import 'package:apple_music/test.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -35,8 +36,9 @@ class MyApp extends StatelessWidget {
         '/welcomePage': (context) => const WelcomePage(),
         '/homePage': (context) => const MyHomePage(),
         '/playingPage': (context) => AudioUi(),
+        '/test': (context) => Test()
       },
-      initialRoute: '/homePage',
+      initialRoute: '/loginPage',
     );
   }
 }
@@ -58,7 +60,7 @@ class _MyHomePageState extends State < MyHomePage > {
   @override
   void initState() {
     super.initState();
-    pageController = new PageController();
+    pageController = PageController();
   }
 
   @override
@@ -95,16 +97,17 @@ class _MyHomePageState extends State < MyHomePage > {
                 scrollDirection: Axis.horizontal,
                 controller: pageController,
                 children: < Widget > [
-                  // Center(
-                  //   child: ListeningNow(),
-                  // ),
-                  // Center(
-                  //   child: DiscoveryPage(),
-                  // ),
-                  // Center(
-                  //   child: LibraryPage(),
-                  // ),
-                  SearchPage()
+                  Center(
+                    child: ListeningNow(),
+                  ),
+                  Center(
+                    child: DiscoveryPage(),
+                  ),
+                  Center(
+                    child: LibraryPage(),
+                  ),
+                  SearchPage(),
+                  Test()
                 ],
               ))
           )

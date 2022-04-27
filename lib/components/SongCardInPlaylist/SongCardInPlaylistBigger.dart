@@ -10,8 +10,9 @@ class SongCardInPlaylistBigger extends StatefulWidget {
     Key ? key,
     required this.songCardInPlaylistModel,
     this.onTapSongCardInPlaylist,
+    this.onTapSongCardMoreButton,
   }): super(key: key);
-
+  Function(SongCardInPlaylistModel) ? onTapSongCardMoreButton;
   Function(SongCardInPlaylistModel) ? onTapSongCardInPlaylist;
   final SongCardInPlaylistModel songCardInPlaylistModel;
   @override
@@ -75,13 +76,18 @@ class _SongCardInPlaylistStateBigger extends State < SongCardInPlaylistBigger > 
                   child: Row(
                     children: [
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(widget.songCardInPlaylistModel.songName, style: TextStyle(fontSize: 16, color: Colors.black)),
-                            Text("${widget.songCardInPlaylistModel.artistName} - Bài hát", style: TextStyle(fontSize: 13, color: Colors.grey), )
-                          ], ),
+                        child: Material(
+                          child: InkWell(
+                            onTap: (){},
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(widget.songCardInPlaylistModel.songName, style: TextStyle(fontSize: 16, color: Colors.black)),
+                                Text("${widget.songCardInPlaylistModel.artistName} - Bài hát", style: TextStyle(fontSize: 13, color: Colors.grey), )
+                              ], ),
+                          ),
+                        ),
                       ),
                       Align(
                         alignment: Alignment.centerRight,
@@ -97,8 +103,8 @@ class _SongCardInPlaylistStateBigger extends State < SongCardInPlaylistBigger > 
                                 borderRadius: BorderRadius.circular(100),
                                 child: Icon(SFSymbols.ellipsis, size: 18),
                                 onTap: () {
-                                  if (widget.onTapSongCardInPlaylist != null) {
-                                    widget.onTapSongCardInPlaylist!(widget.songCardInPlaylistModel);
+                                  if (widget.onTapSongCardMoreButton != null) {
+                                    widget.onTapSongCardMoreButton!(widget.songCardInPlaylistModel);
                                   }
                                 },
                               ),

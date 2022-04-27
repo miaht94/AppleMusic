@@ -4,8 +4,9 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'CustomBottomAppBarConstant.dart';
 
 class CustomAppBarButton extends StatefulWidget {
-  CustomAppBarButton({Key? key, required this.icon, required this.title, this.onTapHandler}) : super(key: key);
+  CustomAppBarButton({Key? key, required this.icon, required this.title, this.onTapHandler, required this.isActivated}) : super(key: key);
   IconData icon;
+  bool isActivated;
   String title;
   Function()? onTapHandler;
   @override
@@ -24,7 +25,7 @@ class _CustomAppBarButtonState extends State<CustomAppBarButton> {
     setState(() {
       print("Tap");
       
-      iconColor = kActiveButtonBackgroundColor;
+      // iconColor = kActiveButtonBackgroundColor;
     });
     if (widget.onTapHandler != null) {
       widget.onTapHandler!();
@@ -53,8 +54,8 @@ class _CustomAppBarButtonState extends State<CustomAppBarButton> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(widget.icon, size: kBottomAppBarButtonIconSize, color: iconColor, ),
-                        Text(widget.title, style: TextStyle(fontSize: kTitleButtonBottomAppBarSize, color: iconColor, fontWeight: FontWeight.w400),)
+                        Icon(widget.icon, size: kBottomAppBarButtonIconSize, color: widget.isActivated ? kActiveButtonBackgroundColor : iconColor, ),
+                        Text(widget.title, style: TextStyle(fontSize: kTitleButtonBottomAppBarSize, color: widget.isActivated ? kActiveButtonBackgroundColor : iconColor, fontWeight: FontWeight.w400),)
                       ]),
                   ),
                 ),

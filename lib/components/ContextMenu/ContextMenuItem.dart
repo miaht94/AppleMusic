@@ -25,7 +25,7 @@ class _ContextMenuItemState extends State<ContextMenuItem> {
         child: Container(
           padding: const EdgeInsets.all(kDefaultPadding),
           child: Row(children: [
-            Align(alignment: Alignment.centerRight, child: Icon(widget.iconData)),
+            Align(alignment: Alignment.centerRight, child: Icon(widget.iconData, color: Colors.red,)),
             const SizedBox(width: kDefaultPadding*2,),
             Expanded(child: Text(widget.title, style: const TextStyle(fontSize: 16),)),
             
