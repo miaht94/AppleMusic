@@ -43,7 +43,7 @@ class _ListeningNowState extends State<ListeningNow> {
       FutureBuilder(
         future: listeningNowPageModel.isDone,
         builder: (context, snapshot) {
-          context.loaderOverlay.hide();
+          // context.loaderOverlay.hide();
           if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
             return ListView(
               physics: const BouncingScrollPhysics(),
