@@ -3,7 +3,7 @@ import 'package:apple_music/models/HScrollCircleModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:flutter/material.dart';
-import '../components/squareCard/HScrollSquareCardWithText.dart';
+import '../components/SquareCard/HScrollSquareCardWithText.dart';
 import '../components/CircleCard/HScrollCircleCardWithText.dart';
 import '../components/HorizontalCard/HorizontalCardsWithTitle.dart';
 import '../models/HorizontalCardWithTitleModel.dart';
