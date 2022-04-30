@@ -51,7 +51,6 @@ class SongContextMenu extends ContextMenu{
       ],
       header: Container(
         child: Row(
-          
           children: [
             CachedNetworkImage(
               imageUrl: songCardInPlaylistModel.artURL, 

@@ -1,13 +1,17 @@
 import 'dart:ui';
 
 import 'package:apple_music/components/AlbumSongListView/AlbumSongListView.dart';
+import 'package:apple_music/components/ButtonWithIcon/WideButton.dart';
+import 'package:apple_music/components/ContextMenu/AlbumContextMenu.dart';
 import 'package:apple_music/components/Other/PageLoadError.dart';
 import 'package:apple_music/components/TitleComponent/PageTitleBox.dart';
 import 'package:apple_music/models/AlbumViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:get_it/get_it.dart';
 
+import '../components/ContextMenu/ContextMenuManager.dart';
 import '../models/ArtistViewModel.dart';
 import 'ArtistPage.dart';
 
@@ -20,22 +24,24 @@ class AlbumView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading:  IconButton(
-            icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
-            onPressed: () {
-              Navigator.pop(context);
-            })
-        ,backgroundColor: Colors.white,
-        elevation: 0,
-      ),
       body: FutureBuilder<AlbumViewModel>(
         future: albumViewModel,
         builder: (BuildContext context, AsyncSnapshot<AlbumViewModel> snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
             if (snapshot.data!.albumName == "AlbumError"){
-              children = <Widget>[PageLoadError(title: "Lỗi tải Album")];
+              children = <Widget>[Scaffold(
+                  appBar: AppBar(
+                    leading:  IconButton(
+                        icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        })
+                    ,backgroundColor: Colors.white,
+                    elevation: 0,
+                  ),
+                  body: PageLoadError(title: "Lỗi tải Album")
+              )];
             } else {
               children = <Widget>[AlbumViewContent(model: snapshot.data!)];
             }
@@ -65,6 +71,25 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          leading:  IconButton(
+              icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
+              onPressed: () {
+                Navigator.pop(context);
+              })
+          ,backgroundColor: Colors.white,
+          elevation: 0,
+          // ContextMenu Button
+          actions: <Widget>[
+            IconButton(
+                icon:  Icon(SFSymbols.ellipsis, color:Colors.red),
+                onPressed: () {
+                  GetIt.I.get<ContextMenuManager>().insertOverlay(AlbumContextMenu(name: 'AlbumContextMenu', albumViewModel: widget.model));
+                }),
+            SizedBox(width: 10),
+          ],
+
+        ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           padding: EdgeInsets.only(top: 10),
@@ -126,7 +151,20 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                     fontWeight: FontWeight.normal,
                     height: 2
                     ),)
-                ),Container(
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical:10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      WideButton(title: "Phát", icon: SFSymbols.arrowtriangle_right_fill),
+                      SizedBox(width: 10),
+                      WideButton(title: "Xáo trộn", icon: SFSymbols.shuffle),
+                    ],
+                  ),
+                ),
+                Container(
                     child: Text(widget.model.albumDescription, textAlign: TextAlign.left, style: TextStyle(
                         color: Color.fromRGBO(126, 126, 130, 0.6700000166893005),
                         fontFamily: 'Roboto',
@@ -137,7 +175,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                 ),
                 Container(padding: EdgeInsets.only(
                     bottom: 200),
-                    child: AlbumSongListView(songList: widget.model.songList)),
+                    child: AlbumSongListView(songList: widget.model.songList, albumViewModel: widget.model)),
 
               ]
           ),
