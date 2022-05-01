@@ -9,7 +9,7 @@ import 'package:apple_music/pages/ListeningNowSkeleton.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import '../components/squareCard/HScrollSquareCardWithText.dart';
+import '../components/SquareCard/HScrollSquareCardWithText.dart';
 import '../components/CircleCard/HScrollCircleCardWithText.dart';
 import '../components/TitleComponent/PageTitleBox.dart';
 import '../constant.dart';

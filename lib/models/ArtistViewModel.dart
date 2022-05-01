@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/AlbumSongLIstViewModel.dart';
+import 'package:apple_music/models/AlbumSongListViewModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/pages/ArtistPage.dart';

@@ -1,10 +1,12 @@
+import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
+import 'package:apple_music/components/ContextMenu/SongContextMenu.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:get_it/get_it.dart';
 
 class SongCardInPlaylist extends StatefulWidget {
   const SongCardInPlaylist({Key? key, required this.songCardInPlaylistModel}) : super(key: key);
-  
 
   final SongCardInPlaylistModel songCardInPlaylistModel;
   @override
@@ -61,7 +63,13 @@ class _SongCardInPlaylistState extends State<SongCardInPlaylist> {
                                   alignment: Alignment.centerRight,
                                   child: Padding(
                                       padding: EdgeInsets.all(12.0),
-                                      child: Icon(SFSymbols.ellipsis, size:18)
+                                      child: GestureDetector(
+                                          onTap: () => {
+                                            // print('ContextMenu')
+                                            GetIt.I.get<ContextMenuManager>().insertOverlay(SongContextMenu(name: 'SongContextMenu', songCardInPlaylistModel: widget.songCardInPlaylistModel))
+                                          }  ,
+                                          child: Icon(SFSymbols.ellipsis, size:18)
+                                      )
                                   )
                                 )
                               )

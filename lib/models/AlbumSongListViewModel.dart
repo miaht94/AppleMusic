@@ -4,14 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 
 class AlbumSongListViewModel {
-  AlbumSongListViewModel(this._trackNumber, this._songName, this._value ,this._collaboration) {
-    id = Uuid().v4();
-  }
+  AlbumSongListViewModel(this._trackNumber, this._songName, this._id ,this._collaboration);
+
   String _songName;
   int _trackNumber;
   String _collaboration;
-  String _value;
-  late String id;
+  String _id;
 
   String get songName{
     return _songName;
@@ -25,8 +23,8 @@ class AlbumSongListViewModel {
     return _collaboration;
   }
 
-  String get value{
-    return _value;
+  String get id{
+    return _id;
   }
 
   static List<AlbumSongListViewModel> getSampleData() {

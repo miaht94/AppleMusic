@@ -56,6 +56,9 @@ class SquareCard extends StatelessWidget{
               ),
             );
           },
+          onLongPress: () {
+
+          },
           child: ListView(
             shrinkWrap: true,
             physics:NeverScrollableScrollPhysics(),
