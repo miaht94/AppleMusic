@@ -29,3 +29,6 @@ String PLAYLIST_PATH = 'api/playlist';
 String PAGE_PATH = 'api/page';
 String ALBUM_PATH = 'api/album';
 String ARTIST_PATH ='api/artist';
+String ADD_PLAYLIST = 'api/playlist/add';
+String DELETE_PLAYLIST = 'api/playlist/delete';
+String UPDATE_PLAYLIST = 'api/playlist/update';

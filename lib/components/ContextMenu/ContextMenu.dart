@@ -17,15 +17,25 @@ class ContextMenu extends StatefulWidget {
     this.header
   }): super(key: key);
   List < ContextMenuItem > action;
+  late AnimationController anim;
   String name;
   Widget? header;
   bool invisible = true;
+  void closeContextMenu(Function? callback) {
+    anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
+    anim.addStatusListener((status) {
+      if (status.name == 'completed') {
+        GetIt.I.get < ContextMenuManager > ().removeOverlay(name);
+        if (callback != null) callback();
+      }
+    });
+  }
   @override
   State < ContextMenu > createState() => _ContextMenuState();
 }
 class _ContextMenuState extends State < ContextMenu > with SingleTickerProviderStateMixin {
   double ? childHeight;
-  late AnimationController anim;
+  
   late List<Widget> renderWidget = []; 
   @override
   void initState() {
@@ -68,16 +78,16 @@ class _ContextMenuState extends State < ContextMenu > with SingleTickerProviderS
         )
       )
     );
-    anim = AnimationController(vsync: this, value: 0, lowerBound: -1, upperBound: 0);
+    widget.anim = AnimationController(vsync: this, value: 0, lowerBound: -1, upperBound: 0);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       if (childHeight == null) {
         childHeight = posKey.currentContext!.size?.height;
       }
-      anim.value = -1;
+      widget.anim.value = -1;
       setState(() {
         widget.invisible = false;
       });
-      anim.animateTo(0, curve: Curves.easeOutExpo, duration: const Duration(milliseconds: 400));
+      widget.anim.animateTo(0, curve: Curves.easeOutExpo, duration: const Duration(milliseconds: 400));
 
     });
   }
@@ -94,7 +104,7 @@ class _ContextMenuState extends State < ContextMenu > with SingleTickerProviderS
         type: MaterialType.transparency,
         elevation: 5,
         child: AnimatedBuilder(
-          animation: anim,
+          animation: widget.anim,
           builder: (context, child) =>
           Stack(
             children: [
@@ -105,8 +115,8 @@ class _ContextMenuState extends State < ContextMenu > with SingleTickerProviderS
                 height: size.height,
                 child: GestureDetector(
                   onTap: () {
-                    anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
-                    anim.addStatusListener((status) {
+                    widget.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
+                    widget.anim.addStatusListener((status) {
 
                       if (status.name == 'completed') {
                         GetIt.I.get < ContextMenuManager > ().removeOverlay(widget.name);
@@ -122,23 +132,23 @@ class _ContextMenuState extends State < ContextMenu > with SingleTickerProviderS
               ),
               Positioned(
                 key: posKey,
-                bottom: childHeight != null ? anim.value * childHeight! : 0,
+                bottom: childHeight != null ? widget.anim.value * childHeight! : 0,
                 left: 0,
                 width: size.width,
                 child: GestureDetector(
                   onVerticalDragUpdate: (details) {
-                    anim.value = min(0, anim.value - details.delta.dy / childHeight!);
+                    widget.anim.value = min(0, widget.anim.value - details.delta.dy / childHeight!);
                   },
                   onVerticalDragEnd: (details) {
-                    if (details.velocity.pixelsPerSecond.dy > 100 && anim.value / childHeight! <= 0.5) {
-                      anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
-                      anim.addStatusListener((status) {
+                    if (details.velocity.pixelsPerSecond.dy > 100 && widget.anim.value / childHeight! <= 0.5) {
+                      widget.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
+                      widget.anim.addStatusListener((status) {
                         if (status.name == 'completed') {
                           GetIt.I.get < ContextMenuManager > ().removeOverlay(widget.name);
                         }
                       });
                     } else {
-                      anim.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
+                      widget.anim.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
                     }
                   },
                   child: Container(

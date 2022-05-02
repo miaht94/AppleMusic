@@ -1,4 +1,5 @@
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
+import 'package:apple_music/components/ContextMenu/PlaylistContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/SongContextMenu.dart';
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/components/HorizontalScrollCategory/HorizontalScrollCategory.dart';
@@ -46,7 +47,7 @@ class _SearchPageState extends State < SearchPage > {
   }
 
   void onTapSongCardMoreButton(SongCardInPlaylistModel songCardInPlaylistModel) {
-    GetIt.I.get<ContextMenuManager>().insertOverlay(SongContextMenu(name: 'SongContextMenu',songCardInPlaylistModel: songCardInPlaylistModel));
+    GetIt.I.get<ContextMenuManager>().insertOverlay(SongContextMenu(songCardInPlaylistModel: songCardInPlaylistModel));
     
   }
 
@@ -71,7 +72,7 @@ class _SearchPageState extends State < SearchPage > {
   }
 
   void onTapPlaylistMoreButton(PlaylistRectangleCardModel playlistRectangleCardModel) {
-    throw UnimplementedError();
+     GetIt.I.get<ContextMenuManager>().insertOverlay(PlaylistContextMenu(playlistModel: playlistRectangleCardModel));
   }
 
   
@@ -129,6 +130,7 @@ class _SearchPageState extends State < SearchPage > {
                                 case 'playlist_name':
                                   for (final PlaylistRectangleCardModel model in data) {
                                     renderList.add(PlaylistRectangleCard(playlistRectangleCardModel: model, onTapPlaylistCard: onTapPlaylistCard, onTapPlaylistMoreButton: onTapPlaylistMoreButton));
+                                    renderList.add(SizedBox(height: kDefaultPadding,));
                                   }
                                   break;
                               }

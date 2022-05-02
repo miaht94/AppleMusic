@@ -136,6 +136,28 @@ class SearchPageModelNotifier extends ValueNotifier<SearchPageModel> {
             
     }
 
+    void refresh() {
+      switch (value.searchMode){
+          case "song_name" : 
+            value.queryResult = value.querySongByName(value.searchString);
+            notifyListeners();
+            break;
+          case "artist_name" :
+            value.queryResult = value.queryArtistByName(value.searchString);
+            notifyListeners();
+            break;
+          
+          case "album_name" :
+            value.queryResult = value.queryAlbumByName(value.searchString);
+            notifyListeners();
+            break;
+
+          case "playlist_name" :
+            value.queryResult = value.queryPlaylistByName(value.searchString);
+            notifyListeners();
+          }
+    } 
+
     // void changeSelectedElementId(String selectedElementId) {
     //     value.horizontalScrollCategoryModel.selectedElementId = selectedElementId;
     //     notifyListeners();

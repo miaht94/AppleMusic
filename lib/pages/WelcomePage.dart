@@ -39,6 +39,7 @@ class _WelcomePageState extends State < WelcomePage > with TickerProviderStateMi
     JsonDecoder decoder = JsonDecoder();
     UserModel user = UserModel.fromJson(decoder.convert(res.body));
     currentUserManager.setCurrentUser(user);
+    GetIt.I.registerLazySingleton<UserModelNotifier>(() => UserModelNotifier(user));
     return user;
   }
   @override

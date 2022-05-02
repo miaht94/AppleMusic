@@ -7,8 +7,10 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:skeletons/skeletons.dart';
 
 class PlaylistRectangleCard extends StatelessWidget {
-  PlaylistRectangleCard({Key? key, required this.playlistRectangleCardModel, this.onTapPlaylistCard, this.onTapPlaylistMoreButton}) : super(key: key);
+  PlaylistRectangleCard({Key? key, required this.playlistRectangleCardModel, this.onTapPlaylistCard, this.onTapPlaylistMoreButton, this.renderMoreButton, this.renderDivider}) : super(key: key);
   PlaylistRectangleCardModel playlistRectangleCardModel;
+  bool? renderMoreButton;
+  bool? renderDivider;
   Function(PlaylistRectangleCardModel)? onTapPlaylistCard;
   Function(PlaylistRectangleCardModel)? onTapPlaylistMoreButton;
   @override
@@ -24,7 +26,7 @@ class PlaylistRectangleCard extends StatelessWidget {
         },
         child: Container(
             width: screenSize.width,
-            margin: EdgeInsets.only(bottom: kDefaultPadding),
+            // margin: EdgeInsets.only(bottom: kDefaultPadding),
             child: Row(children: [
               Container(
                 width: 60,
@@ -63,13 +65,14 @@ class PlaylistRectangleCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                    Divider(
-                      height: 4,
-                      thickness: 0.4,
-                      indent: 10,
-                      endIndent: 0,
-                      color: Colors.grey,
-                    ),
+                    if (renderDivider == null || renderDivider!)
+                      Divider(
+                        height: 4,
+                        thickness: 0.4,
+                        indent: 10,
+                        endIndent: 0,
+                        color: Colors.grey,
+                      ),
                     
                     Expanded(
                       child: Row(
@@ -83,6 +86,7 @@ class PlaylistRectangleCard extends StatelessWidget {
                             Text("Playlist", style: TextStyle(fontSize: 13, color: Colors.grey),)
                                               ],),
                           ),
+                          if (renderMoreButton?? true) 
                           Align(
                               alignment: Alignment.centerRight,
                               child: Padding(
