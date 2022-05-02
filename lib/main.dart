@@ -102,12 +102,12 @@ class _MyHomePageState extends State < MyHomePage > {
                   Center(
                     child: AudioUi(),
                   ),
-                  // Center(
-                  //   child: DiscoveryPage(),
-                  // ),
-                  // Center(
-                  //   child: LibraryPage(),
-                  // ),
+                  Center(
+                    child: DiscoveryPage(),
+                  ),
+                  Center(
+                    child: LibraryPage(),
+                  ),
                   SearchPage()
                 ],
               ))

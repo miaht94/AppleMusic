@@ -28,7 +28,6 @@ class _ContextMenuItemState extends State<ContextMenuItem> {
             Align(alignment: Alignment.centerRight, child: Icon(widget.iconData, color: Colors.red,)),
             const SizedBox(width: kDefaultPadding*2,),
             Expanded(child: Text(widget.title, style: const TextStyle(fontSize: 16),)),
-            
           ],),
         ),
       ),

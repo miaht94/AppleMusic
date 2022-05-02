@@ -21,7 +21,6 @@ class _ContextMenuButtonState extends State<ContextMenuButton> {
     return GestureDetector(
       // behavior: HitTestBehavior.opaque,
       onTap: () {
-        
         print((childKey.currentContext!.findRenderObject() as RenderBox).localToGlobal(Offset.zero));
       },
       child: Container(key: childKey, child: widget.child)
