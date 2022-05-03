@@ -156,6 +156,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     }
     return
       SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: children

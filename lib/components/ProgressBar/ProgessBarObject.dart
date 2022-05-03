@@ -96,6 +96,13 @@ class RenderProgessBarObject extends RenderBox {
           _updateCurrentTime();
           onTimeChanged(_currentTime);
       };
+
+      _tap = TapGestureRecognizer()..onTapUp = (TapUpDetails details){
+        _updateThumbPosition(details.localPosition);
+        onPositionChanged(_getDuration(_currentThumbValue));
+        _updateCurrentTime();
+        onTimeChanged(_currentTime);
+      };
   }
 
   double _currentThumbValue = 0.0;
@@ -244,6 +251,7 @@ class RenderProgessBarObject extends RenderBox {
   }
 
   late HorizontalDragGestureRecognizer _drag;
+  late TapGestureRecognizer _tap;
 
   @override
   bool hitTestSelf(Offset position) => true;
@@ -253,7 +261,9 @@ class RenderProgessBarObject extends RenderBox {
     assert(debugHandleEvent(event, entry));
     if (event is PointerDownEvent) {
       _drag.addPointer(event);
+      _tap.addPointer(event);
     }
+
   }
 
   void _updateThumbPosition(Offset localPosition) {

@@ -1,3 +1,4 @@
+import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/ContextMenu/PlaylistContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/SongContextMenu.dart';
@@ -52,7 +53,7 @@ class _SearchPageState extends State < SearchPage > {
   }
 
   void onTapSongCard(SongCardInPlaylistModel songCardInPlaylistModel) {
-    throw UnimplementedError();
+    GetIt.I.get<AudioManager>().addAndPlayASong(songCardInPlaylistModel.id);
   }
 
   void onTapArtistCard(ArtistRectangleCardModel artistRectangleCardModel) {

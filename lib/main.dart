@@ -100,7 +100,7 @@ class _MyHomePageState extends State < MyHomePage > {
                 controller: pageController,
                 children: < Widget > [
                   Center(
-                    child: AudioUi(),
+                    child: ListeningNow(),
                   ),
                   Center(
                     child: DiscoveryPage(),

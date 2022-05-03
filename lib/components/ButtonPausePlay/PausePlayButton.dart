@@ -14,9 +14,22 @@ class PausePlayButton extends StatefulWidget{
   State<PausePlayButton> createState() => _PausePlayButtonState();
 }
 
-class _PausePlayButtonState extends State<PausePlayButton> {
+class _PausePlayButtonState extends State<PausePlayButton> with TickerProviderStateMixin{
   final _audioManager = getIt<AudioManager>();
+  late AnimationController animationController;
+  @override
+  void initState() {
+    super.initState();
+    animationController =
+        AnimationController(duration: new Duration(seconds: 2), vsync: this);
+    animationController.repeat();
+  }
 
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context){
@@ -55,7 +68,10 @@ class _PausePlayButtonState extends State<PausePlayButton> {
                   return  Container(
                     width: (widget.buttonSize?? BUTTON_SIZE) / 1.5,
                     height: (widget.buttonSize?? BUTTON_SIZE) / 1.5,
-                    child: const CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                  valueColor: animationController
+                      .drive(ColorTween(begin: Colors.black, end: Colors.white)),
+                      ),
                   );
               }
             }

@@ -22,14 +22,20 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    widget._controller!..addListener(() {setState(() {
-    });});
-    widget._blur!..addListener(() {setState(() {
-    });});
+    widget._controller!.addListener(() { if (mounted) {
+      setState(() {
+    });
+    }});
+    widget._blur!.addListener(() { if (mounted) {
+      setState(() {
+    });
+    }});
   }
 
   @override
   dispose() {
+    widget._controller?.dispose();
+    widget._blur?.dispose();
     super.dispose();
   }
 
