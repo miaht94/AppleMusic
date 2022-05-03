@@ -4,6 +4,8 @@ import 'package:apple_music/components/AudioController/AudioPageRouteManager.dar
 import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuItem.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
+import 'package:apple_music/components/ContextMenu/SongSubscreenContextMenu.dart';
+import 'package:apple_music/components/ContextMenu/SubscreenContextMenu.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -14,7 +16,7 @@ import 'package:get_it/get_it.dart';
 import 'package:skeletons/skeletons.dart';
 
 class SongContextMenu extends ContextMenu{
-  SongContextMenu({Key? key, required this.name, required this.songCardInPlaylistModel}): 
+  SongContextMenu({Key? key, required this.songCardInPlaylistModel}): 
     super(key: key,
       name: "SongContextMenu",
       action: [
@@ -23,6 +25,13 @@ class SongContextMenu extends ContextMenu{
             iconData: Icons.cloud_download_outlined,
             onTapItem: () {
               throw UnimplementedError();
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.addStatusListener((status) {
+                if (status.name == 'completed') {
+                  GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenu');
+                }
+              });
+              AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           ),
           ContextMenuItem(
@@ -30,7 +39,12 @@ class SongContextMenu extends ContextMenu{
             iconData: SFSymbols.text_insert,
             onTapItem: () {
               GetIt.I.get<AudioManager>().insertNext(songCardInPlaylistModel.id);
-              GetIt.I.get<ContextMenuManager>().removeOverlay("SongContextMenu");
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.addStatusListener((status) {
+                if (status.name == 'completed') {
+                  GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenu');
+                }
+              });
               AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           ),
@@ -39,13 +53,31 @@ class SongContextMenu extends ContextMenu{
             iconData: SFSymbols.text_append,
             onTapItem: () {
               GetIt.I.get<AudioManager>().insertTail(songCardInPlaylistModel.id);
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.addStatusListener((status) {
+                if (status.name == 'completed') {
+                  GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenu');
+                }
+              });
+              AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           ),
           ContextMenuItem(
             title: "Thêm vào playlist", 
             iconData: SFSymbols.text_badge_plus,
             onTapItem: () {
-              throw UnimplementedError();
+              // throw UnimplementedError();
+
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.addStatusListener((status) {
+                if (status.name == 'completed') {
+                  GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenu');
+                  GetIt.I.get<ContextMenuManager>().insertSubscreen(
+                    SongSubscreenContextMenu(songCardInPlaylistModel: songCardInPlaylistModel)
+                  );
+                }
+              });
+              AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           )
       ],
@@ -103,7 +135,6 @@ class SongContextMenu extends ContextMenu{
       )
     );
   SongCardInPlaylistModel songCardInPlaylistModel;
-  String name;
   // @override
   // Widget build(BuildContext context) {
   //   return ContextMenu(
@@ -116,3 +147,4 @@ class SongContextMenu extends ContextMenu{
   // }
   
 }
+

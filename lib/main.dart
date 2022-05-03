@@ -12,7 +12,7 @@ import 'package:apple_music/pages/SearchPage.dart';
 import 'package:apple_music/pages/WelcomePage.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 void main() {
   setUpGetIt();
   runApp(const MyApp());
@@ -37,7 +37,8 @@ class MyApp extends StatelessWidget {
         '/playingPage': (context) => AudioUi(),
         // '/test': (context) => Test()
       },
-      initialRoute: '/homePage',
+      builder: EasyLoading.init(),
+      initialRoute: '/loginPage',
     );
   }
 }
