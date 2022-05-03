@@ -4,12 +4,18 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 class PlaylistRectangleCardModel {
-  PlaylistRectangleCardModel(this._playlistId, this._playlistName, this._playlistDescription, this._artURL, this.songsId);
+  PlaylistRectangleCardModel(this._playlistId, this._playlistName, this._playlistDescription, this._artURL, this._songsId);
   String _playlistId;
   String _playlistName;
   String _playlistDescription;
   String _artURL;
-  List<String> songsId;
+  List<String> _songsId; 
+
+  List<String> get songsId {
+    print("SongsId get");
+    return _songsId;
+  }
+
   String get playlistId {
     return _playlistId;
   }
@@ -48,6 +54,7 @@ class PlaylistRectangleCardModel {
       art_url != null ? form.addAll({'art_url': await MultipartFile.fromFile(art_url, filename:art_url.split('/').last),}) : '';
       FormData formData = FormData.fromMap(form);
       dynamic response = await dio.post(UPDATE_PLAYLIST, data: formData, queryParameters: {'app_token': GetIt.I.get<CredentialModelNotifier>().value.appToken});
+      
       return true;
     } catch(e) {
       return false;
@@ -55,11 +62,30 @@ class PlaylistRectangleCardModel {
   }
 
   Future<bool> addSong(String songId) async {
-    List<String> songsId = [];
-    for (String i in this.songsId) {
-      songsId.add(i);
+    List<String> songsId_ = [];
+    for (String i in songsId) {
+      songsId_.add(i);
     }
-    songsId.add(songId);
-    return updatePlaylist(songs: songsId);
+    songsId_.add(songId);
+    Set<String> setId = Set.from(songsId_);
+    songsId_ = setId.toList();
+    bool suc = await updatePlaylist(songs: songsId_);
+    if (suc) {
+      songsId.add(songId);
+    }
+    return suc;
+  }
+
+  Future<bool> removeSong(String songId) async {
+    List<String> songsId_ = [];
+    for (String i in this.songsId) {
+      songsId_.add(i);
+    }
+    songsId_.removeWhere((item) => item == songId);
+    bool suc = await updatePlaylist(songs: songsId_);
+    if (suc) {
+      songsId.removeWhere((item) => item == songId);
+    }
+    return suc;
   }
 }

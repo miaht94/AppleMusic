@@ -14,12 +14,15 @@ class SubscreenContextMenu extends StatefulWidget {
     Key ? key,
     required this.body,
     required this.name,
+    this.onDispose,
+    this.init,
   }): super(key: key);
   Widget Function(BuildContext) body;
+  Function? init;
   late AnimationController anim;
   String name;
   bool invisible = true;
-
+  Function? onDispose;
   void closeSubscreen(Function callback) {
     anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
     anim.addStatusListener((status) {
@@ -41,7 +44,7 @@ class _SubscreenContextMenu extends State < SubscreenContextMenu > with SingleTi
   @override
   void initState() {
     super.initState();
-    
+    if (widget.init != null) widget.init!();
     widget.anim = AnimationController(vsync: this, value: 0, lowerBound: -10000, upperBound: 10000);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       childHeight ??= posKey.currentContext!.size?.height;
@@ -53,6 +56,11 @@ class _SubscreenContextMenu extends State < SubscreenContextMenu > with SingleTi
       widget.anim.animateTo(0, curve: Curves.easeOutExpo, duration: const Duration(milliseconds: 400));
 
     });
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    widget.onDispose != null ? widget.onDispose!() : '';
   }
   GlobalKey posKey = GlobalKey();
   @override
