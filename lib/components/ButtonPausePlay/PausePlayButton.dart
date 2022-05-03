@@ -27,9 +27,8 @@ class _PausePlayButtonState extends State<PausePlayButton> with TickerProviderSt
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     animationController.dispose();
+    super.dispose();
   }
 
   @override

@@ -66,7 +66,7 @@ class _SongCardInPlaylistState extends State<SongCardInPlaylist> {
                                       child: GestureDetector(
                                           onTap: () => {
                                             // print('ContextMenu')
-                                            GetIt.I.get<ContextMenuManager>().insertOverlay(SongContextMenu(name: 'SongContextMenu', songCardInPlaylistModel: widget.songCardInPlaylistModel))
+                                            GetIt.I.get<ContextMenuManager>().insertOverlay(SongContextMenu( songCardInPlaylistModel: widget.songCardInPlaylistModel))
                                           }  ,
                                           child: Icon(SFSymbols.ellipsis, size:18)
                                       )
