@@ -93,15 +93,15 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                   child: _buildPlaylistButton(),
                 ),
                 Positioned(
-                  bottom: 85.0,
+                  bottom: 87.0,
                   right: 50.0,
                   width: 64.0,
                   height: 64.0,
                   child: _buldNextSongButton(),
                 ),
                 Positioned(
-                  bottom: 85.0,
-                  left: 30.0,
+                  bottom: 87.0,
+                  left: 50.0,
                   width: 64.0,
                   height: 64.0,
                   child: _buldPreviousSongButton(),
@@ -113,19 +113,14 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                 ),
                 Positioned(
                   top: 40,
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: InkWell(
-                      onTap: () {},
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      child: SizedBox(
-                        height: 5,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                          color: const Color(0xffc4c4c4),
-                          borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
+                  height: 40,
+                  width: MediaQuery.of(context).size.width * 0.3,
+                    child: Container(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {},
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
                       ),
                     ),
                   ),
