@@ -5,12 +5,15 @@ import 'package:apple_music/components/ButtonWithIcon/WideButton.dart';
 import 'package:apple_music/components/ContextMenu/AlbumContextMenu.dart';
 import 'package:apple_music/components/Other/PageLoadError.dart';
 import 'package:apple_music/components/TitleComponent/PageTitleBox.dart';
+import 'package:apple_music/models/AlbumSongListViewModel.dart';
 import 'package:apple_music/models/AlbumViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 
+import '../components/AudioController/AudioManager.dart';
+import '../components/AudioController/AudioPageRouteManager.dart';
 import '../components/ContextMenu/ContextMenuManager.dart';
 import '../models/ArtistViewModel.dart';
 import 'ArtistPage.dart';
@@ -158,9 +161,34 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      WideButton(title: "Phát", icon: SFSymbols.arrowtriangle_right_fill),
+                          WideButton(
+                              onTap: (){
+                                print("Listing Album Songs");
+                                List<String> id = [];
+                                for (final AlbumSongListViewModel song in widget.model.songList) {
+                                  id.add(song.id);
+                                  print(song.id + "added");
+                                }
+                                GetIt.I.get<AudioManager>().clearAndAddAList(id);
+                                Navigator.pushNamed(GetIt.I.get<AudioPageRouteManager>().getMainContext(), '/playingPage');
+                              },
+                              title: "Phát", icon: SFSymbols.arrowtriangle_right_fill
+                      ),
                       SizedBox(width: 10),
-                      WideButton(title: "Xáo trộn", icon: SFSymbols.shuffle),
+                      WideButton(
+                          onTap: (){
+                            print("Everyday I'm Shuffling");
+                            List<String> id = [];
+                            for (final AlbumSongListViewModel song in widget.model.songList) {
+                              id.add(song.id);
+                              print(song.id + "added");
+                            }
+                            GetIt.I.get<AudioManager>().clearAndAddAList(id);
+                            GetIt.I.get<AudioManager>().shuffle();
+                            Navigator.pushNamed(GetIt.I.get<AudioPageRouteManager>().getMainContext(), '/playingPage');
+                          },
+                          title: "Xáo trộn", icon: SFSymbols.shuffle
+                      ),
                     ],
                   ),
                 ),
