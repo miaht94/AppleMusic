@@ -32,3 +32,4 @@ String ARTIST_PATH ='api/artist';
 String ADD_PLAYLIST = 'api/playlist/add';
 String DELETE_PLAYLIST = 'api/playlist/delete';
 String UPDATE_PLAYLIST = 'api/playlist/update';
+String UPDATE_FAVORITE = 'api/profile/favorite';
