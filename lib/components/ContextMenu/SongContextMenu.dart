@@ -68,7 +68,7 @@ class SongContextMenu extends ContextMenu{
             if (!GetIt.I.get<UserModelNotifier>().value.containFavSong(songCardInPlaylistModel.id))
             return ContextMenuItem(
             title: 'Thêm vào yêu thích', 
-            iconData: SFSymbols.heart_slash,
+            iconData: SFSymbols.heart,
             onTapItem: () async {
               // throw UnimplementedError();
               EasyLoading.show(status: 'Đang thêm vào yêu thích');

@@ -8,7 +8,7 @@ const Color kHeadlineColor = Color.fromRGBO(179, 179, 179, 1);//
 // VD giữa đừng bỏ lỡ với nghệ sĩ được yêu thích.
 const double VerticalComponentPadding = 20;
 
-
+const String CREDENTIAL_PATH = 'credential.txt';
 
 // CONFIG FOR OAUTH2 GOOGLE API (WITHOUT SECRET KEY, DON'T FIND IT)
 // Uri REDIRECT_URI = Uri.parse("http://koyomiku39.moe/verify");
