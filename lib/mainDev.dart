@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:apple_music/components/ButtonPausePlay/PausePlayButton.dart';
 import 'package:apple_music/components/CustomBottomAppBar/CustomBottomAppBar.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/AlbumViewModel.dart';
@@ -78,9 +79,15 @@ class _MyHomePageState extends State < MyHomePage > {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body:
-      DiscoveryPage()
+    return MediaQuery(
+      data: MediaQueryData(size: Size(370, 720)),
+      child: MaterialApp(
+        home: Scaffold(
+          body: Container(
+              color: Colors.black,
+              child: PausePlayButton()),
+        ),
+        ),
     );
   }
 }
