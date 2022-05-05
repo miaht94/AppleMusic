@@ -83,7 +83,6 @@ class AudioManager {
         pausePlayButtonNotifier.value = PausePlayButtonState.paused;
       } else if (processingState != ProcessingState.completed) {
         pausePlayButtonNotifier.value = PausePlayButtonState.playing;
-        currentLyricNotifier =  LyricModel.fetchLyrics(currentSongNotifier.value.lyric);
       } else {
         _audioPlayer.seek(Duration.zero);
         _audioPlayer.pause();
@@ -101,6 +100,8 @@ class AudioManager {
       }
       if(_audioPlayer.currentIndex != null && currentSongIndexNotifier.value != _audioPlayer.currentIndex){
         currentSongIndexNotifier.value = _audioPlayer.currentIndex!;
+        currentLyricNotifier =  LyricModel.fetchLyrics(currentSongNotifier.value.lyric);
+
       }
 
       final playlist = sequenceState.effectiveSequence;
