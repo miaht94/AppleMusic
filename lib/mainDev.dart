@@ -75,7 +75,6 @@ class _MyHomePageState extends State < MyHomePage > {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

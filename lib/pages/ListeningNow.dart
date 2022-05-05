@@ -44,36 +44,39 @@ class _ListeningNowState extends State<ListeningNow> {
         future: listeningNowPageModel.isDone,
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-            return ListView(
-              physics: const BouncingScrollPhysics(),
-              children: [
-                PageTitleBox(title: "Nghe Ngay")
-                ,
-                Container(
-                  padding: EdgeInsets.only(left: kDefaultPadding),
-                  child: BoldTitle(title: "Lựa Chọn Hàng Đầu")
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
-                  child: VerticalBigCardsWithTitle(cards :listeningNowPageModel.listBestChoice),
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-                  child: HScrollSquareCardWithText(title: "Đừng bỏ lỡ", cards: listeningNowPageModel.listRencentlyPlayed),
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-                  child: HScrollCircleCardWithText(title: "Nghệ Sĩ Được Yêu Thích", cards: listeningNowPageModel.listFavoriteArtist),
-                ),
-                Container(
+            return Padding(
+              padding: const EdgeInsets.only(left: kDefaultPadding),
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  PageTitleBox(title: "Nghe Ngay")
+                  ,
+                  Container(
                     padding: EdgeInsets.only(left: kDefaultPadding),
-                    child: BoldTitle(title: "Replay cuối năm")
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
-                  child: VerticalBigCardsWithTitle(cards :listeningNowPageModel.listYearEndReplays),
-                ),
-              ],
+                    child: BoldTitle(title: "Lựa Chọn Hàng Đầu")
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
+                    child: VerticalBigCardsWithTitle(cards :listeningNowPageModel.listBestChoice),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: VerticalComponentPadding),
+                    child: HScrollSquareCardWithText(title: "Đừng bỏ lỡ", cards: listeningNowPageModel.listRencentlyPlayed),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: VerticalComponentPadding),
+                    child: HScrollCircleCardWithText(title: "Nghệ Sĩ Được Yêu Thích", cards: listeningNowPageModel.listFavoriteArtist),
+                  ),
+                  Container(
+                      padding: EdgeInsets.only(left: kDefaultPadding),
+                      child: BoldTitle(title: "Replay cuối năm")
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
+                    child: VerticalBigCardsWithTitle(cards :listeningNowPageModel.listYearEndReplays),
+                  ),
+                ],
+              ),
             );
           } else {
             return ListeningNowSkeleton();

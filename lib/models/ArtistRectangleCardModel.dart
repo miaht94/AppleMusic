@@ -27,8 +27,22 @@ class ArtistRectangleCardModel {
         return ArtistRectangleCardModel(json['_id'], json['artist_name'], json['artist_description'], json['artist_image_url']);
     }
 
-    static ArtistRectangleCardModel getSampleData() {
-        return ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg");
+    static List<ArtistRectangleCardModel> getSampleData() {
+        return [
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+            ArtistRectangleCardModel("123456", "Taylor Swift", "ABC", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg"),
+        ];
     }
 
 }

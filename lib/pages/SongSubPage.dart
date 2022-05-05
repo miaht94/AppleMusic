@@ -8,6 +8,7 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import '../components/AudioController/AudioPageRouteManager.dart';
 import '../components/RectangleCardSearchPage/ArtistRectangleCard.dart';
+import '../components/SongCardInPlaylist/SongCardInPlaylist.dart';
 import '../components/SquareCard/HScrollSquareCardWithText.dart';
 import '../components/CircleCard/HScrollCircleCardWithText.dart';
 import '../components/HorizontalCard/HorizontalCardsWithTitle.dart';
@@ -28,18 +29,18 @@ void onTapArtistCard(ArtistRectangleCardModel artistRectangleCardModel) {
   ));
 }
 
-const String PAGE_TITLE = "Nghệ sĩ";
+const String PAGE_TITLE = "Bài hát";
 
-class ArtistSubPage extends StatefulWidget {
-  const ArtistSubPage({
+class SongSubPage extends StatefulWidget {
+  const SongSubPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ArtistSubPage> createState() => _ArtistSubPageState();
+  State<SongSubPage> createState() => _SongSubPageState();
 }
 
-class _ArtistSubPageState extends State<ArtistSubPage> {
+class _SongSubPageState extends State<SongSubPage> {
 
 
   late ScrollController _scrollController = ScrollController();
@@ -107,10 +108,13 @@ class _ArtistSubPageState extends State<ArtistSubPage> {
                       physics: const NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: ArtistRectangleCardModel.getSampleData().length,
+                      itemCount: SongCardInPlaylistModel.getSampleDataList().length,
                       itemBuilder: (context, i){
-                        return  ArtistRectangleCard(artistRectangleCardModel: ArtistRectangleCardModel.getSampleData()[i], onTapArtistCard: onTapArtistCard);
+                         return SongCardInPlaylist(songCardInPlaylistModel: SongCardInPlaylistModel.getSampleDataList()[i],);
                       },
+                    // child: ListView(
+                    //   children: <Widget>SongCardinPlaylistMode.
+                    // )
                     ),
                   ),
                 ],

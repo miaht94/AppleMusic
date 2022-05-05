@@ -1,6 +1,8 @@
 import 'package:apple_music/components/SongMenu/SongMenuIcon.dart';
 import 'package:apple_music/components/SongMenu/SongMenuItem.dart';
+import 'package:apple_music/pages/AlbumSubPage.dart';
 import 'package:apple_music/pages/ArtistSubPage.dart';
+import 'package:apple_music/pages/SongSubPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -28,14 +30,14 @@ class SongMenu extends StatelessWidget {
             Navigator.push(
               GetIt.I.get<AudioPageRouteManager>().getMainContext(),
               MaterialPageRoute(
-                  builder: (context) => ArtistSubPage()),
+                  builder: (context) => AlbumSubPage()),
             );
           }),
           SongMenuItem(iconName: iconNames['MusicNode'], title: "Bài Hát", onTap: (){
             Navigator.push(
               GetIt.I.get<AudioPageRouteManager>().getMainContext(),
               MaterialPageRoute(
-                  builder: (context) => ArtistSubPage()),
+                  builder: (context) => SongSubPage())
             );
           }),
           // SongMenuItem(iconName: iconNames['PlaylistIcon'], title: "Playlist", onTap: (){

@@ -72,6 +72,35 @@ class AlbumViewContent extends StatefulWidget {
 
 class _AlbumViewContentState extends State<AlbumViewContent> {
 
+  late ScrollController _scrollController = ScrollController();
+  bool lastStatus = true;
+
+  _scrollListener() {
+    if (isShrink != lastStatus) {
+      setState(() {
+        lastStatus = isShrink;
+      });
+    }
+  }
+
+  bool get isShrink {
+    return _scrollController.hasClients &&
+        _scrollController.offset > (230);
+  }
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,8 +109,17 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
               icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
               onPressed: () {
                 Navigator.pop(context);
-              })
-          ,backgroundColor: Colors.white,
+              }),
+          title: Visibility(
+          visible: isShrink ? true : false,
+              child: Text(widget.model.albumName,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.0,
+                  ))
+          ),
+          centerTitle: true,
+          backgroundColor: isShrink ? Colors.white : Colors.transparent,
           elevation: 0,
           // ContextMenu Button
           actions: <Widget>[
@@ -96,6 +134,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
         ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
+          controller: _scrollController,
           padding: EdgeInsets.only(top: 10),
           child: Column(
               children: <Widget>[
