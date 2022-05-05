@@ -49,89 +49,99 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
     final size = MediaQuery.of(context).size;
 
     return
-      Scaffold(
-        body: Dismissible(
-          key :  Key('AudioUi'),
-          direction: DismissDirection.down,
-          onDismissed: (_) => Navigator.pop(GetIt.I.get<AudioPageRouteManager>().getMainContext()),
-          child: Container(
-            color: Color.fromRGBO(21, 45, 75, 0.8235294117647058),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: _buildChildWindow()
-                ),
-                Positioned(
-                  bottom: 190.0,
-                  width: size.width * 0.99,
-                  child: _buildProgessBar()
-                ),
-                _buildCurrentSong(),
-                _buildCurrentArtWork(),
-                Positioned(
-                  bottom: 68.0,
-                  left: 100.0,
-                  right: 100.0,
-                  height: 100.0,
-                  child: Center(child: _buildButtonPausePlay())
-                ),
-                Positioned(
-                  bottom: 0.0,
-                  left: 50.0,
-                  width: 64.0,
-                  height: 64.0,
-                  child: _buildLyricButton(),
-                ),
-                Positioned(
-                  bottom: 0.0,
-                  right: 50.0,
-                  width: 64.0,
-                  height: 64.0,
-                  child: _buildPlaylistButton(),
-                ),
-                Positioned(
-                  bottom: 85.0,
-                  right: 50.0,
-                  width: 64.0,
-                  height: 64.0,
-                  child: _buldNextSongButton(),
-                ),
-                Positioned(
-                  bottom: 85.0,
-                  left: 30.0,
-                  width: 64.0,
-                  height: 64.0,
-                  child: _buldPreviousSongButton(),
-                ),
-                Positioned(
-                  top: 130.0,
-                  right: 10.0,
-                  child: _buildManagePlaylist(),
-                ),
-                Positioned(
-                  top: 40,
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    child: InkWell(
-                      onTap: () {},
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      child: SizedBox(
-                        height: 5,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                          color: const Color(0xffc4c4c4),
-                          borderRadius: BorderRadius.circular(12),
+        Material(
+          type: MaterialType.transparency,
+          child: Dismissible(
+            key :  Key('AudioUi'),
+            direction: DismissDirection.down,
+            onDismissed: (_) => Navigator.pop(GetIt.I.get<AudioPageRouteManager>().getMainContext()),
+            child: Container(
+              color: Color.fromRGBO(21, 45, 75, 0.8235294117647058),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: _buildChildWindow()
+                  ),
+                  Positioned(
+                    bottom: 190.0,
+                    width: size.width * 0.99,
+                    child: _buildProgessBar()
+                  ),
+                  _buildCurrentSong(),
+                  _buildCurrentArtWork(),
+                  Positioned(
+                    bottom: 68.0,
+                    left: 100.0,
+                    right: 100.0,
+                    height: 100.0,
+                    child: Center(child: _buildButtonPausePlay())
+                  ),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 50.0,
+                    width: 64.0,
+                    height: 64.0,
+                    child: _buildLyricButton(),
+                  ),
+                  Positioned(
+                    bottom: 0.0,
+                    right: 50.0,
+                    width: 64.0,
+                    height: 64.0,
+                    child: _buildPlaylistButton(),
+                  ),
+                  Positioned(
+                    bottom: 85.0,
+                    right: 50.0,
+                    width: 64.0,
+                    height: 64.0,
+                    child: _buldNextSongButton(),
+                  ),
+                  Positioned(
+                    bottom: 85.0,
+                    left: 30.0,
+                    width: 64.0,
+                    height: 64.0,
+                    child: _buldPreviousSongButton(),
+                  ),
+                  Positioned(
+                    top: 130.0,
+                    right: 10.0,
+                    child: _buildManagePlaylist(),
+                  ),
+                  Positioned(
+                    top: 45.0,
+                    child: Container(
+                      height: 3,
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      color: Colors.white70,
+                    )
+                  ),
+                  Positioned(
+                      top: 35,
+                      height: 40,
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: InkWell(
+                        onTap: () {},
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        child: SizedBox(
+                          height: 5,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
-          ),
         ),
       );
   }
