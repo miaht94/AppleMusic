@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:apple_music/components/AlbumSongListView/AlbumSongListView.dart';
+import 'package:apple_music/components/AudioController/AudioUi.dart';
 import 'package:apple_music/components/ButtonWithIcon/WideButton.dart';
 import 'package:apple_music/components/ContextMenu/AlbumContextMenu.dart';
 import 'package:apple_music/components/Other/PageLoadError.dart';
@@ -185,7 +186,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                             }
                             GetIt.I.get<AudioManager>().clearAndAddAList(id);
                             GetIt.I.get<AudioManager>().shuffle();
-                            Navigator.pushNamed(GetIt.I.get<AudioPageRouteManager>().getMainContext(), '/playingPage');
+                            Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));
                           },
                           title: "Xáo trộn", icon: SFSymbols.shuffle
                       ),
