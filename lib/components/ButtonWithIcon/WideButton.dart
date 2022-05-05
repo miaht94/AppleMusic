@@ -6,11 +6,13 @@ class WideButton extends StatelessWidget {
   WideButton({
     Key? key,
     required this.title,
-    required this.icon
+    required this.icon,
+    required this.onTap
   }) : super(key: key);
 
   late String title;
   late IconData icon;
+  Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class WideButton extends StatelessWidget {
               primary: Colors.grey,
               padding: EdgeInsets.symmetric(vertical: 15),
           ),
-          onPressed: () {},
+          onPressed: onTap,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

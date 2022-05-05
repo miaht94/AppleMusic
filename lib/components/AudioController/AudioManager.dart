@@ -196,19 +196,20 @@ class AudioManager {
   }
 
   Future<void> addAndPlayASong(String songId) async {
+    print('addddddddd');
     await insertNext(songId);
     int CurrentIndex = _audioPlayer.currentIndex ?? 0;
     if (CurrentIndex != _playlist.length){
       CurrentIndex ++;
     }
-    _audioPlayer.seek(Duration(seconds: 2),index : CurrentIndex);
+    _audioPlayer.seek(Duration(seconds: 0),index : CurrentIndex);
     play();
   }
 
   Future<void> clearAndAddAList(List<String> playLists) async {
     await clear();
     List<SongModel> listSongs = [];
-
+    bool isFirst = true;
       for (String songUrl in playLists){
         try {
           final SongModel song = await SongModel.fetchSong(songUrl);
@@ -223,6 +224,12 @@ class AudioManager {
               artwork: value.artwork,
               lyric: value.songLyricUrl)
       ));
+      if (isFirst){
+        _audioPlayer.seek(Duration(seconds: 0),index : 0);
+        play();
+        isFirst = false;
+        print("play new playlist");
+      }
     }
   }
 
