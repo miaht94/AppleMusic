@@ -24,6 +24,7 @@ class AudioManager {
   final isLastSongNotifier = ValueNotifier<bool>(true);
   final isShuffleNotifier = ValueNotifier<bool>(false);
   final repeatNotifier = ValueNotifier<RepeatState>(RepeatState.noRepeat);
+  final currentSongIndexNotifier = ValueNotifier<int>(0);
 
   Future <List<LyricModel>> ? currentLyricNotifier ;
   late AudioPlayer _audioPlayer;
@@ -43,33 +44,6 @@ class AudioManager {
   }
 
   void _initPlaylist() async{
-    // CurrentUserManager currentUserManager = getIt<CurrentUserManager>();
-    // var userPlaylists = currentUserManager.getCurrentUser().playLists;
-    // List<SongModel> listSongs = [];
-    //
-    // for (var playlist in userPlaylists) {
-    //   List<dynamic> listSong = playlist["songs"];
-    //   for (String songUrl in listSong){
-    //     try {
-    //       final SongModel song = await SongModel.fetchSong(songUrl);
-    //       listSongs.add(song);
-    //     } catch(e) {
-    //     }
-    //   }
-    // }
-    //
-    // List<AudioSource> listAudioSources = [];
-    // for (var value in listSongs) {
-    //   listAudioSources.add(AudioSource.uri(Uri.parse(value.songUrl),
-    //       tag:AudioMetadata(title: value.songName,
-    //           artist: value.artist,
-    //           artwork: value.artwork,
-    //           lyric: value.songLyricUrl)
-    //   ));
-    // }
-    //
-    // _playlist = ConcatenatingAudioSource(children: listAudioSources);
-    // await _audioPlayer.setAudioSource(_playlist);
     _playlist = ConcatenatingAudioSource(children: []);
     await _audioPlayer.setAudioSource(_playlist);
   }
@@ -109,6 +83,7 @@ class AudioManager {
         pausePlayButtonNotifier.value = PausePlayButtonState.paused;
       } else if (processingState != ProcessingState.completed) {
         pausePlayButtonNotifier.value = PausePlayButtonState.playing;
+        currentLyricNotifier =  LyricModel.fetchLyrics(currentSongNotifier.value.lyric);
       } else {
         _audioPlayer.seek(Duration.zero);
         _audioPlayer.pause();
@@ -123,7 +98,9 @@ class AudioManager {
       if (!isMoving && currentItem != null) {
         final currentSongData = currentItem.tag;
         currentSongNotifier.value = currentSongData;
-        currentLyricNotifier =  LyricModel.fetchLyrics(currentSongData.lyric);
+      }
+      if(_audioPlayer.currentIndex != null && currentSongIndexNotifier.value != _audioPlayer.currentIndex){
+        currentSongIndexNotifier.value = _audioPlayer.currentIndex!;
       }
 
       final playlist = sequenceState.effectiveSequence;
@@ -137,7 +114,6 @@ class AudioManager {
         isFirstSongNotifier.value = playlist.first == currentItem;
         isLastSongNotifier.value = playlist.last == currentItem;
       }
-
       isShuffleNotifier.value = sequenceState.shuffleModeEnabled;
     });
   }

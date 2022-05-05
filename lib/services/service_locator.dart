@@ -39,8 +39,10 @@ Future < bool > checkLoginStatus() async {
     } else {
       String appToken = await file.readAsString();
       UserModel user = await getUserInfo(appToken);
-      GetIt.I.registerLazySingleton<UserModelNotifier>(() => UserModelNotifier(user));
-      GetIt.I.registerLazySingleton<CredentialModelNotifier>(() => CredentialModelNotifier(CredentialModel(appToken)));
+      if (!GetIt.I.isRegistered<UserModelNotifier>() && !GetIt.I.isRegistered<CredentialModelNotifier>()) {
+        GetIt.I.registerLazySingleton<UserModelNotifier>(() => UserModelNotifier(user));
+        GetIt.I.registerLazySingleton<CredentialModelNotifier>(() => CredentialModelNotifier(CredentialModel(appToken)));
+      }
       return true;
     }
   } catch (e) {

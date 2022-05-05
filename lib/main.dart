@@ -69,6 +69,7 @@ class _MyHomePageState extends State < MyHomePage > {
   @override
   void dispose(){
     _audioManager.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
