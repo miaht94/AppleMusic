@@ -8,9 +8,11 @@ import 'package:apple_music/components/ContextMenu/SongSubscreenContextMenu.dart
 import 'package:apple_music/components/ContextMenu/SubscreenContextMenu.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models/UserModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import 'package:skeletons/skeletons.dart';
@@ -18,10 +20,10 @@ import 'package:skeletons/skeletons.dart';
 class SongContextMenu extends ContextMenu{
   SongContextMenu({Key? key, required this.songCardInPlaylistModel}): 
     super(key: key,
-      name: "SongContextMenu",
+      name: 'SongContextMenu',
       action: [
           ContextMenuItem(
-            title: "Tải về", 
+            title: 'Tải về', 
             iconData: Icons.cloud_download_outlined,
             onTapItem: () {
               throw UnimplementedError();
@@ -31,11 +33,11 @@ class SongContextMenu extends ContextMenu{
                   GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenu');
                 }
               });
-              AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+              AdvanceSnackBar(message: 'Yay! you got it', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           ),
           ContextMenuItem(
-            title: "Phát tiếp theo", 
+            title: 'Phát tiếp theo', 
             iconData: SFSymbols.text_insert,
             onTapItem: () {
               GetIt.I.get<AudioManager>().insertNext(songCardInPlaylistModel.id);
@@ -45,11 +47,11 @@ class SongContextMenu extends ContextMenu{
                   GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenu');
                 }
               });
-              AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+              AdvanceSnackBar(message: 'Yay! you got it', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           ),
           ContextMenuItem(
-            title: "Phát cuối cùng", 
+            title: 'Phát cuối cùng', 
             iconData: SFSymbols.text_append,
             onTapItem: () {
               GetIt.I.get<AudioManager>().insertTail(songCardInPlaylistModel.id);
@@ -59,9 +61,50 @@ class SongContextMenu extends ContextMenu{
                   GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenu');
                 }
               });
-              AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+              AdvanceSnackBar(message: 'Yay! you got it', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           ),
+          ValueListenableBuilder<UserModel>(valueListenable: GetIt.I.get<UserModelNotifier>(), builder: (context, userModel, _) {
+            if (!GetIt.I.get<UserModelNotifier>().value.containFavSong(songCardInPlaylistModel.id))
+            return ContextMenuItem(
+            title: 'Thêm vào yêu thích', 
+            iconData: SFSymbols.heart,
+            onTapItem: () async {
+              // throw UnimplementedError();
+              EasyLoading.show(status: 'Đang thêm vào yêu thích');
+              bool suc = await GetIt.I.get<UserModelNotifier>().updateFavorite(action: 'push', favSongsId: [songCardInPlaylistModel.id]);
+              
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.closeContextMenu(() {
+                if (suc) {
+                  EasyLoading.showSuccess('Thành công', duration: Duration(seconds: 2));
+                } else {
+                  EasyLoading.showError('Thất bại', duration: Duration(seconds: 2));
+                }
+                
+              });
+              // AdvanceSnackBar(message: 'Đã thêm vào yêu thích', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+            },
+          );
+          else return ContextMenuItem(
+            title: 'Xóa khỏi yêu thích', 
+            iconData: SFSymbols.heart_slash,
+            onTapItem: () async {
+              // throw UnimplementedError();
+              EasyLoading.show(status: 'Đang xóa khỏi yêu thích');
+              bool suc = await GetIt.I.get<UserModelNotifier>().updateFavorite(action: 'pop', favSongsId: [songCardInPlaylistModel.id]);
+              
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.closeContextMenu(() {
+                if (suc) {
+                  EasyLoading.showSuccess('Thành công', duration: Duration(seconds: 2));
+                } else {
+                  EasyLoading.showError('Thất bại', duration: Duration(seconds: 2));
+                }
+                
+              });
+              // AdvanceSnackBar(message: 'Đã thêm vào yêu thích', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+            },
+          );
+          }),
           ContextMenuItem(
             title: 'Thêm vào playlist', 
             iconData: SFSymbols.text_badge_plus,

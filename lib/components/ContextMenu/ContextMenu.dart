@@ -16,7 +16,7 @@ class ContextMenu extends StatefulWidget {
     required this.name,
     this.header
   }): super(key: key);
-  List < ContextMenuItem > action;
+  List < Widget > action;
   late AnimationController anim;
   String name;
   Widget? header;

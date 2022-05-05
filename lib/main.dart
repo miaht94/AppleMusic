@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 void main() {
   setUpGetIt();
+  
   runApp(const MyApp());
 }
 
@@ -68,6 +69,7 @@ class _MyHomePageState extends State < MyHomePage > {
   @override
   void dispose(){
     _audioManager.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -118,32 +120,6 @@ class _MyHomePageState extends State < MyHomePage > {
           left: 0,
           child: CustomBottomAppBar(pageController: pageController)
         ),
-        
-        // ContextMenu(action: [
-        //   GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //   GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //     GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //     GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //     GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //     GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //     GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        // ],)
-
-
       ], )
 
     );

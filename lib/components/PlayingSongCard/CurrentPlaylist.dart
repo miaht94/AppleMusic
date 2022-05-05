@@ -18,55 +18,60 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return
-      ValueListenableBuilder<List<IndexedAudioSource>>(
-        valueListenable: _audioManager.playlistNotifier,
-        builder: (_, playlist, __) {
-          if (playlist != []) {
+      ValueListenableBuilder<int>(
+        valueListenable: _audioManager.currentSongIndexNotifier,
+        builder: (_, currentIndex, __){
+          return ValueListenableBuilder<List<IndexedAudioSource>>(
+            valueListenable: _audioManager.playlistNotifier,
+            builder: (_, playlist, __) {
+              if (playlist != []) {
 
-            List<Widget> children = [];
+                List<Widget> children = [];
 
-            for (int index = 0; index < playlist.length; index++) {
-              IndexedAudioSource song = playlist[index];
-              children.add(
-                  Container(
-                    key: ValueKey(index),
-                    margin: EdgeInsets.only(top: 10.0),
-                    child: PlayingSongCard(
-                      songName: song.tag.title,
-                      artistName: song.tag.artist,
-                      artURL: song.tag.artwork,
-                      size: 50,
-                      imageSize: 50,
-                      songNameFontSize: 16,
-                      artistFontSize: 12,
-                      songNameColor: (_audioManager.getCurrentSongIndex() == index)  ? Color.fromRGBO(255, 255, 255, 1) : Color.fromRGBO(255, 255, 255, 0.60),
-                      hasArtWork: true,
-                    ),
-                  )
+                for (int index = 0; index < playlist.length; index++) {
+                  IndexedAudioSource song = playlist[index];
+                  children.add(
+                      Container(
+                        key: ValueKey(index),
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: PlayingSongCard(
+                          songName: song.tag.title,
+                          artistName: song.tag.artist,
+                          artURL: song.tag.artwork,
+                          size: 50,
+                          imageSize: 50,
+                          songNameFontSize: 16,
+                          artistFontSize: 12,
+                          songNameColor: (currentIndex == index)  ? Color.fromRGBO(255, 255, 255, 1) : Color.fromRGBO(255, 255, 255, 0.60),
+                          hasArtWork: true,
+                        ),
+                      )
+                  );
+                };
+                children.add(
+                    SizedBox(
+                      key: ValueKey(-1),
+                      height: 200,
+                      width: size.width,
+                    )
                 );
-              };
-            children.add(
-                SizedBox(
-                  key: ValueKey(-1),
-                  height: 200,
-                  width: size.width,
-                )
-            );
-            return
-              Container(
-                margin: EdgeInsets.only(top: 200),
-                child: ReorderableListView(
-                    proxyDecorator: _proxyDecorator,
-                    onReorder: ((oldIndex, newIndex){
-                      if (oldIndex < newIndex) newIndex--;
-                       _audioManager.move(oldIndex, newIndex);
-                  }),
-                  children: children
-                ),
-              );
-            } else
-            return
-              SizedBox();
+                return
+                  Container(
+                    margin: EdgeInsets.only(top: 200),
+                    child: ReorderableListView(
+                        proxyDecorator: _proxyDecorator,
+                        onReorder: ((oldIndex, newIndex){
+                          if (oldIndex < newIndex) newIndex--;
+                          _audioManager.move(oldIndex, newIndex);
+                        }),
+                        children: children
+                    ),
+                  );
+              } else
+                return
+                  SizedBox();
+            },
+          );
         },
       );
   }

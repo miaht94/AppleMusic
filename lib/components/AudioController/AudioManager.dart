@@ -1,10 +1,8 @@
-import 'package:apple_music/manager/CurrentUserManager.dart';
+import 'package:apple_music/components/AudioController/AudioStates.dart';
 import 'package:apple_music/models/LyricModel.dart';
 import 'package:apple_music/models/SongModel.dart';
-import 'package:apple_music/services/service_locator.dart';
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:apple_music/components/AudioController/AudioStates.dart';
 class AudioManager {
   final progressNotifier = ValueNotifier<ProgressBarState>(
     ProgressBarState(
@@ -13,17 +11,18 @@ class AudioManager {
       dragPosition: Duration.zero,
     ),
   );
-  var isDraging = false;
+  var isDragging = false;
   var isMoving = false;
   final pausePlayButtonNotifier = ValueNotifier<PausePlayButtonState>(PausePlayButtonState.paused);
   final childWindowNotifier = ValueNotifier<ChildWindowState>(ChildWindowState.playlist);
   final playlistNotifier = ValueNotifier<List<IndexedAudioSource>>([]);
   final currentSongNotifier = ValueNotifier<AudioMetadata>(
-      AudioMetadata(artist: "",artwork: "", title: "", lyric: ""));
+      AudioMetadata(artist: '',artwork: '', title: '', lyric: ''));
   final isFirstSongNotifier = ValueNotifier<bool>(true);
   final isLastSongNotifier = ValueNotifier<bool>(true);
   final isShuffleNotifier = ValueNotifier<bool>(false);
   final repeatNotifier = ValueNotifier<RepeatState>(RepeatState.noRepeat);
+  final currentSongIndexNotifier = ValueNotifier<int>(0);
 
   Future <List<LyricModel>> ? currentLyricNotifier ;
   late AudioPlayer _audioPlayer;
@@ -43,40 +42,13 @@ class AudioManager {
   }
 
   void _initPlaylist() async{
-    // CurrentUserManager currentUserManager = getIt<CurrentUserManager>();
-    // var userPlaylists = currentUserManager.getCurrentUser().playLists;
-    // List<SongModel> listSongs = [];
-    //
-    // for (var playlist in userPlaylists) {
-    //   List<dynamic> listSong = playlist["songs"];
-    //   for (String songUrl in listSong){
-    //     try {
-    //       final SongModel song = await SongModel.fetchSong(songUrl);
-    //       listSongs.add(song);
-    //     } catch(e) {
-    //     }
-    //   }
-    // }
-    //
-    // List<AudioSource> listAudioSources = [];
-    // for (var value in listSongs) {
-    //   listAudioSources.add(AudioSource.uri(Uri.parse(value.songUrl),
-    //       tag:AudioMetadata(title: value.songName,
-    //           artist: value.artist,
-    //           artwork: value.artwork,
-    //           lyric: value.songLyricUrl)
-    //   ));
-    // }
-    //
-    // _playlist = ConcatenatingAudioSource(children: listAudioSources);
-    // await _audioPlayer.setAudioSource(_playlist);
     _playlist = ConcatenatingAudioSource(children: []);
     await _audioPlayer.setAudioSource(_playlist);
   }
 
   void _listenForPositionChange(){
     _audioPlayer.positionStream.listen((position) {
-      if (!isDraging) {
+      if (!isDragging) {
         final oldState = progressNotifier.value;
         progressNotifier.value = ProgressBarState(
           current: position,
@@ -123,7 +95,14 @@ class AudioManager {
       if (!isMoving && currentItem != null) {
         final currentSongData = currentItem.tag;
         currentSongNotifier.value = currentSongData;
-        currentLyricNotifier =  LyricModel.fetchLyrics(currentSongData.lyric);
+
+        //first time fetch
+        currentLyricNotifier ??= LyricModel.fetchLyrics(currentSongData.lyric);
+      }
+      // change song fetch
+      if(currentSongIndexNotifier.value != _audioPlayer.currentIndex){
+        currentSongIndexNotifier.value = _audioPlayer.currentIndex!;
+        currentLyricNotifier =  LyricModel.fetchLyrics(currentSongNotifier.value.lyric);
       }
 
       final playlist = sequenceState.effectiveSequence;
@@ -137,7 +116,6 @@ class AudioManager {
         isFirstSongNotifier.value = playlist.first == currentItem;
         isLastSongNotifier.value = playlist.last == currentItem;
       }
-
       isShuffleNotifier.value = sequenceState.shuffleModeEnabled;
     });
   }
@@ -151,7 +129,7 @@ class AudioManager {
   }
 
   void seek(Duration position) {
-    isDraging = false;
+    isDragging = false;
     _audioPlayer.seek(position);
   }
 
@@ -199,7 +177,7 @@ class AudioManager {
   }
 
   void drag(Duration position) {
-    isDraging = true;
+    isDragging = true;
     final oldState = progressNotifier.value;
     progressNotifier.value = ProgressBarState(
       current: position,
