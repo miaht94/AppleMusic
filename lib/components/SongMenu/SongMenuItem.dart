@@ -9,15 +9,13 @@ class SongMenuItem extends StatelessWidget{
     Key? key,
     required this.iconName,
     required this.title,
+    required this.onTap
   }): super(key: key);
 
   final String iconName;
   final String title;
   final String leftArrowIcon = iconNames['LeftArrowIcon'];
-
-  onItemTap(){
-    print(title);
-  }
+  final Null Function() onTap;
 
   @override
   Widget build(BuildContext context){
@@ -25,7 +23,7 @@ class SongMenuItem extends StatelessWidget{
     final _WIDTH = size.width - kDefaultPadding;
     return
       InkWell(
-        onTap: onItemTap,
+        onTap: onTap,
         child: Container(
           padding: EdgeInsets.only(bottom: kDefaultPadding),
               child: Column(

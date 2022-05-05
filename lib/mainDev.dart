@@ -8,6 +8,7 @@ import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/UserModel.dart';
 import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:apple_music/pages/ArtistPage.dart';
+import 'package:apple_music/pages/ArtistSubPage.dart';
 import 'package:apple_music/pages/DiscoveryPage.dart';
 import 'package:apple_music/components/HorizontalCard/HorizontalCard.dart';
 import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListWithText.dart';
@@ -18,12 +19,12 @@ import 'package:apple_music/components/squareCard/HScrollSquareCardWithText.dart
 import 'package:apple_music/pages/LibraryPage.dart';
 import 'package:apple_music/pages/ListeningNow.dart';
 import 'package:apple_music/pages/LoginPage.dart';
-import 'package:apple_music/test.dart';
+// import 'package:apple_music/test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import 'components/ButtonWithIcon/WideButton.dart';
-import 'test.dart';
+// import 'test.dart';
 import 'services/service_locator.dart';
 
 import 'dart:io';
@@ -80,7 +81,7 @@ class _MyHomePageState extends State < MyHomePage > {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body:
-      DiscoveryPage()
+      ArtistSubPage()
     );
   }
 }
