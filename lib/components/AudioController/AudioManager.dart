@@ -269,6 +269,10 @@ class AudioManager {
     ));
   }
 
+  Future<void> removeSong(int index) async{
+    await _playlist.removeAt(index);
+  }
+
   int getCurrentSongIndex(){
     return _audioPlayer.currentIndex ?? 0;
   }
