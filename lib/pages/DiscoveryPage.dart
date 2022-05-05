@@ -12,11 +12,21 @@ import '../components/TextListView/TextListView.dart';
 import '../components/TitleComponent/PageTitleBox.dart';
 import '../constant.dart';
 
-class DiscoveryPage extends StatelessWidget {
+class DiscoveryPage extends StatefulWidget {
   const DiscoveryPage({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<DiscoveryPage> createState() => _DiscoveryPageState();
+}
+
+class _DiscoveryPageState extends State<DiscoveryPage> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return

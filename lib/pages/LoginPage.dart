@@ -28,11 +28,11 @@ class _LoginPageState extends State<LoginPage> {
     // var grant = oauth2.AuthorizationCodeGrant(identifier, authorizationEndpoint, tokenEndpoint);
     // var authorizationUrl = grant.getAuthorizationUrl(redirectUrl, scopes: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']);
 
-    await redirect(Uri(scheme: "http", host: SV_HOSTNAME, port: SV_PORT, path: "oauth"));
+    await redirect(Uri(scheme: 'http', host: SV_HOSTNAME, port: SV_PORT, path: 'oauth'));
     var responseUrl = await listen(redirectUrl);
     Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, path: 'verify2', port: SV_PORT, queryParameters: {
-      "code": responseUrl.queryParameters['code'],
-      "state": responseUrl.queryParameters['state']
+      'code': responseUrl.queryParameters['code'],
+      'state': responseUrl.queryParameters['state']
     });
     var responseJson = await http.get(httpURI);
     print(responseJson.body);
@@ -45,8 +45,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future < Uri > listen(Uri redirectUrl) async {
-    Completer < Uri > com = Completer();
-    print("Listening");
+    final Completer < Uri > com = Completer();
+    print('Listening');
     linkStream.listen((String ? link) {
       print(link);
       if (link.toString().startsWith(redirectUrl.toString())) {
@@ -62,16 +62,16 @@ class _LoginPageState extends State<LoginPage> {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: FutureBuilder<bool>(
-        future: temp,
+        future: checkLoginStatus(),
         builder: (context_, snapshot) {
           if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-            if (!snapshot.data!)
+            if (!snapshot.data!) {
               return Center(
                 child: Container(
                   height: screenSize.height / 2,
                   child: Column(
                     children: [
-                      Image.asset("assets/images/AppleIcon.png", width: screenSize.width / 2, ),
+                      Image.asset('assets/images/AppleIcon.png', width: screenSize.width / 2, ),
                       SizedBox(height: screenSize.height / 10, ),
                       Container(
                         width: screenSize.width * 0.6,
@@ -79,19 +79,18 @@ class _LoginPageState extends State<LoginPage> {
                         child: GestureDetector(
                           child: SignInButton(
                             Buttons.Google,
-                            text: "Sign in with Google",
+                            text: 'Sign in with Google',
                             onPressed: () async {
-                              JsonDecoder decoder =
-                                const JsonDecoder();
+                              const JsonDecoder decoder = JsonDecoder();
                               Map < String, dynamic > response = decoder.convert(await authGoogle());
 
-                              if (response['status'] == "Error") {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Xảy ra lỗi khi đăng nhập")));
+                              if (response['status'] == 'Error') {
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Xảy ra lỗi khi đăng nhập')));
                               } else {
-                                GetIt.I.registerSingleton < CredentialModelNotifier > (CredentialModelNotifier(CredentialModel(response["appToken"])));
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Đăng nhập thành công")));
+                                GetIt.I.registerSingleton < CredentialModelNotifier > (CredentialModelNotifier(CredentialModel(response['appToken'])));
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đăng nhập thành công')));
                                 await saveCredential(response['appToken']);
-                                Navigator.of(context).pushNamed("/welcomePage", arguments: WelcomePageArgument(response['appToken']));
+                                await Navigator.of(context).pushNamed('/welcomePage', arguments: WelcomePageArgument(response['appToken']));
                               }
                             },
                           ),
@@ -101,11 +100,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               );
-              else {
-                return MyHomePage();
+            } else {
+              Future.microtask(() => Navigator.of(context).pushReplacementNamed('/homePage'));
+              return const Center(child: CircularProgressIndicator(color: Colors.red,),);
               }
           } else {
-            return Center(child: CircularProgressIndicator(color: Colors.red,),);
+            return const Center(child: CircularProgressIndicator(color: Colors.red,),);
           }
         }
 

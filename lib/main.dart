@@ -68,7 +68,8 @@ class _MyHomePageState extends State < MyHomePage > {
 
   @override
   void dispose(){
-    _audioManager.dispose();
+    // _audioManager.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -119,32 +120,6 @@ class _MyHomePageState extends State < MyHomePage > {
           left: 0,
           child: CustomBottomAppBar(pageController: pageController)
         ),
-        
-        // ContextMenu(action: [
-        //   GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //   GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //     GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //     GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //     GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //     GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        //     GestureDetector(
-        //     onTap: () => print("abc"),
-        //     child: Text("abc")), 
-        // ],)
-
-
       ], )
 
     );
