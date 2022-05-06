@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import 'package:get_it/get_it.dart';
 import '../../models/AlbumViewModel.dart';
+import '../AudioController/AudioManager.dart';
 import '../ContextMenu/AlbumContextMenu.dart';
 import '../ContextMenu/ContextMenuManager.dart';
 import '../TitleComponent/SeeAllButton.dart';
@@ -62,9 +63,7 @@ class AlbumSongButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Tap'),
-        ));
+        GetIt.I.get<AudioManager>().addAndPlayASong(albumSongListViewModel.id);
       },
       onLongPress: triggerSongContextMenu(context),
       child: Container(

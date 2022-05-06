@@ -14,8 +14,27 @@ import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/UserModel.dart';
 import 'package:apple_music/pages/LoginPage.dart';
 import 'package:apple_music/pages/SearchPage.dart';
+import 'package:apple_music/components/AudioController/AudioManager.dart';
+import 'package:apple_music/components/AudioController/AudioStates.dart';
+import 'package:apple_music/components/ButtonLyric/LyricButton.dart';
+import 'package:apple_music/components/ButtonLyric/LyricButtonConstant.dart';
+import 'package:apple_music/components/ButtonLyric/LyricButtonIcon.dart';
+import 'package:apple_music/components/ButtonPausePlay/PausePlayButton.dart';
+import 'package:apple_music/components/ButtonPausePlay/PausePlayButtonConstant.dart';
+import 'package:apple_music/components/ButtonPlaylist/PlaylistButton.dart';
+import 'package:apple_music/components/CircleCard/CircleCard.dart';
+import 'package:apple_music/components/HorizontalCard/HorizontalCard.dart';
+import 'package:apple_music/components/PlayingSongCard/PlayingSongCard.dart';
+import 'package:apple_music/components/RectangleCardSearchPage/AlbumRectangleCard.dart';
+import 'package:apple_music/components/RepeatButton/RepeatButton.dart';
+import 'package:apple_music/components/ShuffleButton/ShuffleButton.dart';
+import 'package:apple_music/components/VerticalBigCard/VerticalBigCard.dart';
+import 'package:apple_music/components/squareCard/SquareCard.dart';
+import 'package:apple_music/models/AlbumRectangleCardModel.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:integration_test/integration_test.dart';
@@ -34,30 +53,234 @@ import 'widget_test.mocks.dart';
 
 @GenerateMocks([LoginUtil, http.Client])
 void main() {
-  // testWidgets('Test AlbumRectangleCard widget', (WidgetTester tester) async {
-  //   // Build our app and trigger a frame.
-  //   tester.binding.window.physicalSizeTestValue = Size(720, 370);
-  //   final AlbumRectangleCardModel albumRectangleCardModel = AlbumRectangleCardModel('TestId', 'Red', 'Pop', 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187', 'Taylor Swift');
-  //   await tester.pumpWidget(
-  //     MediaQuery(
-  //       data: MediaQueryData(size: Size(720, 370)),
-  //       child: MaterialApp(
-  //         home: Scaffold(
-  //           body: AlbumRectangleCard(albumRectangleCardModel: albumRectangleCardModel),
-  //         ),
-  //       ),
-  //     ));
+  
+  group('widget test', () {
+    
+    group('cards widget test', () {
+    
+    testWidgets('Test AlbumRectangleCard widget', (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await GetIt.I.reset();
+      setUpGetIt();
+      final AlbumRectangleCardModel albumRectangleCardModel = AlbumRectangleCardModel('TestId', 'Red', 'Pop', 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187', 'Taylor Swift');
+      await tester.pumpWidget(
+        MediaQuery(
+          data: MediaQueryData(size: Size(370, 720)),
+          child: MaterialApp(
+            home: Scaffold(
+              body: AlbumRectangleCard(albumRectangleCardModel: albumRectangleCardModel),
+            ),
+          ),
+        ));
 
-  //   expect(find.text('Red'), findsOneWidget);
-  //   expect(find.text('Taylor Swift - Album'), findsOneWidget);
-  // });
-  // IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  // debugDumpApp();
+      expect(find.text('Red'), findsOneWidget);
+      expect(find.text('Taylor Swift - Album'), findsOneWidget);
+    });
+    // IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+    // debugDumpApp();
+    testWidgets('Test CircleCard widget', (WidgetTester tester) async {
+        // Build our app and trigger a frame.
+
+        final CircleCard circleCard = CircleCard(
+          imageUrl: 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187',
+          artist: 'Taylor Swift',
+          id: 1111,);
+
+        await mockNetworkImagesFor(() => tester.pumpWidget(
+            MediaQuery(
+              data: MediaQueryData(size: Size(370, 720)),
+              child: MaterialApp(
+                home: Scaffold(
+                  body: circleCard,
+                ),
+              ),
+            )));
+
+        expect(find.text('Taylor Swift'), findsOneWidget);
+    });
+
+
+    testWidgets('Test SquareCard widget', (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+
+      final SquareCard squareCard = SquareCard(
+        imageUrl: 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187',
+        artist: 'Taylor Swift',
+        id: 1111,
+        name: 'Red',
+        width: 200,
+      );
+
+      await mockNetworkImagesFor(() => tester.pumpWidget(
+          MediaQuery(
+            data: MediaQueryData(size: Size(370, 720)),
+            child: MaterialApp(
+              home: Scaffold(
+                body: squareCard,
+              ),
+            ),
+          )));
+
+      expect(find.text('Taylor Swift'), findsOneWidget);
+      expect(find.text('Red'), findsOneWidget);
+    });
+
+    testWidgets('Test HorizontalCard widget', (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+
+      final HorizontalCard horizontalCard = HorizontalCard(
+        primaryImagePath: 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187',
+        secondaryImagePath: 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187',
+        id: "11",
+        secondaryDes : 'Red',
+      );
+
+      await mockNetworkImagesFor(() => tester.pumpWidget(
+          MediaQuery(
+            data: MediaQueryData(size: Size(370, 720)),
+            child: MaterialApp(
+              home: Scaffold(
+                body: horizontalCard,
+              ),
+            ),
+          )));
+
+      expect(find.text('Red'), findsOneWidget);
+    });
+
+    testWidgets('Test PlayingSongCard widget', (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+
+      final PlayingSongCard playingSongCard = PlayingSongCard(
+        songName: 'Red',
+        artURL: 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187',
+        artistName: 'Taylor Swift',
+      );
+
+      await mockNetworkImagesFor(() => tester.pumpWidget(
+          MediaQuery(
+            data: MediaQueryData(size: Size(370, 720)),
+            child: MaterialApp(
+              home: Scaffold(
+                body: playingSongCard,
+              ),
+            ),
+          )));
+
+      expect(find.text('Red'), findsOneWidget);
+      expect(find.text('Taylor Swift'), findsOneWidget);
+    });
+
+    testWidgets('Test PlayingSongCard widget', (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+
+      final VerticalBigCard verticalBigCard = VerticalBigCard(
+        description: 'Red',
+        imagePath: 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187',
+        footerColor: Colors.white12,
+      );
+
+      await mockNetworkImagesFor(() => tester.pumpWidget(
+          MediaQuery(
+            data: MediaQueryData(size: Size(370, 720)),
+            child: MaterialApp(
+              home: Scaffold(
+                body: verticalBigCard,
+              ),
+            ),
+          )));
+
+      expect(find.text('Red'), findsOneWidget);
+      });
+    });
+
+    group('button widget test', (){
+    testWidgets('test PausePlayButton', (WidgetTester tester) async {
+
+      // Provide the childWidget to the Container.
+      await tester.pumpWidget(MediaQuery(
+        data: MediaQueryData(size: Size(370, 720)),
+        child: MaterialApp(
+          home: Scaffold(
+            body: Container(
+              color: Colors.black,
+              child: PausePlayButton()
+            ),
+          ),
+        ),
+      ));
+
+      // Search for the childWidget in the tree and verify it exists.
+      expect(find.byIcon(SFSymbols.play_fill), findsOneWidget);
+      });
+
+    testWidgets('test PlaylistButton', (WidgetTester tester) async {
+
+      // Provide the childWidget to the Container.
+      await tester.pumpWidget(MediaQuery(
+        data: MediaQueryData(size: Size(370, 720)),
+        child: MaterialApp(
+          home: Scaffold(
+            body: Container(
+                color: Colors.black,
+                child: PlaylistButton()
+            ),
+          ),
+        ),
+      ));
+
+      // Search for the childWidget in the tree and verify it exists.
+      expect(find.byIcon(SFSymbols.square_list_fill), findsOneWidget);
+    });
+
+    testWidgets('test ShuffleButton', (WidgetTester tester) async {
+
+      // Provide the childWidget to the Container.
+      await tester.pumpWidget(MediaQuery(
+        data: MediaQueryData(size: Size(370, 720)),
+        child: MaterialApp(
+          home: Scaffold(
+            body: Container(
+                color: Colors.black,
+                child: ShuffleButton()
+            ),
+          ),
+        ),
+      ));
+
+      // Search for the childWidget in the tree and verify it exists.
+      expect(find.byIcon(SFSymbols.shuffle), findsOneWidget);
+    });
+
+    testWidgets('test RepeatButton', (WidgetTester tester) async {
+
+      // Provide the childWidget to the Container.
+      await tester.pumpWidget(MediaQuery(
+        data: MediaQueryData(size: Size(370, 720)),
+        child: MaterialApp(
+          home: Scaffold(
+            body: Container(
+                color: Colors.black,
+                child: RepeatButton()
+            ),
+          ),
+        ),
+      ));
+
+      // Search for the childWidget in the tree and verify it exists.
+      expect(find.byIcon(SFSymbols.repeat), findsOneWidget);
+      
+    });
+
+    });
+    
+  });
+ 
   group('end-to-end test', () {
-
+    
     testWidgets('Login persistency (with mock token)',
       (WidgetTester tester) async {
-
+        await GetIt.I.reset();
         await mockNetworkImagesFor(() async {
           String mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRyYW54dWFuYmFjaDFAZ21haWwuY29tIiwiaWRUb2tlbiI6ImV5SmhiR2NpT2lKU1V6STFOaUlzSW10cFpDSTZJbVl4TXpNNFkyRXlOamd6TlRnMk0yWTJOekUwTURobU5ERTNNemhoTjJJME9XVTNOREJtWXpBaUxDSjBlWEFpT2lKS1YxUWlmUS5leUpwYzNNaU9pSm9kSFJ3Y3pvdkwyRmpZMjkxYm5SekxtZHZiMmRzWlM1amIyMGlMQ0poZW5BaU9pSXhNekkxTnpJME5qUXpOemN0WlRsaGRta3lNakp4WTI5dU5HWnZORGxyZFdabGRUZHlhRzF6Ym1wME1Ha3VZWEJ3Y3k1bmIyOW5iR1YxYzJWeVkyOXVkR1Z1ZEM1amIyMGlMQ0poZFdRaU9pSXhNekkxTnpJME5qUXpOemN0WlRsaGRta3lNakp4WTI5dU5HWnZORGxyZFdabGRUZHlhRzF6Ym1wME1Ha3VZWEJ3Y3k1bmIyOW5iR1YxYzJWeVkyOXVkR1Z1ZEM1amIyMGlMQ0p6ZFdJaU9pSXhNREU1TkRNME1qY3lNRE14T0RJMk16RTRORFVpTENKbGJXRnBiQ0k2SW5SeVlXNTRkV0Z1WW1GamFERkFaMjFoYVd3dVkyOXRJaXdpWlcxaGFXeGZkbVZ5YVdacFpXUWlPblJ5ZFdVc0ltRjBYMmhoYzJnaU9pSndTV2xDWWxWUU1uRTBiSFo0VUhOblJqY3dWMVJSSWl3aWJtRnRaU0k2SWtMRG9XTm9JRlJ5NGJxbmJpQllkY09pYmlJc0luQnBZM1IxY21VaU9pSm9kSFJ3Y3pvdkwyeG9NeTVuYjI5bmJHVjFjMlZ5WTI5dWRHVnVkQzVqYjIwdllTMHZRVTlvTVRSSGFGbDFNRWxUUkVWRlF6RmtjVUZqWTFaak0wa3lVVUU1TWpnek0zZG5kemRtTUhOcVduQnNaejF6T1RZdFl5SXNJbWRwZG1WdVgyNWhiV1VpT2lKQ3c2RmphQ0lzSW1aaGJXbHNlVjl1WVcxbElqb2lWSExodXFkdUlGaDF3Nkp1SWl3aWJHOWpZV3hsSWpvaWRta2lMQ0pwWVhRaU9qRTJORGs1TXpVeE9ESXNJbVY0Y0NJNk1UWTBPVGt6T0RjNE1uMC5VMndheDN1WXY0QnQ0WkRzdFFGQVFZbEpRMFVud3R2SFZLcUx0TnBXcDRwRUF2ZVpwM3BfaVRpbzdURXF2QmpQWnFfRkhjTmtCcEhFUlRXTWdxQ3RWZTA1TmVaX3VNdUxNb1haaGJoZDk0Z0hNcnFqdWtUVGVFVGtWMjNFMnlhUXRRVGFETHdmd2lSenl5Q19KYmU3YUlRdVhIWkF3Mzc5YUhaNm8xcmhmeWpPU1F6YklnU2ZiaThoVU9WekQ4QTd0MGtGWjU1VjkxeHR0eTRZSThlaTNPQ2NuLWcxanVURVg2SG9jMDk2NGY2RVNuNEpFWGN2Y3ZZQWw1Qy1UdW1LdXZ6aklrSlE0ZWtPYURBcjVIQTFEcV90S0dubXJYdzRVbmV5cXpzbUUzTFJlajRCaFlPSFFlbWhoU1p3TkZjYWtNOUVxbFNpTXNHUkMtT2tFMkFacXciLCJjcmVhdGVkRGF0ZSI6MTY0OTkzNTE4MjgyOCwiaWF0IjoxNjQ5OTM1MTgyLCJleHAiOjE2NTM1MzUxODJ9.y4v2UzG2_djlJc9O_gcVAQfWktdzN_TLJet6rrD9dHI';
           var loginUtil = MockLoginUtil();

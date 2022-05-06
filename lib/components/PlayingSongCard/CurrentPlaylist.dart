@@ -31,19 +31,24 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
                 for (int index = 0; index < playlist.length; index++) {
                   IndexedAudioSource song = playlist[index];
                   children.add(
-                      Container(
-                        key: ValueKey(index),
-                        margin: EdgeInsets.only(top: 10.0),
-                        child: PlayingSongCard(
-                          songName: song.tag.title,
-                          artistName: song.tag.artist,
-                          artURL: song.tag.artwork,
-                          size: 50,
-                          imageSize: 50,
-                          songNameFontSize: 16,
-                          artistFontSize: 12,
-                          songNameColor: (currentIndex == index)  ? Color.fromRGBO(255, 255, 255, 1) : Color.fromRGBO(255, 255, 255, 0.60),
-                          hasArtWork: true,
+                      Dismissible(
+                        key :  UniqueKey(),
+                        direction: DismissDirection.horizontal,
+                        onDismissed: (_)=>{_audioManager.removeSong(index)},
+                        child: Container(
+                          key: ValueKey(index),
+                          margin: EdgeInsets.only(top: 10.0),
+                          child: PlayingSongCard(
+                            songName: song.tag.title,
+                            artistName: song.tag.artist,
+                            artURL: song.tag.artwork,
+                            size: 50,
+                            imageSize: 50,
+                            songNameFontSize: 16,
+                            artistFontSize: 12,
+                            songNameColor: (currentIndex == index)  ? Color.fromRGBO(255, 255, 255, 1) : Color.fromRGBO(255, 255, 255, 0.60),
+                            hasArtWork: true,
+                          ),
                         ),
                       )
                   );

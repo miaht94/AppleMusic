@@ -1,6 +1,7 @@
 import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:apple_music/components/AudioController/AudioStates.dart';
+import 'package:apple_music/components/AudioController/AudioUi.dart';
 import 'package:apple_music/components/NextPreviousButton/NextSongButton.dart';
 import 'package:apple_music/components/NextPreviousButton/PreviousSongButton.dart';
 import 'package:apple_music/constant.dart';
@@ -34,7 +35,7 @@ class _PlayingBarState extends State < PlayingBar > {
         if (currentSong.artwork == "") return Container();
         return GestureDetector(
           onTap:  () {
-            Navigator.of(GetIt.I.get<AudioPageRouteManager>().getMainContext()).pushNamed('/playingPage');
+            Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));
           },
           child: Material(
             type: MaterialType.transparency,
