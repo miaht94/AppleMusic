@@ -66,7 +66,7 @@ class PlaylistModel{
       'app_token' : GetIt.I.get<CredentialModelNotifier>().value.appToken,
       'public': '1',
     });
-    final  response = await http.get(httpURI);
+    final response = await GetIt.I.get<http.Client>().get(httpURI);
     if (response.statusCode == 200){
       final JsonDecoder decoder = const JsonDecoder();
       final PlaylistModel song = PlaylistModel.fromJson(decoder.convert(response.body));

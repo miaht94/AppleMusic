@@ -36,90 +36,99 @@ class _PlayingBarState extends State < PlayingBar > {
           onTap:  () {
             Navigator.of(GetIt.I.get<AudioPageRouteManager>().getMainContext()).pushNamed('/playingPage');
           },
-          child: Container(
-            padding: EdgeInsets.only(top: kDefaultPadding / 2, left: kDefaultPadding, bottom: kDefaultPadding / 2),
-            width: screenSize.width,
-            color: Color.fromARGB(24, 97, 97, 95),
+          child: Material(
+            type: MaterialType.transparency,
+            elevation: 6,
             child: Container(
+              padding: EdgeInsets.only(top: kDefaultPadding / 2, left: kDefaultPadding, bottom: kDefaultPadding / 2),
               width: screenSize.width,
-              child: Row(children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  margin: const EdgeInsets.only(right: kDefaultPadding),
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8))
-                      ),
-                      child: CachedNetworkImage(
-                        imageUrl: '${currentSong.artwork}',
-                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                        const SkeletonAvatar(),
-                          imageBuilder: (context, imageProvider) =>
-                          Container(
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover
-                              ),
-                              borderRadius: const BorderRadius.all(Radius.circular(8))
-                            ), ),
-                      ),
-                  // child: CircleAvatar(backgroundImage : Image.network(albumRectangleCardModel.artURL,).image)
-                ),
-                Expanded(
-                  child: Container(
+              color: Color.fromARGB(239, 249, 249, 249),
+              child: Container(
+                width: screenSize.width,
+                child: Row(children: [
+                  Container(
+                    width: 60,
                     height: 60,
-                    child: Column(
-              
-                      children: [
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                flex: 4,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(currentSong.title, style: const TextStyle(fontSize: 16, color: Colors.black, overflow: TextOverflow.ellipsis), maxLines: 1),
-                                    Text(currentSong.artist, style: const TextStyle(fontSize: 13, color: Colors.grey, overflow: TextOverflow.ellipsis), maxLines: 1)
-                                  ], ),
-                              ),
-                              Flexible(
-                                flex: 2,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                    child: PreviousSongButton(buttonSize: 35, buttonColor: Colors.black.withOpacity(0.7),)
+                    margin: const EdgeInsets.only(right: kDefaultPadding),
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8))
+                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: '${currentSong.artwork}',
+                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                          const SkeletonAvatar(),
+                            imageBuilder: (context, imageProvider) =>
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover
                                 ),
-                              ),
-                              Flexible(
-                                flex: 2,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                    child: PausePlayButton(buttonSize: 35, buttonColor: Colors.black.withOpacity(0.7))
-                                ),
-                              ),
-                              Flexible(
-                                flex: 2,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                    child: NextSongButton(buttonSize: 35, buttonColor: Colors.black.withOpacity(0.7))
-                                ),
-                              ),
-        
-                            ],
-                          ),
-                        )
-        
-                      ]),
+                                borderRadius: const BorderRadius.all(Radius.circular(8))
+                              ), ),
+                        ),
+                    // child: CircleAvatar(backgroundImage : Image.network(albumRectangleCardModel.artURL,).image)
                   ),
-                ),
-        
-              ], ),
+                  Expanded(
+                    child: Container(
+                      height: 60,
+                      child: Column(
+                
+                        children: [
+                          Expanded(
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                
+                                Flexible(
+                                  flex: 4,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(currentSong.title, style: const TextStyle(fontSize: 16, color: Colors.black, overflow: TextOverflow.ellipsis), maxLines: 1),
+                                      Text(currentSong.artist, style: const TextStyle(fontSize: 13, color: Colors.grey, overflow: TextOverflow.ellipsis), maxLines: 1)
+                                    ], ),
+                                ),
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(),
+                                ),
+                                Flexible(
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                      child: PreviousSongButton(buttonSize: 35, buttonColor: Colors.black.withOpacity(0.7),)
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                      child: PausePlayButton(buttonSize: 35, buttonColor: Colors.black.withOpacity(0.7))
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12),
+                                      child: NextSongButton(buttonSize: 35, buttonColor: Colors.black.withOpacity(0.7))
+                                  ),
+                                ),
+                  
+                              ],
+                            ),
+                          )
+                  
+                        ]),
+                    ),
+                  ),
+                  
+                ], ),
+              ),
             ),
           ),
         );

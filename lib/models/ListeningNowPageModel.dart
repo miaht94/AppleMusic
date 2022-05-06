@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/ArtistModel.dart';
@@ -8,6 +9,7 @@ import 'package:apple_music/models/PlaylistModel.dart';
 import 'package:apple_music/models/SongModel.dart';
 import 'package:apple_music/models/VerticalCardWithTitleModel.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:palette_generator/palette_generator.dart';
 
@@ -32,12 +34,22 @@ class ListeningNowPageModel {
     // fetch best choice playlist
     for(String id in listIdItem.listBestChoice){
         final playlist = await PlaylistModel.fetchPlaylist(id);
-        listBestChoice.add(VerticalCardWithTitleModel(
+        if (!isTestingMode) {
+          listBestChoice.add(VerticalCardWithTitleModel(
             playlist.playlistName,
             playlist.playlistDescription,
             playlist.artUrl,
           await getImagePalette(NetworkImage(playlist.artUrl)),
         ));
+        } else {
+          listBestChoice.add(VerticalCardWithTitleModel(
+            playlist.playlistName,
+            playlist.playlistDescription,
+            playlist.artUrl,
+            Colors.black.withOpacity(0.2)
+        ));
+        }
+        
     }
     // fetch Recently played
     for(String id in listIdItem.listRencentlyPlayed){
@@ -60,12 +72,21 @@ class ListeningNowPageModel {
     // fetch Year-end replays
     for(String id in listIdItem.listYearEndReplays){
         final playlist = await PlaylistModel.fetchPlaylist(id);
+        if (!isTestingMode) {
         listYearEndReplays.add(VerticalCardWithTitleModel(
           playlist.playlistName,
           playlist.playlistDescription,
           playlist.artUrl,
           await getImagePalette(NetworkImage(playlist.artUrl)),
         ));
+        } else {
+          listYearEndReplays.add(VerticalCardWithTitleModel(
+          playlist.playlistName,
+          playlist.playlistDescription,
+          playlist.artUrl,
+          Colors.black.withOpacity(0.2),
+        ));
+        }
     }
     }catch (e){
       print(e);
@@ -86,7 +107,8 @@ class ListeningNowPageModel {
         queryParameters: {
           'page_name': 'ListeningNow'
         });
-    final response = await http.get(httpURI);
+    http.Client client = GetIt.I.get<http.Client>();
+    final response = await client.get(httpURI);
     if (response.statusCode == 200) {
       const JsonDecoder decoder = JsonDecoder();
       return ListeningNowItem.fromJson(decoder.convert(response.body));

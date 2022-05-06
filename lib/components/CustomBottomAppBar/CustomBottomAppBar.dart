@@ -55,6 +55,7 @@ class _CustomBottomAppBar extends State < CustomBottomAppBar > {
                     icon: SFSymbols.play_circle,
                     isActivated: widget.pageController.page != null ? widget.pageController.page!.toInt() == 0 : widget.pageController.initialPage == 0,
                     onTapHandler: () {
+                    
                       widget.pageController.animateToPage(0, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
                     },)
                 ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:apple_music/constant.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
 class ArtistModel{
@@ -38,7 +39,7 @@ class ArtistModel{
     final Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, port: SV_PORT, path: ARTIST_PATH, queryParameters: {
       '_id': id
     });
-    final  response = await http.get(httpURI);
+    final  response = await GetIt.I.get<http.Client>().get(httpURI);
     if (response.statusCode == 200){
       final JsonDecoder decoder = const JsonDecoder();
       final ArtistModel song = ArtistModel.fromJson(decoder.convert(response.body));

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/main.dart';
@@ -15,7 +16,6 @@ import 'package:uni_links/uni_links.dart';
 import 'package:flutter/services.dart'
 show PlatformException;
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-
 class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -58,11 +58,11 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future < bool > temp = checkLoginStatus();
+    LoginUtil util = GetIt.I.get<LoginUtil>();
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: FutureBuilder<bool>(
-        future: checkLoginStatus(),
+        future: util.checkLoginStatus(),
         builder: (context_, snapshot) {
           if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
             if (!snapshot.data!) {
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                               } else {
                                 GetIt.I.registerSingleton < CredentialModelNotifier > (CredentialModelNotifier(CredentialModel(response['appToken'])));
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đăng nhập thành công')));
-                                await saveCredential(response['appToken']);
+                                await util.saveCredential(response['appToken']);
                                 await Navigator.of(context).pushNamed('/welcomePage', arguments: WelcomePageArgument(response['appToken']));
                               }
                             },

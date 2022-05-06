@@ -21,15 +21,27 @@ final getIt = GetIt.instance;
 
 void setUpGetIt() {
   // set up audio state manager
+  http.Client client = http.Client();
   getIt.registerLazySingleton < AudioManager > (() => AudioManager());
   getIt.registerLazySingleton < AudioPageRouteManager > (() => AudioPageRouteManager());
   getIt.registerLazySingleton < CurrentUserManager > (() => CurrentUserManager());
   // getIt.registerLazySingleton<Map<String, GlobalKey>>(() => Map());
   getIt.registerLazySingleton < ContextMenuManager > (() => ContextMenuManager());
   getIt.registerLazySingleton < ListeningNowPageModel > (() => ListeningNowPageModel());
+  print(Platform.environment.containsKey('FLUTTER_TEST'));
+  if (!isTestingMode) {
+    getIt.registerLazySingleton<LoginUtil>(() => LoginUtil());
+    getIt.registerLazySingleton<http.Client>(() => client);
+  } 
+  
 }
-
-Future < bool > checkLoginStatus() async {
+class LoginUtil {
+  static final LoginUtil _singleton = LoginUtil._internal();
+  factory LoginUtil() {
+    return _singleton;
+  }
+  LoginUtil._internal();
+   Future < bool > checkLoginStatus() async {
   try {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
@@ -64,9 +76,10 @@ Future < bool > saveCredential(String app_token) async {
   }
 
 
+
 }
 
-Future < UserModel > getUserInfo(String appToken) async {
+ Future < UserModel > getUserInfo(String appToken) async {
   Uri httpURI = Uri(scheme: "http", host: SV_HOSTNAME, port: SV_PORT, path: MY_PROFILE_PATH, queryParameters: {
     'app_token': appToken
   });
@@ -76,4 +89,5 @@ Future < UserModel > getUserInfo(String appToken) async {
   CurrentUserManager currentUserManager = getIt < CurrentUserManager > ();
   currentUserManager.setCurrentUser(user);
   return user;
+}
 }
