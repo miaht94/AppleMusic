@@ -1,9 +1,15 @@
 import 'package:apple_music/components/AudioController/AudioManager.dart';
+import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
+import 'package:apple_music/components/ContextMenu/SongContextMenu.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCard.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCardConstant.dart';
+import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/services/service_locator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/components/AudioController/AudioStates.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:get_it/get_it.dart';
 
 class CurrentSongCard extends StatefulWidget{
 
@@ -56,22 +62,61 @@ class _CurrentSongCardState extends State<CurrentSongCard> {
         }
       );
   }
+
+  void onContextMenuPress (currentSong){
+    GetIt.I.get<ContextMenuManager>().insertOverlay(
+        SongContextMenu(
+        songCardInPlaylistModel: SongCardInPlaylistModel(
+          currentSong.title,
+          currentSong.artist,
+          currentSong.artwork,
+          currentSong.id,
+          currentSong.genre,
+        )
+    )
+    );
+  }
+
   Widget _buildCard(){
     return
       ValueListenableBuilder<AudioMetadata>(
         valueListenable: _audioManager.currentSongNotifier,
         builder: (_,currentSong,__){
           if(currentSong.artwork != ""){
-            return PlayingSongCard(
-              songName: currentSong.title,
-              artistName: currentSong.artist,
-              artURL: currentSong.artwork,
-              size: 60,
-              imageSize: 60,
-              songNameFontSize: 20,
-              artistFontSize: 15,
-              songNameColor: Color.fromRGBO(255, 255, 255, 0.95),
-              hasArtWork: false,
+            return Stack(
+              children: [
+                PlayingSongCard(
+                  songName: currentSong.title,
+                  artistName: currentSong.artist,
+                  artURL: currentSong.artwork,
+                  size: 60,
+                  imageSize: 60,
+                  songNameFontSize: 20,
+                  artistFontSize: 15,
+                  songNameColor: Color.fromRGBO(255, 255, 255, 0.95),
+                  hasArtWork: false,
+                ),
+                Positioned(
+                  right: 10,
+                  height: 27,
+                  top: 15,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white24,
+                    ),
+                    child: IconButton(
+                        padding: EdgeInsets.all(0.0),
+                        onPressed: () => onContextMenuPress(currentSong),
+                        icon: Icon(
+                          SFSymbols.ellipsis_vertical,
+                          color: Colors.white,
+                          size:22,
+                        )
+                    ),
+                  ),
+                )
+              ],
             );
           } else
             return

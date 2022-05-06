@@ -17,7 +17,7 @@ class AudioManager {
   final childWindowNotifier = ValueNotifier<ChildWindowState>(ChildWindowState.playlist);
   final playlistNotifier = ValueNotifier<List<IndexedAudioSource>>([]);
   final currentSongNotifier = ValueNotifier<AudioMetadata>(
-      AudioMetadata(artist: '',artwork: '', title: '', lyric: ''));
+      AudioMetadata(artist: '',artwork: '', title: '', lyric: '',id: '',genre: ''));
   final isFirstSongNotifier = ValueNotifier<bool>(true);
   final isLastSongNotifier = ValueNotifier<bool>(true);
   final isShuffleNotifier = ValueNotifier<bool>(false);
@@ -222,7 +222,10 @@ class AudioManager {
           tag:AudioMetadata(title: value.songName,
               artist: value.artist,
               artwork: value.artwork,
-              lyric: value.songLyricUrl)
+              lyric: value.songLyricUrl,
+              genre: value.genre,
+              id: value.id,
+          )
       ));
       if (isFirst){
         _audioPlayer.seek(Duration(seconds: 0),index : 0);
@@ -247,7 +250,9 @@ class AudioManager {
         tag:AudioMetadata(title: value.songName,
             artist: value.artist,
             artwork: value.artwork,
-            lyric: value.songLyricUrl)
+            lyric: value.songLyricUrl,
+            genre: value.genre,
+            id: value.id,)
     ));
   }
 
@@ -265,8 +270,15 @@ class AudioManager {
         tag:AudioMetadata(title: value.songName,
             artist: value.artist,
             artwork: value.artwork,
-            lyric: value.songLyricUrl)
+            lyric: value.songLyricUrl,
+            genre: value.genre,
+            id: value.id,
+        )
     ));
+  }
+
+  Future<void> removeSong(int index) async{
+    await _playlist.removeAt(index);
   }
 
   int getCurrentSongIndex(){

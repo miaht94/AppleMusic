@@ -25,12 +25,16 @@ class AudioMetadata {
   final String title;
   final String artist;
   final String lyric;
+  final String genre;
+  final String id;
 
   AudioMetadata({
     required this.artwork,
     required this.title,
     required this.artist,
     required this.lyric,
+    required this.genre,
+    required this.id,
   });
 }
 
