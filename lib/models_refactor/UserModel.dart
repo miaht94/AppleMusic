@@ -14,44 +14,67 @@ class UserModel {
   String name;
   String avatarURL;
   String email;
-  List<dynamic> favorite_songs;
-  List<dynamic> favorite_albums;
-  List<dynamic> favorite_artists;
-  List<dynamic> playlists;
+  List<SongInUserModel> favorite_songs;
+  List<AlbumInUserModel> favorite_albums;
+  List<ArtistInUserModel> favorite_artists;
+  List<PlaylistInUserModel> playlists;
   bool containPlaylist(String id) {
-    for (Map<String, dynamic> json in playlists) {
-      if (json['_id'] == id) return true;
+    for (PlaylistInUserModel playlist in playlists) {
+      if (playlist.id == id) return true;
     }
     return false;
   }
   bool containFavSong(String id) {
-    for (Map<String, dynamic> json in favorite_songs) {
-      if (json['_id'] == id) return true;
+    for (SongInUserModel song in favorite_songs) {
+      if (song.id == id) return true;
     }
     return false;
   }
   bool containFavAlbum(String id) {
-    for (Map<String, dynamic> json in favorite_albums) {
-      if (json['_id'] == id) return true;
+    for (AlbumInUserModel album in favorite_albums) {
+      if (album.id == id) return true;
     }
     return false;
   }
   bool containFavArtist(String id) {
-    for (Map<String, dynamic> json in favorite_artists) {
-      if (json['_id'] == id) return true;
+    for (ArtistInUserModel artist in favorite_artists) {
+      if (artist.id == id) return true;
     }
     return false;
   }
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    List<Map<String, dynamic>> fav_songs_json = List<Map<String, dynamic>>.from(json['favorite_songs']);
+    List <SongInUserModel> list_fav_songs_obj = [];
+    for (Map<String, dynamic> i in fav_songs_json) {
+      list_fav_songs_obj.add(SongInUserModel.fromJson(i));
+    }
+
+    List<Map<String, dynamic>> fav_albums_json = List<Map<String, dynamic>>.from(json['favorite_albums']);
+    List <AlbumInUserModel> list_fav_albums_obj = [];
+    for (Map<String, dynamic> i in fav_albums_json) {
+      list_fav_albums_obj.add(AlbumInUserModel.fromJson(i));
+    }
+
+    List<Map<String, dynamic>> fav_artists_json = List<Map<String, dynamic>>.from(json['favorite_artist']);
+    List <ArtistInUserModel> list_fav_artists_obj = [];
+    for (Map<String, dynamic> i in fav_artists_json) {
+      list_fav_artists_obj.add(ArtistInUserModel.fromJson(i));
+    }
+
+    List<Map<String, dynamic>> playlists_json = List<Map<String, dynamic>>.from(json['playlists']);
+    List <PlaylistInUserModel> list_playlists_obj = [];
+    for (Map<String, dynamic> i in playlists_json) {
+      list_playlists_obj.add(PlaylistInUserModel.fromJson(i));
+    }
     return UserModel(
       uid: json['_id'] ,
       name: json['name'], 
       avatarURL: json['avatarURL'], 
       email: json['email'], 
-      playlists: json['playlists'], 
-      favorite_songs: json['favorite_songs'], 
-      favorite_albums: json['favorite_albums'], 
-      favorite_artists: json['favorite_artists']
+      playlists: list_playlists_obj, 
+      favorite_songs: list_fav_songs_obj,
+      favorite_albums: list_fav_albums_obj, 
+      favorite_artists: list_fav_artists_obj
     );
   }
 }
@@ -103,14 +126,23 @@ class ArtistInUserModel {
   String artist_name;
   String artist_description;
   String? highlight_song_id;
-  List<String>? top_song_list;
+  List<String> top_song_list;
   List<String> album_list;
   String? artist_video_url;
   String artist_image_url;
 
-  ArtistInUserModel({required this.id, required this.artist_name, required this.artist_description, this.highlight_song_id, this.top_song_list, required this.album_list, required this.artist_image_url, this.artist_video_url});
+  ArtistInUserModel({required this.id, required this.artist_name, required this.artist_description, this.highlight_song_id, required this.top_song_list, required this.album_list, required this.artist_image_url, this.artist_video_url});
   factory ArtistInUserModel.fromJson(Map<String, dynamic> json) {
-    ArtistInUserModel newArtist = ArtistInUserModel(id: json['id'], artist_name: json['artist_name'], artist_description: json['artist_description'], album_list: json['album_list'], artist_image_url: json['artist_image_url'], artist_video_url: json['artist_video_url'], top_song_list: json['top_song_list'], highlight_song_id: json['highlight_song']);
+    ArtistInUserModel newArtist = ArtistInUserModel(
+      id: json['id'], 
+      artist_name: json['artist_name'], 
+      artist_description: json['artist_description'], 
+      album_list: List<String>.from(json['album_list']), 
+      artist_image_url: json['artist_image_url'], 
+      artist_video_url: json['artist_video_url'], 
+      top_song_list: List<String>.from(json['top_song_list']), 
+      highlight_song_id: json['highlight_song']
+    );
     return newArtist;
   }
 }
@@ -121,7 +153,7 @@ class AlbumInUserModel {
   String album_name;
   String genre;
   String art_url;
-  String album_year;
+  int album_year;
   List<String> songsId;
   factory AlbumInUserModel.fromJson(Map<String, dynamic> json) {
       AlbumInUserModel newAlbum = AlbumInUserModel(id: json['_id'], album_name: json['album_name'], genre: json['genre'], album_year: json['album_year'], art_url: json['art_url'], songsId: json['songs']);
