@@ -8,6 +8,8 @@ import 'package:apple_music/components/Other/PageLoadError.dart';
 import 'package:apple_music/components/TitleComponent/PageTitleBox.dart';
 import 'package:apple_music/models/AlbumSongListViewModel.dart';
 import 'package:apple_music/models/AlbumViewModel.dart';
+import 'package:apple_music/models_refactor/AlbumModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -22,18 +24,18 @@ import 'ArtistPage.dart';
 
 class AlbumView extends StatelessWidget {
 
-  final Future<AlbumViewModel> albumViewModel;
+  final Future<AlbumModel?> albumViewModel;
   
   const AlbumView({Key? key, required this.albumViewModel}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<AlbumViewModel>(
+      body: FutureBuilder<AlbumModel?>(
         future: albumViewModel,
-        builder: (BuildContext context, AsyncSnapshot<AlbumViewModel> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<AlbumModel?> snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
-            if (snapshot.data!.albumName == "AlbumError"){
+            if (snapshot.data!.album_name == "AlbumError"){
               children = <Widget>[Scaffold(
                   appBar: AppBar(
                     leading:  IconButton(
@@ -64,7 +66,7 @@ class AlbumView extends StatelessWidget {
 class AlbumViewContent extends StatefulWidget {
   const AlbumViewContent({Key? key, required this.model}) : super(key: key);
 
-  final AlbumViewModel model;
+  final AlbumModel model;
 
   @override
   _AlbumViewContentState createState() => _AlbumViewContentState();
@@ -116,11 +118,11 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                     ),
                   child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
-                                child: Image.network(widget.model.artURL)
+                                child: Image.network(widget.model.art_url)
                             )
                 ),Container(
                     alignment: Alignment.topCenter,
-                    child: Text(widget.model.albumName, textAlign: TextAlign.center, style: TextStyle(
+                    child: Text(widget.model.album_name, textAlign: TextAlign.center, style: TextStyle(
                         color: Color.fromRGBO(0, 0, 0, 1),
                         fontFamily: 'Roboto',
                         fontSize: 16,
@@ -134,11 +136,11 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ArtistView(artistViewModel: ArtistViewModel.getArtist(widget.model.albumArtist)),
+                            builder: (context) => ArtistView(artistViewModel: ArtistViewModel.getArtist(widget.model.artist.artist_name)),
                           ),
                         )
                       },
-                      child: Text(widget.model.albumArtist, textAlign: TextAlign.center, style: TextStyle(
+                      child: Text(widget.model.artist.artist_name, textAlign: TextAlign.center, style: TextStyle(
                           color: Color.fromRGBO(251, 46, 70, 1),
                           fontFamily: 'Roboto',
                           fontSize: 15,
@@ -148,7 +150,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                     )
                 ),Container(
                     alignment: Alignment.topCenter,
-                    child: Text( widget.model.albumGenre.toUpperCase() + ' - ' + widget.model.albumYear.toUpperCase(), textAlign: TextAlign.center, style: TextStyle(
+                    child: Text( widget.model.genre.toUpperCase() + ' - ' + widget.model.album_year.toString(), textAlign: TextAlign.center, style: TextStyle(
                     color: Color.fromRGBO(196, 196, 196, 1),
                     fontFamily: 'Roboto',
                     fontSize: 10,
@@ -166,7 +168,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                               onTap: (){
                                 print("Listing Album Songs");
                                 List<String> id = [];
-                                for (final AlbumSongListViewModel song in widget.model.songList) {
+                                for (final SongInAlbumModel song in widget.model.songs) {
                                   id.add(song.id);
                                   print(song.id + "added");
                                 }
@@ -180,7 +182,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                           onTap: (){
                             print("Everyday I'm Shuffling");
                             List<String> id = [];
-                            for (final AlbumSongListViewModel song in widget.model.songList) {
+                            for (final SongInAlbumModel song in widget.model.songs) {
                               id.add(song.id);
                               print(song.id + "added");
                             }
@@ -194,7 +196,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                   ),
                 ),
                 Container(
-                    child: Text(widget.model.albumDescription, textAlign: TextAlign.left, style: TextStyle(
+                    child: Text((widget.model.album_description != null) ? widget.model.album_description.toString() : '', textAlign: TextAlign.left, style: TextStyle(
                         color: Color.fromRGBO(126, 126, 130, 0.6700000166893005),
                         fontFamily: 'Roboto',
                         fontSize: 14,
@@ -204,7 +206,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                 ),
                 Container(padding: EdgeInsets.only(
                     bottom: 200),
-                    child: AlbumSongListView(songList: widget.model.songList, albumViewModel: widget.model)),
+                    child: AlbumSongListView(songList: widget.model.songs, albumViewModel: widget.model)),
 
               ]
           ),

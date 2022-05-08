@@ -155,7 +155,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
             return LyricsFrame(
               width: size.width,
               height: size.height,
-              blur: 10,
+              blur: 5,
               backgroundImagePath: currentSong.artwork,
               child: Container(
                 padding: EdgeInsets.only(left: 20.0),

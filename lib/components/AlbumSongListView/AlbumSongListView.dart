@@ -1,14 +1,10 @@
-import 'package:apple_music/models/AlbumSongListViewModel.dart';
-import 'package:apple_music/pages/AlbumPage.dart';
+import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import 'package:get_it/get_it.dart';
-import '../../models/AlbumViewModel.dart';
 import '../AudioController/AudioManager.dart';
 import '../ContextMenu/AlbumContextMenu.dart';
 import '../ContextMenu/ContextMenuManager.dart';
-import '../TitleComponent/SeeAllButton.dart';
-import '../TitleComponent/BoldTitle.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:apple_music/services/service_locator.dart';
@@ -20,8 +16,8 @@ class AlbumSongListView extends StatelessWidget {
     required this.albumViewModel
   }) : super(key: key);
 
-  final List<AlbumSongListViewModel> songList;
-  final AlbumViewModel albumViewModel;
+  final List<SongInAlbumModel> songList;
+  final AlbumModel albumViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +45,8 @@ class AlbumSongButton extends StatelessWidget {
     required this.albumViewModel
   }) : super(key: key);
 
-  AlbumSongListViewModel albumSongListViewModel;
-  AlbumViewModel albumViewModel;
+  SongInAlbumModel albumSongListViewModel;
+  AlbumModel albumViewModel;
 
   late AudioPageRouteManager audioPageRouteManager =
       getIt<AudioPageRouteManager>();
@@ -91,7 +87,7 @@ class AlbumSongButton extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text(albumSongListViewModel.trackNumber.toString(),
+                                Text(albumSongListViewModel.track_number.toString(),
                                     style: TextStyle(
                                         fontSize: 13, color: Colors.grey)),
                               ],
@@ -110,7 +106,7 @@ class AlbumSongButton extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       // mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        Text(albumSongListViewModel.songName,
+                                        Text(albumSongListViewModel.song_name,
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 color: Colors.black)),

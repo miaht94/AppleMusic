@@ -1,19 +1,13 @@
 import 'package:apple_music/components/TitleComponent/BoldTitle.dart';
-import 'package:apple_music/components/VerticalBigCard/VerticalBigCardConstant.dart';
 import 'package:apple_music/components/VerticalBigCard/VerticalBigCardsWithTitle.dart';
-import 'package:apple_music/models/HScrollCircleModel.dart';
-import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/ListeningNowPageModel.dart';
-import 'package:apple_music/models/VerticalCardWithTitleModel.dart';
 import 'package:apple_music/pages/ListeningNowSkeleton.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import '../components/SquareCard/HScrollSquareCardWithText.dart';
 import '../components/CircleCard/HScrollCircleCardWithText.dart';
 import '../components/TitleComponent/PageTitleBox.dart';
 import '../constant.dart';
-import 'package:skeleton_loader/skeleton_loader.dart';
 
 class ListeningNow extends StatefulWidget {
   ListeningNow({
