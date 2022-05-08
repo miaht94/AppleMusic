@@ -4,8 +4,10 @@
 
 A clone version of Apple Music on Android with Flutter.
 
+Build and Test:\
 [![Codemagic build status](https://api.codemagic.io/apps/626b6b056248df56992be58c/626b6b056248df56992be58b/status_badge.svg)](https://codemagic.io/apps/626b6b056248df56992be58c/626b6b056248df56992be58b/latest_build)
 
+Test:\
 [![Codemagic test status](https://api.codemagic.io/apps/626b6b056248df56992be58c/626b6fc36248dfc3f57eca98/status_badge.svg)](https://codemagic.io/apps/626b6b056248df56992be58c/626b6fc36248dfc3f57eca98/latest_build)
 ## Resources
 
