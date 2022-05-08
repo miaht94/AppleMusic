@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/UserModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:apple_music/models_refactor/ArtistModel.dart';
@@ -24,10 +24,10 @@ class HttpUtil {
 
   Future<UserModel?> fetchUserModel({required String app_token}) async {
     try {
-      final Response<UserModel> userModelFuture = await dio.get('$MY_PROFILE_PATH', queryParameters: {
+      final Response userModelFuture = await dio.get('$MY_PROFILE_PATH', queryParameters: {
       'app_token': app_token
     });
-    return userModelFuture.data;
+    return UserModel.fromJson(userModelFuture.data);
     } catch(e) {
       return null;
     }

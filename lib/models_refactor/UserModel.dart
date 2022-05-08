@@ -55,7 +55,7 @@ class UserModel {
       list_fav_albums_obj.add(AlbumInUserModel.fromJson(i));
     }
 
-    List<Map<String, dynamic>> fav_artists_json = List<Map<String, dynamic>>.from(json['favorite_artist']);
+    List<Map<String, dynamic>> fav_artists_json = List<Map<String, dynamic>>.from(json['favorite_artists']);
     List <ArtistInUserModel> list_fav_artists_obj = [];
     for (Map<String, dynamic> i in fav_artists_json) {
       list_fav_artists_obj.add(ArtistInUserModel.fromJson(i));
@@ -93,7 +93,7 @@ class PlaylistInUserModel {
       playlist_name : json['playlist_name'], 
       art_url : json['art_url'], 
       playlist_description : json['playlist_description'], 
-      songsId : json['songs'], 
+      songsId : List<String>.from(json['songs']), 
       public : json['public']);
     return newPlaylist;
   }
