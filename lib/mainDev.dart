@@ -7,6 +7,8 @@ import 'package:apple_music/models/AlbumViewModel.dart';
 import 'package:apple_music/models/ArtistViewModel.dart';
 import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/UserModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:apple_music/pages/ArtistPage.dart';
 import 'package:apple_music/pages/DiscoveryPage.dart';
@@ -26,6 +28,7 @@ import 'package:get_it/get_it.dart';
 import 'components/ButtonWithIcon/WideButton.dart';
 import 'test.dart';
 import 'services/service_locator.dart';
+import 'package:apple_music/services/http_util.dart';
 
 import 'dart:io';
 
@@ -75,6 +78,12 @@ class _MyHomePageState extends State < MyHomePage > {
     super.initState();
   }
 
+  Future<void> test() async {
+    List<ArtistModel?>? artist = await HttpUtil().searchArtistModel(
+      artist_name : "T",
+    );
+    print(artist![1]!.artist_name);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +94,11 @@ class _MyHomePageState extends State < MyHomePage > {
         home: Scaffold(
           body: Container(
               color: Colors.black,
-              child: PausePlayButton()),
+              child: IconButton(
+                icon: Icon(Icons.album),
+                onPressed: test,
+              ),
+            ),
         ),
         ),
     );
