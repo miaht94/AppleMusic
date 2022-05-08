@@ -1,0 +1,195 @@
+import 'dart:convert';
+
+import 'package:apple_music/constant.dart';
+import 'package:apple_music/models/CredentialModel.dart';
+import 'package:apple_music/services/http_util.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get_it/get_it.dart';
+import 'package:http/http.dart'
+as http;
+class UserModel {
+  UserModel({required this.uid, required this.name, required this.avatarURL, required this.email, required this.playlists, required this.favorite_songs, required this.favorite_albums, required this.favorite_artists});
+  String uid;
+  String name;
+  String avatarURL;
+  String email;
+  List<dynamic> favorite_songs;
+  List<dynamic> favorite_albums;
+  List<dynamic> favorite_artists;
+  List<dynamic> playlists;
+  bool containPlaylist(String id) {
+    for (Map<String, dynamic> json in playlists) {
+      if (json['_id'] == id) return true;
+    }
+    return false;
+  }
+  bool containFavSong(String id) {
+    for (Map<String, dynamic> json in favorite_songs) {
+      if (json['_id'] == id) return true;
+    }
+    return false;
+  }
+  bool containFavAlbum(String id) {
+    for (Map<String, dynamic> json in favorite_albums) {
+      if (json['_id'] == id) return true;
+    }
+    return false;
+  }
+  bool containFavArtist(String id) {
+    for (Map<String, dynamic> json in favorite_artists) {
+      if (json['_id'] == id) return true;
+    }
+    return false;
+  }
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      uid: json['_id'] ,
+      name: json['name'], 
+      avatarURL: json['avatarURL'], 
+      email: json['email'], 
+      playlists: json['playlists'], 
+      favorite_songs: json['favorite_songs'], 
+      favorite_albums: json['favorite_albums'], 
+      favorite_artists: json['favorite_artists']
+    );
+  }
+}
+
+class PlaylistInUserModel {
+  PlaylistInUserModel({required this.id, required this.playlist_name, required this.art_url, required this.playlist_description, required this.songsId, required this.public});
+  String id;
+  String playlist_name;
+  String art_url;
+  String playlist_description;
+  List<String> songsId;
+  bool public;
+  factory PlaylistInUserModel.fromJson(Map<String, dynamic> json) {
+    PlaylistInUserModel newPlaylist = new PlaylistInUserModel(
+      id : json['_id'], 
+      playlist_name : json['playlist_name'], 
+      art_url : json['art_url'], 
+      playlist_description : json['playlist_description'], 
+      songsId : json['songs'], 
+      public : json['public']);
+    return newPlaylist;
+  }
+}
+
+class SongInUserModel {
+  SongInUserModel({required this.id, required this.song_name, this.track_number, this.collaboration, required this.song_key, required this.lyric_key});
+  String id;
+  String song_name;
+  int? track_number;
+  String? collaboration;
+  String song_key;
+  String lyric_key;
+  factory SongInUserModel.fromJson(Map<String, dynamic> json) {
+    SongInUserModel newSong = SongInUserModel(
+      id: json['_id'], 
+      song_name: json['song_name'], 
+      song_key: json['song_key'], 
+      lyric_key: json['lyric_key'],
+      track_number: json['track_number'],
+      collaboration: json['collaboration']
+    );
+    return newSong;
+  }
+}
+
+class ArtistInUserModel {
+
+  String id;
+  String artist_name;
+  String artist_description;
+  String? highlight_song_id;
+  List<String>? top_song_list;
+  List<String> album_list;
+  String? artist_video_url;
+  String artist_image_url;
+
+  ArtistInUserModel({required this.id, required this.artist_name, required this.artist_description, this.highlight_song_id, this.top_song_list, required this.album_list, required this.artist_image_url, this.artist_video_url});
+  factory ArtistInUserModel.fromJson(Map<String, dynamic> json) {
+    ArtistInUserModel newArtist = ArtistInUserModel(id: json['id'], artist_name: json['artist_name'], artist_description: json['artist_description'], album_list: json['album_list'], artist_image_url: json['artist_image_url'], artist_video_url: json['artist_video_url'], top_song_list: json['top_song_list'], highlight_song_id: json['highlight_song']);
+    return newArtist;
+  }
+}
+
+class AlbumInUserModel {
+  AlbumInUserModel({required this.id, required this.album_name, required this.genre, required this.album_year, required this.art_url, required this.songsId});
+  String id;
+  String album_name;
+  String genre;
+  String art_url;
+  String album_year;
+  List<String> songsId;
+  factory AlbumInUserModel.fromJson(Map<String, dynamic> json) {
+      AlbumInUserModel newAlbum = AlbumInUserModel(id: json['_id'], album_name: json['album_name'], genre: json['genre'], album_year: json['album_year'], art_url: json['art_url'], songsId: json['songs']);
+      return newAlbum;
+  }
+}
+// class UserModelNotifier extends ValueNotifier<UserModel> {
+//   UserModelNotifier(UserModel value) : super(value);
+//   Future<void> refreshUser() async {
+//     value = await UserModel.fetchUser(GetIt.I.get<CredentialModelNotifier>().value.appToken);
+//     notifyListeners();
+//   }
+//   Future<bool> addPlaylist(String playlist_name, String playlist_description, String art_url) async {
+//     try {
+//       Dio dio = Dio(BaseOptions(baseUrl: 'http://' + SV_HOSTNAME + '/'));
+//       String fileName = art_url.split('/').last;
+//       FormData formData = FormData.fromMap({
+//           'art_url':
+//               await MultipartFile.fromFile(art_url, filename:fileName),
+//           'playlist_name': playlist_name,
+//           'playlist_description': playlist_description,
+//           'songs': []
+//       });
+//       dynamic response = await dio.post(ADD_PLAYLIST, data: formData, queryParameters: {'app_token': GetIt.I.get<CredentialModelNotifier>().value.appToken});
+//       await refreshUser();
+//       return true;
+//     } catch(e) {
+//       return false;
+//     }
+//   }
+
+//   Future<bool> deletePlaylist(String playlistId) async {
+//     try {
+//       Dio dio = Dio(BaseOptions(baseUrl:'http://' + SV_HOSTNAME + '/'));
+//       FormData formData = FormData.fromMap({
+//           '_id': playlistId
+//       });
+//       dynamic response = await dio.delete(DELETE_PLAYLIST, data: formData, queryParameters: {'app_token': GetIt.I.get<CredentialModelNotifier>().value.appToken});
+//       await refreshUser();
+//       return true;
+//     } catch(e) {
+//       return false;
+//     }
+//   }
+
+//   Future<bool> updateFavorite({List<String>? favSongsId, List<String>? favAlbumsId, List<String>? favArtistsId, required String action}) async {
+//     try {
+//     Dio dio = Dio(BaseOptions(baseUrl:'http://' + SV_HOSTNAME + '/'));
+//     Map<String, dynamic> params = {'action': action};
+//     if (favSongsId != null) {
+//       params.addAll({'favorite_songs': jsonEncode(favSongsId)});
+//     }
+//     if (favAlbumsId != null) {
+//       params.addAll({'favorite_albums': jsonEncode(favAlbumsId)});
+//     }
+//     if (favArtistsId != null) {
+//       params.addAll({'favorite_artists': jsonEncode(favArtistsId)});
+//     }
+//     FormData formData = FormData.fromMap(
+//         params
+//     );
+//     Response response = await dio.post(UPDATE_FAVORITE, data: formData, queryParameters: {'app_token': GetIt.I.get<CredentialModelNotifier>().value.appToken});
+//     refreshUser();
+//     notifyListeners();
+//     return true;
+//     }
+//     catch (e) {
+//       return false;
+//     }
+//   }
+// }
