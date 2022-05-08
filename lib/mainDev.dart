@@ -7,6 +7,8 @@ import 'package:apple_music/models/AlbumViewModel.dart';
 import 'package:apple_music/models/ArtistViewModel.dart';
 import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/UserModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:apple_music/pages/ArtistPage.dart';
 import 'package:apple_music/pages/DiscoveryPage.dart';
@@ -27,6 +29,7 @@ import 'components/ButtonWithIcon/WideButton.dart';
 import 'services/http_util.dart';
 import 'test.dart';
 import 'services/service_locator.dart';
+import 'package:apple_music/services/http_util.dart';
 
 import 'dart:io';
 
