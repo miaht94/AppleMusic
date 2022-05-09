@@ -13,18 +13,21 @@ class LibraryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-      ListView(
-          physics: const BouncingScrollPhysics(),
-          children: [
-            PageTitleBox(title: "Thư Viện"),
-            Container(
-              padding: EdgeInsets.only(left: kDefaultPadding, bottom: kDefaultPadding),
-              child: SongMenu(),
-            ),
-            Container(
-              child: RencentlyViewed(),
-            )
-          ]
+      Padding(
+        padding: const EdgeInsets.only(left: kDefaultPadding),
+        child: ListView(
+            physics: const BouncingScrollPhysics(),
+            children: [
+              PageTitleBox(title: "Thư Viện"),
+              Container(
+                padding: EdgeInsets.only(left: kDefaultPadding, bottom: kDefaultPadding),
+                child: SongMenu(),
+              ),
+              Container(
+                child: RencentlyViewed(),
+              )
+            ]
+        ),
       );
   }
 }

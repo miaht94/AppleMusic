@@ -13,6 +13,7 @@ import 'package:apple_music/components/ProgressBar/ProgessBarWidget.dart';
 import 'package:apple_music/components/RepeatButton/RepeatButton.dart';
 import 'package:apple_music/components/ShuffleButton/ShuffleButton.dart';
 import 'package:apple_music/models/LyricModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -149,14 +150,14 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
   Widget _buildChildWindow() {
     final size = MediaQuery.of(context).size;
     return
-      ValueListenableBuilder<AudioMetadata>(
+      ValueListenableBuilder<SongUrlModel?>(
           valueListenable: _audioManager.currentSongNotifier,
           builder: (_,currentSong,__){
             return LyricsFrame(
               width: size.width,
               height: size.height,
               blur: 5,
-              backgroundImagePath: currentSong.artwork,
+              backgroundImagePath: currentSong!.song.album.art_url,
               child: Container(
                 padding: EdgeInsets.only(left: 20.0),
                 child: ValueListenableBuilder<ChildWindowState>(
@@ -204,7 +205,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
     return
       Container(
         child:
-        ValueListenableBuilder<AudioMetadata>(
+        ValueListenableBuilder<SongUrlModel?>(
           valueListenable: _audioManager.currentSongNotifier,
           builder: (_, currentSong, __) {
             return FutureBuilder<List<LyricModel>>(

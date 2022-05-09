@@ -17,8 +17,7 @@ class AudioManager {
   final pausePlayButtonNotifier = ValueNotifier<PausePlayButtonState>(PausePlayButtonState.paused);
   final childWindowNotifier = ValueNotifier<ChildWindowState>(ChildWindowState.playlist);
   final playlistNotifier = ValueNotifier<List<IndexedAudioSource>>([]);
-  final currentSongNotifier = ValueNotifier<AudioMetadata>(
-      AudioMetadata(artist: '',artwork: '', title: '', lyric: '',id: '',genre: ''));
+  final currentSongNotifier = ValueNotifier<SongUrlModel?>(null);
   final isFirstSongNotifier = ValueNotifier<bool>(true);
   final isLastSongNotifier = ValueNotifier<bool>(true);
   final isShuffleNotifier = ValueNotifier<bool>(false);
@@ -103,7 +102,7 @@ class AudioManager {
       // change song fetch
       if(currentSongIndexNotifier.value != _audioPlayer.currentIndex){
         currentSongIndexNotifier.value = _audioPlayer.currentIndex!;
-        currentLyricNotifier =  LyricModel.fetchLyrics(currentSongNotifier.value.lyric);
+        currentLyricNotifier =  LyricModel.fetchLyrics(currentSongNotifier.value!.lyricURL);
       }
 
       final playlist = sequenceState.effectiveSequence;
@@ -220,13 +219,7 @@ class AudioManager {
     }
     for (SongUrlModel value in listSongs){
       await _playlist.add(AudioSource.uri(Uri.parse(value.song_url),
-          tag:AudioMetadata(title: value.song.song_name,
-              artist: value.song.artist.artist_name,
-              artwork: value.song.album.art_url,
-              lyric: value.lyricURL,
-              genre: value.song.album.genre,
-              id: value.song.id,
-          )
+          tag: value.song
       ));
       if (isFirst){
         _audioPlayer.seek(Duration(seconds: 0),index : 0);
@@ -249,12 +242,7 @@ class AudioManager {
     }
     if (value != null) {
       await _playlist.insert(CurrentIndex,AudioSource.uri(Uri.parse(value.song_url),
-        tag:AudioMetadata(title: value.song.song_name,
-        artist: value.song.artist.artist_name,
-        artwork: value.song.album.art_url,
-        lyric: value.lyricURL,
-        genre: value.song.album.genre,
-        id: value.song.id,)
+        tag:value.song
       ));
     }
   }
@@ -271,12 +259,7 @@ class AudioManager {
     }
     if (value != null) {
       await _playlist.insert(_playlist.length ,AudioSource.uri(Uri.parse(value.song_url),
-          tag:AudioMetadata(title: value.song.song_name,
-            artist: value.song.artist.artist_name,
-            artwork: value.song.album.art_url,
-            lyric: value.lyricURL,
-            genre: value.song.album.genre,
-            id: value.song.id,)
+          tag:value.song
       ));
     }
   }

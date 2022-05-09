@@ -27,10 +27,13 @@ class ArtistView extends StatefulWidget {
 
 class _ArtistViewState extends State<ArtistView> {
 
-  late ScrollController _scrollController = ScrollController();
+
   final videoPlayerController = VideoPlayerController.network(
       'https://mvod.itunes.apple.com/itunes-assets/HLSMusic126/v4/8e/3a/c8/8e3ac8b5-07d2-88f6-5f75-d60dd244e946/P364264761_default.m3u8');
   late ChewieController chewieController;
+
+
+  late ScrollController _scrollController = ScrollController();
   bool lastStatus = true;
 
   _scrollListener() {
