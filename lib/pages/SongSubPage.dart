@@ -110,7 +110,7 @@ class _SongSubPageState extends State<SongSubPage> {
                       shrinkWrap: true,
                       itemCount: SongCardInPlaylistModel.getSampleDataList().length,
                       itemBuilder: (context, i){
-                         return SongCardInPlaylist(songCardInPlaylistModel: SongCardInPlaylistModel.getSampleDataList()[i],);
+                         return SongCardInPlaylist(songModel: SongCardInPlaylistModel.getSampleDataList()[i],);
                       },
                     // child: ListView(
                     //   children: <Widget>SongCardinPlaylistMode.

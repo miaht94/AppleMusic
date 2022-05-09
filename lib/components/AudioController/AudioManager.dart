@@ -93,11 +93,11 @@ class AudioManager {
       if (sequenceState == null) return;
       final currentItem = sequenceState.currentSource;
       if (!isMoving && currentItem != null) {
-        final currentSongData = currentItem.tag;
+        final SongUrlModel currentSongData = currentItem.tag;
         currentSongNotifier.value = currentSongData;
 
         //first time fetch
-        currentLyricNotifier ??= LyricModel.fetchLyrics(currentSongData.lyric);
+        currentLyricNotifier ??= LyricModel.fetchLyrics(currentSongData.lyricURL);
       }
       // change song fetch
       if(currentSongIndexNotifier.value != _audioPlayer.currentIndex){
@@ -219,7 +219,7 @@ class AudioManager {
     }
     for (SongUrlModel value in listSongs){
       await _playlist.add(AudioSource.uri(Uri.parse(value.song_url),
-          tag: value.song
+          tag: value
       ));
       if (isFirst){
         _audioPlayer.seek(Duration(seconds: 0),index : 0);
@@ -242,7 +242,7 @@ class AudioManager {
     }
     if (value != null) {
       await _playlist.insert(CurrentIndex,AudioSource.uri(Uri.parse(value.song_url),
-        tag:value.song
+        tag:value
       ));
     }
   }
@@ -259,7 +259,7 @@ class AudioManager {
     }
     if (value != null) {
       await _playlist.insert(_playlist.length ,AudioSource.uri(Uri.parse(value.song_url),
-          tag:value.song
+          tag:value
       ));
     }
   }

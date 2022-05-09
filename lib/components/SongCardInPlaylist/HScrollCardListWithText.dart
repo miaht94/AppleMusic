@@ -1,5 +1,6 @@
 import 'package:apple_music/components/SongCardInPlaylist/HScroll_CardList.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import '../TitleComponent/SeeAllButton.dart';
@@ -12,7 +13,7 @@ class HScrollCardListWithText extends StatelessWidget{
   }): super(key: key);
 
   final String title;
-  final List<SongCardInPlaylistModel> cards;
+  final List<SongModel> cards;
 
   @override
   Widget build(BuildContext context) {

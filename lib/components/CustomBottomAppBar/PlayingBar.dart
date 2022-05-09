@@ -5,6 +5,7 @@ import 'package:apple_music/components/AudioController/AudioUi.dart';
 import 'package:apple_music/components/NextPreviousButton/NextSongButton.dart';
 import 'package:apple_music/components/NextPreviousButton/PreviousSongButton.dart';
 import 'package:apple_music/constant.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +30,10 @@ class _PlayingBarState extends State < PlayingBar > {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     return
-    ValueListenableBuilder < AudioMetadata > (
+    ValueListenableBuilder < SongUrlModel? > (
       valueListenable: widget.audioManager.currentSongNotifier,
       builder: (context, currentSong, _) {
-        if (currentSong.artwork == "") return Container();
+        if (currentSong == null) return Container();
         return GestureDetector(
           onTap:  () {
             Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));
@@ -55,7 +56,7 @@ class _PlayingBarState extends State < PlayingBar > {
                           borderRadius: BorderRadius.all(Radius.circular(8))
                         ),
                         child: CachedNetworkImage(
-                          imageUrl: '${currentSong.artwork}',
+                          imageUrl: '${currentSong.song.album.art_url}',
                           progressIndicatorBuilder: (context, url, downloadProgress) =>
                           const SkeletonAvatar(),
                             imageBuilder: (context, imageProvider) =>
@@ -90,8 +91,8 @@ class _PlayingBarState extends State < PlayingBar > {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(currentSong.title, style: const TextStyle(fontSize: 16, color: Colors.black, overflow: TextOverflow.ellipsis), maxLines: 1),
-                                      Text(currentSong.artist, style: const TextStyle(fontSize: 13, color: Colors.grey, overflow: TextOverflow.ellipsis), maxLines: 1)
+                                      Text(currentSong.song.song_name, style: const TextStyle(fontSize: 16, color: Colors.black, overflow: TextOverflow.ellipsis), maxLines: 1),
+                                      Text(currentSong.song.artist.artist_name, style: const TextStyle(fontSize: 13, color: Colors.grey, overflow: TextOverflow.ellipsis), maxLines: 1)
                                     ], ),
                                 ),
                                 Flexible(

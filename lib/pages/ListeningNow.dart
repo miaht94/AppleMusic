@@ -54,7 +54,8 @@ class _ListeningNowState extends State<ListeningNow> {
                     Container(
                       padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
                       child: VerticalBigCardsWithTitle(cards :listeningNowPageModel.listBestChoice),
-                    );} else {
+                    );
+                  } else {
                     return SkeletonLoader(
                         builder:
                         Container(
@@ -161,7 +162,7 @@ class _ListeningNowState extends State<ListeningNow> {
                       period: Duration(seconds: 2),
                       highlightColor: Colors.lightBlue.shade300,
                       direction: SkeletonDirection.ltr,
-                      );;
+                      );
                       }
                     }
                 ),
@@ -200,7 +201,7 @@ class _ListeningNowState extends State<ListeningNow> {
                       period: Duration(seconds: 2),
                       highlightColor: Colors.lightBlue.shade300,
                       direction: SkeletonDirection.ltr,
-                      );;
+                      );
                       }
                     }
                 ),

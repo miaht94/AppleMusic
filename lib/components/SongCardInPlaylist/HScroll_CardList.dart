@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:flutter/material.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
@@ -15,7 +16,7 @@ class HScrollCardList extends StatefulWidget {
     required this.cards
   }): super(key: key);
 
-  final List<SongCardInPlaylistModel> cards;
+  final List<SongModel> cards;
 
   @override
   _HScrollCardListState createState() => _HScrollCardListState();
@@ -38,7 +39,7 @@ class _HScrollCardListState extends State<HScrollCardList> {
     final WIDTH = size.width;
 
     // var i = 0;
-    List<SongCardInPlaylistModel> seperatedCards = [];
+    List<SongModel> seperatedCards = [];
 
     _buildListItem(context, index){
       // print("index:" +index.toString());

@@ -4,6 +4,9 @@ import 'package:apple_music/components/AudioController/AudioPageRouteManager.dar
 // import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/CustomBottomAppBar/CustomBottomAppBar.dart';
+import 'package:apple_music/pages/DiscoveryPage.dart';
+import 'package:apple_music/pages/LibraryPage.dart';
+import 'package:apple_music/pages/ListeningNow.dart';
 // import 'package:apple_music/pages/DiscoveryPage.dart';
 // import 'package:apple_music/pages/LibraryPage.dart';
 // import 'package:apple_music/pages/ListeningNow.dart';
@@ -101,15 +104,15 @@ class _MyHomePageState extends State < MyHomePage > {
                 scrollDirection: Axis.horizontal,
                 controller: pageController,
                 children: < Widget > [
-                  // Center(
-                  //   child: ListeningNow(),
-                  // ),
-                  // Center(
-                  //   child: DiscoveryPage(),
-                  // ),
-                  // Center(
-                  //   child: LibraryPage(),
-                  // ),
+                  Center(
+                    child: ListeningNow(),
+                  ),
+                  Center(
+                    child: DiscoveryPage(),
+                  ),
+                  Center(
+                    child: LibraryPage(),
+                  ),
                   SearchPage()
                 ],
               ))

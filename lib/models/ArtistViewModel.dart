@@ -4,6 +4,7 @@ import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/AlbumSongListViewModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/pages/ArtistPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,7 @@ class ArtistViewModel {
   final String _artistName;
   final String _artURL;
   final ArtistHighlightSongModel _highlightSong;
-  final List<SongCardInPlaylistModel> _topSongList;
+  final List<SongModel> _topSongList;
   final List<HScrollSquareCardModel> _albumList;
   final String _artistDescription;
   late String id;
@@ -33,7 +34,7 @@ class ArtistViewModel {
     return _highlightSong;
   }
 
-  List<SongCardInPlaylistModel> get topSongList{
+  List<SongModel> get topSongList{
     return _topSongList;
   }
 
@@ -55,7 +56,7 @@ class ArtistViewModel {
         final result = jsonDecode(response.body);
         print(result['artist_name']);
         ArtistHighlightSongModel highlightSong = result["highlight_song"] != null ? await ArtistHighlightSongModel.getHighlightSongByID(result["highlight_song"]["_id"]) : ArtistHighlightSongModel("NoHighlightSong", "", 0, "", "");
-        List<SongCardInPlaylistModel> topSongList = await SongCardInPlaylistModel.convert(result["top_song_list"]);
+        List<SongModel> topSongList = await SongCardInPlaylistModel.convert(result["top_song_list"]);
         List<HScrollSquareCardModel> albumList = await HScrollSquareCardModel.convert(result["album_list"]);
         ArtistViewModel convertedResult = ArtistViewModel(
             result['artist_name'],

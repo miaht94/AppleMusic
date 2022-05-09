@@ -20,105 +20,30 @@ class ListeningNowPageModel {
   List<HScrollSquareCardModel> listRencentlyPlayed = [];
   List<HScrollCircleCardModel> listFavoriteArtist = [];
   List<VerticalCardWithTitleModel> listYearEndReplays = [];
-  late Future<bool> isListBestChoiceDone = false as Future<bool>;
-  late Future<bool> isListRencentlyPlayedDone = false as Future<bool>;
-  late Future<bool> isListFavoriteArtistDone =  false as Future<bool>;
-  late Future<bool> isListYearEndReplaysDone =  false as Future<bool>;
+   Future<bool>? isListBestChoiceDone;
+   Future<bool>? isListRencentlyPlayedDone;
+   Future<bool>? isListFavoriteArtistDone;
+   Future<bool>? isListYearEndReplaysDone;
+  late ListeningNowItem listIdItem;
 
   bool isInit = false;
 
-  void init(){
-    initModel();
+  void init() async{
+    listIdItem = await fetchLiteningModelPage();
+    isListBestChoiceDone = inItListBestChoice();
+    isListRencentlyPlayedDone = inItListRencentlyPlayed();
+    isListFavoriteArtistDone = inItListFavoriteArtist();
+    isListYearEndReplaysDone = inItListYearEndReplays();
     isInit = true;
   }
 
   Future<void> initModel() async {
-    ListeningNowItem listIdItem;
     try{
        listIdItem = await fetchLiteningModelPage();
-    // fetch best choice playlist
-    for(String id in listIdItem.listBestChoice){
-        final playlist = await HttpUtil().getPlaylistModel(
-            app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken,
-            id: id,
-            public: true,
-        );
-        if (!isTestingMode && playlist != null) {
-          listBestChoice.add(VerticalCardWithTitleModel(
-            playlist.playlist_name,
-            playlist.playlist_description,
-            playlist.art_url,
-          await getImagePalette(NetworkImage(playlist.art_url)),
-        ));
-        } else {
-          if (playlist != null) {
-            listBestChoice.add(VerticalCardWithTitleModel(
-              playlist.playlist_name,
-              playlist.playlist_description,
-              playlist.art_url,
-              Colors.black.withOpacity(0.2)
-                    ));
-          }
-        }
-        
-    }
-    isListBestChoiceDone = true as Future<bool>;
-
-    // fetch Recently played
-    for(String id in listIdItem.listRencentlyPlayed){
-        final song = await HttpUtil().fetchSongModel(id);
-        if (song != null) {
-          listRencentlyPlayed.add(HScrollSquareCardModel(
-              song.song.song_name,
-              song.song.artist.artist_name,
-              song.song.album.art_url,
-              song.song.id
-          ));
-        }
-    }
-    isListRencentlyPlayedDone = true as Future<bool>;
-
-    // fetch Favorite Artist
-    for(String id in listIdItem.listFavoriteArtist){
-        final artist = await HttpUtil().fetchArtistModel(id: id);
-        if (artist != null) {
-          listFavoriteArtist.add(HScrollCircleCardModel(
-            artist.artist_name,
-            artist.artist_image_url,
-          ));
-        }
-    }
-
-    isListFavoriteArtistDone = true as Future<bool>;
-
-    // fetch Year-end replays
-    for(String id in listIdItem.listYearEndReplays){
-        final playlist = await HttpUtil().getPlaylistModel(
-            app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken,
-            id: id,
-            public: true,
-        );
-        if (!isTestingMode && playlist != null) {
-        if (playlist != null) {
-          listYearEndReplays.add(VerticalCardWithTitleModel(
-            playlist.playlist_name,
-            playlist.playlist_description,
-            playlist.art_url,
-            await getImagePalette(NetworkImage(playlist.art_url)),
-          ));
-        }
-        } else {
-          if (playlist != null) {
-            listYearEndReplays.add(VerticalCardWithTitleModel(
-            playlist.playlist_name,
-            playlist.playlist_description,
-            playlist.art_url,
-            Colors.black.withOpacity(0.2),
-                    ));
-          }
-        }
-    }
-    isListYearEndReplaysDone = true as Future<bool>;
+       isListBestChoiceDone = inItListBestChoice();
+       isListRencentlyPlayedDone = inItListRencentlyPlayed();
+       isListFavoriteArtistDone = inItListFavoriteArtist();
+       isListYearEndReplaysDone = inItListYearEndReplays();
     }catch (e){
       print(e);
     }
@@ -147,6 +72,99 @@ class ListeningNowPageModel {
       return Future.error('Can get page');
     }
   }
+
+  Future<bool> inItListBestChoice() async {
+    // fetch best choice playlist
+    for(String id in listIdItem.listBestChoice){
+      final playlist = await HttpUtil().getPlaylistModel(
+        app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken,
+        id: id,
+        public: true,
+      );
+      if (!isTestingMode && playlist != null) {
+        listBestChoice.add(VerticalCardWithTitleModel(
+          playlist.playlist_name,
+          playlist.playlist_description,
+          playlist.art_url,
+          await getImagePalette(NetworkImage(playlist.art_url)),
+        ));
+      } else {
+        if (playlist != null) {
+          listBestChoice.add(VerticalCardWithTitleModel(
+              playlist.playlist_name,
+              playlist.playlist_description,
+              playlist.art_url,
+              Colors.black.withOpacity(0.2)
+          ));
+        }
+      }
+    }
+    return true;
+  }
+
+
+  Future<bool> inItListRencentlyPlayed() async{
+    // fetch Recently played
+    for(String id in listIdItem.listRencentlyPlayed){
+      final song = await HttpUtil().fetchSongModel(id);
+      if (song != null) {
+        listRencentlyPlayed.add(HScrollSquareCardModel(
+            song.song.song_name,
+            song.song.artist.artist_name,
+            song.song.album.art_url,
+            song.song.id
+        ));
+      }
+    }
+    return true;
+  }
+
+  Future<bool> inItListFavoriteArtist() async{
+    // fetch Favorite Artist
+    for(String id in listIdItem.listFavoriteArtist){
+      final artist = await HttpUtil().fetchArtistModel(id: id);
+      if (artist != null) {
+        listFavoriteArtist.add(HScrollCircleCardModel(
+          artist.artist_name,
+          artist.artist_image_url,
+        ));
+      }
+    }
+    return true;
+  }
+
+  Future<bool> inItListYearEndReplays() async{
+    // fetch Year-end replays
+    for(String id in listIdItem.listYearEndReplays){
+      final playlist = await HttpUtil().getPlaylistModel(
+        app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken,
+        id: id,
+        public: true,
+      );
+      if (!isTestingMode && playlist != null) {
+        if (playlist != null) {
+          listYearEndReplays.add(VerticalCardWithTitleModel(
+            playlist.playlist_name,
+            playlist.playlist_description,
+            playlist.art_url,
+            await getImagePalette(NetworkImage(playlist.art_url)),
+          ));
+        }
+      } else {
+        if (playlist != null) {
+          listYearEndReplays.add(VerticalCardWithTitleModel(
+            playlist.playlist_name,
+            playlist.playlist_description,
+            playlist.art_url,
+            Colors.black.withOpacity(0.2),
+          ));
+        }
+      }
+    }
+    return true;
+  }
+
+
 }
 
 class ListeningNowItem{

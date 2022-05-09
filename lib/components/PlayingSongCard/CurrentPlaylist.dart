@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCard.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
@@ -30,6 +31,7 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
 
                 for (int index = 0; index < playlist.length; index++) {
                   IndexedAudioSource song = playlist[index];
+                  SongUrlModel tag = song.tag;
                   children.add(
                       Dismissible(
                         key :  UniqueKey(),
@@ -39,9 +41,9 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
                           key: ValueKey(index),
                           margin: EdgeInsets.only(top: 10.0),
                           child: PlayingSongCard(
-                            songName: song.tag.title,
-                            artistName: song.tag.artist,
-                            artURL: song.tag.artwork,
+                            songName: tag.song.song_name,
+                            artistName: tag.song.artist.artist_name,
+                            artURL: tag.song.album.art_url,
                             size: 50,
                             imageSize: 50,
                             songNameFontSize: 16,

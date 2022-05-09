@@ -5,6 +5,7 @@ import 'package:apple_music/models/AlbumRectangleCardModel.dart';
 import 'package:apple_music/models/HScrollCircleModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
@@ -29,7 +30,7 @@ void onTapAlbumCard(AlbumRectangleCardModel albumRectangleCardModel) {
   Navigator.push(
       GetIt.I.get<AudioPageRouteManager>().getMainContext(),
       MaterialPageRoute(
-        builder: (context) => AlbumView(albumViewModel: AlbumViewModel.getAlbum(albumRectangleCardModel.albumName, albumRectangleCardModel.artistName),
+        builder: (context) => AlbumView(albumViewModel: HttpUtil().getAlbumModel(album_name: albumRectangleCardModel.albumName,artist_name:  albumRectangleCardModel.artistName),
       )));
 }
 

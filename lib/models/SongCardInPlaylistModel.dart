@@ -1,8 +1,6 @@
 import 'dart:convert';
-
-import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylist.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:uuid/uuid.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:http/http.dart' as http;
 
 import '../constant.dart';
@@ -35,17 +33,27 @@ class SongCardInPlaylistModel {
         return _id;
     }
 
-    static SongCardInPlaylistModel getSampleDataSingle() {
-        return new SongCardInPlaylistModel("Lover", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png", "123456", "genre_empty");
+    static SongModel getSampleDataSingle() {
+        return  SongModel(
+            artist: ArtistInSongModel(id: '', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+            song_name: '',
+            song_key: '',
+            id: '',
+            lyric_key: '',
+            album: AlbumInSongModel(album_name: '', songsId: [], id: '', art_url: '', genre: '')
+        );
     }
 
-    static List < SongCardInPlaylistModel > getSampleDataList() {
+    static List < SongModel > getSampleDataList() {
         return [
-            new SongCardInPlaylistModel("Lover", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png", "123456", "genre_empty"),
-            new SongCardInPlaylistModel("Red (Taylor's Version)", "Taylor Swift", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "123456", "genre_empty"),
-            new SongCardInPlaylistModel("Everything Has Changed", "Taylor Swift, Ed Sheeran", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "123456", "genre_empty"),
-            new SongCardInPlaylistModel("cardigan", "Taylor Swift", "https://upload.wikimedia.org/wikipedia/vi/f/f8/Taylor_Swift_-_Folklore.png", "123456", "genre_empty"),
-            new SongCardInPlaylistModel("Everything Has Changed", "Taylor Swift, Ed Sheeran", "https://nld.mediacdn.vn/291774122806476800/2021/6/19/t03-16240818944771485276009.jpg", "123456", "genre_empty")
+            SongModel(
+                artist: ArtistInSongModel(id: '', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: '',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumInSongModel(album_name: '', songsId: [], id: '', art_url: '', genre: '')
+            )
         ];
     }
 
@@ -54,11 +62,11 @@ class SongCardInPlaylistModel {
     }
 
 
-    static Future<List<SongCardInPlaylistModel>> convert(json) async {
-        List<SongCardInPlaylistModel> list = [];
+    static Future<List<SongModel>> convert(json) async {
+        List<SongModel> list = [];
         for (var object in json) {
-            SongCardInPlaylistModel song = await SongCardInPlaylistModel.fetchSong(object["_id"]);
-            list.add(song);
+            SongUrlModel? song = await HttpUtil().fetchSongModel(object["_id"]);
+            list.add(song!.song);
         }
         return list;
     }

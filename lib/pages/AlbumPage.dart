@@ -114,7 +114,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
               }),
           title: Visibility(
           visible: isShrink ? true : false,
-              child: Text(widget.model.albumName,
+              child: Text(widget.model.album_name,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 18.0,
