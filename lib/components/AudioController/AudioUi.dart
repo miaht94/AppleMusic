@@ -153,46 +153,51 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
       ValueListenableBuilder<SongUrlModel?>(
           valueListenable: _audioManager.currentSongNotifier,
           builder: (_,currentSong,__){
-            return LyricsFrame(
-              width: size.width,
-              height: size.height,
-              blur: 5,
-              backgroundImagePath: currentSong!.song.album.art_url,
-              child: Container(
-                padding: EdgeInsets.only(left: 20.0),
-                child: ValueListenableBuilder<ChildWindowState>(
-                    valueListenable: _audioManager.childWindowNotifier,
-                    builder: (_, value, __) {
-                      var size = MediaQuery.of(context).size;
-                      return Stack(
-                          children: [
-                            AnimatedOpacity(
-                              opacity: (value != ChildWindowState.lyrics)? 0.0: 1.0,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeIn,
-                              child: IgnorePointer(
-                                ignoring: (value != ChildWindowState.lyrics) ? true : false,
-                                child: _buildLyrics(),
-                              )
-                            ),
-                            AnimatedOpacity(
-                              opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
-                              duration: const Duration(milliseconds: 300),            
-                              curve: Curves.easeIn,
-                              child: IgnorePointer(
-                                ignoring: (value != ChildWindowState.playlist) ? true : false,
-                                child: _buildPlaylist(),
+            if (currentSong != null) {
+              return LyricsFrame(
+                width: size.width,
+                height: size.height,
+                blur: 5,
+                backgroundImagePath: currentSong!.song.album.art_url,
+                child: Container(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: ValueListenableBuilder<ChildWindowState>(
+                      valueListenable: _audioManager.childWindowNotifier,
+                      builder: (_, value, __) {
+                        var size = MediaQuery.of(context).size;
+                        return Stack(
+                            children: [
+                              AnimatedOpacity(
+                                opacity: (value != ChildWindowState.lyrics)? 0.0: 1.0,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeIn,
+                                child: IgnorePointer(
+                                  ignoring: (value != ChildWindowState.lyrics) ? true : false,
+                                  child: _buildLyrics(),
+                                )
                               ),
-                            ),
-                          ],
-                        );
-                    }
-                ),
-              ),
+                              AnimatedOpacity(
+                                opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeIn,
+                                child: IgnorePointer(
+                                  ignoring: (value != ChildWindowState.playlist) ? true : false,
+                                  child: _buildPlaylist(),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                    ),
+                  ),
+                );
+              } else {
+                return
+                  SizedBox();
+            }
+        }
       );
-          }
-        );
-  }
+    }
 
   Widget _buildPlaylist() {
     return

@@ -77,7 +77,7 @@ class _CurrentSongCardState extends State<CurrentSongCard> {
       ValueListenableBuilder<SongUrlModel?>(
         valueListenable: _audioManager.currentSongNotifier,
         builder: (_,currentSong,__){
-          if(currentSong!.song.album.art_url != ""){
+          if(currentSong != null){
             return Stack(
               children: [
                 PlayingSongCard(

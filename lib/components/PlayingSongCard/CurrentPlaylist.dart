@@ -66,6 +66,7 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
                   Container(
                     margin: EdgeInsets.only(top: 200),
                     child: ReorderableListView(
+                       padding: EdgeInsets.only(bottom: 100.0),
                         proxyDecorator: _proxyDecorator,
                         onReorder: ((oldIndex, newIndex){
                           if (oldIndex < newIndex) newIndex--;

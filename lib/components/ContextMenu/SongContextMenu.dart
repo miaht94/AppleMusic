@@ -24,20 +24,6 @@ class SongContextMenu extends ContextMenu{
       name: 'SongContextMenu',
       action: [
           ContextMenuItem(
-            title: 'Tải về', 
-            iconData: Icons.cloud_download_outlined,
-            onTapItem: () {
-              throw UnimplementedError();
-              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
-              GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.addStatusListener((status) {
-                if (status.name == 'completed') {
-                  GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenu');
-                }
-              });
-              AdvanceSnackBar(message: 'Yay! you got it', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
-            },
-          ),
-          ContextMenuItem(
             title: 'Phát tiếp theo', 
             iconData: SFSymbols.text_insert,
             onTapItem: () {

@@ -213,7 +213,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                                   print(song.id + "added");
                                 }
                                 GetIt.I.get<AudioManager>().clearAndAddAList(id);
-                                Navigator.pushNamed(GetIt.I.get<AudioPageRouteManager>().getMainContext(), '/playingPage');
+                                Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));
                               },
                               title: "Phát", icon: SFSymbols.arrowtriangle_right_fill
                       ),
