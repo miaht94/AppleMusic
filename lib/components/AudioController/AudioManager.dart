@@ -1,6 +1,7 @@
 import 'package:apple_music/components/AudioController/AudioStates.dart';
 import 'package:apple_music/models/LyricModel.dart';
-import 'package:apple_music/models/SongModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 class AudioManager {
@@ -208,23 +209,23 @@ class AudioManager {
 
   Future<void> clearAndAddAList(List<String> playLists) async {
     await clear();
-    List<SongModel> listSongs = [];
+    List<SongUrlModel> listSongs = [];
     bool isFirst = true;
       for (String songUrl in playLists){
         try {
-          final SongModel song = await SongModel.fetchSong(songUrl);
-          listSongs.add(song);
+          final SongUrlModel? songUrlModel = await HttpUtil().fetchSongModel(songUrl);
+          listSongs.add(songUrlModel!);
         } catch(e) {
       }
     }
-    for (SongModel value in listSongs){
-      await _playlist.add(AudioSource.uri(Uri.parse(value.songUrl),
-          tag:AudioMetadata(title: value.songName,
-              artist: value.artist,
-              artwork: value.artwork,
-              lyric: value.songLyricUrl,
-              genre: value.genre,
-              id: value.id,
+    for (SongUrlModel value in listSongs){
+      await _playlist.add(AudioSource.uri(Uri.parse(value.song_url),
+          tag:AudioMetadata(title: value.song.song_name,
+              artist: value.song.artist.artist_name,
+              artwork: value.song.album.art_url,
+              lyric: value.lyricURL,
+              genre: value.song.album.genre,
+              id: value.song.id,
           )
       ));
       if (isFirst){
@@ -237,44 +238,47 @@ class AudioManager {
   }
 
   Future<void> insertNext(String songId) async {
-    late SongModel value;
+    late SongUrlModel? value;
     try {
-      value = await SongModel.fetchSong(songId);
+      value = await HttpUtil().fetchSongModel(songId);
     } catch(e) {
     }
     int CurrentIndex = _audioPlayer.currentIndex ?? 0;
     if (CurrentIndex != _playlist.length){
       CurrentIndex ++;
     }
-    await _playlist.insert(CurrentIndex,AudioSource.uri(Uri.parse(value.songUrl),
-        tag:AudioMetadata(title: value.songName,
-            artist: value.artist,
-            artwork: value.artwork,
-            lyric: value.songLyricUrl,
-            genre: value.genre,
-            id: value.id,)
-    ));
+    if (value != null) {
+      await _playlist.insert(CurrentIndex,AudioSource.uri(Uri.parse(value.song_url),
+        tag:AudioMetadata(title: value.song.song_name,
+        artist: value.song.artist.artist_name,
+        artwork: value.song.album.art_url,
+        lyric: value.lyricURL,
+        genre: value.song.album.genre,
+        id: value.song.id,)
+      ));
+    }
   }
 
   Future<void> insertTail(String songId) async {
-    late SongModel value;
+    late SongUrlModel? value;
     try {
-      value = await SongModel.fetchSong(songId);
+      value = await HttpUtil().fetchSongModel(songId);
     } catch(e) {
     }
     if(_playlist.length == 0){
       await insertNext(songId);
       return;
     }
-    await _playlist.insert(_playlist.length ,AudioSource.uri(Uri.parse(value.songUrl),
-        tag:AudioMetadata(title: value.songName,
-            artist: value.artist,
-            artwork: value.artwork,
-            lyric: value.songLyricUrl,
-            genre: value.genre,
-            id: value.id,
-        )
-    ));
+    if (value != null) {
+      await _playlist.insert(_playlist.length ,AudioSource.uri(Uri.parse(value.song_url),
+          tag:AudioMetadata(title: value.song.song_name,
+            artist: value.song.artist.artist_name,
+            artwork: value.song.album.art_url,
+            lyric: value.lyricURL,
+            genre: value.song.album.genre,
+            id: value.song.id,)
+      ));
+    }
   }
 
   Future<void> removeSong(int index) async{

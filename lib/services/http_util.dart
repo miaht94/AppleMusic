@@ -104,7 +104,7 @@ class HttpUtil {
         '$PLAYLIST_PATH',
         queryParameters: params
       );
-      PlaylistModel newPlaylist = PlaylistModel.fromJson(playlistModelFuture.data); 
+      PlaylistModel newPlaylist = PlaylistModel.fromJson(playlistModelFuture.data);
       return newPlaylist;
     } catch (e) {
       return null;
@@ -242,4 +242,46 @@ class HttpUtil {
     }
   }
 
+  Future<bool> UpdateFavorite({
+    required FAVORITE_ACTION action,
+    required String appToken,
+    List<String>? favorite_songs,
+    List<String>? favorite_artists,
+    List<String>? favorite_albums,
+})async {
+    try{
+      Map<String,dynamic> body = {};
+
+      if(action == FAVORITE_ACTION.pop){
+        body.addAll({'action': 'pop'});
+      } else {
+        body.addAll({'action': 'push'});
+      }
+
+      if(favorite_songs != null) {
+        body.addAll({'favorite_songs':jsonEncode(favorite_songs)});
+      }
+
+      if(favorite_artists != null) {
+        body.addAll({'favorite_artists':jsonEncode(favorite_artists)});
+      }
+      print(favorite_artists);
+      if(favorite_albums != null) {
+        body.addAll({'favorite_albums':jsonEncode(favorite_albums)});
+      }
+
+      FormData formData = FormData.fromMap(body);
+      dynamic response = await dio.post(UPDATE_FAVORITE, data: formData, queryParameters: {'app_token': appToken});
+      return true;
+    }catch(e){
+      print(e);
+      return false;
+    }
+
+}
+
+}
+
+enum FAVORITE_ACTION{
+  pop,push
 }

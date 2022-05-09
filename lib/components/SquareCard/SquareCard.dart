@@ -1,4 +1,5 @@
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:apple_music/services/service_locator.dart';
 
 import 'package:apple_music/models/AlbumViewModel.dart';
@@ -52,7 +53,7 @@ class SquareCard extends StatelessWidget{
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AlbumView(albumViewModel: AlbumViewModel.getAlbum(this.name, this.artist)),
+                builder: (context) => AlbumView(albumViewModel:  HttpUtil().getAlbumModel(album_name: this.name,artist_name:  this.artist)),
               ),
             );
           },

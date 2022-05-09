@@ -24,6 +24,7 @@ class SongModel{
     required this.song_name,
     this.track_number,
     this.collaboration,
+    required this.song_name,
     required this.song_key,
     required this.lyric_key,
     required this.album,
@@ -34,6 +35,7 @@ class SongModel{
   String song_name;
   int ? track_number;
   String ? collaboration;
+  String song_name;
   String song_key;
   String lyric_key;
   AlbumInSongModel album;
@@ -45,6 +47,7 @@ class SongModel{
         song_name: json['song_name'],
         track_number: json['track_number'],
         collaboration: json['collaboration'],
+        song_name: json['song_name'],
         song_key: json['song_key'],
         lyric_key: json['lyric_key'],
         album: AlbumInSongModel.fromJson(json['album']),

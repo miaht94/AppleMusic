@@ -8,6 +8,7 @@ import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/AlbumSongListViewModel.dart';
 import 'package:apple_music/models/AlbumViewModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import 'package:skeletons/skeletons.dart';
+
+import '../../models_refactor/SongModel.dart';
 
 class AlbumContextMenu extends ContextMenu{
   AlbumContextMenu({Key? key, required this.name, required this.albumViewModel}):
@@ -56,7 +59,7 @@ class AlbumContextMenu extends ContextMenu{
         child: Row(
           children: [
             CachedNetworkImage(
-              imageUrl: albumViewModel.artURL,
+              imageUrl: albumViewModel.art_url,
               placeholder: (_, __) => SkeletonAvatar(),
               imageBuilder: (context, imageProvider) => 
                 Container(
@@ -73,7 +76,7 @@ class AlbumContextMenu extends ContextMenu{
               child: Column(
                 children: [
                   Text(
-                    albumViewModel.albumName,
+                    albumViewModel.album_name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -82,7 +85,7 @@ class AlbumContextMenu extends ContextMenu{
                     ),
                   ),
                   Text(
-                    albumViewModel.albumArtist,
+                    albumViewModel.artist.artist_name,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.red,
@@ -97,7 +100,7 @@ class AlbumContextMenu extends ContextMenu{
         )
       )
     );
-  AlbumViewModel albumViewModel;
+  AlbumModel albumViewModel;
   String name;
   // @override
   // Widget build(BuildContext context) {
@@ -153,7 +156,7 @@ class AlbumSongContextMenu extends ContextMenu{
 
                   children: [
                     CachedNetworkImage(
-                      imageUrl: albumViewModel.artURL,
+                      imageUrl: albumViewModel.art_url,
                       placeholder: (_, __) => SkeletonAvatar(),
                       imageBuilder: (context, imageProvider) =>
                           Container(
@@ -170,7 +173,7 @@ class AlbumSongContextMenu extends ContextMenu{
                         child: Column(
                           children: [
                             Text(
-                              albumSongListViewModel.songName,
+                              albumSongListViewModel.song_name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -179,7 +182,7 @@ class AlbumSongContextMenu extends ContextMenu{
                               ),
                             ),
                             Text(
-                              albumViewModel.albumArtist,
+                              albumViewModel.artist.artist_name,
                               style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.red,
@@ -194,8 +197,8 @@ class AlbumSongContextMenu extends ContextMenu{
               )
           )
       );
-  AlbumSongListViewModel albumSongListViewModel;
-  AlbumViewModel albumViewModel;
+  SongInAlbumModel albumSongListViewModel;
+  AlbumModel albumViewModel;
   String name;
 // @override
 // Widget build(BuildContext context) {

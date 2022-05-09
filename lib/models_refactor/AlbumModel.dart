@@ -2,10 +2,11 @@
 
 
 class AlbumModel {
-  AlbumModel({required this.id, required this.album_name, required this.genre, required this.album_year, required this.art_url, required this.songs, required this.artist});
+  AlbumModel({required this.id, required this.album_name, required this.genre, required this.album_year, required this.art_url, required this.songs, required this.artist, this.album_description});
   String id;
   String album_name;
   String genre;
+  String ? album_description;
   String art_url;
   int album_year;
   ArtistInAlbumModel artist;
@@ -19,7 +20,8 @@ class AlbumModel {
       id: json['_id'], 
       album_name: json['album_name'], 
       genre: json['genre'], 
-      album_year: json['album_year'], 
+      album_year: json['album_year'],
+      album_description: json['album_description'],
       art_url: json['art_url'], 
       songs: songs,
       artist: ArtistInAlbumModel.fromJson(json['artist'] as Map<String, dynamic>)

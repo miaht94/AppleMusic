@@ -14,7 +14,7 @@ const int RESIZE_ANIMATION_DURATION = 500;
 const int SCROLL_ANIMATION_DURATION = 500;
 const int TAP_UP_ANIMATION_DURATION = 300;
 
-const Duration CHECK_DURATION = Duration(milliseconds: 500);
+const Duration CHECK_DURATION = Duration(milliseconds: 700);
 
 const double LYRIC_BORDER = 12;
 const double LYRIC_WIDTH = 500;
