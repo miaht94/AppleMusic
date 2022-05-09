@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 import '../../models/LyricModel.dart';
 import 'LyricConstant.dart';
@@ -33,7 +32,6 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
   var lyrics;
   late final List<Widget> children;
   late List<AnimationController?> animationControllers;
-  late List<AnimationController?> animationBlurs;
 
   initState() {
     super.initState();
@@ -44,19 +42,12 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     lyrics = widget.lyrics;
     _PlayingLyric = lyrics[0].key.currentContext;
     animationControllers = [];
-    animationBlurs = [];
     for (var i = 0; i < lyrics.length; i++){
       animationControllers.add(AnimationController(
         vsync: this,
         value: 1.0,
         upperBound: 1.5,
         lowerBound: 0.5,
-      ));
-      animationBlurs.add(AnimationController(
-        vsync: this,
-        value: 1.0,
-        upperBound: 5.0,
-        lowerBound: 0.0,
       ));
     }
     children = List.generate(lyrics.length + 1, (index) {
@@ -66,7 +57,6 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
           lyrics[index],
           _onItemTapUp,
           animationControllers[index],
-          animationBlurs[index],
           index
       )
           : const SizedBox(
@@ -101,7 +91,6 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     if (_PlayingId != id) {
       if(_PlayingId != null){
         animationControllers[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
-        animationBlurs[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
       }
 
       setState(() {
@@ -111,7 +100,6 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
         }});
 
       animationControllers[id]!.animateTo(MAX_SCALE,duration: Duration(milliseconds: TAP_UP_ANIMATION_DURATION));
-      animationBlurs[id]!.animateTo(MIN_BLUR,duration: Duration(milliseconds: TAP_UP_ANIMATION_DURATION));
 
       if(_PlayingLyric != null) {
         Scrollable.ensureVisible(
@@ -124,7 +112,6 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     }
     else{
       animationControllers[id]!.animateTo(MAX_SCALE,duration: Duration(milliseconds: 200));
-      animationBlurs[id]!.animateTo(MIN_BLUR,duration: Duration(milliseconds: 200));
     }
   }
 

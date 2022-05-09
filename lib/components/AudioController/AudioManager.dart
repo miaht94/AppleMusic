@@ -197,6 +197,16 @@ class AudioManager {
       total: oldState.total,
       dragPosition: position,
     );
+    const int start =  1;
+    if (currentLyric != null) {
+      for(int i = start; i < currentLyric!.length; i ++){
+        if (position < currentLyric![i].startTime) {
+          lyricIndexNotifier.value = i;
+          break;
+        }
+      }
+    }
+
   }
 
   Future<void> move(currentIndex, newIndex) async {

@@ -6,12 +6,11 @@ import 'LyricConstant.dart';
 
 class LyricWidget extends StatefulWidget{
   LyricWidget(Key? key, this.lyric, this.onTap,
-      this._controller,this._blur, this.id)
+      this._controller, this.id)
       : super(key:key);
   final LyricModel lyric;
   final void Function(int) onTap;
   final AnimationController? _controller;
-  final AnimationController? _blur;
   final int id;
   @override
   State<LyricWidget> createState() => _LyricWidgetState();
@@ -22,11 +21,7 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    // widget._controller!.addListener(() { if (mounted) {
-    //   setState(() {
-    // });
-    // }});
-    widget._blur!.addListener(() { if (mounted) {
+    widget._controller!.addListener(() { if (mounted) {
       setState(() {
     });
     }});
@@ -35,7 +30,6 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
   @override
   dispose() {
     widget._controller?.dispose();
-    widget._blur?.dispose();
     super.dispose();
   }
 
@@ -48,7 +42,6 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
 
   _onTapCancel() {
     widget._controller?.animateTo(NORMAL_SCALE,duration: Duration(milliseconds: CANCEL_ANIMATION_DURATION));
-    widget._blur?.animateTo(NORMAL_BLUR,duration: Duration(milliseconds: CANCEL_ANIMATION_DURATION));
   }
 
   @override
@@ -76,7 +69,7 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
                   widget.lyric.lyric,
                   style: TextStyle(fontSize: LYRIC_FONT_SIZE,
                       color:Colors.white.withOpacity(
-                          (widget._controller!.value >= 1.04) ? 1.0
+                          (widget._controller!.value >= 1.03) ? 1.0
                           : 0.4),
               ),
           ),
