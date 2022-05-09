@@ -46,10 +46,10 @@ class _ListeningNowState extends State<ListeningNow> {
                   padding: EdgeInsets.only(left: kDefaultPadding),
                   child: BoldTitle(title: "Lựa Chọn Hàng Đầu")
                 ),
-                FutureBuilder(
-                  future: listeningNowPageModel.isListBestChoiceDone,
-                  builder: (context, snapshot) {
-                  if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                ValueListenableBuilder<bool>(
+                  valueListenable: listeningNowPageModel.isListBestChoiceDone,
+                  builder: (context, isDone,_) {
+                  if (isDone) {
                     return
                     Container(
                       padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
@@ -82,10 +82,10 @@ class _ListeningNowState extends State<ListeningNow> {
                     }
                   }
                 ),
-                FutureBuilder(
-                    future: listeningNowPageModel.isListRencentlyPlayedDone,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                ValueListenableBuilder<bool>(
+                    valueListenable: listeningNowPageModel.isListRencentlyPlayedDone,
+                    builder: (context, isDone,_) {
+                      if (isDone) {
                         return
                           Container(
                             padding: EdgeInsets.only(bottom: VerticalComponentPadding),
@@ -124,10 +124,10 @@ class _ListeningNowState extends State<ListeningNow> {
                       }
                     }
                 ),
-                FutureBuilder(
-                    future: listeningNowPageModel.isListFavoriteArtistDone,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                ValueListenableBuilder<bool>(
+                    valueListenable: listeningNowPageModel.isListFavoriteArtistDone,
+                    builder: (context, isDone,_) {
+                      if (isDone) {
                         return
                           Container(
                             padding: EdgeInsets.only(bottom: VerticalComponentPadding),
@@ -170,10 +170,10 @@ class _ListeningNowState extends State<ListeningNow> {
                     padding: EdgeInsets.only(left: kDefaultPadding),
                     child: BoldTitle(title: "Replay cuối năm")
                 ),
-                FutureBuilder(
-                    future: listeningNowPageModel.isListBestChoiceDone,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+                ValueListenableBuilder<bool>(
+                    valueListenable: listeningNowPageModel.isListYearEndReplaysDone,
+                    builder: (context, isDone,_) {
+                      if (isDone) {
                         return
                           Container(
                             padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),

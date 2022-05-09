@@ -129,13 +129,11 @@ class HttpUtil {
 
   Future<SongUrlModel?> fetchSongModel(String id) async {
     try {
-      final Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, port: SV_PORT, path: SONG_PATH, queryParameters: {
+      final response = await dio.get(SONG_PATH, queryParameters: {
         '_id': id
       });
-      final  response = await GetIt.I.get<http.Client>().get(httpURI);
       if (response.statusCode == 200){
-        final JsonDecoder decoder = JsonDecoder();
-        final SongUrlModel song = SongUrlModel.fromJson(decoder.convert(response.body));
+        final SongUrlModel song = SongUrlModel.fromJson(response.data);
         return song;
       } else {
         return Future.error('No song for Id($id)');
@@ -159,11 +157,9 @@ class HttpUtil {
         print(artist_name);
       }
 
-      final Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, port: SV_PORT, path: ARTIST_PATH, queryParameters: params);
-      final  response = await GetIt.I.get<http.Client>().get(httpURI);
+      final response = await dio.get(ARTIST_PATH,queryParameters :params );
       if (response.statusCode == 200){
-        final JsonDecoder decoder = const JsonDecoder();
-        final ArtistModel artist = ArtistModel.fromJson(decoder.convert(response.body));
+        final ArtistModel artist = ArtistModel.fromJson(response.data);
         return artist;
       } else {
         return Future.error('No artist for Id($id)');
@@ -198,11 +194,9 @@ class HttpUtil {
         params.addAll({'song_name': song_name});
       }
 
-      Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, path: SEARCH_SONG_PATH, port: SV_PORT, queryParameters: params);
-      dynamic res = await http.get(httpURI);
+      final response = await dio.get(SEARCH_SONG_PATH,queryParameters :params );
       List<SongModel> list = [];
-      JsonDecoder decoder = const JsonDecoder();
-      List<dynamic> jsonArray = decoder.convert(res.body);
+      List<dynamic> jsonArray = response.data;
       for (Map<String, dynamic> i in jsonArray) {
         list.add(SongModel.fromJson(i));
       }
@@ -227,11 +221,9 @@ class HttpUtil {
         params.addAll({'artist_name': artist_name});
       }
 
-      Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, path: SEARCH_ARTIST_PATH, port: SV_PORT, queryParameters: params);
-      dynamic res = await http.get(httpURI);
+      final response = await dio.get(SEARCH_ARTIST_PATH,queryParameters :params );
       List<ArtistModel> list = [];
-      JsonDecoder decoder = const JsonDecoder();
-      List<dynamic> jsonArray = decoder.convert(res.body);
+      List<dynamic> jsonArray = response.data;
       for (Map<String, dynamic> i in jsonArray) {
         list.add(ArtistModel.fromJson(i));
       }
