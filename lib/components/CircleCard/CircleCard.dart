@@ -39,7 +39,6 @@ class CircleCard extends StatelessWidget{
         margin: EdgeInsets.only(left: kDefaultPadding),
         child: InkWell(
           onTap: () => {
-            
               Navigator.push(
                 GetIt.I.get<AudioPageRouteManager>().getMainContext(),
                 MaterialPageRoute(

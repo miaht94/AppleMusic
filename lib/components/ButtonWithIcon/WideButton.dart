@@ -23,7 +23,7 @@ class WideButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(7),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              primary: Colors.grey,
+              primary: Color.fromRGBO(242, 242, 242, 1),
               padding: EdgeInsets.symmetric(vertical: 15),
           ),
           onPressed: onTap,
