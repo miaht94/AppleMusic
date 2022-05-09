@@ -16,6 +16,7 @@ import 'package:apple_music/models/HorizontalScrollCategoryModel.dart';
 import 'package:apple_music/models/PlaylistRectangleCardModel.dart';
 import 'package:apple_music/models/SearchPageModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -69,12 +70,12 @@ class _SearchPageState extends State < SearchPage > {
     throw UnimplementedError();
   }
 
-  void onTapPlaylistCard(PlaylistRectangleCardModel playlistRectangleCardModel) {
+  void onTapPlaylistCard(PlaylistModel playlistRectangleCardModel) {
     throw UnimplementedError();
   }
 
-  void onTapPlaylistMoreButton(PlaylistRectangleCardModel playlistRectangleCardModel) {
-     GetIt.I.get<ContextMenuManager>().insertOverlay(PlaylistContextMenu(playlistModel: playlistRectangleCardModel));
+  void onTapPlaylistMoreButton(PlaylistModel playlistModel) {
+     GetIt.I.get<ContextMenuManager>().insertOverlay(PlaylistContextMenu(playlistModel: playlistModel));
   }
 
   
@@ -130,8 +131,8 @@ class _SearchPageState extends State < SearchPage > {
                                   break;
 
                                 case 'playlist_name':
-                                  for (final PlaylistRectangleCardModel model in data) {
-                                    renderList.add(PlaylistRectangleCard(playlistRectangleCardModel: model, onTapPlaylistCard: onTapPlaylistCard, onTapPlaylistMoreButton: onTapPlaylistMoreButton));
+                                  for (final PlaylistModel model in data) {
+                                    renderList.add(PlaylistRectangleCard(playlistModel: model, onTapPlaylistCard: onTapPlaylistCard, onTapPlaylistMoreButton: onTapPlaylistMoreButton));
                                     renderList.add(SizedBox(height: kDefaultPadding,));
                                   }
                                   break;
