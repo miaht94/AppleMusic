@@ -38,20 +38,21 @@ class _CurrentArtWorkState extends State<CurrentArtWork> {
     return ValueListenableBuilder<SongUrlModel?>(
       valueListenable: _audioManager.currentSongNotifier,
       builder: (_,currentSong,__){
-        if(currentSong!.song.album.art_url != ""){
+        if(currentSong != null){
           return Container(
             padding: EdgeInsets.only(left: PLAYING_PADDING),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(5.0),
+                borderRadius: BorderRadius.circular(5),
                 child: Image.network(
-                  currentSong!.song.album.art_url,
+                  currentSong.song.album.art_url,
                   fit: BoxFit.fill,
                 ),
               )
           );
-        } else
+        } else {
           return
-            SizedBox();
+            const SizedBox();
+        }
       },
     );
   }

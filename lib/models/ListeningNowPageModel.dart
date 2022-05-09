@@ -20,15 +20,19 @@ class ListeningNowPageModel {
   List<HScrollSquareCardModel> listRencentlyPlayed = [];
   List<HScrollCircleCardModel> listFavoriteArtist = [];
   List<VerticalCardWithTitleModel> listYearEndReplays = [];
-  late Future<bool> isDone;
+  late Future<bool> isListBestChoiceDone = false as Future<bool>;
+  late Future<bool> isListRencentlyPlayedDone = false as Future<bool>;
+  late Future<bool> isListFavoriteArtistDone =  false as Future<bool>;
+  late Future<bool> isListYearEndReplaysDone =  false as Future<bool>;
+
   bool isInit = false;
 
   void init(){
-    isDone = initModel();
+    initModel();
     isInit = true;
   }
 
-  Future<bool> initModel() async {
+  Future<void> initModel() async {
     ListeningNowItem listIdItem;
     try{
        listIdItem = await fetchLiteningModelPage();
@@ -58,6 +62,8 @@ class ListeningNowPageModel {
         }
         
     }
+    isListBestChoiceDone = true as Future<bool>;
+
     // fetch Recently played
     for(String id in listIdItem.listRencentlyPlayed){
         final song = await HttpUtil().fetchSongModel(id);
@@ -70,6 +76,8 @@ class ListeningNowPageModel {
           ));
         }
     }
+    isListRencentlyPlayedDone = true as Future<bool>;
+
     // fetch Favorite Artist
     for(String id in listIdItem.listFavoriteArtist){
         final artist = await HttpUtil().fetchArtistModel(id: id);
@@ -80,6 +88,9 @@ class ListeningNowPageModel {
           ));
         }
     }
+
+    isListFavoriteArtistDone = true as Future<bool>;
+
     // fetch Year-end replays
     for(String id in listIdItem.listYearEndReplays){
         final playlist = await HttpUtil().getPlaylistModel(
@@ -107,10 +118,11 @@ class ListeningNowPageModel {
           }
         }
     }
+    isListYearEndReplaysDone = true as Future<bool>;
     }catch (e){
       print(e);
     }
-    return true;
+    return;
   }
   Future<Color> getImagePalette (ImageProvider imageProvider) async {
     final PaletteGenerator paletteGenerator = await PaletteGenerator
