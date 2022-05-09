@@ -3,6 +3,7 @@ import 'package:apple_music/components/TitleComponent/PageTitleBoxCompact.dart';
 import 'package:apple_music/models/HScrollCircleModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
@@ -25,7 +26,7 @@ void onTapArtistCard(ArtistRectangleCardModel artistRectangleCardModel) {
   Navigator.push(
    GetIt.I.get<AudioPageRouteManager>().getMainContext(),
     MaterialPageRoute(
-   builder: (context) => ArtistView(artistViewModel: ArtistViewModel.getArtist(artistRectangleCardModel.artistName)),
+   builder: (context) => ArtistView(artistViewModel: HttpUtil().fetchArtistModel(artist_name:artistRectangleCardModel.artistName)),
   ));
 }
 

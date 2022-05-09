@@ -10,6 +10,7 @@ import 'package:apple_music/models/AlbumSongListViewModel.dart';
 import 'package:apple_music/models/AlbumViewModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -175,7 +176,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ArtistView(artistViewModel: ArtistViewModel.getArtist(widget.model.artist.artist_name)),
+                            builder: (context) => ArtistView(artistViewModel: HttpUtil().fetchArtistModel(artist_name:widget.model.artist.artist_name)),
                           ),
                         )
                       },

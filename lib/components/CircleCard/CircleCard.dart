@@ -1,4 +1,5 @@
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import 'package:get_it/get_it.dart';
@@ -42,7 +43,7 @@ class CircleCard extends StatelessWidget{
               Navigator.push(
                 GetIt.I.get<AudioPageRouteManager>().getMainContext(),
                 MaterialPageRoute(
-                  builder: (context) => ArtistView(artistViewModel: ArtistViewModel.getArtist(this.artist)),
+                  builder: (context) => ArtistView(artistViewModel: HttpUtil().fetchArtistModel(artist_name:this.artist)),
                 ),
               )
           },

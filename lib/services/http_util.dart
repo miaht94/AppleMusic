@@ -111,7 +111,33 @@ class HttpUtil {
     }
   }
 
-  Future<bool> removeSongFromPlaylist({required String playlist_id, required String song_id}) async {
+  Future<bool> removeSongFromPlaylist({required String playlist_id, required String song_id, required String app_token}) async {
+    PlaylistModel? playlistModel = await getPlaylistModel(id : playlist_id, public: true, app_token: app_token);
+    if (playlistModel != null) {
+      int songIndex = -1;
+      for(SongModel song in playlistModel.songs){
+        if(song.id == song_id){
+          songIndex = playlistModel.songs.indexOf(song);
+          break;
+        }
+      }
+      if(songIndex == -1){
+        return false;
+      } else {
+        try{
+          playlistModel.songs.removeAt(songIndex);
+          Map<String,dynamic> body = {'_id': playlist_id};
+          body.addAll({'songs': jsonEncode(playlistModel.songs)});
+          FormData formData = FormData.fromMap(body);
+          dynamic response = await dio.post(UPDATE_PLAYLIST, data: formData, queryParameters: {'app_token': app_token});
+          return true;
+        } catch(e) {
+          print(e);
+          return false;
+        }
+      }
+      
+    }
     return false;
   }
 
@@ -240,7 +266,7 @@ class HttpUtil {
     List<String>? favorite_songs,
     List<String>? favorite_artists,
     List<String>? favorite_albums,
-})async {
+    })async {
     try{
       Map<String,dynamic> body = {};
 

@@ -5,8 +5,7 @@ import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListWithTex
 import 'package:apple_music/components/SquareCard/HScrollSquareCardWithText.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
-import 'package:apple_music/models/SongCardInPlaylistModel.dart';
-import 'package:apple_music/models/SongModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -15,10 +14,10 @@ import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';
 
 import '../components/Other/PageLoadError.dart';
-import '../models/ArtistViewModel.dart';
+import '../models_refactor/ArtistModel.dart';
 
 class ArtistView extends StatefulWidget {
-  final Future<ArtistViewModel> artistViewModel;
+  final Future<ArtistModel?> artistViewModel;
 
   const ArtistView({Key? key, required this.artistViewModel}) : super(key: key);
   @override
@@ -43,6 +42,63 @@ class _ArtistViewState extends State<ArtistView> {
       });
     }
   }
+
+  ArtistHighlightSongModel HighlighSongConverter(ArtistModel artist) {
+    int _albumYear = 0;
+    String _artURL = 'https://i1.sndcdn.com/artworks-000145857756-irf4fe-t500x500.jpg';
+    for (AlbumInArtistModel album in artist.album_list){
+      for (String songId in album.songsId){
+        if (songId == artist.highlight_song?.id){
+          _albumYear = album.album_year;
+          _artURL = album.art_url;
+        }
+      }
+    }
+    return ArtistHighlightSongModel(
+        artist.highlight_song!.song_name,
+        artist.artist_name,
+        _albumYear,
+        _artURL,
+        artist.highlight_song!.id
+    );
+  }
+
+  List<SongModel> TopListSongConverter(ArtistModel artistModel){
+    List<SongModel> listSong = [];
+    if (artistModel.top_song_list != null) {
+      for (SongModelInArtistModel song in artistModel.top_song_list!){
+        listSong.add(SongModel(
+          id: song.id,
+          lyric_key: song.lyric_key,
+          song_name: song.song_name,
+          song_key: song.song_key,
+          artist: ArtistInSongModel(
+            album_list_id: artistModel.album_list.map((item) => item.id as String).toList(),
+            artist_description: artistModel.artist_description,
+            artist_image_url: artistModel.artist_image_url,
+            artist_name: artistModel.artist_name,
+            id: artistModel.id
+          ),
+          album: song.album,
+        ));
+      }
+    }
+    return listSong;
+  }
+
+  List<HScrollSquareCardModel> SquareCardsConverter(ArtistModel artistModel){
+    List<HScrollSquareCardModel> listSquareCard = [];
+    for (AlbumInArtistModel album in artistModel.album_list){
+      listSquareCard.add(HScrollSquareCardModel(
+        album.album_name,
+        artistModel.artist_name,
+        album.art_url,
+        album.id,
+      ));
+    }
+    return listSquareCard;
+  }
+
 
   bool get isShrink {
     return _scrollController.hasClients &&
@@ -76,12 +132,12 @@ class _ArtistViewState extends State<ArtistView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return FutureBuilder<ArtistViewModel>(
+    return FutureBuilder<ArtistModel?>(
         future: widget.artistViewModel,
-        builder: (BuildContext context, AsyncSnapshot<ArtistViewModel> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<ArtistModel?> snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
-            if (snapshot.data!.artistName == "ArtistError"){
+            if (snapshot.data!.artist_name == "ArtistError"){
               children = <Widget>[
                 Scaffold(
                     appBar: AppBar(
@@ -124,7 +180,7 @@ class _ArtistViewState extends State<ArtistView> {
                                   visible: isShrink ? false : true,
                                   child: Align(
                                       alignment: Alignment.bottomCenter,
-                                      child: Text(snapshot.data!.artistName,
+                                      child: Text(snapshot.data!.artist_name,
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 18.0,
@@ -138,7 +194,7 @@ class _ArtistViewState extends State<ArtistView> {
                                       padding: const EdgeInsets.only(left: 8.0),
                                       child: Align(
                                           alignment: Alignment.bottomCenter,
-                                          child: Text(snapshot.data!.artistName,
+                                          child: Text(snapshot.data!.artist_name,
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 18.0,
@@ -184,17 +240,31 @@ class _ArtistViewState extends State<ArtistView> {
                 body: ListView(
                     shrinkWrap: true,
                     children: [
-                      snapshot.data!.highlightSong.songName != "NoHighlightSong" ? ArtistHighlightSong(
-                          album: snapshot.data!.highlightSong) : Container(),
-                      snapshot.data!.topSongList.length != 0 ? HScrollCardListWithText(title: "Ca Khúc Mới Hay Nhất",
-                          cards: snapshot.data!.topSongList) : Container(),
-                      snapshot.data!.albumList.length != 0 ? Container(
-                        padding: EdgeInsets.only(
-                            bottom: VerticalComponentPadding),
+                      if (snapshot.data!.highlight_song!.song_name != "NoHighlightSong")
+                        ArtistHighlightSong(
+                          album: HighlighSongConverter(snapshot.data!))
+                      else
+                        Container(),
+
+                      if (snapshot.data!.top_song_list!.length != 0)
+                        HScrollCardListWithText(
+                          title: "Ca Khúc Mới Hay Nhất",
+                          cards: TopListSongConverter(snapshot.data!)
+                      )
+                      else
+                        Container(),
+
+                      if (snapshot.data!.album_list.length != 0)
+                        Container(
+                          padding: EdgeInsets.only(
+                              bottom: VerticalComponentPadding),
                         child: HScrollSquareCardWithText(
                             title: "Album đã phát hành",
-                            cards: snapshot.data!.albumList),
-                      ) : Container()
+                            cards: SquareCardsConverter(snapshot.data!)
+                        ),
+                      )
+                      else
+                        Container()
                     ]
                 ),
 

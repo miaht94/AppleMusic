@@ -107,9 +107,9 @@ class _MyHomePageState extends State < MyHomePage > {
                   Center(
                     child: ListeningNow(),
                   ),
-                  Center(
-                    child: DiscoveryPage(),
-                  ),
+                  // Center(
+                  //   child: DiscoveryPage(),
+                  // ),
                   Center(
                     child: LibraryPage(),
                   ),

@@ -1,3 +1,5 @@
+import 'package:apple_music/models_refactor/SongModel.dart';
+
 class ArtistModel{
 
   ArtistModel({
@@ -5,7 +7,7 @@ class ArtistModel{
     required this.artist_name,
     required this.artist_description,
     required this.artist_image_url,
-    this.highlight_song_id,
+    this.highlight_song,
     this.top_song_list,
     required this.album_list,
     this.artist_video_url,
@@ -15,7 +17,7 @@ class ArtistModel{
   String artist_name;
   String artist_description;
   String artist_image_url;
-  SongModelInArtistModel ? highlight_song_id;
+  SongModelInArtistModel ? highlight_song;
   List<SongModelInArtistModel> ? top_song_list;
   List<AlbumInArtistModel> album_list;
   String? artist_video_url;
@@ -25,7 +27,7 @@ class ArtistModel{
     id: json['_id'],
     artist_name:  json['artist_name'],
     artist_description:  json['artist_description'],
-    highlight_song_id: (json['highlight_song'] == null)
+    highlight_song: (json['highlight_song'] == null)
         ? null : SongModelInArtistModel.fromJson(json['highlight_song']),
     top_song_list:  (json['top_song_list'] as List).map((item) => SongModelInArtistModel.fromJson(item)).toList(),
     artist_image_url:  json['artist_image_url'] ,
@@ -43,7 +45,9 @@ class SongModelInArtistModel {
     this.track_number,
     this.collaboration,
     required this.song_key,
-    required this.lyric_key});
+    required this.lyric_key,
+    required this.album
+  });
 
   String id;
   String song_name;
@@ -51,6 +55,7 @@ class SongModelInArtistModel {
   String? collaboration;
   String song_key;
   String lyric_key;
+  AlbumInSongModel album;
   factory SongModelInArtistModel.fromJson(Map<String, dynamic> json) {
     SongModelInArtistModel newSong = SongModelInArtistModel(
         id: json['_id'],
@@ -58,7 +63,8 @@ class SongModelInArtistModel {
         song_key: json['song_key'],
         lyric_key: json['lyric_key'],
         track_number: json['track_number'],
-        collaboration: json['collaboration']
+        collaboration: json['collaboration'],
+        album: AlbumInSongModel.fromJson(json['album']),
     );
     return newSong;
   }
