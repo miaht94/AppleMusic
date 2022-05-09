@@ -3,8 +3,8 @@ import 'PageTitle.dart';
 import 'TitleComponentConstant.dart';
 import 'package:apple_music/constant.dart';
 
-class PageTitleBox extends StatelessWidget {
-  const PageTitleBox({
+class PageTitleBoxCompact extends StatelessWidget {
+  const PageTitleBoxCompact({
     Key? key,
     required this.title,
   }) : super(key: key);
@@ -16,7 +16,7 @@ class PageTitleBox extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
     width: size.width,
-    height: size.height * PAGE_TITLE_BOX_HEIGHT_RATIO,
+    height: size.height * PAGE_TITLE_BOX_COMPACT_HEIGHT_RATIO,
     padding: EdgeInsets.all(kDefaultPadding),
     child: Align(
     alignment: Alignment.bottomLeft,

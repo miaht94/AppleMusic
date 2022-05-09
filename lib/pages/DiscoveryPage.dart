@@ -30,32 +30,35 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
   @override
   Widget build(BuildContext context) {
     return
-      ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          PageTitleBox(title: "Khám Phá")
-          ,
-          Container(
-            padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-            child: HorizontalCardsWithTitle(cards :HorizontalCardWithTitleModel.getSampleData()),
-          ),
-          Container(
-            padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-            child: HScrollSquareCardWithText(title: "Đừng bỏ lỡ", cards: HScrollSquareCardModel.getSampleData()),
-          ),
-          Container(
-            padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-            child: HScrollCircleCardWithText(title: "Nghệ Sĩ Được Yêu Thích", cards: HScrollCircleCardModel.getSampleData()),
-          ),
-          Container(
-            padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-            child: HScrollCardListWithText(title: "Ca Khúc Mới Hay Nhất", cards: SongCardInPlaylistModel.getSampleDataList()),
-          ),
-          Container(
-            padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-            child: TextListView(title: "Khám Phá Thêm"),
-          ),
-        ],
+      Padding(
+        padding: const EdgeInsets.only(left: kDefaultPadding),
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
+          children: [
+            PageTitleBox(title: "Khám Phá")
+            ,
+            Container(
+              padding: EdgeInsets.only(bottom: VerticalComponentPadding),
+              child: HorizontalCardsWithTitle(cards :HorizontalCardWithTitleModel.getSampleData()),
+            ),
+            Container(
+              padding: EdgeInsets.only(bottom: VerticalComponentPadding),
+              child: HScrollSquareCardWithText(title: "Đừng bỏ lỡ", cards: HScrollSquareCardModel.getSampleData()),
+            ),
+            Container(
+              padding: EdgeInsets.only(bottom: VerticalComponentPadding),
+              child: HScrollCircleCardWithText(title: "Nghệ Sĩ Được Yêu Thích", cards: HScrollCircleCardModel.getSampleData()),
+            ),
+            Container(
+              padding: EdgeInsets.only(bottom: VerticalComponentPadding),
+              child: HScrollCardListWithText(title: "Ca Khúc Mới Hay Nhất", cards: SongCardInPlaylistModel.getSampleDataList()),
+            ),
+            Container(
+              padding: EdgeInsets.only(bottom: VerticalComponentPadding),
+              child: TextListView(title: "Khám Phá Thêm"),
+            ),
+          ],
+        ),
       );
   }
 }
