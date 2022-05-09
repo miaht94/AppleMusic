@@ -21,6 +21,7 @@ class SongUrlModel{
 class SongModel{
   SongModel({
     required this.id,
+    required this.song_name,
     this.track_number,
     this.collaboration,
     required this.song_key,
@@ -30,6 +31,7 @@ class SongModel{
   });
 
   String id;
+  String song_name;
   int ? track_number;
   String ? collaboration;
   String song_key;
@@ -40,6 +42,7 @@ class SongModel{
   factory SongModel.fromJson(Map<String,dynamic> json) {
     SongModel newSong = SongModel(
         id: json['_id'],
+        song_name: json['song_name'],
         track_number: json['track_number'],
         collaboration: json['collaboration'],
         song_key: json['song_key'],
@@ -87,8 +90,8 @@ class ArtistInSongModel {
     required this.artist_name,
     required this.artist_description,
     this.highlight_song_id,
-    this.top_song_list,
-    required this.album_list,
+    this.top_song_list_id,
+    required this.album_list_id,
     required this.artist_image_url,
     this.artist_video_url});
 
@@ -96,8 +99,8 @@ class ArtistInSongModel {
   String artist_name;
   String artist_description;
   String? highlight_song_id;
-  List<String>? top_song_list;
-  List<String> album_list;
+  List<String>? top_song_list_id;
+  List<String> album_list_id;
   String? artist_video_url;
   String artist_image_url;
 
@@ -107,10 +110,10 @@ class ArtistInSongModel {
         id: json['_id'],
         artist_name: json['artist_name'],
         artist_description: json['artist_description'],
-        album_list: (json['album_list'] as List).map((item) => item as String).toList(),
+        album_list_id: (json['album_list'] as List).map((item) => item as String).toList(),
         artist_image_url: json['artist_image_url'],
         artist_video_url: json['artist_video_url'],
-        top_song_list: (json['top_song_list'] as List).map((item) => item as String).toList(),
+        top_song_list_id: (json['top_song_list'] as List).map((item) => item as String).toList(),
         highlight_song_id: json['highlight_song']);
     return newArtist;
   }

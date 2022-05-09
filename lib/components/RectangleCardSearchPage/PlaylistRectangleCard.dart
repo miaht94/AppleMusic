@@ -1,5 +1,6 @@
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/PlaylistRectangleCardModel.dart';
+import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,12 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:skeletons/skeletons.dart';
 
 class PlaylistRectangleCard extends StatelessWidget {
-  PlaylistRectangleCard({Key? key, required this.playlistRectangleCardModel, this.onTapPlaylistCard, this.onTapPlaylistMoreButton, this.renderMoreButton, this.renderDivider}) : super(key: key);
-  PlaylistRectangleCardModel playlistRectangleCardModel;
+  PlaylistRectangleCard({Key? key, required this.playlistModel, this.onTapPlaylistCard, this.onTapPlaylistMoreButton, this.renderMoreButton, this.renderDivider}) : super(key: key);
+  PlaylistModel playlistModel;
   bool? renderMoreButton;
   bool? renderDivider;
-  Function(PlaylistRectangleCardModel)? onTapPlaylistCard;
-  Function(PlaylistRectangleCardModel)? onTapPlaylistMoreButton;
+  Function(PlaylistModel)? onTapPlaylistCard;
+  Function(PlaylistModel)? onTapPlaylistMoreButton;
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -21,7 +22,7 @@ class PlaylistRectangleCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (onTapPlaylistCard != null) {
-            onTapPlaylistCard!(playlistRectangleCardModel);
+            onTapPlaylistCard!(playlistModel);
           }
         },
         child: Container(
@@ -40,7 +41,7 @@ class PlaylistRectangleCard extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(8))
                 ),
                 child: CachedNetworkImage(
-                  imageUrl: playlistRectangleCardModel.artURL,
+                  imageUrl: playlistModel.art_url,
                   fit: BoxFit.cover,
                   placeholder: (context, _) => SkeletonAvatar(),
                   imageBuilder: (context, imageProvider) =>
@@ -82,7 +83,7 @@ class PlaylistRectangleCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                            Text(playlistRectangleCardModel.playlistName, style: TextStyle(fontSize: 16, color: Colors.black)),
+                            Text(playlistModel.playlist_name, style: TextStyle(fontSize: 16, color: Colors.black)),
                             Text("Playlist", style: TextStyle(fontSize: 13, color: Colors.grey),)
                                               ],),
                           ),
@@ -102,7 +103,7 @@ class PlaylistRectangleCard extends StatelessWidget {
                                       child: Icon(SFSymbols.ellipsis, size: 18),
                                       onTap: () {
                                         if (onTapPlaylistMoreButton != null) {
-                                          onTapPlaylistMoreButton!(playlistRectangleCardModel);
+                                          onTapPlaylistMoreButton!(playlistModel);
                                         }
                                       },
                                     ),

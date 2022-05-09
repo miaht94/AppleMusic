@@ -5,12 +5,11 @@ import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuItem.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/ContextMenu/SongSubscreenContextMenu.dart';
-import 'package:apple_music/components/ContextMenu/SubscreenContextMenu.dart';
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/PlaylistRectangleCardModel.dart';
-import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models_refactor/PlaylistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -18,7 +17,7 @@ import 'package:get_it/get_it.dart';
 import 'package:skeletons/skeletons.dart';
 
 class SongContextMenuInPlaylistSubscreen extends ContextMenu{
-  SongContextMenuInPlaylistSubscreen({Key? key, required this.songCardInPlaylistModel, required this.playlist, this.afterDeleteSong}): 
+  SongContextMenuInPlaylistSubscreen({Key? key, required this.songModel, required this.playlist, this.afterDeleteSong}): 
     super(key: key,
       name: "SongContextMenuInPlaylistSubscreen",
       action: [
@@ -40,7 +39,7 @@ class SongContextMenuInPlaylistSubscreen extends ContextMenu{
             title: "Phát tiếp theo", 
             iconData: SFSymbols.text_insert,
             onTapItem: () {
-              GetIt.I.get<AudioManager>().insertNext(songCardInPlaylistModel.id);
+              GetIt.I.get<AudioManager>().insertNext(songModel.id);
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenuInPlaylistSubscreen']!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenuInPlaylistSubscreen']!.anim.addStatusListener((status) {
                 if (status.name == 'completed') {
@@ -54,7 +53,7 @@ class SongContextMenuInPlaylistSubscreen extends ContextMenu{
             title: "Phát cuối cùng", 
             iconData: SFSymbols.text_append,
             onTapItem: () {
-              GetIt.I.get<AudioManager>().insertTail(songCardInPlaylistModel.id);
+              GetIt.I.get<AudioManager>().insertTail(songModel.id);
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenuInPlaylistSubscreen']!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenuInPlaylistSubscreen']!.anim.addStatusListener((status) {
                 if (status.name == 'completed') {
@@ -70,7 +69,7 @@ class SongContextMenuInPlaylistSubscreen extends ContextMenu{
             onTapItem: () async {
               // throw UnimplementedError();
               EasyLoading.show(status: "Đang xóa");
-              bool suc = await GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected!.removeSong(songCardInPlaylistModel.id);
+              bool suc = await HttpUtil().removeSongFromPlaylist(playlist_id : GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected!.id, song_id: songModel.id);
               if (suc) {
                 EasyLoading.showSuccess('Đã xóa', duration: Duration(seconds: 2));
               } else {
@@ -81,7 +80,7 @@ class SongContextMenuInPlaylistSubscreen extends ContextMenu{
                 if (status.name == 'completed') {
                   GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenuInPlaylistSubscreen');
                   // GetIt.I.get<ContextMenuManager>().insertSubscreen(
-                  //   SongSubscreenContextMenu(songCardInPlaylistModel: songCardInPlaylistModel)
+                  //   SongSubscreenContextMenu(songModel: songModel)
                   // );
                   if (afterDeleteSong != null) {
                     afterDeleteSong();
@@ -97,7 +96,7 @@ class SongContextMenuInPlaylistSubscreen extends ContextMenu{
           
           children: [
             CachedNetworkImage(
-              imageUrl: songCardInPlaylistModel.artURL, 
+              imageUrl: songModel.album.art_url, 
               placeholder: (_, __) => SkeletonAvatar(),
               imageBuilder: (context, imageProvider) => 
                 Container(
@@ -114,7 +113,7 @@ class SongContextMenuInPlaylistSubscreen extends ContextMenu{
               child: Column(
                 children: [
                   Text(
-                    songCardInPlaylistModel.songName,
+                    songModel.song_name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -123,7 +122,7 @@ class SongContextMenuInPlaylistSubscreen extends ContextMenu{
                     ),
                   ),
                   Text(
-                    songCardInPlaylistModel.artistName,
+                    songModel.artist.artist_name,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.red,
@@ -131,7 +130,7 @@ class SongContextMenuInPlaylistSubscreen extends ContextMenu{
                     ),
                   ),
                   Text(
-                    songCardInPlaylistModel.genre,
+                    songModel.album.genre,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
@@ -146,8 +145,8 @@ class SongContextMenuInPlaylistSubscreen extends ContextMenu{
         )
       )
     );
-  SongCardInPlaylistModel songCardInPlaylistModel;
-  PlaylistRectangleCardModel playlist;
+  SongModel songModel;
+  PlaylistModel playlist;
   Function? afterDeleteSong;
   // @override
   // Widget build(BuildContext context) {

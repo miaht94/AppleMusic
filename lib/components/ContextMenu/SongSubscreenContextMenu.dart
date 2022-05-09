@@ -13,10 +13,11 @@ import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylistBigg
 import 'package:apple_music/components/TextButton/TextButton.dart'
 as CustomTextButton;
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/PlaylistModel.dart';
-import 'package:apple_music/models/PlaylistRectangleCardModel.dart';
-import 'package:apple_music/models/SongCardInPlaylistModel.dart';
-import 'package:apple_music/models/UserModel.dart';
+import 'package:apple_music/models/CredentialModel.dart';
+import 'package:apple_music/models_refactor/PlaylistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -28,18 +29,18 @@ import 'package:image_picker/image_picker.dart';
 
 class SongSubscreenContextMenu extends SubscreenContextMenu {
   SongSubscreenContextMenu({
-    this.songCardInPlaylistModel
+    this.songModel
   }): super(
     init: () {
       if (GetIt.I.isRegistered<SongSubscreenContextMenuManger>()) {
           GetIt.I.unregister<SongSubscreenContextMenuManger>();
         }
         GetIt.I.registerLazySingleton<SongSubscreenContextMenuManger>(() => SongSubscreenContextMenuManger());
-        GetIt.I.get<SongSubscreenContextMenuManger>().songSelected = songCardInPlaylistModel;
+        GetIt.I.get<SongSubscreenContextMenuManger>().songSelected = songModel;
     },
     body: (context) {
       
-      Size size = MediaQuery.of(context).size;
+      final Size size = MediaQuery.of(context).size;
       return Container(
         // width: size.width,
         // height: size.height/2,
@@ -69,7 +70,7 @@ class SongSubscreenContextMenu extends SubscreenContextMenu {
     );
     
     
-    SongCardInPlaylistModel ? songCardInPlaylistModel;
+    SongModel? songModel;
 }
 
 Route _createRoutePageCreatePlaylist() {
@@ -80,7 +81,7 @@ Route _createRoutePageCreatePlaylist() {
       const end = Offset.zero;
       const curve = Curves.ease;
 
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
       return SlideTransition(
         position: animation.drive(tween),
@@ -90,7 +91,7 @@ Route _createRoutePageCreatePlaylist() {
   );
 }
 
-Route _createRoutePageViewSongPlaylist(PlaylistRectangleCardModel model, SongCardInPlaylistModel ? songToAdd) {
+Route _createRoutePageViewSongPlaylist(PlaylistModel model, SongModel? songToAdd) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => ViewAllSongsInPlaylist(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -98,7 +99,7 @@ Route _createRoutePageViewSongPlaylist(PlaylistRectangleCardModel model, SongCar
       const end = Offset.zero;
       const curve = Curves.ease;
 
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
       return SlideTransition(
         position: animation.drive(tween),
@@ -108,7 +109,7 @@ Route _createRoutePageViewSongPlaylist(PlaylistRectangleCardModel model, SongCar
   );
 }
 
-class ViewAllPlaylistsPage extends StatelessWidget {
+class ViewAllPlaylistsPage extends StatefulWidget {
   ViewAllPlaylistsPage({
     Key ? key,
   }): super(key: key) {
@@ -119,7 +120,18 @@ class ViewAllPlaylistsPage extends StatelessWidget {
     songToAdd = GetIt.I.get<SongSubscreenContextMenuManger>().songSelected;
     GetIt.I.get <UserModelNotifier>().refreshUser();
   }
-  SongCardInPlaylistModel ? songToAdd;
+  SongModel? songToAdd;
+  late Future<List<PlaylistModel>?> listPlaylistModelFuture = HttpUtil().searchPlaylist(public: false, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken); 
+  @override
+  State<ViewAllPlaylistsPage> createState() => _ViewAllPlaylistsPageState();
+}
+
+class _ViewAllPlaylistsPageState extends State<ViewAllPlaylistsPage> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     // print(MediaQuery.of(context).size);
@@ -153,14 +165,14 @@ class ViewAllPlaylistsPage extends StatelessWidget {
                 ], ),
             ),
             Row(children: [
-              Expanded(child: Divider(thickness: 0.2, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
+              const Expanded(child: Divider(thickness: 0.2, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
             ], ),
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                 margin: const EdgeInsets.only(bottom: kDefaultPadding),
                   child: 
-                  Text(
+                  const Text(
                     'Chọn Playlist', 
                     style: TextStyle(
                       fontWeight: FontWeight.bold, 
@@ -168,36 +180,39 @@ class ViewAllPlaylistsPage extends StatelessWidget {
                     ), 
                   ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                child: ValueListenableBuilder < UserModel > (
-                  valueListenable: GetIt.I.get < UserModelNotifier > (),
-
-                  builder: (context, userModel, _) {
-                    List < Widget > playlistsWidget = [];
-                    for (Map < String, dynamic > json in userModel.playLists) {
-                      playlistsWidget.add(
-                        PlaylistRectangleCard(
-                          onTapPlaylistCard: (model) {
-                            GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected = model;
-                            Navigator.of(context).push(_createRoutePageViewSongPlaylist(model, songToAdd));
-                          },
-                          playlistRectangleCardModel: PlaylistRectangleCardModel.fromJson(json),
-                          renderMoreButton: true,
-                          renderDivider: false,
-                          onTapPlaylistMoreButton: (playlistRectangleCardModel) {
-                            GetIt.I.get < ContextMenuManager > ().insertOverlay(PlaylistContextMenu(playlistModel: playlistRectangleCardModel));
-                          },
-                        ),
-                      );
-                      playlistsWidget.add(SizedBox(height: kDefaultPadding, ));
-                    }
-                    return SingleChildScrollView(
-                      child: Column(children: playlistsWidget),
-                    );
-                  }
-                ),
-            ),
+            FutureBuilder<List<PlaylistModel>?>(
+              future: widget.listPlaylistModelFuture,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData || snapshot.connectionState != ConnectionState.done) {
+                  return const CircularProgressIndicator();
+                }
+                if (snapshot.data == null) return Container();
+                final List < Widget > playlistsWidget = [];
+                for (final PlaylistModel playlistModel in snapshot.data!) {
+                  playlistsWidget.add(
+                    PlaylistRectangleCard(
+                      onTapPlaylistCard: (model) {
+                        GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected = model;
+                        Navigator.of(context).push(_createRoutePageViewSongPlaylist(playlistModel, widget.songToAdd));
+                      },
+                      playlistModel: playlistModel,
+                      renderMoreButton: true,
+                      renderDivider: false,
+                      onTapPlaylistMoreButton: (playlistRectangleCardModel) {
+                        GetIt.I.get<ContextMenuManager>().insertOverlay(PlaylistContextMenu(playlistModel: playlistModel));
+                      },
+                    ),
+                  );
+                  playlistsWidget.add(const SizedBox(height: kDefaultPadding, ));
+                }
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                  child: 
+                      SingleChildScrollView(
+                        child: Column(children: playlistsWidget),
+                      )
+              );}
+            )
         ],
       ),
     );
@@ -224,16 +239,16 @@ class _CreateNewPlaylistPageState extends State < CreateNewPlaylistPage > {
     return Material(
       type: MaterialType.transparency,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
+        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10)
         ),
         child: Column(
           children: [
-            SizedBox(height: kDefaultPadding, ),
+            const SizedBox(height: kDefaultPadding, ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
+              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
               child: Row(children: [
                 if (Navigator.of(context).canPop())
                   CustomTextButton.TextButton(
@@ -252,20 +267,20 @@ class _CreateNewPlaylistPageState extends State < CreateNewPlaylistPage > {
                     color: Colors.blue,
                     textSize: 20,
                     onTap: () async {
-                      FocusScopeNode currentFocus = FocusScope.of(context);
+                      final FocusScopeNode currentFocus = FocusScope.of(context);
                       if (!currentFocus.hasPrimaryFocus) {
                         currentFocus.unfocus();
                       }
                       if (titleController.text == "") {
-                        AdvanceSnackBar(
+                        const AdvanceSnackBar(
                           message: "Bạn chưa điền tiêu đề",
                           mode: Mode.ADVANCE,
                           type: sType.ERROR,
-                          duration: Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
+                          duration: const Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
                         return;
                       }
                       if (descriptionController.text == "") {
-                        AdvanceSnackBar(
+                        const AdvanceSnackBar(
                           message: "Bạn chưa đền mô tả",
                           mode: Mode.ADVANCE,
                           type: sType.ERROR,
@@ -273,22 +288,23 @@ class _CreateNewPlaylistPageState extends State < CreateNewPlaylistPage > {
                         return;
                       }
                       if (image == null) {
-                        AdvanceSnackBar(
+                        const AdvanceSnackBar(
                           message: "Bạn chưa thêm ảnh",
                           mode: Mode.ADVANCE,
                           type: sType.ERROR,
-                          duration: Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
+                          duration: const Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
                         return;
                       }
                       EasyLoading.show(status: 'Đang tạo playlist');
-                      bool suc = await GetIt.I.get < UserModelNotifier > ().addPlaylist(titleController.text, descriptionController.text, image!.path);
+                      final bool suc = await HttpUtil().addPlaylist(title: titleController.text, description: descriptionController.text, imagePath: image!.path);
                       if (suc) {
-                        EasyLoading.showSuccess("Thành công", duration: Duration(seconds: 2));
+                        EasyLoading.showSuccess("Thành công", duration: const Duration(seconds: 2));
                       } else {
-                        EasyLoading.showError("Có lỗi xảy ra", duration: Duration(seconds: 2));
+                        EasyLoading.showError("Có lỗi xảy ra", duration: const Duration(seconds: 2));
                       }
-                      if (Navigator.of(context).canPop())
+                      if (Navigator.of(context).canPop()) {
                         Navigator.of(context).pop();
+                      }
                     }
                   ),
               ], ),
@@ -329,23 +345,23 @@ class _CreateNewPlaylistPageState extends State < CreateNewPlaylistPage > {
                         flex: 2,
                         child: Container(
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                          padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Tiêu đề: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 61, 61, 61)), ),
+                              const Text("Tiêu đề: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: const Color.fromARGB(255, 61, 61, 61)), ),
                               TextField(
                                 controller: titleController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.zero
                                 ),
                               ),
-                              SizedBox(height: 10, ),
-                              Text("Mô tả: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 61, 61, 61)), ),
+                              const SizedBox(height: 10, ),
+                              const Text("Mô tả: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: const Color.fromARGB(255, 61, 61, 61)), ),
                               TextField(
                                 controller: descriptionController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.zero
                                 ),
                               )
@@ -368,22 +384,20 @@ class ViewAllSongsInPlaylist extends StatefulWidget {
   ViewAllSongsInPlaylist({
     Key ? key,
   }): super(key: key) {
-    unPopulatedModel = GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected;
+    playlistSelected = GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected;
     songToAdd = GetIt.I.get<SongSubscreenContextMenuManger>().songSelected;
   }
-  PlaylistRectangleCardModel? unPopulatedModel;
-  SongCardInPlaylistModel ? songToAdd;
+  PlaylistModel? playlistSelected;
+  SongModel? songToAdd;
   @override
   State < ViewAllSongsInPlaylist > createState() => _ViewAllSongsInPlaylistState();
 }
 
 class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
-  late Future < PlaylistModel > detailModelFuture;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    detailModelFuture = PlaylistModel.fetchPlaylist(widget.unPopulatedModel!.playlistId);
   }
   @override
   Widget build(BuildContext context) {
@@ -393,7 +407,7 @@ class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
       color: Colors.white,
       child: Column(
         children: [
-          SizedBox(height: kDefaultPadding, ),
+          const SizedBox(height: kDefaultPadding, ),
           Container(
 
             decoration: BoxDecoration(
@@ -421,31 +435,29 @@ class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
                       textSize: 20,
                       onTap: () async {
                         EasyLoading.show(status: "Loading");
-                        bool success = await GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected!.addSong(widget.songToAdd!.id);
+                        final bool success = await HttpUtil().addSongToPlaylist(song_id :GetIt.I.get<SongSubscreenContextMenuManger>().songSelected!.id, playlist_id: GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected!.id);
                         if (success) {
-                          EasyLoading.showSuccess("Success", duration: Duration(seconds: 3));
+                          EasyLoading.showSuccess("Success", duration: const Duration(seconds: 3));
                         } else {
-                          EasyLoading.showError("Error", duration: Duration(seconds: 3));
+                          EasyLoading.showError("Error", duration: const Duration(seconds: 3));
                         }
-                        setState(() {
-                          detailModelFuture = PlaylistModel.fetchPlaylist(widget.unPopulatedModel!.playlistId);
-                        });
+                        GetIt.I.get<SongSubscreenContextMenuManger>().viewAllSongPageManager!.refreshPage();
                       }
                     ),
               ], ),
           ),
           Row(children: [
-            Expanded(child: Divider(thickness: 0.2, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
+            const Expanded(child: Divider(thickness: 0.2, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
           ], ),
 
           Expanded(
-            child: FutureBuilder < PlaylistModel > (
-              future: detailModelFuture,
+            child: FutureBuilder <PlaylistModel?> (
+              future: GetIt.I.get<SongSubscreenContextMenuManger>().viewAllSongPageManager!.futurePlaylistModel,
 
               builder: (context, snapshot) {
-                List < Widget > songsWidget = [];
-                if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-                  PlaylistModel model = snapshot.data!;
+                final List < Widget > songsWidget = [];
+                if (snapshot.hasData && snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
+                  final PlaylistModel playlistModel = snapshot.data!;
                   songsWidget.add(
                     Container(
                       alignment: Alignment.centerLeft,
@@ -454,28 +466,31 @@ class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
                       child: const Text('Danh sách bài hát', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), ),
                     )
                   );
-                  for (Map < String, dynamic > json in model.songs) {
-                    (json['song'] as Map < String, dynamic > ).addAll({
-                      'artist': json['artist'],
-                      'album': json['album']
-                    });
-
+                  for (final songModel in playlistModel.songs) {
                     songsWidget.add(
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                        padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                         child: SongCardInPlaylistBigger(
-                          songCardInPlaylistModel: SongCardInPlaylistModel.fromJson(json['song']),
+                          songModel: songModel,
                           // renderMoreButton: true,
                           // renderDivider: false,
-                          onTapSongCardMoreButton: (songCardInPlaylistModel) {
-                            GetIt.I.get < ContextMenuManager > ().insertOverlay(SongContextMenuInPlaylistSubscreen(playlist: widget.unPopulatedModel! ,songCardInPlaylistModel: songCardInPlaylistModel, afterDeleteSong: () {setState(() {
-                              detailModelFuture = PlaylistModel.fetchPlaylist(widget.unPopulatedModel!.playlistId);
-                            });}));
+                          onTapSongCardMoreButton: (songModel) {
+                            GetIt.I.get < ContextMenuManager > ().insertOverlay(
+                              SongContextMenuInPlaylistSubscreen(
+                                playlist: GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected!,
+                                songModel: songModel, 
+                                afterDeleteSong: () {
+                                  setState(() {
+                                    GetIt.I.get<SongSubscreenContextMenuManger>().viewAllSongPageManager!.refreshPage();
+                                  });
+                                }
+                              )
+                            );
                           },
                         ),
                       ),
                     );
-                    songsWidget.add(SizedBox(height: kDefaultPadding, ));
+                    songsWidget.add(const SizedBox(height: kDefaultPadding, ));
                   }
                   return CustomScrollView(
                     slivers: [
@@ -486,7 +501,7 @@ class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
                     ],
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: const CircularProgressIndicator());
                 }
 
 
@@ -501,17 +516,26 @@ class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
 
 class SongSubscreenContextMenuManger {
   SongSubscreenContextMenuManger({this.songSelected});
-  SongCardInPlaylistModel? songSelected;
+  SongModel? songSelected;
   ViewAllSongPageManager? viewAllSongPageManager;
   ViewAllPlaylistManager? viewAllPlaylistManager;
 }
 
 class ViewAllSongPageManager {
-  ViewAllSongPageManager();
-  SongCardInPlaylistModel? songSelected;
+  ViewAllSongPageManager() {
+    futurePlaylistModel = HttpUtil().getPlaylistModel(public: false, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, id: GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected!.id);
+  }
+  SongModel? songSelected;
+  late Future<PlaylistModel?> futurePlaylistModel;
+  void refreshPage() {
+    futurePlaylistModel = HttpUtil().getPlaylistModel(public: false, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, id: GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected!.id);
+  }
 }
 
 class ViewAllPlaylistManager {
-  ViewAllPlaylistManager();
-  PlaylistRectangleCardModel? playlistSelected;
+  ViewAllPlaylistManager() {
+    futureAllPlaylists = HttpUtil().searchPlaylist(public: false, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
+  }
+  late Future<List<PlaylistModel>?> futureAllPlaylists;
+  PlaylistModel? playlistSelected;
 }

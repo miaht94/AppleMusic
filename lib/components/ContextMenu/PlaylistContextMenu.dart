@@ -1,18 +1,14 @@
 import 'package:advance_notification/advance_notification.dart';
-import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuItem.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
-import 'package:apple_music/components/ContextMenu/SongSubscreenContextMenu.dart';
-import 'package:apple_music/components/ContextMenu/SubscreenContextMenu.dart';
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/PlaylistRectangleCardModel.dart';
 import 'package:apple_music/models/SearchPageModel.dart';
-import 'package:apple_music/models/SongCardInPlaylistModel.dart';
-import 'package:apple_music/models/UserModel.dart';
+import 'package:apple_music/models_refactor/PlaylistModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -38,7 +34,7 @@ class PlaylistContextMenu extends ContextMenu{
               AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           ),
-          if (GetIt.I.get<UserModelNotifier>().value.containPlaylist(playlistModel.playlistId))
+          if (GetIt.I.get<UserModelNotifier>().value.containPlaylist(playlistModel.id))
           ContextMenuItem(
             title: "Xóa playlist", 
             iconData: SFSymbols.delete_left,
@@ -48,14 +44,14 @@ class PlaylistContextMenu extends ContextMenu{
                         status: 'loading...',
                         maskType: EasyLoadingMaskType.clear,
                       );
-              bool success = await GetIt.I.get<UserModelNotifier>().deletePlaylist(playlistModel.playlistId);
+              bool success = await HttpUtil().deletePlaylist(id: playlistModel.id);
               if (success)
                 await EasyLoading.showSuccess("Đã xóa", duration: Duration(seconds: 3));
               else 
                 await EasyLoading.showError("Xóa thất bại", duration: Duration(seconds: 3));
               GetIt.I.get<ContextMenuManager>().contextMenuMap["PlaylistContextMenu"]!.closeContextMenu(() {
                 AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
-                GetIt.I.get<SearchPageModelNotifier>().refresh();
+                GetIt.I.get<SearchPageManager>().refresh();
               });
               
               
@@ -67,7 +63,7 @@ class PlaylistContextMenu extends ContextMenu{
           
           children: [
             CachedNetworkImage(
-              imageUrl: playlistModel.artURL, 
+              imageUrl: playlistModel.art_url, 
               placeholder: (_, __) => SkeletonAvatar(),
               imageBuilder: (context, imageProvider) => 
                 Container(
@@ -84,7 +80,7 @@ class PlaylistContextMenu extends ContextMenu{
               child: Column(
                 children: [
                   Text(
-                    playlistModel.playlistName,
+                    playlistModel.playlist_name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -109,7 +105,7 @@ class PlaylistContextMenu extends ContextMenu{
         )
       )
     );
-  PlaylistRectangleCardModel playlistModel;
+  PlaylistModel playlistModel;
   // @override
   // Widget build(BuildContext context) {
   //   return ContextMenu(

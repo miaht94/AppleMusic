@@ -160,12 +160,14 @@ class AlbumInUserModel {
       return newAlbum;
   }
 }
-// class UserModelNotifier extends ValueNotifier<UserModel> {
-//   UserModelNotifier(UserModel value) : super(value);
-//   Future<void> refreshUser() async {
+class UserModelNotifier extends ValueNotifier<UserModel> {
+  UserModelNotifier(UserModel value) : super(value);
+  Future<void> refreshUser() async {
 //     value = await UserModel.fetchUser(GetIt.I.get<CredentialModelNotifier>().value.appToken);
 //     notifyListeners();
-//   }
+  }
+}
+//   
 //   Future<bool> addPlaylist(String playlist_name, String playlist_description, String art_url) async {
 //     try {
 //       Dio dio = Dio(BaseOptions(baseUrl: 'http://' + SV_HOSTNAME + '/'));

@@ -1,22 +1,25 @@
+import 'package:apple_music/models_refactor/SongModel.dart';
+
 class PlaylistModel {
-  PlaylistModel({required this.id, required this.playlist_name, required this.art_url, required this.playlist_description, required this.song_artist_pair, required this.public});
+  PlaylistModel({required this.id, required this.playlist_name, required this.art_url, required this.playlist_description, required this.songs, required this.public});
   String id;
   String playlist_name;
   String art_url;
   String playlist_description;
-  List<SongArtistPairInPlaylistModel> song_artist_pair;
+  List<SongModel> songs;
   bool public;
   factory PlaylistModel.fromJson(Map<String, dynamic> json) {
-    List<SongArtistPairInPlaylistModel> song_artist_pairs = [];
+    List<SongModel> song_artist_pairs = [];
     for (Map<String, dynamic> i in json['songs']) {
-      song_artist_pairs.add(SongArtistPairInPlaylistModel.fromJson(i));
+      (i['song'] as Map<String, dynamic>).addAll({'artist': i['artist'], 'album': i['album']});
+      song_artist_pairs.add(SongModel.fromJson(i['song']));
     }
     PlaylistModel newPlaylist = new PlaylistModel(
       id : json['_id'], 
       playlist_name : json['playlist_name'], 
       art_url : json['art_url'], 
       playlist_description : json['playlist_description'], 
-      song_artist_pair : song_artist_pairs, 
+      songs : song_artist_pairs, 
       public : json['public']);
     return newPlaylist;
   }

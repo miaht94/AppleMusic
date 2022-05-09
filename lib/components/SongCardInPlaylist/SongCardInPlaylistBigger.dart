@@ -1,6 +1,7 @@
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -9,13 +10,13 @@ import 'package:skeletons/skeletons.dart';
 class SongCardInPlaylistBigger extends StatefulWidget {
   SongCardInPlaylistBigger({
     Key ? key,
-    required this.songCardInPlaylistModel,
+    required this.songModel,
     this.onTapSongCardInPlaylist,
     this.onTapSongCardMoreButton,
   }): super(key: key);
-  Function(SongCardInPlaylistModel) ? onTapSongCardMoreButton;
-  Function(SongCardInPlaylistModel) ? onTapSongCardInPlaylist;
-  final SongCardInPlaylistModel songCardInPlaylistModel;
+  Function(SongModel) ? onTapSongCardMoreButton;
+  Function(SongModel) ? onTapSongCardInPlaylist;
+  final SongModel songModel;
   @override
   _SongCardInPlaylistStateBigger createState() => _SongCardInPlaylistStateBigger();
 }
@@ -33,7 +34,7 @@ class _SongCardInPlaylistStateBigger extends State < SongCardInPlaylistBigger > 
         child: InkWell(
           onTap: () {
             if (widget.onTapSongCardInPlaylist != null) {
-              widget.onTapSongCardInPlaylist!(widget.songCardInPlaylistModel);
+              widget.onTapSongCardInPlaylist!(widget.songModel);
             }
           },
           child: Row(children: [
@@ -49,7 +50,7 @@ class _SongCardInPlaylistStateBigger extends State < SongCardInPlaylistBigger > 
                 borderRadius: BorderRadius.all(Radius.circular(8))
               ),
               child: CachedNetworkImage(
-                imageUrl: widget.songCardInPlaylistModel.artURL,
+                imageUrl: widget.songModel.album.art_url,
                 progressIndicatorBuilder: (context, url, downloadProgress) =>
                 const SkeletonAvatar(),
                 imageBuilder: (context, imageProvider) =>
@@ -88,8 +89,8 @@ class _SongCardInPlaylistStateBigger extends State < SongCardInPlaylistBigger > 
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(widget.songCardInPlaylistModel.songName, style: const TextStyle(fontSize: 16, color: Colors.black, overflow: TextOverflow.ellipsis), maxLines: 1),
-                                Text('${widget.songCardInPlaylistModel.artistName} - Bài hát', style: const TextStyle(fontSize: 13, color: Colors.grey, overflow: TextOverflow.ellipsis), maxLines: 1)
+                                Text(widget.songModel.song_name, style: const TextStyle(fontSize: 16, color: Colors.black, overflow: TextOverflow.ellipsis), maxLines: 1),
+                                Text('${widget.songModel.artist.artist_name} - Bài hát', style: const TextStyle(fontSize: 13, color: Colors.grey, overflow: TextOverflow.ellipsis), maxLines: 1)
                               ], ),
                           ),
                           Align(
@@ -107,7 +108,7 @@ class _SongCardInPlaylistStateBigger extends State < SongCardInPlaylistBigger > 
                                     child: const Icon(SFSymbols.ellipsis, size: 18),
                                     onTap: () {
                                       if (widget.onTapSongCardMoreButton != null) {
-                                        widget.onTapSongCardMoreButton!(widget.songCardInPlaylistModel);
+                                        widget.onTapSongCardMoreButton!(widget.songModel);
                                       }
                                     },
                                   ),

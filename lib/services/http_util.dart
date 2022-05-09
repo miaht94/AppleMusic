@@ -111,6 +111,22 @@ class HttpUtil {
     }
   }
 
+  Future<bool> removeSongFromPlaylist({required String playlist_id, required String song_id}) async {
+    return false;
+  }
+
+  Future<bool> addPlaylist({required String title, required String description, required String imagePath}) async {
+    return false;
+  }
+
+  Future<bool> deletePlaylist({required String id}) async {
+    return false;
+  }
+
+  Future<bool> addSongToPlaylist({required String song_id, required String playlist_id}) async {
+    return false;
+  }
+
   Future<SongUrlModel?> fetchSongModel(String id) async {
     try {
       final Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, port: SV_PORT, path: SONG_PATH, queryParameters: {

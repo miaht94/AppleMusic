@@ -16,6 +16,7 @@ import 'package:apple_music/models/HorizontalScrollCategoryModel.dart';
 import 'package:apple_music/models/PlaylistRectangleCardModel.dart';
 import 'package:apple_music/models/SearchPageModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -31,13 +32,13 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State < SearchPage > {
   void _initModelForHorizontalScrollCategory() {
-    if (!GetIt.I.isRegistered<SearchPageModelNotifier>()) {
-      GetIt.I.registerLazySingleton<SearchPageModelNotifier>(() => SearchPageModelNotifier(SearchPageModel()));
+    if (!GetIt.I.isRegistered<SearchPageManager>()) {
+      GetIt.I.registerLazySingleton<SearchPageManager>(() => SearchPageManager(SearchPageModel()));
     }
   }
 
   void onTapElementOnHorizontalCate(CategoryModel model) {
-    GetIt.I.get<SearchPageModelNotifier>().changeSearchMode(model.id);
+    GetIt.I.get<SearchPageManager>().changeSearchMode(model.id);
   }
 
   @override
@@ -47,12 +48,12 @@ class _SearchPageState extends State < SearchPage > {
     _initModelForHorizontalScrollCategory();
   }
 
-  void onTapSongCardMoreButton(SongCardInPlaylistModel songCardInPlaylistModel) {
-    GetIt.I.get<ContextMenuManager>().insertOverlay(SongContextMenu(songCardInPlaylistModel: songCardInPlaylistModel));
+  void onTapSongCardMoreButton(SongModel songModel) {
+    GetIt.I.get<ContextMenuManager>().insertOverlay(SongContextMenu(songModel: songModel));
     
   }
 
-  void onTapSongCard(SongCardInPlaylistModel songCardInPlaylistModel) {
+  void onTapSongCard(SongModel songCardInPlaylistModel) {
     GetIt.I.get<AudioManager>().addAndPlayASong(songCardInPlaylistModel.id);
   }
 
@@ -82,7 +83,7 @@ class _SearchPageState extends State < SearchPage > {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     return ValueListenableBuilder<SearchPageModel>(
-      valueListenable: GetIt.I.get<SearchPageModelNotifier>(),
+      valueListenable: GetIt.I.get<SearchPageManager>(),
       builder: (context, searchPageModel, _) =>
       LoaderOverlay(
         child: Container(
@@ -96,7 +97,7 @@ class _SearchPageState extends State < SearchPage > {
                 child: 
                 LayoutBuilder(
                   builder: (context, constraints) {
-                    if (searchPageModel.searchString != '' && GetIt.I.get<SearchPageModelNotifier>().value.inSearchedMode) {
+                    if (searchPageModel.searchString != '' && GetIt.I.get<SearchPageManager>().value.inSearchedMode) {
                       return SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                       child: Column(children: [
@@ -108,13 +109,13 @@ class _SearchPageState extends State < SearchPage > {
                               context.loaderOverlay.show();
                               return Container();
                             } else {
-                              final String searchMode = GetIt.I.get<SearchPageModelNotifier>().value.searchMode;
+                              final String searchMode = GetIt.I.get<SearchPageManager>().value.searchMode;
                               final List<Widget> renderList = [];
                               final List<dynamic> data = snapshot.data!;
                               switch(searchMode) {
                                 case 'song_name':
-                                  for (final SongCardInPlaylistModel model in data) {
-                                    renderList.add(SongCardInPlaylistBigger(songCardInPlaylistModel: model, onTapSongCardMoreButton: onTapSongCardMoreButton, onTapSongCardInPlaylist: onTapSongCard,));
+                                  for (final SongModel model in data) {
+                                    renderList.add(SongCardInPlaylistBigger(songModel: model, onTapSongCardMoreButton: onTapSongCardMoreButton, onTapSongCardInPlaylist: onTapSongCard,));
                                   }
                                   break;
                                 case 'artist_name':
@@ -142,7 +143,7 @@ class _SearchPageState extends State < SearchPage > {
                             }
                               
                           },
-                          future: GetIt.I.get<SearchPageModelNotifier>().value.queryResult!,
+                          future: GetIt.I.get<SearchPageManager>().value.queryResult!,
                         )
                       ]),
                     );
@@ -170,7 +171,7 @@ class _SearchPageState extends State < SearchPage > {
                         if (kDebugMode) {
                           print('Submited $query');
                         }
-                        GetIt.I.get<SearchPageModelNotifier>().changeSearchString(query);
+                        GetIt.I.get<SearchPageManager>().changeSearchString(query);
                       }),
                     ),
                     ValueListenableBuilder<HorizontalScrollCategoryModel>(

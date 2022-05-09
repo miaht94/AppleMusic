@@ -9,6 +9,7 @@ import 'package:apple_music/components/ContextMenu/SubscreenContextMenu.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/models/UserModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ import 'package:get_it/get_it.dart';
 import 'package:skeletons/skeletons.dart';
 
 class SongContextMenu extends ContextMenu{
-  SongContextMenu({Key? key, required this.songCardInPlaylistModel}): 
+  SongContextMenu({Key? key, required this.songModel}): 
     super(key: key,
       name: 'SongContextMenu',
       action: [
@@ -40,7 +41,7 @@ class SongContextMenu extends ContextMenu{
             title: 'Phát tiếp theo', 
             iconData: SFSymbols.text_insert,
             onTapItem: () {
-              GetIt.I.get<AudioManager>().insertNext(songCardInPlaylistModel.id);
+              GetIt.I.get<AudioManager>().insertNext(songModel.id);
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.addStatusListener((status) {
                 if (status.name == 'completed') {
@@ -54,7 +55,7 @@ class SongContextMenu extends ContextMenu{
             title: 'Phát cuối cùng', 
             iconData: SFSymbols.text_append,
             onTapItem: () {
-              GetIt.I.get<AudioManager>().insertTail(songCardInPlaylistModel.id);
+              GetIt.I.get<AudioManager>().insertTail(songModel.id);
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.anim.addStatusListener((status) {
                 if (status.name == 'completed') {
@@ -65,14 +66,14 @@ class SongContextMenu extends ContextMenu{
             },
           ),
           ValueListenableBuilder<UserModel>(valueListenable: GetIt.I.get<UserModelNotifier>(), builder: (context, userModel, _) {
-            if (!GetIt.I.get<UserModelNotifier>().value.containFavSong(songCardInPlaylistModel.id))
+            if (!GetIt.I.get<UserModelNotifier>().value.containFavSong(songModel.id))
             return ContextMenuItem(
             title: 'Thêm vào yêu thích', 
             iconData: SFSymbols.heart,
             onTapItem: () async {
               // throw UnimplementedError();
               EasyLoading.show(status: 'Đang thêm vào yêu thích');
-              bool suc = await GetIt.I.get<UserModelNotifier>().updateFavorite(action: 'push', favSongsId: [songCardInPlaylistModel.id]);
+              bool suc = await GetIt.I.get<UserModelNotifier>().updateFavorite(action: 'push', favSongsId: [songModel.id]);
               
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.closeContextMenu(() {
                 if (suc) {
@@ -91,7 +92,7 @@ class SongContextMenu extends ContextMenu{
             onTapItem: () async {
               // throw UnimplementedError();
               EasyLoading.show(status: 'Đang xóa khỏi yêu thích');
-              bool suc = await GetIt.I.get<UserModelNotifier>().updateFavorite(action: 'pop', favSongsId: [songCardInPlaylistModel.id]);
+              bool suc = await GetIt.I.get<UserModelNotifier>().updateFavorite(action: 'pop', favSongsId: [songModel.id]);
               
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.closeContextMenu(() {
                 if (suc) {
@@ -116,7 +117,7 @@ class SongContextMenu extends ContextMenu{
                 if (status.name == 'completed') {
                   GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenu');
                   GetIt.I.get<ContextMenuManager>().insertSubscreen(
-                    SongSubscreenContextMenu(songCardInPlaylistModel: songCardInPlaylistModel)
+                    SongSubscreenContextMenu(songModel: songModel)
                   );
                 }
               });
@@ -129,7 +130,7 @@ class SongContextMenu extends ContextMenu{
           
           children: [
             CachedNetworkImage(
-              imageUrl: songCardInPlaylistModel.artURL, 
+              imageUrl: songModel.album.art_url, 
               placeholder: (_, __) => SkeletonAvatar(),
               imageBuilder: (context, imageProvider) => 
                 Container(
@@ -146,7 +147,7 @@ class SongContextMenu extends ContextMenu{
               child: Column(
                 children: [
                   Text(
-                    songCardInPlaylistModel.songName,
+                    songModel.song_name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -155,7 +156,7 @@ class SongContextMenu extends ContextMenu{
                     ),
                   ),
                   Text(
-                    songCardInPlaylistModel.artistName,
+                    songModel.artist.artist_name,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.red,
@@ -163,7 +164,7 @@ class SongContextMenu extends ContextMenu{
                     ),
                   ),
                   Text(
-                    songCardInPlaylistModel.genre,
+                    songModel.album.genre,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.grey,
@@ -178,7 +179,7 @@ class SongContextMenu extends ContextMenu{
         )
       )
     );
-  SongCardInPlaylistModel songCardInPlaylistModel;
+  SongModel songModel;
   // @override
   // Widget build(BuildContext context) {
   //   return ContextMenu(
