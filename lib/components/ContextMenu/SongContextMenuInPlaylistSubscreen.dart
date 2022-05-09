@@ -69,7 +69,7 @@ class SongContextMenuInPlaylistSubscreen extends ContextMenu{
             onTapItem: () async {
               // throw UnimplementedError();
               EasyLoading.show(status: "Đang xóa");
-              bool suc = await HttpUtil().removeSongFromPlaylist(playlist_id : GetIt.I.get<SongSubscreenContextMenuManger>().viewAllPlaylistManager!.playlistSelected!.id, song_id: songModel.id);
+              bool suc = await HttpUtil().removeSongFromPlaylist(playlist_id : playlist.id, song_id: songModel.id);
               if (suc) {
                 EasyLoading.showSuccess('Đã xóa', duration: Duration(seconds: 2));
               } else {

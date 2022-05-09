@@ -1,12 +1,12 @@
 import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
-import 'package:apple_music/components/AudioController/AudioUi.dart';
-import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
+// import 'package:apple_music/components/AudioController/AudioUi.dart';
+// import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/CustomBottomAppBar/CustomBottomAppBar.dart';
-import 'package:apple_music/pages/DiscoveryPage.dart';
-import 'package:apple_music/pages/LibraryPage.dart';
-import 'package:apple_music/pages/ListeningNow.dart';
+// import 'package:apple_music/pages/DiscoveryPage.dart';
+// import 'package:apple_music/pages/LibraryPage.dart';
+// import 'package:apple_music/pages/ListeningNow.dart';
 import 'package:apple_music/pages/LoginPage.dart';
 import 'package:apple_music/pages/SearchPage.dart';
 import 'package:apple_music/pages/WelcomePage.dart';
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         '/loginPage': (context) => LoginPage(),
         '/welcomePage': (context) => const WelcomePage(),
         '/homePage': (context) => const MyHomePage(),
-        '/playingPage': (context) => AudioUi(),
+        // '/playingPage': (context) => AudioUi(),
         // '/test': (context) => Test()
       },
       builder: EasyLoading.init(),
@@ -101,15 +101,15 @@ class _MyHomePageState extends State < MyHomePage > {
                 scrollDirection: Axis.horizontal,
                 controller: pageController,
                 children: < Widget > [
-                  Center(
-                    child: ListeningNow(),
-                  ),
-                  Center(
-                    child: DiscoveryPage(),
-                  ),
-                  Center(
-                    child: LibraryPage(),
-                  ),
+                  // Center(
+                  //   child: ListeningNow(),
+                  // ),
+                  // Center(
+                  //   child: DiscoveryPage(),
+                  // ),
+                  // Center(
+                  //   child: LibraryPage(),
+                  // ),
                   SearchPage()
                 ],
               ))

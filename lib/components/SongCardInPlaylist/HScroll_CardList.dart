@@ -65,7 +65,7 @@ class _HScrollCardListState extends State<HScrollCardList> {
                 padding: const EdgeInsets.all(0),
                 itemBuilder: (context, index) {
                   return SongCardInPlaylist(
-                      songCardInPlaylistModel: seperatedCards[index]);
+                      songModel: seperatedCards[index]);
                 },
                 itemCount: seperatedCards.length)),
       ),
