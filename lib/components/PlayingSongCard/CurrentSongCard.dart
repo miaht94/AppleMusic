@@ -4,6 +4,7 @@ import 'package:apple_music/components/ContextMenu/SongContextMenu.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCard.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCardConstant.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,32 +64,26 @@ class _CurrentSongCardState extends State<CurrentSongCard> {
       );
   }
 
-  void onContextMenuPress (currentSong){
+  void onContextMenuPress (SongUrlModel currentSong){
     GetIt.I.get<ContextMenuManager>().insertOverlay(
         SongContextMenu(
-        songCardInPlaylistModel: SongCardInPlaylistModel(
-          currentSong.title,
-          currentSong.artist,
-          currentSong.artwork,
-          currentSong.id,
-          currentSong.genre,
-        )
+        songModel: currentSong.song
     )
     );
   }
 
   Widget _buildCard(){
     return
-      ValueListenableBuilder<AudioMetadata>(
+      ValueListenableBuilder<SongUrlModel?>(
         valueListenable: _audioManager.currentSongNotifier,
         builder: (_,currentSong,__){
-          if(currentSong.artwork != ""){
+          if(currentSong!.song.album.art_url != ""){
             return Stack(
               children: [
                 PlayingSongCard(
-                  songName: currentSong.title,
-                  artistName: currentSong.artist,
-                  artURL: currentSong.artwork,
+                  songName: currentSong.song.song_name,
+                  artistName: currentSong.song.artist.artist_name,
+                  artURL: currentSong.song.album.art_url,
                   size: 60,
                   imageSize: 60,
                   songNameFontSize: 20,

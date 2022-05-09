@@ -1,5 +1,6 @@
 import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCardConstant.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/components/AudioController/AudioStates.dart';
@@ -34,16 +35,16 @@ class _CurrentArtWorkState extends State<CurrentArtWork> {
       );
   }
   Widget _buildWorkArt(){
-    return ValueListenableBuilder<AudioMetadata>(
+    return ValueListenableBuilder<SongUrlModel?>(
       valueListenable: _audioManager.currentSongNotifier,
       builder: (_,currentSong,__){
-        if(currentSong.artwork != ""){
+        if(currentSong!.song.album.art_url != ""){
           return Container(
             padding: EdgeInsets.only(left: PLAYING_PADDING),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
                 child: Image.network(
-                  currentSong.artwork,
+                  currentSong!.song.album.art_url,
                   fit: BoxFit.fill,
                 ),
               )
