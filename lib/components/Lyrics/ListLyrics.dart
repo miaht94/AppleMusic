@@ -32,8 +32,6 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
   var _PlayingId;
   var lyrics;
   late final List<Widget> children;
-  Timer? timer;
-
   late List<AnimationController?> animationControllers;
   late List<AnimationController?> animationBlurs;
 
@@ -42,7 +40,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     _init();
   }
 
-  _init() {
+  void _init() {
     lyrics = widget.lyrics;
     _PlayingLyric = lyrics[0].key.currentContext;
     animationControllers = [];
@@ -61,8 +59,6 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
         lowerBound: 0.0,
       ));
     }
-    timer = Timer.periodic(CHECK_DURATION, (Timer t) => _checkCurrentlyric());
-
     children = List.generate(lyrics.length + 1, (index) {
       return (index < lyrics.length) ?
       LyricWidget(
@@ -90,11 +86,10 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
 
   @override
   void dispose() {
-    timer?.cancel();
     super.dispose();
   }
 
-  _onItemTapUp(id) {
+  void _onItemTapUp(id) {
     if(_PlayingLyric != null) {
       widget.onPositionChanged(lyrics[id].startTime);
       widget.onTimeChanged(lyrics[id].startTime);
@@ -102,7 +97,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     }
   }
 
-  _handleAnimation(id) {
+  void _handleAnimation(id) {
     if (_PlayingId != id) {
       if(_PlayingId != null){
         animationControllers[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
@@ -133,12 +128,12 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     }
   }
 
-  _checkCurrentlyric() {
-    var start =  1;
+  void _checkCurrentlyric() {
+    const int start =  1;
 
-    for(var i = start; i < lyrics.length; i ++){
+    for(int i = start; i < lyrics.length; i ++){
       if (widget.currentPosition < lyrics[i].startTime){
-        var id = i - 1;
+        final int id = i - 1;
         _handleAnimation(id);
         break;
       }
@@ -154,6 +149,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
       lyrics = widget.lyrics;
       _init();
     }
+    _checkCurrentlyric();
     return
       SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),

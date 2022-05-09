@@ -20,6 +20,7 @@ const double LYRIC_BORDER = 12;
 const double LYRIC_WIDTH = 500;
 
 const double LYRIC_FONT_SIZE = 40;
-const Color LYRIC_FONT_COLOR = Colors.white;
+const Color LYRIC_FONT_COLOR_FOCUS = Colors.white;
+const Color LYRIC_FONT_COLOR_NORMAL = Color.fromRGBO(255, 255, 255, 0.7);
 
 const double LYRIC_SCROLL_ALIGHTMENT = 0.3;

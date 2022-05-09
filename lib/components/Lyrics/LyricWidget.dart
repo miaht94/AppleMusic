@@ -22,10 +22,10 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    widget._controller!.addListener(() { if (mounted) {
-      setState(() {
-    });
-    }});
+    // widget._controller!.addListener(() { if (mounted) {
+    //   setState(() {
+    // });
+    // }});
     widget._blur!.addListener(() { if (mounted) {
       setState(() {
     });
@@ -59,11 +59,6 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
       onTapCancel: () => _onTapCancel(),
       child: ScaleTransition(
         scale: widget._controller!,
-        child: ImageFiltered(
-          imageFilter: ImageFilter.blur(
-            sigmaY: widget._blur!.value,
-            sigmaX: widget._blur!.value,
-          ),
           child: Container(
             margin: EdgeInsets.all(5),
             padding: EdgeInsets.all(10),
@@ -79,11 +74,14 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
               alignment: Alignment.centerLeft,
               child: Text(
                   widget.lyric.lyric,
-                  style: TextStyle(fontSize: LYRIC_FONT_SIZE, color: LYRIC_FONT_COLOR),
+                  style: TextStyle(fontSize: LYRIC_FONT_SIZE,
+                      color:Colors.white.withOpacity(
+                          (widget._controller!.value >= 1.04) ? 1.0
+                          : 0.4),
               ),
-            ),
           ),
         ),
+      ),
       ),
     );
   }

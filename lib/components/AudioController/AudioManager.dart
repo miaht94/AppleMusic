@@ -23,8 +23,9 @@ class AudioManager {
   final isShuffleNotifier = ValueNotifier<bool>(false);
   final repeatNotifier = ValueNotifier<RepeatState>(RepeatState.noRepeat);
   final currentSongIndexNotifier = ValueNotifier<int>(0);
-
+  final lyricIndexNotifier = ValueNotifier<int>(0);
   Future <List<LyricModel>> ? currentLyricNotifier ;
+  List<LyricModel>? currentLyric;
   late AudioPlayer _audioPlayer;
   late ConcatenatingAudioSource _playlist;
 
@@ -55,7 +56,17 @@ class AudioManager {
           total: oldState.total,
           dragPosition: position,
         );
+        const int start =  1;
+        if (currentLyric != null) {
+          for(int i = start; i < currentLyric!.length; i ++){
+            if (position < currentLyric![i].startTime) {
+              lyricIndexNotifier.value = i;
+              break;
+            }
+          }
+        }
       }
+
     });
   }
 
@@ -98,11 +109,13 @@ class AudioManager {
 
         //first time fetch
         currentLyricNotifier ??= LyricModel.fetchLyrics(currentSongData.lyricURL);
+        currentLyric = await currentLyricNotifier;
       }
       // change song fetch
       if(currentSongIndexNotifier.value != _audioPlayer.currentIndex){
         currentSongIndexNotifier.value = _audioPlayer.currentIndex!;
         currentLyricNotifier =  LyricModel.fetchLyrics(currentSongNotifier.value!.lyricURL);
+        currentLyric = await currentLyricNotifier;
       }
 
       final playlist = sequenceState.effectiveSequence;
