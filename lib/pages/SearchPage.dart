@@ -102,7 +102,7 @@ class _SearchPageState extends State < SearchPage > {
                       return SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                       child: Column(children: [
-                        FutureBuilder<List<dynamic>>(
+                        FutureBuilder<dynamic>(
                           builder: (context, snapshot) {
                             
                             if (!snapshot.hasData || snapshot.connectionState != ConnectionState.done) {

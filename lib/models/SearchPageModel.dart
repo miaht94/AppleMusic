@@ -23,7 +23,7 @@ class SearchPageModel {
   bool inSearchedMode = false;
   late String searchMode;
   String searchString = "";
-  Future < List < dynamic >> ? queryResult;
+  Future<dynamic> ? queryResult;
   Future < List < SongCardInPlaylistModel >> querySongByName(String songName) async {
     Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, path: SEARCH_SONG_PATH, port: SV_PORT, queryParameters: {
       "song_name": songName
@@ -103,21 +103,21 @@ class SearchPageManager extends ValueNotifier < SearchPageModel > {
       value.searchMode = searchMode;
       switch (value.searchMode) {
         case "song_name":
-          value.queryResult = HttpUtil().searchSongModel(song_name: value.searchString) as Future < List < dynamic >> ;
+          value.queryResult = HttpUtil().searchSongModel(song_name: value.searchString);
           notifyListeners();
           break;
         case "artist_name":
-          value.queryResult = HttpUtil().searchArtistModel(artist_name: value.searchString) as Future < List < dynamic >> ;
+          value.queryResult = HttpUtil().searchArtistModel(artist_name: value.searchString);
           notifyListeners();
           break;
 
         case "album_name":
-          value.queryResult = HttpUtil().searchAlbumModel(album_name: value.searchString) as Future < List < dynamic >> ;
+          value.queryResult = HttpUtil().searchAlbumModel(album_name: value.searchString);
           notifyListeners();
           break;
 
         case "playlist_name":
-          value.queryResult = HttpUtil().searchPlaylist(playlist_name: value.searchString, public: true, app_token: GetIt.I.get < CredentialModelNotifier > ().value.appToken) as Future < List < dynamic >> ;
+          value.queryResult = HttpUtil().searchPlaylist(playlist_name: value.searchString, public: true, app_token: GetIt.I.get < CredentialModelNotifier > ().value.appToken);
           notifyListeners();
           break;
       }
@@ -132,21 +132,21 @@ class SearchPageManager extends ValueNotifier < SearchPageModel > {
       value.searchString = searchString;
       switch (value.searchMode) {
         case "song_name":
-          value.queryResult = HttpUtil().searchSongModel(song_name: value.searchString) as Future < List < dynamic >> ;
+          value.queryResult = HttpUtil().searchSongModel(song_name: value.searchString) ;
           notifyListeners();
           break;
         case "artist_name":
-          value.queryResult = HttpUtil().searchArtistModel(artist_name: value.searchString) as Future < List < dynamic >> ;
+          value.queryResult = HttpUtil().searchArtistModel(artist_name: value.searchString);
           notifyListeners();
           break;
 
         case "album_name":
-          value.queryResult = HttpUtil().searchAlbumModel(album_name: value.searchString) as Future < List < dynamic >> ;
+          value.queryResult = HttpUtil().searchAlbumModel(album_name: value.searchString);
           notifyListeners();
           break;
 
         case "playlist_name":
-          value.queryResult = HttpUtil().searchPlaylist(playlist_name: value.searchString, public: true, app_token: GetIt.I.get < CredentialModelNotifier > ().value.appToken) as Future < List < dynamic >> ;
+          value.queryResult = HttpUtil().searchPlaylist(playlist_name: value.searchString, public: true, app_token: GetIt.I.get < CredentialModelNotifier > ().value.appToken);
           notifyListeners();
           break;
       }
@@ -157,21 +157,21 @@ class SearchPageManager extends ValueNotifier < SearchPageModel > {
   void refresh() {
     switch (value.searchMode) {
       case "song_name":
-        value.queryResult = HttpUtil().searchSongModel(song_name: value.searchString) as Future < List < dynamic >> ;
+        value.queryResult = HttpUtil().searchSongModel(song_name: value.searchString) ;
         notifyListeners();
         break;
       case "artist_name":
-        value.queryResult = HttpUtil().searchArtistModel(artist_name: value.searchString) as Future < List < dynamic >> ;
+        value.queryResult = HttpUtil().searchArtistModel(artist_name: value.searchString);
         notifyListeners();
         break;
 
       case "album_name":
-        value.queryResult = HttpUtil().searchAlbumModel(album_name: value.searchString) as Future < List < dynamic >> ;
+        value.queryResult = HttpUtil().searchAlbumModel(album_name: value.searchString);
         notifyListeners();
         break;
 
       case "playlist_name":
-        value.queryResult = HttpUtil().searchPlaylist(playlist_name: value.searchString, public: true, app_token: GetIt.I.get < CredentialModelNotifier > ().value.appToken) as Future < List < dynamic >> ;
+        value.queryResult = HttpUtil().searchPlaylist(playlist_name: value.searchString, public: true, app_token: GetIt.I.get < CredentialModelNotifier > ().value.appToken);
         notifyListeners();
         break;
     }
