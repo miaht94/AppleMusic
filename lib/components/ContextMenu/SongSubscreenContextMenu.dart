@@ -144,7 +144,7 @@ class _ViewAllPlaylistsPageState extends State<ViewAllPlaylistsPage> {
                 padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
                   child: Row(children: [
                     CustomTextButton.TextButton(
-                      text: 'Exit',
+                      text: 'Thoát',
                       iconLeft: SFSymbols.chevron_left,
                       color: Colors.blue,
                       textSize: 20,
@@ -297,9 +297,10 @@ class _CreateNewPlaylistPageState extends State < CreateNewPlaylistPage > {
                         return;
                       }
                       EasyLoading.show(status: 'Đang tạo playlist');
-                      final bool suc = await HttpUtil().addPlaylist(title: titleController.text, description: descriptionController.text, imagePath: image!.path);
+                      final bool suc = await HttpUtil().addPlaylist(title: titleController.text, description: descriptionController.text, imagePath: image!.path,app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
                       if (suc) {
                         EasyLoading.showSuccess("Thành công", duration: const Duration(seconds: 2));
+                        GetIt.I.get<ViewAllPlaylistManagerNotifier>().refreshPage();
                       } else {
                         EasyLoading.showError("Có lỗi xảy ra", duration: const Duration(seconds: 2));
                       }
@@ -424,7 +425,7 @@ class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
                 child: Row(children: [
                   if (Navigator.of(context).canPop())
                     CustomTextButton.TextButton(
-                      text: 'Back',
+                      text: 'Quay lại',
                       iconLeft: SFSymbols.chevron_left,
                       color: Colors.blue,
                       textSize: 20,
@@ -440,12 +441,13 @@ class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
                         color: Colors.blue,
                         textSize: 20,
                         onTap: () async {
-                          EasyLoading.show(status: "Loading");
-                          final bool success = await HttpUtil().addSongToPlaylist(song_id : viewAllSongPageManager.songSelected!.id, playlist_id: viewAllSongPageManager.playlistSelected.id);
+                          EasyLoading.show(status: "Đang tải");
+                          final bool success = await HttpUtil().addSongToPlaylist(song_id : viewAllSongPageManager.songSelected!.id, playlist_id: viewAllSongPageManager.playlistSelected.id, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
                           if (success) {
-                            EasyLoading.showSuccess("Success", duration: const Duration(seconds: 3));
+                            EasyLoading.showSuccess("Thành công", duration: const Duration(seconds: 3));
+
                           } else {
-                            EasyLoading.showError("Error", duration: const Duration(seconds: 3));
+                            EasyLoading.showError("Có lỗi xảy ra", duration: const Duration(seconds: 3));
                           }
                           GetIt.I.get<ViewAllSongPageManagerNotifer>().refreshPage();
                         }
@@ -568,5 +570,6 @@ class ViewAllSongPageManagerNotifer extends ValueNotifier<ViewAllSongPageManager
 
   void refreshPage() {
     value.futurePlaylistModel = HttpUtil().getPlaylistModel(public: false, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, id: value.playlistSelected.id);
+    notifyListeners();
   }
 }

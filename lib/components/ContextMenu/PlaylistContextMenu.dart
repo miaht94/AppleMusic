@@ -4,6 +4,7 @@ import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuItem.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/constant.dart';
+import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/SearchPageModel.dart';
 import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:apple_music/models_refactor/UserModel.dart';
@@ -44,7 +45,7 @@ class PlaylistContextMenu extends ContextMenu{
                         status: 'loading...',
                         maskType: EasyLoadingMaskType.clear,
                       );
-              bool success = await HttpUtil().deletePlaylist(id: playlistModel.id);
+              bool success = await HttpUtil().deletePlaylist(id: playlistModel.id, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
               if (success)
                 await EasyLoading.showSuccess("Đã xóa", duration: Duration(seconds: 3));
               else 

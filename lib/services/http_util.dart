@@ -111,7 +111,11 @@ class HttpUtil {
     }
   }
 
-  Future<bool> removeSongFromPlaylist({required String playlist_id, required String song_id, required String app_token}) async {
+  Future<bool> removeSongFromPlaylist({
+    required String playlist_id,
+    required String song_id,
+    required String app_token,
+  }) async {
     PlaylistModel? playlistModel = await getPlaylistModel(id : playlist_id, public: true, app_token: app_token);
     if (playlistModel != null) {
       int songIndex = -1;
@@ -127,7 +131,7 @@ class HttpUtil {
         try{
           playlistModel.songs.removeAt(songIndex);
           Map<String,dynamic> body = {'_id': playlist_id};
-          body.addAll({'songs': jsonEncode(playlistModel.songs)});
+          body.addAll({'songs': jsonEncode(playlistModel.songs.map((item) => item.id).toList())});
           FormData formData = FormData.fromMap(body);
           dynamic response = await dio.post(UPDATE_PLAYLIST, data: formData, queryParameters: {'app_token': app_token});
           return true;
@@ -141,15 +145,61 @@ class HttpUtil {
     return false;
   }
 
-  Future<bool> addPlaylist({required String title, required String description, required String imagePath}) async {
-    return false;
+  Future<bool> addPlaylist({
+    required String title,
+    required String description,
+    List<String>? songs,
+    required String imagePath,
+    required String app_token,
+  }) async {
+    try {
+      Map<String, dynamic> form = {};
+      form.addAll({'playlist_name': title});
+      form.addAll({'playlist_description': description});
+      songs != null ? form.addAll({'songs': songs}) : '';
+      form.addAll({'art_url': await MultipartFile.fromFile(imagePath, filename:imagePath.split('/').last),});
+      FormData formData = FormData.fromMap(form);
+      dynamic response = await dio.post(ADD_PLAYLIST, data: formData, queryParameters: {'app_token': app_token});
+      return true;
+    } catch(e) {
+      print(e);
+      return false;
+    }
   }
 
-  Future<bool> deletePlaylist({required String id}) async {
-    return false;
+  Future<bool> deletePlaylist({required String id, required String app_token}) async {
+    try{
+      Map<String,String> params = {
+        'app_token': app_token,
+      };
+      Map<String, dynamic> form = {
+        '_id': id,
+      };
+      FormData formData = FormData.fromMap(form);
+      dynamic response = await dio.delete(DELETE_PLAYLIST,  data: formData, queryParameters: params);
+      return true;
+    } catch(e){
+      print(e);
+      return false;
+    }
   }
 
-  Future<bool> addSongToPlaylist({required String song_id, required String playlist_id}) async {
+  Future<bool> addSongToPlaylist({required String song_id, required String playlist_id, required String app_token}) async {
+    PlaylistModel? playlistModel = await getPlaylistModel(id : playlist_id, public: true, app_token: app_token);
+    if (playlistModel != null) {
+        try{
+          List<String> listSongsId = playlistModel.songs.map((item) => item.id).toList();
+          listSongsId.add(song_id);
+          Map<String,dynamic> body = {'_id': playlist_id};
+          body.addAll({'songs': jsonEncode(listSongsId)});
+          FormData formData = FormData.fromMap(body);
+          dynamic response = await dio.post(UPDATE_PLAYLIST, data: formData, queryParameters: {'app_token': app_token});
+          return true;
+        } catch(e) {
+          print(e);
+          return false;
+        }
+      }
     return false;
   }
 
