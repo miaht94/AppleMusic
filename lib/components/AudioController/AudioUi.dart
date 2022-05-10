@@ -158,7 +158,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                 width: size.width,
                 height: size.height,
                 blur: 5,
-                backgroundImagePath: currentSong!.song.album.art_url,
+                backgroundImagePath: currentSong.song.album.art_url,
                 child: Container(
                   padding: EdgeInsets.only(left: 20.0),
                   child: ValueListenableBuilder<ChildWindowState>(

@@ -210,7 +210,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                                 List<String> id = [];
                                 for (final SongInAlbumModel song in widget.model.songs) {
                                   id.add(song.id);
-                                  print(song.id + "added");
+                                  print(song.id + " added");
                                 }
                                 GetIt.I.get<AudioManager>().clearAndAddAList(id);
                                 Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));

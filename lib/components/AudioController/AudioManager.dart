@@ -56,7 +56,7 @@ class AudioManager {
           total: oldState.total,
           dragPosition: position,
         );
-        const int start =  1;
+        const int start =  0;
         if (currentLyric != null) {
           for(int i = start; i < currentLyric!.length; i ++){
             if (position < currentLyric![i].startTime) {
@@ -109,7 +109,6 @@ class AudioManager {
 
         //first time fetch
         currentLyricNotifier ??= LyricModel.fetchLyrics(currentSongData.lyricURL);
-        currentLyric = await currentLyricNotifier;
       }
       // change song fetch
       if(currentSongIndexNotifier.value != _audioPlayer.currentIndex){
@@ -118,10 +117,10 @@ class AudioManager {
         currentLyric = await currentLyricNotifier;
       }
 
-      final playlist = sequenceState.effectiveSequence;
+      List<IndexedAudioSource> playlist = sequenceState.effectiveSequence;
       playlistNotifier.value = playlist;
-      print("After insert :  ${_playlist.length}}");
-
+      print("Current song in playlist :  ${_playlist.length}");
+      print("Current song in sequence :  ${playlist.length}");
       if (playlist.isEmpty || currentItem == null) {
         isFirstSongNotifier.value = true;
         isLastSongNotifier.value = true;
@@ -216,10 +215,10 @@ class AudioManager {
 
   Future<void> clear() async {
     await _playlist.clear();
+    _initPlaylist();
   }
 
   Future<void> addAndPlayASong(String songId) async {
-    print('addddddddd');
     await insertNext(songId);
     int CurrentIndex = _audioPlayer.currentIndex ?? 0;
     if (CurrentIndex != _playlist.length){
@@ -240,20 +239,24 @@ class AudioManager {
         } catch(e) {
       }
     }
+    currentLyricNotifier = LyricModel.fetchLyrics(listSongs[0].lyricURL);
+    currentLyric = await currentLyricNotifier;
     for (SongUrlModel value in listSongs){
       await _playlist.add(AudioSource.uri(Uri.parse(value.song_url),
           tag: value
       ));
       if (isFirst){
-        _audioPlayer.seek(Duration(seconds: 0),index : 0);
-        play();
+         _audioPlayer.seek(Duration(milliseconds: 0),index : 0);
         isFirst = false;
         print("play new playlist");
+        play();
       }
     }
   }
 
+
   Future<void> insertNext(String songId) async {
+    isMoving = true;
     late SongUrlModel? value;
     try {
       value = await HttpUtil().fetchSongModel(songId);
@@ -268,6 +271,7 @@ class AudioManager {
         tag:value
       ));
     }
+    isMoving = false;
   }
 
   Future<void> insertTail(String songId) async {
