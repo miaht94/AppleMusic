@@ -40,7 +40,7 @@ class _ListeningNowState extends State<ListeningNow> {
       ListView(
               physics: const BouncingScrollPhysics(),
               children: [
-                PageTitleBox(title: "Nghe Ngay")
+                PageTitleBox(title: "Nghe Ngay", hasAvt: true,)
                 ,
                 Container(
                   padding: EdgeInsets.only(left: kDefaultPadding),
