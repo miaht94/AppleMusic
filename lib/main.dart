@@ -15,8 +15,10 @@ import 'package:apple_music/pages/SearchPage.dart';
 import 'package:apple_music/pages/WelcomePage.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 void main() {
+  
   setUpGetIt();
   
   runApp(const MyApp());
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
   }): super(key: key);
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

@@ -254,6 +254,22 @@ class AudioManager {
     }
   }
 
+  Future<void> addAList(List<String> playLists) async {
+    List<SongUrlModel> listSongs = [];
+      for (String songUrl in playLists){
+        try {
+          final SongUrlModel? songUrlModel = await HttpUtil().fetchSongModel(songUrl);
+          listSongs.add(songUrlModel!);
+        } catch(e) {
+      }
+    }
+    for (SongUrlModel value in listSongs){
+      await _playlist.add(AudioSource.uri(Uri.parse(value.song_url),
+          tag: value
+      ));
+    }
+  }
+
 
   Future<void> insertNext(String songId) async {
     if (_playlist.length != 0) {

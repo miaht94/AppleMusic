@@ -1,4 +1,6 @@
 import 'package:apple_music/components/AudioController/AudioManager.dart';
+import 'package:apple_music/components/ContextMenu/AlbumContextMenu.dart';
+import 'package:apple_music/components/ContextMenu/ArtistContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/ContextMenu/PlaylistContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/SongContextMenu.dart';
@@ -20,6 +22,8 @@ import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/pages/AlbumPage.dart';
+import 'package:apple_music/pages/ArtistPage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -34,6 +38,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State < SearchPage > {
+  BuildContext? _context;
   void _initModelForHorizontalScrollCategory() {
     if (!GetIt.I.isRegistered<SearchPageManager>()) {
       GetIt.I.registerLazySingleton<SearchPageManager>(() => SearchPageManager(SearchPageModel()));
@@ -61,15 +66,19 @@ class _SearchPageState extends State < SearchPage > {
   }
 
   void onTapArtistCard(ArtistModel artistModel) {
-    throw UnimplementedError();
+    Navigator.of(_context!).push(MaterialPageRoute(builder: (context) => ArtistView(artistViewModel: Future.value(artistModel))));
   }
 
-  void onTapAlbumCard(AlbumModel albumRectangleCardModel) {
-    throw UnimplementedError();
+  void onTapArtistCardMoreButton(ArtistModel artistModel) {
+    GetIt.I.get<ContextMenuManager>().insertOverlay(ArtistContextMenu(artistModel: artistModel));
   }
 
-  void onTapAlbumMoreButton(AlbumModel albumRectangleCardModel) {
-    throw UnimplementedError();
+  void onTapAlbumCard(AlbumModel albumModel) {
+    Navigator.of(_context!).push(MaterialPageRoute(builder: (context) => AlbumView(albumViewModel: Future.value(albumModel))));
+  }
+
+  void onTapAlbumMoreButton(AlbumModel albumModel) {
+    GetIt.I.get<ContextMenuManager>().insertOverlay(AlbumContextMenu(albumViewModel: albumModel));
   }
 
   void onTapPlaylistCard(PlaylistModel playlistRectangleCardModel) {
@@ -85,6 +94,7 @@ class _SearchPageState extends State < SearchPage > {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
+    _context = context;
     return ValueListenableBuilder<SearchPageModel>(
       valueListenable: GetIt.I.get<SearchPageManager>(),
       builder: (context, searchPageModel, _) =>
@@ -123,7 +133,7 @@ class _SearchPageState extends State < SearchPage > {
                                   break;
                                 case 'artist_name':
                                   for (final ArtistModel model in data) {
-                                    renderList.add(ArtistRectangleCard(artistModel: model, onTapArtistCard: onTapArtistCard));
+                                    renderList.add(ArtistRectangleCard(artistModel: model, onTapArtistCard: onTapArtistCard, onTapArtistCardMoreButton: onTapArtistCardMoreButton));
                                   }
                                   break;
                                 case 'album_name':

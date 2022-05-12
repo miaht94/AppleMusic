@@ -3,6 +3,7 @@ import 'package:apple_music/components/AudioController/AudioPageRouteManager.dar
 import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuItem.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
+import 'package:apple_music/components/ContextMenu/PlaylistSubscreenContextMenu.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/SearchPageModel.dart';
@@ -23,42 +24,57 @@ class PlaylistContextMenu extends ContextMenu{
       action: [
           ContextMenuItem(
             title: "Phát tất cả", 
-            iconData: Icons.cloud_download_outlined,
+            iconData: SFSymbols.text_insert,
             onTapItem: () {
-              throw UnimplementedError();
               GetIt.I.get<ContextMenuManager>().contextMenuMap["PlaylistContextMenu"]!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
               GetIt.I.get<ContextMenuManager>().contextMenuMap["PlaylistContextMenu"]!.anim.addStatusListener((status) {
                 if (status.name == 'completed') {
                   GetIt.I.get<ContextMenuManager>().removeOverlay("PlaylistContextMenu");
                 }
               });
-              AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+              // AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           ),
           if (GetIt.I.get<UserModelNotifier>().value.containPlaylist(playlistModel.id))
-          ContextMenuItem(
-            title: "Xóa playlist", 
-            iconData: SFSymbols.delete_left,
-            onTapItem: () async{
-              // throw UnimplementedError();
-              await EasyLoading.show(
-                        status: 'loading...',
-                        maskType: EasyLoadingMaskType.clear,
-                      );
-              bool success = await HttpUtil().deletePlaylist(id: playlistModel.id, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
-              if (success)
-                await EasyLoading.showSuccess("Đã xóa", duration: Duration(seconds: 3));
-              else 
-                await EasyLoading.showError("Xóa thất bại", duration: Duration(seconds: 3));
-              GetIt.I.get<ContextMenuManager>().contextMenuMap["PlaylistContextMenu"]!.closeContextMenu(() {
-                AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
-                GetIt.I.get<SearchPageManager>().refresh();
-              });
-              
-              
-            },
-          )
-      ],
+            ContextMenuItem(
+              title: "Xóa playlist", 
+              iconData: SFSymbols.delete_left,
+              onTapItem: () async{
+                // throw UnimplementedError();
+                await EasyLoading.show(
+                          status: 'Đang xóa',
+                          maskType: EasyLoadingMaskType.clear,
+                        );
+                bool success = await HttpUtil().deletePlaylist(id: playlistModel.id, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
+                if (success) {
+                  await EasyLoading.showSuccess("Đã xóa", duration: Duration(seconds: 3));
+                  await GetIt.I.get<UserModelNotifier>().refreshUser();
+                }
+                  
+                else 
+                  await EasyLoading.showError("Xóa thất bại", duration: Duration(seconds: 3));
+                GetIt.I.get<ContextMenuManager>().contextMenuMap["PlaylistContextMenu"]!.closeContextMenu(() {
+                  // AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+                  GetIt.I.get<SearchPageManager>().refresh();
+                });
+                
+                
+              },
+            ),
+            if (GetIt.I.get<UserModelNotifier>().value.containPlaylist(playlistModel.id))
+            ContextMenuItem(
+              title: "Sửa playlist", 
+              iconData: Icons.edit,
+              onTapItem: () async{
+                
+                GetIt.I.get<ContextMenuManager>().contextMenuMap["PlaylistContextMenu"]!.closeContextMenu(() {
+                  // AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+                  GetIt.I.get<ContextMenuManager>().insertSubscreen(PlaylistSubscreenContextMenu(playlistSelected: playlistModel));
+                });
+                
+                
+              },
+            )],
       header: Container(
         child: Row(
           

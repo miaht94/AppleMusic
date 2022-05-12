@@ -7,9 +7,10 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:skeletons/skeletons.dart';
 
 class ArtistRectangleCard extends StatelessWidget {
-  ArtistRectangleCard({Key? key, required this.artistModel, this.onTapArtistCard}) : super(key: key);
+  ArtistRectangleCard({Key? key, required this.artistModel, this.onTapArtistCard, this.onTapArtistCardMoreButton}) : super(key: key);
   ArtistModel artistModel;
   Function(ArtistModel)? onTapArtistCard;
+  Function(ArtistModel)? onTapArtistCardMoreButton;
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -66,6 +67,29 @@ class ArtistRectangleCard extends StatelessWidget {
                             Text("Ca sĩ", style: TextStyle(fontSize: 13, color: Colors.grey),)
                                               ],),
                           ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: Material(
+                                type: MaterialType.transparency,
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle
+                                  ),
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Icon(SFSymbols.ellipsis, size: 18),
+                                    onTap: () {
+                                      if (onTapArtistCardMoreButton != null) {
+                                        onTapArtistCardMoreButton!(artistModel);
+                                      }
+                                    },
+                                  ),
+                                )
+                              )
+                            )
+                          )
           
                         ],
                       ),
@@ -74,6 +98,7 @@ class ArtistRectangleCard extends StatelessWidget {
                     ]),
                 ),
               ),
+              // Text("ahc")
               
             ],
             ),

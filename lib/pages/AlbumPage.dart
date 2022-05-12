@@ -131,7 +131,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
             IconButton(
                 icon:  Icon(SFSymbols.ellipsis, color:Colors.red),
                 onPressed: () {
-                  GetIt.I.get<ContextMenuManager>().insertOverlay(AlbumContextMenu(name: 'AlbumContextMenu', albumViewModel: widget.model));
+                  GetIt.I.get<ContextMenuManager>().insertOverlay(AlbumContextMenu(albumViewModel: widget.model));
                 }),
             SizedBox(width: 10),
           ],

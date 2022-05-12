@@ -299,7 +299,9 @@ class _CreateNewPlaylistPageState extends State < CreateNewPlaylistPage > {
                       EasyLoading.show(status: 'Đang tạo playlist');
                       final bool suc = await HttpUtil().addPlaylist(title: titleController.text, description: descriptionController.text, imagePath: image!.path,app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
                       if (suc) {
+                        await GetIt.I.get<UserModelNotifier>().refreshUser();
                         EasyLoading.showSuccess("Thành công", duration: const Duration(seconds: 2));
+                        
                         GetIt.I.get<ViewAllPlaylistManagerNotifier>().refreshPage();
                       } else {
                         EasyLoading.showError("Có lỗi xảy ra", duration: const Duration(seconds: 2));
@@ -572,4 +574,8 @@ class ViewAllSongPageManagerNotifer extends ValueNotifier<ViewAllSongPageManager
     value.futurePlaylistModel = HttpUtil().getPlaylistModel(public: false, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, id: value.playlistSelected.id);
     notifyListeners();
   }
+}
+
+class AlbumSubscreenContextMenu {
+
 }

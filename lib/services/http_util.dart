@@ -224,6 +224,26 @@ class HttpUtil {
     return false;
   }
 
+  Future<bool> addListSongToPlaylist({required List<String> songs_id, required String playlist_id, required String app_token}) async {
+    PlaylistModel? playlistModel = await getPlaylistModel(id : playlist_id, public: true, app_token: app_token);
+    if (playlistModel != null) {
+        try{
+          List<String> listSongsId = playlistModel.songs.map((item) => item.id).toList();
+          listSongsId.addAll(songs_id);
+          listSongsId = listSongsId.toSet().toList();
+          Map<String,dynamic> body = {'_id': playlist_id};
+          body.addAll({'songs': jsonEncode(listSongsId)});
+          FormData formData = FormData.fromMap(body);
+          dynamic response = await dio.post(UPDATE_PLAYLIST, data: formData, queryParameters: {'app_token': app_token});
+          return true;
+        } catch(e) {
+          print(e);
+          return false;
+        }
+      }
+    return false;
+  }
+
   Future<SongUrlModel?> fetchSongModel(String id) async {
     try {
       final response = await dio.get(SONG_PATH, queryParameters: {
@@ -384,6 +404,19 @@ class HttpUtil {
     name != null ? form.addAll({'name': name}) : '';
     if (avtPath != null)
       form.addAll({'avatarURL': await MultipartFile.fromFile(avtPath, filename:avtPath.split('/').last),});
+    FormData formData = FormData.fromMap(form);
+    dynamic response = await dio.post(UPDATE_PROFILE, data: formData, queryParameters: {'app_token': app_token});
+    return true;
+  }
+
+  Future<bool> updatePlaylist({required String id, String? playlist_name, String? playlist_description, String? imagePath, required app_token}) async {
+    Map<String, dynamic> form = {};
+    // Dio dio_ = Dio(BaseOptions(baseUrl: 'http://localhost:3000/'));
+    form.addAll({'_id': id});
+    playlist_name != null ? form.addAll({'playlist_name': playlist_name}) : '';
+    playlist_description != null ? form.addAll({'playlist_description': playlist_description}) : '';
+    if (imagePath != null)
+      form.addAll({'art_url': await MultipartFile.fromFile(imagePath, filename:imagePath.split('/').last),});
     FormData formData = FormData.fromMap(form);
     dynamic response = await dio.post(UPDATE_PROFILE, data: formData, queryParameters: {'app_token': app_token});
     return true;

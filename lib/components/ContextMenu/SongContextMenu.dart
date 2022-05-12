@@ -36,7 +36,7 @@ class SongContextMenu extends ContextMenu{
                   GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenu');
                 }
               });
-              AdvanceSnackBar(message: 'Yay! you got it', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+              // AdvanceSnackBar(message: 'Yay! you got it', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           ),
           ContextMenuItem(
@@ -50,7 +50,7 @@ class SongContextMenu extends ContextMenu{
                   GetIt.I.get<ContextMenuManager>().removeOverlay('SongContextMenu');
                 }
               });
-              AdvanceSnackBar(message: 'Yay! you got it', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+              // AdvanceSnackBar(message: 'Yay! you got it', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           ),
           ValueListenableBuilder<UserModel>(valueListenable: GetIt.I.get<UserModelNotifier>(), builder: (context, userModel, _) {
@@ -109,7 +109,7 @@ class SongContextMenu extends ContextMenu{
                   );
                 }
               });
-              AdvanceSnackBar(message: 'Yay! you got it', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+              // AdvanceSnackBar(message: 'Yay! you got it', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           )
       ],
