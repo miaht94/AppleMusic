@@ -6,10 +6,10 @@ import 'package:apple_music/components/AudioController/AudioPageRouteManager.dar
 import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/manager/CurrentUserManager.dart';
 import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/ListeningNowPageModel.dart';
-import 'package:apple_music/models/UserModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
 import 'dart:io'
@@ -24,7 +24,6 @@ void setUpGetIt() {
   http.Client client = http.Client();
   getIt.registerLazySingleton < AudioManager > (() => AudioManager());
   getIt.registerLazySingleton < AudioPageRouteManager > (() => AudioPageRouteManager());
-  getIt.registerLazySingleton < CurrentUserManager > (() => CurrentUserManager());
   // getIt.registerLazySingleton<Map<String, GlobalKey>>(() => Map());
   getIt.registerLazySingleton < ContextMenuManager > (() => ContextMenuManager());
   getIt.registerLazySingleton < ListeningNowPageModel > (() => ListeningNowPageModel());
@@ -41,27 +40,28 @@ class LoginUtil {
     return _singleton;
   }
   LoginUtil._internal();
-   Future < bool > checkLoginStatus() async {
-  try {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = directory.path;
-    File file = File('${path}/${CREDENTIAL_PATH}');
-    if (!file.existsSync()) {
-      return false;
-    } else {
-      String appToken = await file.readAsString();
-      UserModel user = await getUserInfo(appToken);
-      if (GetIt.I.isRegistered<UserModelNotifier>() & GetIt.I.isRegistered<CredentialModelNotifier>()) {
-        GetIt.I.unregister<UserModelNotifier>();
-        GetIt.I.unregister<CredentialModelNotifier>();
-      }
-      GetIt.I.registerLazySingleton<UserModelNotifier>(() => UserModelNotifier(user));
+  Future < bool > checkLoginStatus() async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final path = directory.path;
+      File file = File('${path}/${CREDENTIAL_PATH}');
+      if (!file.existsSync()) {
+        return false;
+      } else {
+        String appToken = await file.readAsString();
+        UserModel? user = await HttpUtil().getUserModel(app_token: appToken);
+        if (user == null) return false;
+        if (GetIt.I.isRegistered<UserModelNotifier>() || GetIt.I.isRegistered<CredentialModelNotifier>()) {
+          GetIt.I.unregister<UserModelNotifier>();
+          GetIt.I.unregister<CredentialModelNotifier>();
+        }
+        GetIt.I.registerLazySingleton<UserModelNotifier>(() => UserModelNotifier(user));
         GetIt.I.registerLazySingleton<CredentialModelNotifier>(() => CredentialModelNotifier(CredentialModel(appToken)));
-      return true;
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
-  } catch (e) {
-    return false;
-  }
 }
 
 Future < bool > saveCredential(String app_token) async {
@@ -77,17 +77,5 @@ Future < bool > saveCredential(String app_token) async {
 
 
 
-}
-
- Future < UserModel > getUserInfo(String appToken) async {
-  Uri httpURI = Uri(scheme: "http", host: SV_HOSTNAME, port: SV_PORT, path: MY_PROFILE_PATH, queryParameters: {
-    'app_token': appToken
-  });
-  http.Response res = await http.get(httpURI);
-  JsonDecoder decoder = JsonDecoder();
-  UserModel user = UserModel.fromJson(decoder.convert(res.body));
-  CurrentUserManager currentUserManager = getIt < CurrentUserManager > ();
-  currentUserManager.setCurrentUser(user);
-  return user;
-}
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/AlbumRectangleCardModel.dart';
+import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +11,13 @@ import 'package:skeletons/skeletons.dart';
 class AlbumRectangleCard extends StatelessWidget {
   AlbumRectangleCard({
     Key ? key,
-    required this.albumRectangleCardModel,
+    required this.albumModel,
     this.onTapAlbumCard,
     this.onTapAlbumMoreButton
   }): super(key: key);
-  AlbumRectangleCardModel albumRectangleCardModel;
-  Function(AlbumRectangleCardModel) ? onTapAlbumCard;
-  Function(AlbumRectangleCardModel) ? onTapAlbumMoreButton;
+  AlbumModel albumModel;
+  Function(AlbumModel) ? onTapAlbumCard;
+  Function(AlbumModel) ? onTapAlbumMoreButton;
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -25,7 +26,7 @@ class AlbumRectangleCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (onTapAlbumCard != null) {
-            onTapAlbumCard!(albumRectangleCardModel);
+            onTapAlbumCard!(albumModel);
           }
         },
         child: Container(
@@ -45,7 +46,7 @@ class AlbumRectangleCard extends StatelessWidget {
               ),
               // child: CircleAvatar(backgroundImage : Image.network(albumRectangleCardModel.artURL,).image)
               child: CachedNetworkImage(
-                imageUrl: albumRectangleCardModel.artURL,
+                imageUrl: albumModel.art_url,
                 placeholder: (context, _) => SkeletonAvatar(),
                 imageBuilder: (context, imageProvider) =>
                 Container(
@@ -83,8 +84,8 @@ class AlbumRectangleCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(albumRectangleCardModel.albumName, style: TextStyle(fontSize: 16, color: Colors.black)),
-                                Text("${albumRectangleCardModel.artistName} - Album", style: TextStyle(fontSize: 13, color: Colors.grey), )
+                                Text(albumModel.album_name, style: TextStyle(fontSize: 16, color: Colors.black)),
+                                Text("${albumModel.artist.artist_name} - Album", style: TextStyle(fontSize: 13, color: Colors.grey), )
                               ], ),
                           ),
                           Align(
@@ -102,7 +103,7 @@ class AlbumRectangleCard extends StatelessWidget {
                                     child: Icon(SFSymbols.ellipsis, size: 18),
                                     onTap: () {
                                       if (onTapAlbumMoreButton != null) {
-                                        onTapAlbumMoreButton!(albumRectangleCardModel);
+                                        onTapAlbumMoreButton!(albumModel);
                                       }
                                     },
                                   ),

@@ -6,7 +6,7 @@ import 'dart:async' as _i5;
 import 'dart:convert' as _i6;
 import 'dart:typed_data' as _i7;
 
-import 'package:apple_music/models/UserModel.dart' as _i2;
+import 'package:apple_music/models_refactor/UserModel.dart' as _i2;
 import 'package:apple_music/services/service_locator.dart' as _i4;
 import 'package:http/http.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;

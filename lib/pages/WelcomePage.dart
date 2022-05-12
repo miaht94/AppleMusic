@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/manager/CurrentUserManager.dart';
 import 'package:apple_music/models/CredentialModel.dart';
-import 'package:apple_music/models/UserModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,17 +29,11 @@ class WelcomePage extends StatefulWidget {
 
 class _WelcomePageState extends State < WelcomePage > with TickerProviderStateMixin {
 
-  CurrentUserManager currentUserManager = getIt<CurrentUserManager>();
-
-  Future < UserModel > getUserInfo(String appToken) async {
-    Uri httpURI = Uri(scheme: "http", host: SV_HOSTNAME, port: SV_PORT, path: MY_PROFILE_PATH, queryParameters: {
-      'app_token': appToken
-    });
-    http.Response res = await http.get(httpURI);
-    JsonDecoder decoder = JsonDecoder();
-    UserModel user = UserModel.fromJson(decoder.convert(res.body));
-    currentUserManager.setCurrentUser(user);
-    GetIt.I.registerLazySingleton<UserModelNotifier>(() => UserModelNotifier(user));
+  Future <UserModel?> getUserInfo(String appToken) async {
+    final UserModel? user = await HttpUtil().getUserModel(app_token: appToken);
+    if (user != null) {
+      GetIt.I.registerLazySingleton<UserModelNotifier>(() => UserModelNotifier(user));
+    }
     return user;
   }
   @override
@@ -57,17 +51,20 @@ class _WelcomePageState extends State < WelcomePage > with TickerProviderStateMi
         builder: (context, constraints) {
           context.loaderOverlay.show();
           return Scaffold(body:
-            FutureBuilder(future: getUserInfo(args.appToken), builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                context.loaderOverlay.hide();
-                UserModel user = snapshot.data as UserModel;
-                Animation < double > anc = AnimationController(vsync: this);
-                return Welcome(avatarURL: user.avatarURL, email: user.email, name: user.name, listenable: anc);
+            FutureBuilder<UserModel?>(
+              future: getUserInfo(args.appToken), 
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.connectionState != ConnectionState.waiting && snapshot.data != null) {
+                  context.loaderOverlay.hide();
+                  final UserModel user = snapshot.data!;
+                  Animation < double > anc = AnimationController(vsync: this);
+                  return Welcome(avatarURL: user.avatarURL, email: user.email, name: user.name, listenable: anc);
 
-              } else {
-                return Container(child: Text("Loading"), );
+                } else {
+                  return Container(child: Text("Loading"), );
+                }
               }
-            })
+            )
           );
         }
       )

@@ -1,26 +1,5 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'dart:convert';
-
-import 'package:apple_music/components/RectangleCardSearchPage/AlbumRectangleCard.dart';
-import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/AlbumRectangleCardModel.dart';
-import 'package:apple_music/models/CredentialModel.dart';
-import 'package:apple_music/models/UserModel.dart';
-import 'package:apple_music/pages/LoginPage.dart';
-import 'package:apple_music/pages/SearchPage.dart';
-import 'package:apple_music/components/AudioController/AudioManager.dart';
-import 'package:apple_music/components/AudioController/AudioStates.dart';
-import 'package:apple_music/components/ButtonLyric/LyricButton.dart';
-import 'package:apple_music/components/ButtonLyric/LyricButtonConstant.dart';
-import 'package:apple_music/components/ButtonLyric/LyricButtonIcon.dart';
 import 'package:apple_music/components/ButtonPausePlay/PausePlayButton.dart';
-import 'package:apple_music/components/ButtonPausePlay/PausePlayButtonConstant.dart';
 import 'package:apple_music/components/ButtonPlaylist/PlaylistButton.dart';
 import 'package:apple_music/components/CircleCard/CircleCard.dart';
 import 'package:apple_music/components/HorizontalCard/HorizontalCard.dart';
@@ -30,24 +9,24 @@ import 'package:apple_music/components/RepeatButton/RepeatButton.dart';
 import 'package:apple_music/components/ShuffleButton/ShuffleButton.dart';
 import 'package:apple_music/components/VerticalBigCard/VerticalBigCard.dart';
 import 'package:apple_music/components/squareCard/SquareCard.dart';
-import 'package:apple_music/models/AlbumRectangleCardModel.dart';
+import 'package:apple_music/constant.dart';
+import 'package:apple_music/main.dart' as app;
+import 'package:apple_music/models/CredentialModel.dart';
+import 'package:apple_music/models_refactor/AlbumModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 import 'package:http_mock_adapter/http_mock_adapter.dart';
-import 'package:integration_test/integration_test.dart';
-import 'package:apple_music/main.dart'
-as app;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
-import 'package:http/http.dart'
-as http;
-import 'dart:convert' show utf8;
+
 import 'mock_value.dart';
 import 'widget_test.mocks.dart';
 
@@ -64,19 +43,18 @@ void main() {
       // Build our app and trigger a frame.
       await GetIt.I.reset();
       setUpGetIt();
-      final AlbumRectangleCardModel albumRectangleCardModel = AlbumRectangleCardModel('TestId', 'Red', 'Pop', 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187', 'Taylor Swift');
+      final AlbumModel albumModel = AlbumModel.getSampleAlbum()[0];
       await tester.pumpWidget(
         MediaQuery(
           data: MediaQueryData(size: Size(370, 720)),
           child: MaterialApp(
             home: Scaffold(
-              body: AlbumRectangleCard(albumRectangleCardModel: albumRectangleCardModel),
+              body: AlbumRectangleCard(albumModel: albumModel),
             ),
           ),
         ));
 
-      expect(find.text('Red'), findsOneWidget);
-      expect(find.text('Taylor Swift - Album'), findsOneWidget);
+      expect(find.text('Dù Cho Mai Về Sau'), findsOneWidget);
     });
     // IntegrationTestWidgetsFlutterBinding.ensureInitialized();
     // debugDumpApp();
@@ -312,17 +290,18 @@ void main() {
             '_id': '625ecfc7133da5aa54397e1e'
           });
           when(mockClient.get(pageUri)).thenAnswer((realInvocation) => Future.value(http.Response(jsonEncode(mockListeningPage), 200)));
-          when(mockClient.get(playlistUri)).thenAnswer((realInvocation) => Future.value(http.Response.bytes(Utf8Encoder().convert(jsonEncode(mockPlaylist)), 200)));
-          when(mockClient.get(playlistPublicUri)).thenAnswer((realInvocation) => Future.value(http.Response.bytes(Utf8Encoder().convert(jsonEncode(mockPlaylistPublic)), 200)));
-          when(mockClient.get(songUri)).thenAnswer((realInvocation) => Future.value(http.Response.bytes(Utf8Encoder().convert(jsonEncode(mockSong)), 200)));
-          when(mockClient.get(artistUri)).thenAnswer((realInvocation) => Future.value(http.Response.bytes(Utf8Encoder().convert(jsonEncode(mockArtist)), 200)));
+          // when(mockClient.get(playlistUri)).thenAnswer((realInvocation) => Future.value(http.Response.bytes(Utf8Encoder().convert(jsonEncode(mockPlaylist)), 200)));
+          // when(mockClient.get(playlistPublicUri)).thenAnswer((realInvocation) => Future.value(http.Response.bytes(Utf8Encoder().convert(jsonEncode(mockPlaylistPublic)), 200)));
+          // when(mockClient.get(songUri)).thenAnswer((realInvocation) => Future.value(http.Response.bytes(Utf8Encoder().convert(jsonEncode(mockSong)), 200)));
+          // when(mockClient.get(artistUri)).thenAnswer((realInvocation) => Future.value(http.Response.bytes(Utf8Encoder().convert(jsonEncode(mockArtist)), 200)));
           DioAdapter adapter = DioAdapter(dio:Dio(BaseOptions(baseUrl: 'http://$SV_HOSTNAME/')));
-          adapter.onGet(PAGE_PATH, (server) {server.reply(200, jsonEncode(mockListeningPage));}, queryParameters: pageUri.queryParameters);
+          adapter.onGet(PAGE_PATH, (server) {server.reply(200, (mockListeningPage));}, queryParameters: pageUri.queryParameters);
           // adapter.onGet(playlistUri.toString(), (server) {server.reply(200, jsonEncode(mockPlaylist));});
-          adapter.onGet(PLAYLIST_PATH, (server) {server.reply(200, jsonEncode(mockPlaylistPublic));}, queryParameters: playlistPublicUri.queryParameters);
-          adapter.onGet(SONG_PATH, (server) {server.reply(200, jsonEncode(mockPlaylistPublic));}, queryParameters: songUri.queryParameters);
-          adapter.onGet(ARTIST_PATH, (server) {server.reply(200, jsonEncode(mockArtist));}, queryParameters: artistUri.queryParameters);
-          adapter.onGet(PLAYLIST_PATH, (server) {server.reply(200, jsonEncode(mockPlaylist));}, queryParameters: playlistUri.queryParameters);
+          adapter.onGet(PLAYLIST_PATH, (server) {server.reply(200, (mockPlaylistPublic));}, queryParameters: playlistPublicUri.queryParameters);
+          adapter.onGet(SONG_PATH, (server) {server.reply(200, (mockPlaylistPublic));}, queryParameters: songUri.queryParameters);
+          adapter.onGet(ARTIST_PATH, (server) {server.reply(200, (mockArtist));}, queryParameters: artistUri.queryParameters);
+          adapter.onGet(PLAYLIST_PATH, (server) {server.reply(200, (mockPlaylist));}, queryParameters: playlistUri.queryParameters);
+          adapter.onGet(MY_PROFILE_PATH, (server) {server.reply(200, (mockUser));}, queryParameters: {'app_token': mockToken});
           if (GetIt.I.isRegistered < HttpClientAdapter > ()) {
             GetIt.I.unregister < HttpClientAdapter > ();
           }
@@ -335,24 +314,23 @@ void main() {
             GetIt.I.unregister < http.Client > ();
           }
           GetIt.I.registerLazySingleton < http.Client > (() => mockClient);
-          when(loginUtil.getUserInfo(mockToken)).thenAnswer((_) =>
-            Future.value(UserModel(
-              'Bach Tran Xuan',
-              'https://lh3.googleusercontent.com/a-/AOh14GhYu0ISDEEC1dqAccVc3I2QA92833wgw7f0sjZplg=s96-c',
-              'tranxuanbach1@gmail.com',
-              [],
-              [],
-              [],
-              []
-            )));
-          print(loginUtil.getUserInfo(mockToken));
+          UserModel mockUserModel = UserModel(
+            uid: 'adadawdawd',
+            name: 'Bach Tran Xuan',
+            avatarURL :'https://lh3.googleusercontent.com/a-/AOh14GhYu0ISDEEC1dqAccVc3I2QA92833wgw7f0sjZplg=s96-c',
+            email: 'tranxuanbach1@gmail.com',
+            playlists : [],
+            favorite_songs : [],
+            favorite_albums : [],
+            favorite_artists : []
+          );
           when(loginUtil.checkLoginStatus()).thenAnswer((_) async {
             if (GetIt.I.isRegistered < UserModelNotifier > () & GetIt.I.isRegistered < CredentialModelNotifier > ()) {
               GetIt.I.unregister < UserModelNotifier > ();
               GetIt.I.unregister < CredentialModelNotifier > ();
             }
-            UserModel user = await loginUtil.getUserInfo(mockToken);
-            GetIt.I.registerLazySingleton < UserModelNotifier > (() => UserModelNotifier(user));
+            UserModel? user = await HttpUtil().getUserModel(app_token: mockToken);
+            GetIt.I.registerLazySingleton < UserModelNotifier > (() => UserModelNotifier(user!));
             GetIt.I.registerLazySingleton < CredentialModelNotifier > (() => CredentialModelNotifier(CredentialModel(mockToken)));
             return true;
           });

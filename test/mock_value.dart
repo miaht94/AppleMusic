@@ -1,3 +1,62 @@
+Map<String, dynamic> mockUser = {
+    "_id": "625d771f133da5aa54397daa",
+    "name": "Đặng Thế Hoàng Anh",
+    "email": "hoanganhxt183@gmail.com",
+    "avatarURL": "https://lh3.googleusercontent.com/a/AATXAJyOOdy9Lceldtup5NSHAxim7wLGnWmUr3CA_HDq=s96-c",
+    "playlists": [
+        {
+            "_id": "625ed7df58dda2f3a6a52f55",
+            "playlist_name": "Playlist of Hoàng Anh",
+            "art_url": "https://is4-ssl.mzstatic.com/image/thumb/Video114/v4/e8/f4/5d/e8f45d1a-92ff-d5fd-3fb8-f1183dbd805f/Job01da3c5e-11a4-44b2-8cee-c3b917ab458b-108235318-PreviewImage_PreviewImageIntermediate_preview_image_nonvideo-Time1607802044859.png/610x610cc-60.jpg",
+            "playlist_description": "Playlist của Hoàng Anh bao gồm các bài hát hay nghe của tôi.",
+            "songs": [
+                "625ecfc7133da5aa54397e1e",
+                "625ed1cf133da5aa54397e29",
+                "62611a8ebf87cf6c062a3290",
+                "62611b27bf87cf6c062a3295"
+            ],
+            "public": true,
+            "__v": 0
+        },
+        {
+            "_id": "627a8461229cca30c43250cf",
+            "playlist_name": "aaaaa",
+            "art_url": "https://test-bucket-bach.s3.ap-southeast-1.amazonaws.com/b74e357d-e33e-4acd-bb64-66ca7b6c7f9b.jpg",
+            "playlist_description": "aaaaa",
+            "songs": [
+                "62643b9f4a2b86f2559fa465",
+                "62643ca44a2b86f2559fa473",
+                "62643cc94a2b86f2559fa475"
+            ],
+            "public": true,
+            "__v": 0
+        }
+    ],
+    "__v": 3,
+    "favorite_songs": [
+        {
+            "_id": "62642bf44a2b86f2559fa41e",
+            "song_name": "State Of Grace",
+            "track_number": 1,
+            "collaboration": null,
+            "song_key": "musics/abba2282-eb8b-4599-8dc1-cc810c8ee19b.mp3",
+            "lyric_key": "lyrics/7aaa1f50-fc91-4fdc-b366-b6929e316c94.json",
+            "__v": 0
+        },
+        {
+            "_id": "625ecfc7133da5aa54397e1e",
+            "song_name": "Đông kiếm em",
+            "track_number": null,
+            "collaboration": null,
+            "song_key": "musics/ac018820-9bab-4b82-b2a2-097d7b8ecef9.mp3",
+            "lyric_key": "lyrics/a037b1d0-e0b3-4b53-a2f7-bfb6cf373163.json",
+            "__v": 0
+        }
+    ],
+    "favorite_albums": [],
+    "favorite_artists": []
+};
+
 Map < String, dynamic > mockListeningPage = {
   'best_choice': [
     '625ed7df58dda2f3a6a52f55',

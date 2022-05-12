@@ -1,4 +1,10 @@
+import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
+import 'package:apple_music/components/ContextMenu/UserSubscreenContextMenu.dart';
+import 'package:apple_music/models/CredentialModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'PageTitle.dart';
 import 'TitleComponentConstant.dart';
 import 'package:apple_music/constant.dart';
@@ -54,12 +60,16 @@ class PageTitleAvt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>{
-        throw UnimplementedError()
+      onTap: () {
+          GetIt.I.get<ContextMenuManager>().insertSubscreen(UserSubscreenContextMenu());
       },
-      child: CircleAvatar(
-          backgroundImage: NetworkImage('https://e00-marca.uecdn.es/assets/multimedia/imagenes/2022/05/06/16518513044443.jpg'),
-        )
+      child: ValueListenableBuilder<UserModel>(
+        valueListenable: GetIt.I.get<UserModelNotifier>(),
+        builder: (context, userModel, _) => 
+        CircleAvatar(
+            backgroundImage: NetworkImage(userModel.avatarURL),
+          ),
+      )
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/ArtistModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/HScrollCircleModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';

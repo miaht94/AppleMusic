@@ -1,36 +1,21 @@
-import 'package:apple_music/components/HorizontalCard/HorizontalCardsWithTitle.dart';
 import 'package:apple_music/components/RectangleCardSearchPage/AlbumRectangleCard.dart';
 import 'package:apple_music/components/TitleComponent/PageTitleBoxCompact.dart';
 import 'package:apple_music/models/AlbumRectangleCardModel.dart';
-import 'package:apple_music/models/HScrollCircleModel.dart';
-import 'package:apple_music/models/HScrollSquareModel.dart';
-import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import '../components/AudioController/AudioPageRouteManager.dart';
-import '../components/RectangleCardSearchPage/ArtistRectangleCard.dart';
-import '../components/SquareCard/HScrollSquareCardWithText.dart';
-import '../components/CircleCard/HScrollCircleCardWithText.dart';
-import '../components/HorizontalCard/HorizontalCardsWithTitle.dart';
-import '../models/AlbumViewModel.dart';
-import '../models/ArtistRectangleCardModel.dart';
-import '../models/ArtistViewModel.dart';
-import '../models/HorizontalCardWithTitleModel.dart';
-import '../components/SongCardInPlaylist/HScrollCardListWithText.dart';
-import '../components/TextListView/TextListView.dart';
-import '../components/TitleComponent/PageTitleBox.dart';
 import '../constant.dart';
 import 'AlbumPage.dart';
-import 'ArtistPage.dart';
 
 
-void onTapAlbumCard(AlbumRectangleCardModel albumRectangleCardModel) {
+void onTapAlbumCard(AlbumModel albumModel) {
   Navigator.push(
       GetIt.I.get<AudioPageRouteManager>().getMainContext(),
       MaterialPageRoute(
-        builder: (context) => AlbumView(albumViewModel: HttpUtil().getAlbumModel(album_name: albumRectangleCardModel.albumName,artist_name:  albumRectangleCardModel.artistName),
+        builder: (context) => AlbumView(albumViewModel: HttpUtil().getAlbumModel(album_name: albumModel.album_name, artist_name: albumModel.artist.artist_name),
       )));
 }
 
@@ -115,7 +100,7 @@ class _AlbumSubPageState extends State<AlbumSubPage> {
                     shrinkWrap: true,
                     itemCount: AlbumRectangleCardModel.getSampleData().length,
                     itemBuilder: (context, i){
-                      return  AlbumRectangleCard(albumRectangleCardModel: AlbumRectangleCardModel.getSampleData()[i], onTapAlbumCard: onTapAlbumCard);
+                      return  AlbumRectangleCard(albumModel: AlbumModel.getSampleAlbum()[i], onTapAlbumCard: onTapAlbumCard);
                     },
                   ),
                 ),

@@ -16,6 +16,8 @@ import 'package:apple_music/models/HorizontalScrollCategoryModel.dart';
 import 'package:apple_music/models/PlaylistRectangleCardModel.dart';
 import 'package:apple_music/models/SearchPageModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models_refactor/AlbumModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:flutter/foundation.dart';
@@ -58,15 +60,15 @@ class _SearchPageState extends State < SearchPage > {
     GetIt.I.get<AudioManager>().addAndPlayASong(songCardInPlaylistModel.id);
   }
 
-  void onTapArtistCard(ArtistRectangleCardModel artistRectangleCardModel) {
+  void onTapArtistCard(ArtistModel artistModel) {
     throw UnimplementedError();
   }
 
-  void onTapAlbumCard(AlbumRectangleCardModel albumRectangleCardModel) {
+  void onTapAlbumCard(AlbumModel albumRectangleCardModel) {
     throw UnimplementedError();
   }
 
-  void onTapAlbumMoreButton(AlbumRectangleCardModel albumRectangleCardModel) {
+  void onTapAlbumMoreButton(AlbumModel albumRectangleCardModel) {
     throw UnimplementedError();
   }
 
@@ -120,13 +122,13 @@ class _SearchPageState extends State < SearchPage > {
                                   }
                                   break;
                                 case 'artist_name':
-                                  for (final ArtistRectangleCardModel model in data) {
-                                    renderList.add(ArtistRectangleCard(artistRectangleCardModel: model, onTapArtistCard: onTapArtistCard,));
+                                  for (final ArtistModel model in data) {
+                                    renderList.add(ArtistRectangleCard(artistModel: model, onTapArtistCard: onTapArtistCard));
                                   }
                                   break;
                                 case 'album_name':
-                                  for (final AlbumRectangleCardModel model in data) {
-                                    renderList.add(AlbumRectangleCard(albumRectangleCardModel: model, onTapAlbumMoreButton: onTapAlbumMoreButton, onTapAlbumCard: onTapAlbumCard,));
+                                  for (final AlbumModel model in data) {
+                                    renderList.add(AlbumRectangleCard(albumModel: model, onTapAlbumMoreButton: onTapAlbumMoreButton, onTapAlbumCard: onTapAlbumCard,));
                                   }
                                   break;
 
