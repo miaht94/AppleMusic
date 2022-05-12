@@ -27,10 +27,9 @@ class ArtistView extends StatefulWidget {
 class _ArtistViewState extends State<ArtistView> {
 
 
-  final videoPlayerController = VideoPlayerController.network(
-      'https://mvod.itunes.apple.com/itunes-assets/HLSMusic126/v4/8e/3a/c8/8e3ac8b5-07d2-88f6-5f75-d60dd244e946/P364264761_default.m3u8');
-  late ChewieController chewieController;
-
+  VideoPlayerController? videoPlayerController;
+  ChewieController? chewieController;
+  ValueNotifier isInit = ValueNotifier<bool>(false);
 
   late ScrollController _scrollController = ScrollController();
   bool lastStatus = true;
@@ -107,16 +106,6 @@ class _ArtistViewState extends State<ArtistView> {
 
   @override
   void initState() {
-    chewieController = ChewieController(
-      videoPlayerController: videoPlayerController,
-      aspectRatio: 16 / 16,
-      fullScreenByDefault: false ,
-      autoPlay: true,
-      looping: true,
-      showControls : false,
-      showOptions : false,
-      showControlsOnInitialize : false
-    );
     
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
@@ -152,6 +141,24 @@ class _ArtistViewState extends State<ArtistView> {
                 )
                 ];
             } else {
+              if (snapshot.data!.artist_video_url != null) {
+                videoPlayerController =  VideoPlayerController.network(snapshot.data!.artist_video_url!);
+                videoPlayerController?.addListener(() {
+                  if(videoPlayerController!.value.isInitialized){
+                    isInit.value = true;
+                  }
+                });
+                  chewieController = ChewieController(
+                      videoPlayerController: videoPlayerController!,
+                      aspectRatio: 16 / 16,
+                      fullScreenByDefault: false ,
+                      autoPlay: true,
+                      looping: true,
+                      showControls : false,
+                      showOptions : false,
+                      showControlsOnInitialize : false
+                  );
+              }
             return Scaffold(
               body: NestedScrollView(
                 controller: _scrollController,
@@ -232,7 +239,30 @@ class _ArtistViewState extends State<ArtistView> {
                               ]
                           ),
                         ),
-                        background: FittedBox(fit: BoxFit.fitWidth,child: Container(width: size.width,child: Chewie(controller: chewieController))),
+                        background: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: ValueListenableBuilder(
+                            valueListenable: isInit,
+                            builder: (context, a,_) {
+                              if (a == true) {
+                                return Container(
+                                    width: size.width,
+                                    child: Chewie(controller: chewieController!)
+                                );
+                              } else {
+                                return
+                                  Container(
+                                      width: size.width,
+                                          child: FittedBox(
+                                            fit: BoxFit.fill,
+                                            child: Image.network(snapshot.data!.artist_image_url)
+                                          )
+                                  );
+
+                              }
+                            }
+                        )
+                        ),
                       ),
                     )
                   ];
