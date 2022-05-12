@@ -12,8 +12,8 @@ class LyricModel{
   factory LyricModel.fromJson(Map<String, dynamic> json) {
     return LyricModel._(
         key: GlobalKey(),
-        lyric: json['text'],
-        startTime: Duration(milliseconds : ((json['start']).toDouble() * 1000).toInt()),
+        lyric: json['content'],
+        startTime: Duration(milliseconds : ((json['timestamp']) * 1000).toInt()),
     );
   }
   static  Future<List<LyricModel>> fetchLyrics(url) async {
@@ -21,6 +21,7 @@ class LyricModel{
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes))['scripts'];
       // List<LyricModel> list = [];
+      print(data);
       if (response.body != null) {
         print("fetch lyric");
         return data.map((item) => LyricModel.fromJson(item)).toList();

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:apple_music/constant.dart';
+import 'package:apple_music/models/LyricModel.dart';
 import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:apple_music/models_refactor/PlaylistModel.dart';
@@ -11,6 +12,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart'
 as http;
+import 'dart:collection';
 
 class HttpUtil {
   static final HttpUtil httpUtilSingleton = HttpUtil._internal();
@@ -71,6 +73,25 @@ class HttpUtil {
     } catch(e) {
       return null;
     }
+  }
+
+  Future<List<LyricModel>> fetchLyrics(url) async {
+    final response = await dio.getUri(Uri.parse(url));
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.data);
+      if (response.data != null) {
+        print("fetch lyric");
+        data.sort((a, b){
+          return a['timestamp'].compareTo(b['timestamp']);
+        });
+        return data.map((item) => LyricModel.fromJson(item)).toList();
+      }
+      // return list;
+    } else {
+
+      print('Request failed with status: ${response.statusCode}.');
+    }
+    return [];
   }
 
   Future<List<PlaylistModel>?> searchPlaylist({String? id, String? playlist_name, required bool public, required String app_token}) async {

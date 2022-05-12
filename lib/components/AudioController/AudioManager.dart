@@ -108,12 +108,12 @@ class AudioManager {
         currentSongNotifier.value = currentSongData;
 
         //first time fetch
-        currentLyricNotifier ??= LyricModel.fetchLyrics(currentSongData.lyricURL);
+        currentLyricNotifier ??= HttpUtil().fetchLyrics(currentSongData.lyricURL);
       }
       // change song fetch
       if(currentSongIndexNotifier.value != _audioPlayer.currentIndex){
         currentSongIndexNotifier.value = _audioPlayer.currentIndex!;
-        currentLyricNotifier =  LyricModel.fetchLyrics(currentSongNotifier.value!.lyricURL);
+        currentLyricNotifier =  HttpUtil().fetchLyrics(currentSongNotifier.value!.lyricURL);
         currentLyric = await currentLyricNotifier;
       }
 
@@ -239,7 +239,7 @@ class AudioManager {
         } catch(e) {
       }
     }
-    currentLyricNotifier = LyricModel.fetchLyrics(listSongs[0].lyricURL);
+    currentLyricNotifier = HttpUtil().fetchLyrics(listSongs[0].lyricURL);
     currentLyric = await currentLyricNotifier;
     for (SongUrlModel value in listSongs){
       await _playlist.add(AudioSource.uri(Uri.parse(value.song_url),
