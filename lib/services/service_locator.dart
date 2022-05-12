@@ -8,8 +8,10 @@ import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/manager/CurrentUserManager.dart';
 import 'package:apple_music/models/CredentialModel.dart';
+import 'package:apple_music/models/DiscoveryPageModel.dart';
 import 'package:apple_music/models/ListeningNowPageModel.dart';
 import 'package:apple_music/models/UserModel.dart';
+import 'package:apple_music/pages/DiscoveryPage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
 import 'dart:io'
@@ -28,6 +30,8 @@ void setUpGetIt() {
   // getIt.registerLazySingleton<Map<String, GlobalKey>>(() => Map());
   getIt.registerLazySingleton < ContextMenuManager > (() => ContextMenuManager());
   getIt.registerLazySingleton < ListeningNowPageModel > (() => ListeningNowPageModel());
+  getIt.registerLazySingleton < DiscoveryPageModel > (() => DiscoveryPageModel());
+
   print(Platform.environment.containsKey('FLUTTER_TEST'));
   if (!isTestingMode) {
     getIt.registerLazySingleton<LoginUtil>(() => LoginUtil());
