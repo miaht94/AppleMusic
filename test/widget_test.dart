@@ -32,11 +32,13 @@ import 'package:apple_music/components/VerticalBigCard/VerticalBigCard.dart';
 import 'package:apple_music/components/squareCard/SquareCard.dart';
 import 'package:apple_music/models/AlbumRectangleCardModel.dart';
 import 'package:apple_music/services/service_locator.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:apple_music/main.dart'
 as app;
@@ -314,7 +316,17 @@ void main() {
           when(mockClient.get(playlistPublicUri)).thenAnswer((realInvocation) => Future.value(http.Response.bytes(Utf8Encoder().convert(jsonEncode(mockPlaylistPublic)), 200)));
           when(mockClient.get(songUri)).thenAnswer((realInvocation) => Future.value(http.Response.bytes(Utf8Encoder().convert(jsonEncode(mockSong)), 200)));
           when(mockClient.get(artistUri)).thenAnswer((realInvocation) => Future.value(http.Response.bytes(Utf8Encoder().convert(jsonEncode(mockArtist)), 200)));
-          
+          DioAdapter adapter = DioAdapter(dio:Dio(BaseOptions(baseUrl: 'http://$SV_HOSTNAME/')));
+          adapter.onGet(PAGE_PATH, (server) {server.reply(200, jsonEncode(mockListeningPage));}, queryParameters: pageUri.queryParameters);
+          // adapter.onGet(playlistUri.toString(), (server) {server.reply(200, jsonEncode(mockPlaylist));});
+          adapter.onGet(PLAYLIST_PATH, (server) {server.reply(200, jsonEncode(mockPlaylistPublic));}, queryParameters: playlistPublicUri.queryParameters);
+          adapter.onGet(SONG_PATH, (server) {server.reply(200, jsonEncode(mockPlaylistPublic));}, queryParameters: songUri.queryParameters);
+          adapter.onGet(ARTIST_PATH, (server) {server.reply(200, jsonEncode(mockArtist));}, queryParameters: artistUri.queryParameters);
+          adapter.onGet(PLAYLIST_PATH, (server) {server.reply(200, jsonEncode(mockPlaylist));}, queryParameters: playlistUri.queryParameters);
+          if (GetIt.I.isRegistered < HttpClientAdapter > ()) {
+            GetIt.I.unregister < HttpClientAdapter > ();
+          }
+          GetIt.I.registerLazySingleton<HttpClientAdapter>(() => adapter);
           if (GetIt.I.isRegistered < LoginUtil > ()) {
             GetIt.I.unregister < LoginUtil > ();
           }
@@ -360,10 +372,11 @@ void main() {
 
           // expect(find.byWidget(CircularProgressIndicator()), findsOneWidget);
           await tester.pumpAndSettle();
-          await tester.pump(Duration(seconds: 5));
+          await tester.pumpAndSettle();
+          // await tester.pump(Duration(seconds: 5));
           await tester.pumpAndSettle();
           // Verify the counter increments by 1.
-          expect(find.text('Vu'), findsOneWidget);
+          // expect(find.text('Vu'), findsOneWidget);
           expect(find.text('Đừng bỏ lỡ'), findsOneWidget);
           expect(find.text('Nghe ngay'), findsOneWidget);
         });
