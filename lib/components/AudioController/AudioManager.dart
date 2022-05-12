@@ -221,7 +221,7 @@ class AudioManager {
   Future<void> addAndPlayASong(String songId) async {
     await insertNext(songId);
     int CurrentIndex = _audioPlayer.currentIndex ?? 0;
-    if (CurrentIndex != _playlist.length){
+    if (CurrentIndex != _playlist.length && _playlist.length != 1){
       CurrentIndex ++;
     }
     _audioPlayer.seek(Duration(seconds: 0),index : CurrentIndex);
@@ -256,7 +256,9 @@ class AudioManager {
 
 
   Future<void> insertNext(String songId) async {
-    isMoving = true;
+    if (_playlist.length != 0) {
+      isMoving = true;
+    }
     late SongUrlModel? value;
     try {
       value = await HttpUtil().fetchSongModel(songId);

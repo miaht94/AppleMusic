@@ -1,19 +1,20 @@
+import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/components/VerticalBigCard/VerticalBigCardConstant.dart';
 import 'package:apple_music/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 import '../components/SongCardInPlaylist/HScrollCardListConstants.dart';
 
-class ListeningNowSkeleton extends StatefulWidget {
-  ListeningNowSkeleton({
+class PageSkeleton extends StatefulWidget {
+  PageSkeleton({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ListeningNowSkeleton> createState() => _ListeningNowSkeletonState();
+  State<PageSkeleton> createState() => _PageSkeletonState();
 }
 
-class _ListeningNowSkeletonState extends State<ListeningNowSkeleton> with WidgetsBindingObserver {
+class _PageSkeletonState extends State<PageSkeleton> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +142,51 @@ class VerticalBigCardSkeleton extends StatelessWidget {
             color: Colors.white70,
           ),
         ),
+      ],
+    );
+  }
+}
+
+class HorizontalCardSkeleton extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SmallTitleSkeleton(),
+        SmallTitleSkeleton(),
+        SmallTitleSkeleton(),
+        Container(
+            width: kCardWidth,
+            height: kCardHeight,
+            margin: EdgeInsets.only(right: 15),
+            child: Stack(children: [
+              Positioned(
+                  top: 0,
+                  left: 0,
+                  width: kCardWidth,
+                  height: kCardHeight,
+                    child: Container(
+                      width: kCardWidth,
+                      height: kCardHeight,
+                      color: Colors.white70,
+                    ),
+                  ),
+              Positioned(
+                bottom: kCardHeight * 0.05,
+                width: kCardWidth,
+                left: 0,
+                child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                  Container(
+                      padding: EdgeInsets.only(left: kDefaultCardPadding),
+                      margin: EdgeInsets.only(right: kDefaultCardPadding),
+                      width: kCardWidth * 0.7,
+                      color: Colors.white70,
+                  ),
+                ]),
+              )
+            ])),
       ],
     );
   }
