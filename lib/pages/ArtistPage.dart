@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:ui';
-
 import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListWithText.dart';
 import 'package:apple_music/components/SquareCard/HScrollSquareCardWithText.dart';
 import 'package:apple_music/constant.dart';
@@ -9,7 +8,6 @@ import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';
 
@@ -131,7 +129,7 @@ class _ArtistViewState extends State<ArtistView> {
                 Scaffold(
                     appBar: AppBar(
                       leading: IconButton(
-                          icon: Icon(SFSymbols.chevron_left, color: Colors.red),
+                          icon: const Icon(SFSymbols.chevron_left, color: Colors.red),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
@@ -141,11 +139,13 @@ class _ArtistViewState extends State<ArtistView> {
                 )
                 ];
             } else {
-              if (snapshot.data!.artist_video_url != null) {
-                videoPlayerController =  VideoPlayerController.network(snapshot.data!.artist_video_url!);
+              if (snapshot.data!.artist_video_url != null && isInit.value == false) {
+                videoPlayerController = VideoPlayerController.network(snapshot.data!.artist_video_url!);
                 videoPlayerController?.addListener(() {
                   if(videoPlayerController!.value.isInitialized){
                     isInit.value = true;
+                  } else {
+                    isInit.value = false;
                   }
                 });
                   chewieController = ChewieController(
@@ -167,7 +167,7 @@ class _ArtistViewState extends State<ArtistView> {
                   return <Widget>[
                     SliverAppBar(
                       leading: IconButton(
-                          icon: Icon(SFSymbols.chevron_left, color: Colors.red),
+                          icon: const Icon(SFSymbols.chevron_left, color: Colors.red),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
@@ -179,7 +179,7 @@ class _ArtistViewState extends State<ArtistView> {
                         centerTitle: true,
                         title: Container(
                           alignment: Alignment.bottomLeft,
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -188,13 +188,13 @@ class _ArtistViewState extends State<ArtistView> {
                                   child: Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Text(snapshot.data!.artist_name,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 18.0,
                                           ))),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(left: 30),
+                                  padding: const EdgeInsets.only(left: 30),
                                   child: Visibility(
                                     visible: isShrink ? true : false,
                                     child: Padding(
@@ -202,7 +202,7 @@ class _ArtistViewState extends State<ArtistView> {
                                       child: Align(
                                           alignment: Alignment.bottomCenter,
                                           child: Text(snapshot.data!.artist_name,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 18.0,
                                               ))),
@@ -218,14 +218,14 @@ class _ArtistViewState extends State<ArtistView> {
                                         child: Container(
                                           width: 40,
                                           height: 30,
-                                          padding: EdgeInsets.only(right: 10),
+                                          padding: const EdgeInsets.only(right: 10),
                                           child: ElevatedButton(
                                             onPressed: () {},
-                                            child: Icon(SFSymbols.play_fill,
+                                            child: const Icon(SFSymbols.play_fill,
                                                 color: Colors.white, size: 12),
                                             style: ElevatedButton.styleFrom(
-                                              shape: CircleBorder(),
-                                              padding: EdgeInsets.all(0),
+                                              shape: const CircleBorder(),
+                                              padding: const EdgeInsets.all(0),
                                               primary: Colors.red,
                                               // <-- Button color
                                               onPrimary: Colors
@@ -247,7 +247,10 @@ class _ArtistViewState extends State<ArtistView> {
                               if (a == true) {
                                 return Container(
                                     width: size.width,
-                                    child: Chewie(controller: chewieController!)
+                                    child: AspectRatio(
+                                      aspectRatio: 16 / 16,
+                                      child: Chewie(controller: chewieController!),
+                                    ),
                                 );
                               } else {
                                 return
@@ -286,7 +289,7 @@ class _ArtistViewState extends State<ArtistView> {
 
                       if (snapshot.data!.album_list.length != 0)
                         Container(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               bottom: VerticalComponentPadding),
                         child: HScrollSquareCardWithText(
                             title: "Album đã phát hành",
@@ -306,14 +309,14 @@ class _ArtistViewState extends State<ArtistView> {
               Scaffold(
                   appBar: AppBar(
                     leading: IconButton(
-                          icon: Icon(SFSymbols.chevron_left, color: Colors.red),
+                          icon: const Icon(SFSymbols.chevron_left, color: Colors.red),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
                     backgroundColor: Colors.white,
                   ),
-                  body: Center(
-                      child: CircularProgressIndicator(color: Colors.red))
+                  body: const Center(
+                      child: const CircularProgressIndicator(color: Colors.red))
               )
             ];
           }
@@ -340,7 +343,7 @@ class ArtistHighlightSong extends StatelessWidget {
       child: Row(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5.0),
                   child: Image.network(
@@ -355,23 +358,23 @@ class ArtistHighlightSong extends StatelessWidget {
                    crossAxisAlignment: CrossAxisAlignment.start,
                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                                Text(album.songYear.toString(), style: TextStyle(fontSize: 11, color: Colors.grey)),
-                                SizedBox(height: 5),
-                                Text(album.songName, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                                SizedBox(height: 5),
-                                Text(album.songArtist, style: TextStyle(fontSize: 11, color: Colors.grey)),
-                                SizedBox(height: 5),
+                                Text(album.songYear.toString(), style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                                const SizedBox(height: 5),
+                                Text(album.songName, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                const SizedBox(height: 5),
+                                Text(album.songArtist, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                                const SizedBox(height: 5),
                                 Container(
                                   height:19,
                                   width:19,
                                   child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Icon(SFSymbols.plus, color: Colors.red, size:16),
+                                    child: const Icon(SFSymbols.plus, color: Colors.red, size:16),
                                     style: ElevatedButton.styleFrom(
-                                      shape: CircleBorder(),
-                                      padding: EdgeInsets.all(0),
-                                      primary: Color.fromRGBO(250, 250, 250, 100), // <-- Button color
-                                      onPrimary: Color.fromRGBO(250, 250, 250, 100), // <-- Splash color
+                                      shape: const CircleBorder(),
+                                      padding: const EdgeInsets.all(0),
+                                      primary: const Color.fromRGBO(250, 250, 250, 100), // <-- Button color
+                                      onPrimary: const Color.fromRGBO(250, 250, 250, 100), // <-- Splash color
                                     ),
                                   ),
                                 ),
@@ -427,7 +430,7 @@ class ArtistHighlightSongModel {
     });
     final  response = await http.get(httpURI);
     if (response.statusCode == 200){
-      JsonDecoder decoder = JsonDecoder();
+      JsonDecoder decoder = const JsonDecoder();
       ArtistHighlightSongModel song = ArtistHighlightSongModel.fromJson(decoder.convert(response.body));
       return song;
     } else {
