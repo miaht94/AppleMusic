@@ -245,11 +245,11 @@ class HttpUtil {
     try {
       Map<String,String> params = {};
 
-      if(id != null){
+      if(id != null) {
         params.addAll({'_id': id});
       }
 
-      if(artist_name != null){
+      if(artist_name != null) {
         params.addAll({'artist_name': artist_name});
         print(artist_name);
       }
@@ -317,7 +317,6 @@ class HttpUtil {
       if(artist_name != null){
         params.addAll({'artist_name': artist_name});
       }
-
       final response = await dio.get(SEARCH_ARTIST_PATH,queryParameters :params );
       List<ArtistModel> list = [];
       List<dynamic> jsonArray = response.data;
@@ -331,9 +330,9 @@ class HttpUtil {
     }
   }
 
-  Future<bool> UpdateFavorite({
+  Future<bool> updateFavorite({
     required FAVORITE_ACTION action,
-    required String appToken,
+    required String app_token,
     List<String>? favorite_songs,
     List<String>? favorite_artists,
     List<String>? favorite_albums,
@@ -360,7 +359,7 @@ class HttpUtil {
       }
 
       FormData formData = FormData.fromMap(body);
-      dynamic response = await dio.post(UPDATE_FAVORITE, data: formData, queryParameters: {'app_token': appToken});
+      dynamic response = await dio.post(UPDATE_FAVORITE, data: formData, queryParameters: {'app_token': app_token});
       return true;
     }catch(e){
       print(e);
@@ -368,7 +367,16 @@ class HttpUtil {
     }
 
 }
-
+  Future<UserModel?> getUserModel({required String app_token}) async {
+    try {
+      Response res = await dio.get(MY_PROFILE_PATH, queryParameters: {
+        'app_token': app_token
+      });
+      return UserModel.fromJson(res.data);
+    } catch(e) {
+      return null;
+    }
+  }
 }
 
 enum FAVORITE_ACTION{

@@ -7,9 +7,11 @@ import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/ContextMenu/SongSubscreenContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/SubscreenContextMenu.dart';
 import 'package:apple_music/constant.dart';
+import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
-import 'package:apple_music/models/UserModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +61,7 @@ class SongContextMenu extends ContextMenu{
             onTapItem: () async {
               // throw UnimplementedError();
               EasyLoading.show(status: 'Đang thêm vào yêu thích');
-              bool suc = await GetIt.I.get<UserModelNotifier>().updateFavorite(action: 'push', favSongsId: [songModel.id]);
+              bool suc = await HttpUtil().updateFavorite(app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, action: FAVORITE_ACTION.push, favorite_songs: [songModel.id]);
               
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.closeContextMenu(() {
                 if (suc) {
@@ -78,7 +80,7 @@ class SongContextMenu extends ContextMenu{
             onTapItem: () async {
               // throw UnimplementedError();
               EasyLoading.show(status: 'Đang xóa khỏi yêu thích');
-              bool suc = await GetIt.I.get<UserModelNotifier>().updateFavorite(action: 'pop', favSongsId: [songModel.id]);
+              bool suc = await HttpUtil().updateFavorite(app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, action: FAVORITE_ACTION.pop, favorite_songs: [songModel.id]);
               
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.closeContextMenu(() {
                 if (suc) {

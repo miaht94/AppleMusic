@@ -36,6 +36,13 @@ class ArtistModel{
   );
     return newArtist;
   }
+  static List<ArtistModel> getSampleArtist() {
+    return [
+      ArtistModel.fromJson(sampleJson),
+      ArtistModel.fromJson(sampleJson),
+      ArtistModel.fromJson(sampleJson)
+    ];
+  }
 }
 
 class SongModelInArtistModel {
@@ -100,3 +107,82 @@ class AlbumInArtistModel {
     return newALbum;
   }
 }
+
+
+Map<String, dynamic> sampleJson = {
+    "_id": "625ed0c3133da5aa54397e27",
+    "artist_name": "Vũ",
+    "artist_image_url": "https://photo-resize-zmp3.zmdcdn.me/w360_r1x1_jpeg/avatars/b/a/d/2/bad27197c6774fc04c039c040ed8813c.jpg",
+    "artist_description": "Vũ, được viết cách điệu là Vũ tên đầy đủ là Hoàng Thái Vũ sinh tại Hà Nội, là ca sĩ kiêm sáng tác nhạc người Việt Nam.",
+    "artist_video_url": null,
+    "highlight_song": {
+        "_id": "625ecfc7133da5aa54397e1e",
+        "song_name": "Đông kiếm em",
+        "track_number": null,
+        "collaboration": null,
+        "song_key": "musics/ac018820-9bab-4b82-b2a2-097d7b8ecef9.mp3",
+        "lyric_key": "lyrics/a037b1d0-e0b3-4b53-a2f7-bfb6cf373163.json",
+        "__v": 0,
+        "album": {
+            "_id": "625ed08f133da5aa54397e22",
+            "album_name": "Đông kiếm em",
+            "genre": "Acoustic",
+            "art_url": "https://avatar-ex-swe.nixcdn.com/playlist/2020/08/11/b/4/5/7/1597138746575_500.jpg",
+            "album_year": 2019,
+            "songs": [
+                "625ecfc7133da5aa54397e1e"
+            ],
+            "__v": 0,
+            "album_description": null
+        }
+    },
+    "top_song_list": [
+        {
+            "_id": "625ecfc7133da5aa54397e1e",
+            "song_name": "Đông kiếm em",
+            "track_number": null,
+            "collaboration": null,
+            "song_key": "musics/ac018820-9bab-4b82-b2a2-097d7b8ecef9.mp3",
+            "lyric_key": "lyrics/a037b1d0-e0b3-4b53-a2f7-bfb6cf373163.json",
+            "__v": 0,
+            "album": {
+                "_id": "625ed08f133da5aa54397e22",
+                "album_name": "Đông kiếm em",
+                "genre": "Acoustic",
+                "art_url": "https://avatar-ex-swe.nixcdn.com/playlist/2020/08/11/b/4/5/7/1597138746575_500.jpg",
+                "album_year": 2019,
+                "songs": [
+                    "625ecfc7133da5aa54397e1e"
+                ],
+                "__v": 0,
+                "album_description": null
+            }
+        }
+    ],
+    "album_list": [
+        {
+            "_id": "625ed08f133da5aa54397e22",
+            "album_name": "Đông kiếm em",
+            "genre": "Acoustic",
+            "art_url": "https://avatar-ex-swe.nixcdn.com/playlist/2020/08/11/b/4/5/7/1597138746575_500.jpg",
+            "album_year": 2019,
+            "songs": [
+                "625ecfc7133da5aa54397e1e"
+            ],
+            "__v": 0,
+            "album_description": null
+        },
+        {
+            "_id": "625ed23d133da5aa54397e31",
+            "album_name": "Lạ Lùng",
+            "genre": "Acoustic",
+            "art_url": "https://i1.sndcdn.com/artworks-000427399239-nqi3tb-t500x500.jpg",
+            "album_year": 2019,
+            "songs": [
+                "625ed1cf133da5aa54397e29"
+            ],
+            "__v": 0,
+            "album_description": null
+        }
+    ]
+};

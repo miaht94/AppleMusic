@@ -1,14 +1,15 @@
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/ArtistRectangleCardModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:skeletons/skeletons.dart';
 
 class ArtistRectangleCard extends StatelessWidget {
-  ArtistRectangleCard({Key? key, required this.artistRectangleCardModel, this.onTapArtistCard}) : super(key: key);
-  ArtistRectangleCardModel artistRectangleCardModel;
-  Function(ArtistRectangleCardModel)? onTapArtistCard;
+  ArtistRectangleCard({Key? key, required this.artistModel, this.onTapArtistCard}) : super(key: key);
+  ArtistModel artistModel;
+  Function(ArtistModel)? onTapArtistCard;
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -16,7 +17,7 @@ class ArtistRectangleCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           if (onTapArtistCard != null) {
-            onTapArtistCard!(artistRectangleCardModel);
+            onTapArtistCard!(artistModel);
           }
         },
         child: Container(
@@ -29,7 +30,7 @@ class ArtistRectangleCard extends StatelessWidget {
                 height: 60,
                 margin: EdgeInsets.only(right: kDefaultPadding),
                 child: CachedNetworkImage(
-                  imageUrl: artistRectangleCardModel.artistImageURL, 
+                  imageUrl: artistModel.artist_image_url, 
                   imageBuilder:(context, imageProvider) => 
                     CircleAvatar(backgroundImage: imageProvider),
                   placeholder: (context, url) => SkeletonAvatar(style: SkeletonAvatarStyle(shape: BoxShape.circle))
@@ -61,7 +62,7 @@ class ArtistRectangleCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                            Text(artistRectangleCardModel.artistName, style: TextStyle(fontSize: 16, color: Colors.black)),
+                            Text(artistModel.artist_name, style: TextStyle(fontSize: 16, color: Colors.black)),
                             Text("Ca sĩ", style: TextStyle(fontSize: 13, color: Colors.grey),)
                                               ],),
                           ),

@@ -134,7 +134,7 @@ class ArtistInUserModel {
   ArtistInUserModel({required this.id, required this.artist_name, required this.artist_description, this.highlight_song_id, required this.top_song_list, required this.album_list, required this.artist_image_url, this.artist_video_url});
   factory ArtistInUserModel.fromJson(Map<String, dynamic> json) {
     ArtistInUserModel newArtist = ArtistInUserModel(
-      id: json['id'], 
+      id: json['_id'], 
       artist_name: json['artist_name'], 
       artist_description: json['artist_description'], 
       album_list: List<String>.from(json['album_list']), 
@@ -156,15 +156,20 @@ class AlbumInUserModel {
   int album_year;
   List<String> songsId;
   factory AlbumInUserModel.fromJson(Map<String, dynamic> json) {
-      AlbumInUserModel newAlbum = AlbumInUserModel(id: json['_id'], album_name: json['album_name'], genre: json['genre'], album_year: json['album_year'], art_url: json['art_url'], songsId: json['songs']);
+      AlbumInUserModel newAlbum = AlbumInUserModel(id: json['_id'], album_name: json['album_name'], genre: json['genre'], album_year: json['album_year'], art_url: json['art_url'], songsId: List<String>.from(json['songs']));
       return newAlbum;
   }
 }
 class UserModelNotifier extends ValueNotifier<UserModel> {
   UserModelNotifier(UserModel value) : super(value);
-  Future<void> refreshUser() async {
-//     value = await UserModel.fetchUser(GetIt.I.get<CredentialModelNotifier>().value.appToken);
-//     notifyListeners();
+  Future<bool> refreshUser() async {
+    UserModel? newUserModel = await HttpUtil().getUserModel(app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
+    if (newUserModel != null) {
+      value = newUserModel;
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 }
 //   
