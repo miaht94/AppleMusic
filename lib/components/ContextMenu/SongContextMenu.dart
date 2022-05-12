@@ -62,7 +62,7 @@ class SongContextMenu extends ContextMenu{
               // throw UnimplementedError();
               EasyLoading.show(status: 'Đang thêm vào yêu thích');
               bool suc = await HttpUtil().updateFavorite(app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, action: FAVORITE_ACTION.push, favorite_songs: [songModel.id]);
-              
+              await GetIt.I.get<UserModelNotifier>().refreshUser();
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.closeContextMenu(() {
                 if (suc) {
                   EasyLoading.showSuccess('Thành công', duration: Duration(seconds: 2));
@@ -81,7 +81,7 @@ class SongContextMenu extends ContextMenu{
               // throw UnimplementedError();
               EasyLoading.show(status: 'Đang xóa khỏi yêu thích');
               bool suc = await HttpUtil().updateFavorite(app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, action: FAVORITE_ACTION.pop, favorite_songs: [songModel.id]);
-              
+              await GetIt.I.get<UserModelNotifier>().refreshUser();
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.closeContextMenu(() {
                 if (suc) {
                   EasyLoading.showSuccess('Thành công', duration: Duration(seconds: 2));

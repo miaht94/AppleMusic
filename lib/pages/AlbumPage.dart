@@ -9,7 +9,9 @@ import 'package:apple_music/components/TitleComponent/PageTitleBox.dart';
 import 'package:apple_music/models/AlbumSongListViewModel.dart';
 import 'package:apple_music/models/AlbumViewModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -208,7 +210,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                               onTap: (){
                                 print("Listing Album Songs");
                                 List<String> id = [];
-                                for (final SongInAlbumModel song in widget.model.songs) {
+                                for (final SongRawModel song in widget.model.songs) {
                                   id.add(song.id);
                                   print(song.id + " added");
                                 }
@@ -222,7 +224,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                           onTap: (){
                             print("Everyday I'm Shuffling");
                             List<String> id = [];
-                            for (final SongInAlbumModel song in widget.model.songs) {
+                            for (final SongRawModel song in widget.model.songs) {
                               id.add(song.id);
                               print(song.id + "added");
                             }
@@ -246,7 +248,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                 ),
                 Container(padding: EdgeInsets.only(
                     bottom: 200),
-                    child: AlbumSongListView(songList: widget.model.songs, albumViewModel: widget.model)),
+                    child: AlbumSongListView(songList: widget.model.convertSongsRawToSongsModel(), albumViewModel: widget.model)),
 
               ]
           ),

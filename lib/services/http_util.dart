@@ -377,6 +377,17 @@ class HttpUtil {
       return null;
     }
   }
+
+  Future<bool> updateProfile({String? name, String? avtPath, required String app_token}) async {
+    Map<String, dynamic> form = {};
+    // Dio dio_ = Dio(BaseOptions(baseUrl: 'http://localhost:3000/'));
+    name != null ? form.addAll({'name': name}) : '';
+    if (avtPath != null)
+      form.addAll({'avatarURL': await MultipartFile.fromFile(avtPath, filename:avtPath.split('/').last),});
+    FormData formData = FormData.fromMap(form);
+    dynamic response = await dio.post(UPDATE_PROFILE, data: formData, queryParameters: {'app_token': app_token});
+    return true;
+  }
 }
 
 enum FAVORITE_ACTION{

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:http/http.dart' as http;
@@ -35,24 +36,24 @@ class SongCardInPlaylistModel {
 
     static SongModel getSampleDataSingle() {
         return  SongModel(
-            artist: ArtistInSongModel(id: '', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+            artist: ArtistRawModel(id: '', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
             song_name: '',
             song_key: '',
             id: '',
             lyric_key: '',
-            album: AlbumInSongModel(album_name: '', songsId: [], id: '', art_url: '', genre: '')
+            album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: '', genre: '', album_year: 2019)
         );
     }
 
     static List < SongModel > getSampleDataList() {
         return [
             SongModel(
-                artist: ArtistInSongModel(id: '', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                artist: ArtistRawModel(id: '', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
                 song_name: '',
                 song_key: '',
                 id: '',
                 lyric_key: '',
-                album: AlbumInSongModel(album_name: '', songsId: [], id: '', art_url: '', genre: '')
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: '', genre: '', album_year: 2019)
             )
         ];
     }

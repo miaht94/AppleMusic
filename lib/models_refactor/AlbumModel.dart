@@ -1,6 +1,10 @@
 
 
 
+import 'package:apple_music/models_refactor/ArtistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
+
 class AlbumModel {
   AlbumModel({required this.id, required this.album_name, required this.genre, required this.album_year, required this.art_url, required this.songs, required this.artist, this.album_description});
   String id;
@@ -9,12 +13,12 @@ class AlbumModel {
   String ? album_description;
   String art_url;
   int album_year;
-  ArtistInAlbumModel artist;
-  List<SongInAlbumModel> songs;
+  ArtistRawModel artist;
+  List<SongRawModel> songs;
   factory AlbumModel.fromJson(Map<String, dynamic> json) {
-    List<SongInAlbumModel> songs = [];
+    List<SongRawModel> songs = [];
     for (Map<String, dynamic> i in json['songs']) {
-      songs.add(SongInAlbumModel.fromJson(i));
+      songs.add(SongRawModel.fromJson(i));
     }
     AlbumModel newAlbum = AlbumModel(
       id: json['_id'], 
@@ -24,9 +28,12 @@ class AlbumModel {
       album_description: json['album_description'],
       art_url: json['art_url'], 
       songs: songs,
-      artist: ArtistInAlbumModel.fromJson(json['artist'] as Map<String, dynamic>)
+      artist: ArtistRawModel.fromJson(json['artist'] as Map<String, dynamic>)
     );
     return newAlbum;
+  }
+  AlbumRawModel toRawModel() {
+    return AlbumRawModel(id: this.id, album_name: this.album_name, genre: this.genre, art_url: this.art_url, album_year: this.album_year, songsId: this.songs.map((e) => e.id).toList());
   }
   static List<AlbumModel> getSampleAlbum() {
     return [
@@ -35,54 +42,10 @@ class AlbumModel {
       AlbumModel.fromJson(sampleAlbumJson),
     ];
   }
-}
-
-class SongInAlbumModel {
-  SongInAlbumModel({required this.id, required this.song_name, this.track_number, this.collaboration, required this.lyric_key, required this.song_key});
-  String id;
-  String song_name;
-  int? track_number;
-  String? collaboration;
-  String song_key;
-  String lyric_key;
-  factory SongInAlbumModel.fromJson(Map<String, dynamic> json) {
-    SongInAlbumModel newSong = SongInAlbumModel(
-      id: json['_id'], 
-      song_name: json['song_name'], 
-      song_key: json['song_key'], 
-      lyric_key: json['lyric_key'],
-      track_number: json['track_number'],
-      collaboration: json['collaboration']
-    );
-    return newSong;
+  List<SongModel> convertSongsRawToSongsModel() {
+    return songs.map((e) => SongModel(id: e.id, song_name: e.song_name, song_key: e.song_key, lyric_key: e.lyric_key, album: this.toRawModel(), artist: this.artist)).toList();
   }
 }
-
-class ArtistInAlbumModel {
-  ArtistInAlbumModel({required this.id, required this.artist_name, required this.artist_description, required this.album_list_id, required this.artist_image_url, this.artist_video_url, this.highlight_song_id, required this.top_song_list_id});
-  String id;
-  String artist_name;
-  String artist_description;
-  String? highlight_song_id;
-  List<String> top_song_list_id;
-  List<String> album_list_id;
-  String artist_image_url;
-  String? artist_video_url;
-  factory ArtistInAlbumModel.fromJson(Map<String, dynamic> json) {
-    ArtistInAlbumModel newArtist = ArtistInAlbumModel(
-        id: json['_id'], 
-        artist_name: json['artist_name'], 
-        artist_description: json['artist_description'], 
-        album_list_id: List<String>.from(json['album_list']), 
-        artist_image_url: json['artist_image_url'], 
-        top_song_list_id: List<String>.from(json['top_song_list']),
-        artist_video_url: json['artist_video_url'],
-        highlight_song_id: json['highlight_song']
-      );
-    return newArtist;
-  }
-}
-
 
 Map<String, dynamic> sampleAlbumJson = {
     "_id": "625ed67a58dda2f3a6a52f43",

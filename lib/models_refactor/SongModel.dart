@@ -1,4 +1,6 @@
 
+import 'package:apple_music/models_refactor/ArtistModel.dart';
+
 class SongUrlModel{
   SongUrlModel({
     required this.song_url,
@@ -36,8 +38,8 @@ class SongModel{
   String ? collaboration;
   String song_key;
   String lyric_key;
-  AlbumInSongModel album;
-  ArtistInSongModel artist;
+  AlbumRawModel album;
+  ArtistRawModel artist;
 
   factory SongModel.fromJson(Map<String,dynamic> json) {
     SongModel newSong = SongModel(
@@ -47,45 +49,15 @@ class SongModel{
         collaboration: json['collaboration'],
         song_key: json['song_key'],
         lyric_key: json['lyric_key'],
-        album: AlbumInSongModel.fromJson(json['album']),
-        artist: ArtistInSongModel.fromJson(json['artist']));
+        album: AlbumRawModel.fromJson(json['album']),
+        artist: ArtistRawModel.fromJson(json['artist']));
     return newSong;
   }
 }
 
-class AlbumInSongModel {
+class ArtistRawModel {
 
-  AlbumInSongModel({
-    required this.id,
-    required this.album_name,
-    required this.genre,
-    required this.art_url,
-    this.album_year,
-    required this.songsId,
-});
-
-  String id;
-  String album_name;
-  String genre;
-  String art_url;
-  int? album_year;
-  List<String> songsId;
-  factory AlbumInSongModel.fromJson(Map<String,dynamic> json){
-    AlbumInSongModel newALbum = AlbumInSongModel(
-        id: json['_id'],
-        album_name: json['album_name'],
-        genre: json['genre'],
-        art_url: json['art_url'],
-        album_year: json['album_year'],
-        songsId: (json['songs'] as List).map((item) => item as String).toList(),
-    );
-    return newALbum;
-  }
-}
-
-class ArtistInSongModel {
-
-  ArtistInSongModel({
+  ArtistRawModel({
     required this.id,
     required this.artist_name,
     required this.artist_description,
@@ -105,8 +77,8 @@ class ArtistInSongModel {
   String artist_image_url;
 
 
-  factory ArtistInSongModel.fromJson(Map<String, dynamic> json) {
-    ArtistInSongModel newArtist = ArtistInSongModel(
+  factory ArtistRawModel.fromJson(Map<String, dynamic> json) {
+    ArtistRawModel newArtist = ArtistRawModel(
         id: json['_id'],
         artist_name: json['artist_name'],
         artist_description: json['artist_description'],

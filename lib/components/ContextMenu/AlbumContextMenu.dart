@@ -9,6 +9,7 @@ import 'package:apple_music/models/AlbumSongListViewModel.dart';
 import 'package:apple_music/models/AlbumViewModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -197,7 +198,7 @@ class AlbumSongContextMenu extends ContextMenu{
               )
           )
       );
-  SongInAlbumModel albumSongListViewModel;
+  SongRawModel albumSongListViewModel;
   AlbumModel albumViewModel;
   String name;
 // @override

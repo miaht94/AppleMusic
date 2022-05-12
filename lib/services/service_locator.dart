@@ -64,6 +64,23 @@ class LoginUtil {
     }
 }
 
+Future <bool> deleteCredential() async {
+  try {
+    final directory = await getApplicationDocumentsDirectory();
+    final path = directory.path;
+    File file = File('${path}/${CREDENTIAL_PATH}');
+    FileSystemEntity res = await file.delete();
+    if (GetIt.I.isRegistered<UserModelNotifier>() || GetIt.I.isRegistered<CredentialModelNotifier>()) {
+      GetIt.I.unregister<UserModelNotifier>();
+      GetIt.I.unregister<CredentialModelNotifier>();
+    }
+    return true;
+  } catch (e) {
+    return false;
+  }
+  
+}
+
 Future < bool > saveCredential(String app_token) async {
   try {
     final directory = await getApplicationDocumentsDirectory();

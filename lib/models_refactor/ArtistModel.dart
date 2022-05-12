@@ -17,9 +17,9 @@ class ArtistModel{
   String artist_name;
   String artist_description;
   String artist_image_url;
-  SongModelInArtistModel ? highlight_song;
-  List<SongModelInArtistModel> ? top_song_list;
-  List<AlbumInArtistModel> album_list;
+  SongRawModelArtist ? highlight_song;
+  List<SongRawModelArtist> ? top_song_list;
+  List<AlbumRawModel> album_list;
   String? artist_video_url;
 
   factory ArtistModel.fromJson(Map<String,dynamic> json){
@@ -28,10 +28,10 @@ class ArtistModel{
     artist_name:  json['artist_name'],
     artist_description:  json['artist_description'],
     highlight_song: (json['highlight_song'] == null)
-        ? null : SongModelInArtistModel.fromJson(json['highlight_song']),
-    top_song_list:  (json['top_song_list'] as List).map((item) => SongModelInArtistModel.fromJson(item)).toList(),
+        ? null : SongRawModelArtist.fromJson(json['highlight_song']),
+    top_song_list:  (json['top_song_list'] as List).map((item) => SongRawModelArtist.fromJson(item)).toList(),
     artist_image_url:  json['artist_image_url'] ,
-    album_list:  (json['album_list'] as List).map((item) => AlbumInArtistModel.fromJson(item)).toList(),
+    album_list:  (json['album_list'] as List).map((item) => AlbumRawModel.fromJson(item)).toList(),
     artist_video_url:  json['artist_video_url'],
   );
     return newArtist;
@@ -43,10 +43,25 @@ class ArtistModel{
       ArtistModel.fromJson(sampleJson)
     ];
   }
+
+  ArtistRawModel toRawModel() {
+    return ArtistRawModel(id: this.id, artist_name: this.artist_name, artist_description: this.artist_description, album_list_id: this.album_list.map((e) => e.id).toList(), artist_image_url: this.artist_image_url, artist_video_url: this.artist_video_url);
+  }
+
+  SongModel songRawModelArtistToSongModel(SongRawModelArtist songRawModelArtist) {
+    return SongModel(id: songRawModelArtist.id, song_name: songRawModelArtist.song_name, song_key: songRawModelArtist.song_key, lyric_key: songRawModelArtist.lyric_key, album: songRawModelArtist.album, artist: this.toRawModel());
+  }
+
+  List<SongModel> convertTopSongListToSongModel() {
+    if (top_song_list != null)
+      return top_song_list!.map((e) => songRawModelArtistToSongModel(e)).toList();
+    else
+      return [];
+  }
 }
 
-class SongModelInArtistModel {
-  SongModelInArtistModel({
+class SongRawModelArtist {
+  SongRawModelArtist({
     required this.id,
     required this.song_name,
     this.track_number,
@@ -62,25 +77,26 @@ class SongModelInArtistModel {
   String? collaboration;
   String song_key;
   String lyric_key;
-  AlbumInSongModel album;
-  factory SongModelInArtistModel.fromJson(Map<String, dynamic> json) {
-    SongModelInArtistModel newSong = SongModelInArtistModel(
+  AlbumRawModel album;
+  factory SongRawModelArtist.fromJson(Map<String, dynamic> json) {
+    SongRawModelArtist newSong = SongRawModelArtist(
         id: json['_id'],
         song_name: json['song_name'],
         song_key: json['song_key'],
         lyric_key: json['lyric_key'],
         track_number: json['track_number'],
         collaboration: json['collaboration'],
-        album: AlbumInSongModel.fromJson(json['album']),
+        album:  AlbumRawModel.fromJson(json['album'])
+        // album: AlbumRawModel.fromJson(json['album']),
     );
     return newSong;
   }
 }
 
 
-class AlbumInArtistModel {
+class AlbumRawModel {
 
-  AlbumInArtistModel({
+  AlbumRawModel({
     required this.id,
     required this.album_name,
     required this.genre,
@@ -95,8 +111,8 @@ class AlbumInArtistModel {
   String art_url;
   int album_year;
   List<String> songsId;
-  factory AlbumInArtistModel.fromJson(Map<String,dynamic> json){
-    AlbumInArtistModel newALbum = AlbumInArtistModel(
+  factory AlbumRawModel.fromJson(Map<String,dynamic> json){
+    AlbumRawModel newALbum = AlbumRawModel(
         id: json['_id'],
         album_name: json['album_name'],
         genre: json['genre'],

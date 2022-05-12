@@ -43,7 +43,7 @@ class _ArtistViewState extends State<ArtistView> {
   ArtistHighlightSongModel HighlighSongConverter(ArtistModel artist) {
     int _albumYear = 0;
     String _artURL = 'https://i1.sndcdn.com/artworks-000145857756-irf4fe-t500x500.jpg';
-    for (AlbumInArtistModel album in artist.album_list){
+    for (AlbumRawModel album in artist.album_list){
       for (String songId in album.songsId){
         if (songId == artist.highlight_song?.id){
           _albumYear = album.album_year;
@@ -63,17 +63,18 @@ class _ArtistViewState extends State<ArtistView> {
   List<SongModel> TopListSongConverter(ArtistModel artistModel){
     List<SongModel> listSong = [];
     if (artistModel.top_song_list != null) {
-      for (SongModelInArtistModel song in artistModel.top_song_list!){
+      for (SongRawModelArtist song in artistModel.top_song_list!){
         listSong.add(SongModel(
           id: song.id,
           lyric_key: song.lyric_key,
           song_name: song.song_name,
           song_key: song.song_key,
-          artist: ArtistInSongModel(
+          artist: ArtistRawModel(
             album_list_id: artistModel.album_list.map((item) => item.id as String).toList(),
             artist_description: artistModel.artist_description,
             artist_image_url: artistModel.artist_image_url,
             artist_name: artistModel.artist_name,
+            top_song_list_id: artistModel.top_song_list != null ? artistModel.top_song_list!.map((item) => item.id as String).toList() : null,
             id: artistModel.id
           ),
           album: song.album,
@@ -85,7 +86,7 @@ class _ArtistViewState extends State<ArtistView> {
 
   List<HScrollSquareCardModel> SquareCardsConverter(ArtistModel artistModel){
     List<HScrollSquareCardModel> listSquareCard = [];
-    for (AlbumInArtistModel album in artistModel.album_list){
+    for (AlbumRawModel album in artistModel.album_list){
       listSquareCard.add(HScrollSquareCardModel(
         album.album_name,
         artistModel.artist_name,

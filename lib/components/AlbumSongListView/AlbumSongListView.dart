@@ -1,4 +1,7 @@
+import 'package:apple_music/components/ContextMenu/SongContextMenu.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
 import 'package:get_it/get_it.dart';
@@ -16,7 +19,7 @@ class AlbumSongListView extends StatelessWidget {
     required this.albumViewModel
   }) : super(key: key);
 
-  final List<SongInAlbumModel> songList;
+  final List<SongModel> songList;
   final AlbumModel albumViewModel;
 
   @override
@@ -31,7 +34,7 @@ class AlbumSongListView extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return AlbumSongButton(
-                    albumSongListViewModel: songList[index], albumViewModel: albumViewModel );
+                    songModel: songList[index], albumViewModel: albumViewModel );
               },
               itemCount: songList.length))
     ]);
@@ -41,25 +44,26 @@ class AlbumSongListView extends StatelessWidget {
 class AlbumSongButton extends StatelessWidget {
   AlbumSongButton({
     Key? key,
-    required this.albumSongListViewModel,
+    required this.songModel,
     required this.albumViewModel
   }) : super(key: key);
 
-  SongInAlbumModel albumSongListViewModel;
+  SongModel songModel;
   AlbumModel albumViewModel;
 
   late AudioPageRouteManager audioPageRouteManager =
       getIt<AudioPageRouteManager>();
 
   triggerSongContextMenu(dynamic context) => (){
-    GetIt.I.get<ContextMenuManager>().insertOverlay(AlbumSongContextMenu(name: 'AlbumSongContextMenu', albumSongListViewModel: this.albumSongListViewModel, albumViewModel: this.albumViewModel));
+    // GetIt.I.get<ContextMenuManager>().insertOverlay(AlbumSongContextMenu(name: 'AlbumSongContextMenu', albumSongListViewModel: this.albumSongListViewModel, albumViewModel: this.albumViewModel));
+    GetIt.I.get<ContextMenuManager>().insertOverlay(SongContextMenu(songModel: songModel));
   };
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        GetIt.I.get<AudioManager>().addAndPlayASong(albumSongListViewModel.id);
+        GetIt.I.get<AudioManager>().addAndPlayASong(songModel.id);
       },
       onLongPress: triggerSongContextMenu(context),
       child: Container(
@@ -87,7 +91,7 @@ class AlbumSongButton extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text(albumSongListViewModel.track_number.toString(),
+                                Text(songModel.track_number.toString(),
                                     style: TextStyle(
                                         fontSize: 13, color: Colors.grey)),
                               ],
@@ -106,7 +110,7 @@ class AlbumSongButton extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       // mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
-                                        Text(albumSongListViewModel.song_name,
+                                        Text(songModel.song_name,
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 color: Colors.black)),
