@@ -23,7 +23,9 @@ class HttpUtil {
     dio.httpClientAdapter = isTestingMode ? GetIt.I.get<HttpClientAdapter>() : DefaultHttpClientAdapter();
   }
   Dio dio = Dio(BaseOptions(baseUrl: 'http://$SV_HOSTNAME/'));
-
+  void refresh() {
+    dio.httpClientAdapter = isTestingMode ? GetIt.I.get<HttpClientAdapter>() : DefaultHttpClientAdapter();
+  }
   Future<UserModel?> fetchUserModel({required String app_token}) async {
     try {
       final Response userModelFuture = await dio.get('$MY_PROFILE_PATH', queryParameters: {
@@ -204,6 +206,7 @@ class HttpUtil {
       return false;
     }
   }
+
 
   Future<bool> addSongToPlaylist({required String song_id, required String playlist_id, required String app_token}) async {
     PlaylistModel? playlistModel = await getPlaylistModel(id : playlist_id, public: true, app_token: app_token);

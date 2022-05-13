@@ -76,7 +76,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                           children: [
                             HorizontalCardSkeleton(),
                             Container(
-                              width: 10.0,
+                              width: 5.0,
                               height: kCardHeight,
                             ),
                             Expanded(
