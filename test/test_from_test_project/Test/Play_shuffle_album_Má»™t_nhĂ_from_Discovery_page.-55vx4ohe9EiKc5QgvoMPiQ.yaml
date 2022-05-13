@@ -1,0 +1,239 @@
+id: pXbgYb6ACk6aP1NA26wm2Q
+projectId: OC4TkwWedk-X9ZsDvvb5Ew
+projectName: My first Project
+created: 2022-05-13T07:53:28.6981825Z
+owner: Đặng Thế Hoàng Anh
+protocol: 1
+tests:
+- id: 55vx4ohe9EiKc5QgvoMPiQ
+  name: Play shuffle album Một nhà from Discovery page.
+  description: Play shuffle album Một nhà from Discovery page.
+  platform: Android
+  type: Mobile
+  driverType: Appium_Android
+  version: 0.1
+  creationDate: 2022-05-13T07:08:42.0000000
+  modificationDate: 2022-05-13T07:10:23.0000000
+  settings:
+    automationAssistant: true
+    deviceId: 2080d8f3
+    appId: RJ00sScuBUWIufC7fDCgvg
+    stepSleepTime: 500
+    stepTimeout: 15000
+    stepSleepTiming: Before
+    stepFailureBehaviorType: Abort
+    stepTakeScreenshotConditionType: Failure
+  application:
+    id: RJ00sScuBUWIufC7fDCgvg
+    androidActivity: com.example.apple_music.MainActivity
+    androidPackage: com.example.apple_music
+    name: apple_music12
+    platform: Android
+  steps:
+  - id: KAov-Fhom0WtK7Bh0AtHBw
+    comments: Clear application data and restart (Auto-generated)
+    enabled: true
+    invertResult: false
+    order: 1
+    repeat: 1
+    type: Action
+    settings:
+      sleepTime: -1
+      timeout: -1
+      sleepTiming: Inherit
+      failureBehaviorType: Inherit
+      takeScreenshotConditionType: Inherit
+    action:
+      id: 1b89acc3-5003-4ae6-a8c1-c1732e09ef45
+      source: System
+    parameterMaps: []
+    conditions: []
+    validations: []
+    contexts: []
+  - id: GdHhfsbgHkqenBk1P71-MA
+    comments: ''
+    enabled: true
+    invertResult: false
+    order: 2
+    repeat: 3
+    type: Action
+    elementId: oQgGrussBUayMlm8NkevGA
+    settings:
+      sleepTime: -1
+      timeout: -1
+      sleepTiming: Inherit
+      failureBehaviorType: Inherit
+      takeScreenshotConditionType: Inherit
+    action:
+      id: a9ab4ae7-38ca-4451-a636-1b801a774503
+      source: System
+    parameterMaps: []
+    conditions: []
+    validations: []
+    contexts: []
+  - id: EPhODFX2lk28BCoYn1GgoA
+    enabled: true
+    invertResult: false
+    order: 3
+    repeat: 1
+    type: Action
+    elementId: oQgGrussBUayMlm8NkevGA
+    settings:
+      sleepTime: -1
+      timeout: -1
+      sleepTiming: Inherit
+      failureBehaviorType: Inherit
+      takeScreenshotConditionType: Inherit
+    action:
+      id: 02d572b2-d610-4700-9ad3-40076ddb9807
+      source: System
+    parameterMaps: []
+    conditions: []
+    validations: []
+    contexts: []
+  - id: 2Eq8aoq7zUaM6wg5DSguuA
+    comments: ''
+    enabled: true
+    invertResult: false
+    order: 4
+    repeat: 1
+    type: Action
+    elementId: 4z88WT8p9E-aYwIUk02EuA
+    settings:
+      sleepTime: -1
+      timeout: -1
+      sleepTiming: Inherit
+      failureBehaviorType: Inherit
+      takeScreenshotConditionType: Inherit
+    action:
+      id: a9ab4ae7-38ca-4451-a636-1b801a774503
+      source: System
+    parameterMaps: []
+    conditions: []
+    validations: []
+    contexts: []
+  - id: nryTz78_gkao0EmBNkrWwQ
+    comments: ''
+    enabled: true
+    invertResult: false
+    order: 5
+    repeat: 1
+    type: Action
+    elementId: 4z88WT8p9E-aYwIUk02EuA
+    settings:
+      sleepTime: -1
+      timeout: -1
+      sleepTiming: Inherit
+      failureBehaviorType: Inherit
+      takeScreenshotConditionType: Inherit
+    action:
+      id: 02d572b2-d610-4700-9ad3-40076ddb9807
+      source: System
+    parameterMaps: []
+    conditions: []
+    validations: []
+    contexts: []
+  - id: I9_dtmlLIEGDROrLnvOQoQ
+    enabled: true
+    invertResult: false
+    order: 6
+    repeat: 1
+    type: Action
+    elementId: sMcc5DNvbE2CwqckWP1F6A
+    settings:
+      sleepTime: -1
+      timeout: -1
+      sleepTiming: Inherit
+      failureBehaviorType: Inherit
+      takeScreenshotConditionType: Inherit
+    action:
+      id: 02d572b2-d610-4700-9ad3-40076ddb9807
+      source: System
+    parameterMaps: []
+    conditions: []
+    validations: []
+    contexts: []
+  - id: qnYshVP97kmOz35NG7YX0A
+    comments: ''
+    enabled: true
+    invertResult: false
+    order: 7
+    repeat: 1
+    type: Action
+    elementId: TGcOx98gCEiGizs18-ljNg
+    settings:
+      sleepTime: -1
+      timeout: -1
+      sleepTiming: Inherit
+      failureBehaviorType: Inherit
+      takeScreenshotConditionType: Inherit
+    action:
+      id: a9ab4ae7-38ca-4451-a636-1b801a774503
+      source: System
+    parameterMaps: []
+    conditions: []
+    validations: []
+    contexts: []
+  parameters: []
+auxTests: []
+elements:
+- id: oQgGrussBUayMlm8NkevGA
+  name: Khám phá
+  type:
+    id: jUwODgyNjAyNzk2NTk4NDY
+    name: android.view.View
+    source: System
+  locators:
+  - name: XPATH
+    value: //android.view.View[@content-desc = 'Khám phá']
+    priority: 0
+  - name: XPATH
+    value: //android.widget.FrameLayout/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View/android.view.View[3]
+    priority: 1
+  - name: XPATH
+    value: //android.widget.FrameLayout[1]/android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[3]
+    priority: 2
+- id: 4z88WT8p9E-aYwIUk02EuA
+  name: ANDROID.WIDGET.IMAGEVIEW3
+  type:
+    id: jUwODgyNjAyNzk2NTk3MjI
+    name: android.widget.ImageView
+    source: System
+  locators:
+  - name: XPATH
+    value: //android.view.View[3]/android.view.View[2]/android.view.View[1]/android.view.View[1]/android.view.View[2]//android.widget.ImageView
+    priority: 0
+  - name: XPATH
+    value: //android.widget.FrameLayout[1]/android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[3]/android.view.View[2]/android.view.View[1]/android.view.View[1]/android.view.View[2]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.widget.ImageView[1]
+    priority: 1
+- id: TGcOx98gCEiGizs18-ljNg
+  name: ANDROID.WIDGET.IMAGEVIEW4
+  type:
+    id: jUwODgyNjAyNzk2NTk3MjI
+    name: android.widget.ImageView
+    source: System
+  locators:
+  - name: XPATH
+    value: //android.view.View[1]/android.view.View[1]/android.view.View/android.widget.ImageView[1]
+    priority: 0
+  - name: XPATH
+    value: //android.widget.FrameLayout[1]/android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.widget.ImageView[1]
+    priority: 1
+- id: sMcc5DNvbE2CwqckWP1F6A
+  name: Xáo trộn
+  type:
+    id: jUwODgyNjAyNzk2NTk4NDU
+    name: android.widget.Button
+    source: System
+  locators:
+  - name: XPATH
+    value: //android.widget.Button[@content-desc = 'Xáo trộn']
+    priority: 0
+  - name: XPATH
+    value: //android.widget.ScrollView/android.widget.Button[2]
+    priority: 1
+  - name: XPATH
+    value: //android.widget.FrameLayout[1]/android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.widget.ScrollView[1]/android.widget.Button[2]
+    priority: 2
+projectParameters: []
+addons: []
