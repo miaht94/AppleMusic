@@ -1,3 +1,5 @@
+import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylist.dart';
+import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 
 class PlaylistModel {
@@ -8,6 +10,7 @@ class PlaylistModel {
   String playlist_description;
   List<SongModel> songs;
   bool public;
+
   factory PlaylistModel.fromJson(Map<String, dynamic> json) {
     List<SongModel> song_artist_pairs = [];
     for (Map<String, dynamic> i in json['songs']) {
@@ -22,6 +25,17 @@ class PlaylistModel {
       songs : song_artist_pairs, 
       public : json['public']);
     return newPlaylist;
+  }
+
+  static PlaylistModel getSampleData() {
+    return PlaylistModel(
+        id: "",
+        playlist_name: "Playlist 1",
+        art_url: "https://images.adsttc.com/media/images/560e/de10/e58e/ce71/dd00/00e4/large_jpg/open-uri20151002-6331-vgbckd.jpg?1443814887",
+        playlist_description: "This",
+        songs: SongCardInPlaylistModel.getSampleDataList(),
+        public: true
+    );
   }
 }
 
