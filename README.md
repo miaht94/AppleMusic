@@ -35,7 +35,7 @@ Using Pixel 3XL Android Emulator is recommended.
 [Test_link](https://github.com/miaht94/AppleMusic/tree/dev/test)
 
 1. Test result for testProject Test : [Test_result](https://github.com/miaht94/AppleMusic/tree/dev/test/test_from_test_project/TestResult)
-2. For widget test using : " flutter test " to run test.
+2. For widget test using : ` flutter test ` to run test.
 ## Authors
 
 Tran Xuan Bach
