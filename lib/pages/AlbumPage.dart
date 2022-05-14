@@ -21,6 +21,7 @@ import 'package:get_it/get_it.dart';
 import '../components/AudioController/AudioManager.dart';
 import '../components/AudioController/AudioPageRouteManager.dart';
 import '../components/ContextMenu/ContextMenuManager.dart';
+import '../constant.dart';
 import '../models/ArtistViewModel.dart';
 import 'ArtistPage.dart';
 
@@ -39,7 +40,8 @@ class AlbumView extends StatelessWidget {
           List<Widget> children;
           if (snapshot.hasData) {
             if (snapshot.data!.album_name == "AlbumError"){
-              children = <Widget>[Scaffold(
+              children = <Widget>[
+                Scaffold(
                   appBar: AppBar(
                     leading:  IconButton(
                         icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
@@ -238,13 +240,16 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                   ),
                 ),
                 Container(
-                    child: Text((widget.model.album_description != null) ? widget.model.album_description.toString() : '', textAlign: TextAlign.left, style: TextStyle(
-                        color: Color.fromRGBO(126, 126, 130, 0.6700000166893005),
-                        fontFamily: 'Roboto',
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        height: 2
-                    ),)
+                    padding: EdgeInsets.symmetric(horizontal: kDefaultPadding*2),
+                    child: RichText(overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      text: TextSpan(text: (widget.model.album_description != null) ? widget.model.album_description : '', style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Roboto',
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          height: 1.5)
+                      ),)
                 ),
                 Container(padding: EdgeInsets.only(
                     bottom: 200),

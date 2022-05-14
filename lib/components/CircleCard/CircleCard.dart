@@ -41,7 +41,7 @@ class CircleCard extends StatelessWidget{
         child: InkWell(
           onTap: () => {
               Navigator.push(
-                GetIt.I.get<AudioPageRouteManager>().getMainContext(),
+                context,
                 MaterialPageRoute(
                   builder: (context) => ArtistView(artistViewModel: HttpUtil().fetchArtistModel(artist_name:this.artist)),
                 ),

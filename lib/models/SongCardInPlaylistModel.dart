@@ -48,13 +48,118 @@ class SongCardInPlaylistModel {
     static List < SongModel > getSampleDataList() {
         return [
             SongModel(
-                artist: ArtistRawModel(id: '', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
-                song_name: '',
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
                 song_key: '',
                 id: '',
                 lyric_key: '',
-                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: '', genre: '', album_year: 2019)
-            )
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+            SongModel(
+                artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+                song_name: 'This Love',
+                song_key: '',
+                id: '',
+                lyric_key: '',
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+            ),
+
         ];
     }
 

@@ -31,7 +31,6 @@ class _HorizontalCardWithTitle extends State < HorizontalCardWithTitle > {
         Size size = MediaQuery.of(context).size;
         // print(size);
         return Container(
-            
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

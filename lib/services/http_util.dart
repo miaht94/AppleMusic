@@ -51,7 +51,7 @@ class HttpUtil {
       );
       return AlbumModel.fromJson(albumModelFuture.data);
     } catch(e) {
-      return null;
+      return AlbumModel(genre: '', art_url: '', album_year: 2008, id: '', album_name: 'AlbumError', artist: ArtistRawModel(artist_image_url: '', artist_name: '', id: '', artist_description: '', album_list_id: []), songs: []);;
     }
   }
 
@@ -282,7 +282,7 @@ class HttpUtil {
         final ArtistModel artist = ArtistModel.fromJson(response.data);
         return artist;
       } else {
-        return Future.error('No artist for Id($id)');
+        return ArtistModel(artist_image_url: '', artist_name: 'ArtistError', id: '', artist_description: '', album_list: []);
       }
     } catch(e) {
       print(e);

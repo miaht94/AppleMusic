@@ -7,9 +7,7 @@ import 'VerticalBigCardConstant.dart';
 class VerticalBigCardWithTitle extends StatelessWidget {
 
   VerticalCardWithTitleModel model;
-
   VerticalBigCardWithTitle({Key? key, required this.model}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

@@ -98,7 +98,7 @@ class _ArtistSubPageState extends State<ArtistSubPage> {
                       physics: const NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: ArtistRectangleCardModel.getSampleData().length,
+                      itemCount: ArtistModel.getSampleArtist().length,
                       itemBuilder: (context, i){
                         return  ArtistRectangleCard(artistModel: ArtistModel.getSampleArtist()[i], onTapArtistCard: onTapArtistCard);
                       },

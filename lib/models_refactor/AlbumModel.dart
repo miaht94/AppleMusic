@@ -43,7 +43,7 @@ class AlbumModel {
     ];
   }
   List<SongModel> convertSongsRawToSongsModel() {
-    return songs.map((e) => SongModel(id: e.id, song_name: e.song_name, song_key: e.song_key, lyric_key: e.lyric_key, album: this.toRawModel(), artist: this.artist)).toList();
+    return songs.map((e) => SongModel(id: e.id, song_name: e.song_name, track_number: e.track_number, song_key: e.song_key, lyric_key: e.lyric_key, album: this.toRawModel(), artist: this.artist)).toList();
   }
 }
 

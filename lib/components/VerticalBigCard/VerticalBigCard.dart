@@ -28,7 +28,6 @@ class _VerticalBigCardState extends State < VerticalBigCard > with SingleTickerP
     anc = new AnimationController(vsync: this, duration: Duration(milliseconds: 50));
     super.initState();
     setState(() {
-
     });
   }
   void onTapDown() {

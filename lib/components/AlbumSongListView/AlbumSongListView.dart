@@ -33,6 +33,7 @@ class AlbumSongListView extends StatelessWidget {
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               itemBuilder: (context, index) {
+                print(songList[index].track_number);
                 return AlbumSongButton(
                     songModel: songList[index], albumViewModel: albumViewModel );
               },

@@ -1,10 +1,12 @@
 import 'package:apple_music/components/TitleComponent/BoldTitle.dart';
 import 'package:apple_music/components/VerticalBigCard/VerticalBigCardConstant.dart';
 import 'package:apple_music/components/VerticalBigCard/VerticalBigCardsWithTitle.dart';
+import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/ListeningNowPageModel.dart';
 import 'package:apple_music/pages/PageSkeleton.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 import '../components/SongCardInPlaylist/HScrollCardListConstants.dart';
 import '../components/SquareCard/HScrollSquareCardWithText.dart';
@@ -30,6 +32,7 @@ class _ListeningNowState extends State<ListeningNow> {
     if(!listeningNowPageModel.isInit){
       listeningNowPageModel.init();
     }
+    print(GetIt.I.get<CredentialModelNotifier>().value.appToken);
   }
 
   @override
