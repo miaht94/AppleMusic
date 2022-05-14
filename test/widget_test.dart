@@ -155,41 +155,6 @@ void main() {
     expect(find.text('Red'), findsOneWidget);
     expect(find.text('Taylor Swift'), findsOneWidget);
   });
-
-  testWidgets('Test PlayingSongCard widget', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    tester.takeException();
-    final VerticalBigCard verticalBigCard = VerticalBigCard(
-      playlistModel: PlaylistModel(
-        art_url: 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187',
-        id: '',
-        playlist_description: '',
-        public: true,
-        playlist_name: 'Red',
-        songs: [SongModel(
-            artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
-            song_name: 'This Love',
-            song_key: '',
-            id: '',
-            lyric_key: '',
-            album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
-        )]
-      ),
-      footerColor: Colors.white12,
-    );
-
-    await mockNetworkImagesFor(() => tester.pumpWidget(
-        MediaQuery(
-          data: MediaQueryData(size: Size(370, 720)),
-          child: MaterialApp(
-            home: Scaffold(
-              body: verticalBigCard,
-            ),
-          ),
-        )));
-
-    expect(find.text('Red'), findsOneWidget);
-    });
   });
 
   group('button widget test', (){
