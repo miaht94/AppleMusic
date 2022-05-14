@@ -57,19 +57,17 @@ class _SongCardInPlaylistState extends State<SongCardInPlaylist> {
                                 child: Container(
                                     width: MediaQuery.of(context).size.width - 37-10-80,
                                     padding: EdgeInsets.only(left:10, bottom:1),
-                                    child: Flexible(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          RichText(
-                                              overflow: TextOverflow.ellipsis,
-                                              text: TextSpan(text: widget.songModel.song_name,
-                                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black))
-                                          ),
-                                          Text(widget.songModel.artist.artist_name, style: TextStyle(fontSize: 11, color: Colors.grey)),
-                                        ],
-                                      ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        RichText(
+                                            overflow: TextOverflow.ellipsis,
+                                            text: TextSpan(text: widget.songModel.song_name,
+                                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black))
+                                        ),
+                                        Text(widget.songModel.artist.artist_name, style: TextStyle(fontSize: 11, color: Colors.grey)),
+                                      ],
                                     )
                                 ),
                               ),
