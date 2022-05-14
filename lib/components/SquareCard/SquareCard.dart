@@ -79,6 +79,7 @@ class SquareCard extends StatelessWidget{
                   ),
                 )
               ),
+              SizedBox(height:4),
               Text(
                 name,
                 maxLines: 1,

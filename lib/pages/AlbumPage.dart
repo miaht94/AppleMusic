@@ -251,6 +251,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                           height: 1.5)
                       ),)
                 ),
+                SizedBox(height:10),
                 Container(padding: EdgeInsets.only(
                     bottom: 200),
                     child: AlbumSongListView(songList: widget.model.convertSongsRawToSongsModel(), albumViewModel: widget.model)),

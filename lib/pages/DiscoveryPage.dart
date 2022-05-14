@@ -229,6 +229,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
               padding: EdgeInsets.only(bottom: VerticalComponentPadding),
               child: TextListView(title: "Khám Phá Thêm"),
             ),
+            SizedBox(height: 100)
           ],
         ),
       );

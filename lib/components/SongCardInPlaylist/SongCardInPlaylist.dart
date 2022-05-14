@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 
+import '../AudioController/AudioManager.dart';
+
 class SongCardInPlaylist extends StatefulWidget {
   const SongCardInPlaylist({Key? key, required this.songModel}) : super(key: key);
 
@@ -21,7 +23,10 @@ class _SongCardInPlaylistState extends State<SongCardInPlaylist> {
     return Container(
         padding: EdgeInsets.all(2),
         height: 52,
-        child: Container(
+        child: InkWell(
+            onTap: () => {
+              GetIt.I.get<AudioManager>().addAndPlayASong(widget.songModel.id)
+            },
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -48,18 +53,28 @@ class _SongCardInPlaylistState extends State<SongCardInPlaylist> {
                           ),
                           Row(
                             children: <Widget>[
-                              Container(
-                                  padding: EdgeInsets.only(left:10, bottom:1),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Text(widget.songModel.song_name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                                      Text(widget.songModel.artist.artist_name, style: TextStyle(fontSize: 11, color: Colors.grey)),
-                                    ],
-                                  )
+                              GestureDetector(
+                                child: Container(
+                                    width: MediaQuery.of(context).size.width - 37-10-80,
+                                    padding: EdgeInsets.only(left:10, bottom:1),
+                                    child: Flexible(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          RichText(
+                                              overflow: TextOverflow.ellipsis,
+                                              text: TextSpan(text: widget.songModel.song_name,
+                                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black))
+                                          ),
+                                          Text(widget.songModel.artist.artist_name, style: TextStyle(fontSize: 11, color: Colors.grey)),
+                                        ],
+                                      ),
+                                    )
+                                ),
                               ),
                               Expanded(
+                                flex: 2,
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: Padding(

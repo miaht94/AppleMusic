@@ -208,6 +208,7 @@ class _ListeningNowState extends State<ListeningNow> {
                       }
                     }
                 ),
+                SizedBox(height: 100)
               ],
             );
           }

@@ -24,6 +24,7 @@ class LibraryPage extends StatelessWidget {
                 child: SongMenu(),
               ),
               Container(
+                padding: EdgeInsets.only(left: kDefaultPadding),
                 child: RencentlyViewed(),
               )
             ]

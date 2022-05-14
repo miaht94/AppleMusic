@@ -166,7 +166,6 @@ class _PlaylistViewContentState extends State<PlaylistViewContent> {
                     ),
                     Column(
                       children: [
-
                         SizedBox(height:240),
                         Container(
                             alignment: Alignment.topCenter,

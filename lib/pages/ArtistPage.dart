@@ -298,7 +298,10 @@ class _ArtistViewState extends State<ArtistView> {
                         ),
                       )
                       else
-                        Container()
+                        Container(),
+                      SizedBox(
+                        height:200
+                      )
                     ]
                 ),
 
