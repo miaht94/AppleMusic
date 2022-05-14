@@ -13,8 +13,8 @@ class LibraryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-      Padding(
-        padding: const EdgeInsets.only(left: kDefaultPadding),
+      Container(
+        // padding: const EdgeInsets.only(left: kDefaultPadding),
         child: ListView(
             physics: const BouncingScrollPhysics(),
             children: [

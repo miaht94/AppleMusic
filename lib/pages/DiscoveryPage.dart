@@ -50,8 +50,8 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
     final size = MediaQuery.of(context).size;
 
     return
-      Padding(
-        padding: const EdgeInsets.only(left: kDefaultPadding),
+      Container(
+        // padding: const EdgeInsets.only(left: kDefaultPadding),
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
@@ -63,14 +63,14 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                   if (isDone) {
                     return
                       Container(
-                        padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
+                        padding: EdgeInsets.only(bottom: VerticalComponentPadding),
                         child: HorizontalCardsWithTitle(cards :discoveryPageModel.newAlbums),
                       );
                   } else {
                     return SkeletonLoader(
                       builder:
                       Container(
-                        padding: EdgeInsets.only(left: kDefaultPadding),
+                        // padding: EdgeInsets.only(left: kDefaultPadding),
                         height: kCardHeight * 1.4,
                         child: Row(
                           children: [

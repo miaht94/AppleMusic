@@ -98,7 +98,7 @@ class _AlbumSubPageState extends State<AlbumSubPage> {
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemCount: AlbumRectangleCardModel.getSampleData().length,
+                    itemCount: AlbumModel.getSampleAlbum().length,
                     itemBuilder: (context, i){
                       return  AlbumRectangleCard(albumModel: AlbumModel.getSampleAlbum()[i], onTapAlbumCard: onTapAlbumCard);
                     },

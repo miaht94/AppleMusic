@@ -206,6 +206,8 @@ class _PlaylistViewContentState extends State<PlaylistViewContent> {
                                 height: 2
                             ),)
                         ),
+
+                        //Playlist play, shuffle buttons
                         Container(
                           padding: EdgeInsets.symmetric(vertical:10),
                           child: Row(
