@@ -32,7 +32,7 @@ class PlaylistModel {
         id: "",
         playlist_name: "Playlist 1",
         art_url: "https://images.adsttc.com/media/images/560e/de10/e58e/ce71/dd00/00e4/large_jpg/open-uri20151002-6331-vgbckd.jpg?1443814887",
-        playlist_description: "This",
+        playlist_description: "The parameter extendBodyBehindAppBar extend the body to include the height of the AppBar, if specified. Scaffold from Flutter. ",
         songs: SongCardInPlaylistModel.getSampleDataList(),
         public: true
     );
