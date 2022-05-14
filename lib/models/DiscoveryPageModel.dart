@@ -61,22 +61,12 @@ class DiscoveryPageModel {
       );
       if (!isTestingMode && album != null) {
         newAlbums.add(HorizontalCardWithTitleModel(
-          'Album mới',
-          album.album_name,
-          album.genre,
-          album.art_url,
-          (album.album_description != null) ? album.album_description! : album.artist.artist_description,
-          album.artist.artist_image_url
+            album
         ));
       } else {
         if (album != null) {
           newAlbums.add(HorizontalCardWithTitleModel(
-              'Album mới',
-              album.album_name,
-              album.genre,
-              album.art_url,
-              (album.album_description != null) ? album.album_description! : album.artist.artist_description,
-              album.artist.artist_image_url
+              album
           ));
         }
       }

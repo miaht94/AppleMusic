@@ -14,6 +14,9 @@ import 'package:apple_music/main.dart'
 as app;
 import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
+import 'package:apple_music/models_refactor/PlaylistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:apple_music/services/service_locator.dart';
@@ -157,8 +160,21 @@ void main() {
     // Build our app and trigger a frame.
     tester.takeException();
     final VerticalBigCard verticalBigCard = VerticalBigCard(
-      description: 'Red',
-      imagePath: 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187',
+      playlistModel: PlaylistModel(
+        art_url: 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187',
+        id: '',
+        playlist_description: '',
+        public: true,
+        playlist_name: 'Red',
+        songs: [SongModel(
+            artist: ArtistRawModel(id: 'Taylor Swift', artist_image_url: '', artist_name: '', artist_description: '', album_list_id: []),
+            song_name: 'This Love',
+            song_key: '',
+            id: '',
+            lyric_key: '',
+            album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
+        )]
+      ),
       footerColor: Colors.white12,
     );
 

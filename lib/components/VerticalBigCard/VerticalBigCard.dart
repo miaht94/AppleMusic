@@ -3,18 +3,23 @@ import 'dart:ui';
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/components/VerticalBigCard/VerticalBigCardConstant.dart';
 import 'package:apple_music/models/VerticalCardWithTitleModel.dart';
+import 'package:apple_music/models_refactor/PlaylistModel.dart';
+import 'package:apple_music/pages/PlaylistPage.dart';
 import 'package:flutter/material.dart';
 
 class VerticalBigCard extends StatefulWidget {
-  String description;
-  String imagePath;
+  late String description;
+  late String imagePath;
   Color footerColor;
+  final PlaylistModel playlistModel;
   VerticalBigCard({
     Key ? key,
-    required this.description,
-    required this.imagePath,
+    required this.playlistModel,
     required this.footerColor,
-  }): super(key: key);
+  }): super(key: key){
+    description = playlistModel.playlist_description;
+    imagePath = playlistModel.art_url;
+  }
 
   @override
   State < VerticalBigCard > createState() => _VerticalBigCardState();
@@ -41,6 +46,19 @@ class _VerticalBigCardState extends State < VerticalBigCard > with SingleTickerP
       // colorFilterOpa = 0;
       anc.reverse();
     });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PlaylistView(playlistModel: Future.value(widget.playlistModel)),
+      ),
+    );
+  }
+
+  void onTapCancel() {
+    setState(() {
+      // colorFilterOpa = 0;
+      anc.reverse();
+    });
   }
 
   @override
@@ -56,7 +74,7 @@ class _VerticalBigCardState extends State < VerticalBigCard > with SingleTickerP
         onTapUp();
       },
       onTapCancel: () {
-        onTapUp();
+        onTapCancel();
       },
       child: AnimatedBuilder(
         animation: anc,

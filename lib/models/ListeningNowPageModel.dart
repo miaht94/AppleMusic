@@ -72,17 +72,13 @@ class ListeningNowPageModel {
       );
       if (!isTestingMode && playlist != null) {
         listBestChoice.add(VerticalCardWithTitleModel(
-          playlist.playlist_name,
-          playlist.playlist_description,
-          playlist.art_url,
+          playlist,
           await getImagePalette(NetworkImage(playlist.art_url)),
         ));
       } else {
         if (playlist != null) {
           listBestChoice.add(VerticalCardWithTitleModel(
-              playlist.playlist_name,
-              playlist.playlist_description,
-              playlist.art_url,
+              playlist,
               Colors.black.withOpacity(0.2)
           ));
         }
@@ -138,18 +134,14 @@ class ListeningNowPageModel {
       if (!isTestingMode && playlist != null) {
         if (playlist != null) {
           listYearEndReplays.add(VerticalCardWithTitleModel(
-            playlist.playlist_name,
-            playlist.playlist_description,
-            playlist.art_url,
+            playlist,
             await getImagePalette(NetworkImage(playlist.art_url)),
           ));
         }
       } else {
         if (playlist != null) {
           listYearEndReplays.add(VerticalCardWithTitleModel(
-            playlist.playlist_name,
-            playlist.playlist_description,
-            playlist.art_url,
+            playlist,
             Colors.black.withOpacity(0.2),
           ));
         }
