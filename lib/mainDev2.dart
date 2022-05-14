@@ -63,7 +63,7 @@ class _MyHomePageState extends State < MyHomePage > {
       return PlaylistModel.getSampleData();
     }
     Size size = MediaQuery.of(context).size;
-    return PlaylistView( playlistModel: getModel());
+    return PlaylistView(playlistModel: getModel());
   }
 }
 

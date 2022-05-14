@@ -53,7 +53,7 @@ class SongCardInPlaylistModel {
                 song_key: '',
                 id: '',
                 lyric_key: '',
-                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: '', genre: '', album_year: 2019)
+                album: AlbumRawModel(album_name: '', songsId: [], id: '', art_url: 'https://upload.wikimedia.org/wikipedia/vi/c/cd/Taylor_Swift_-_Lover.png', genre: '', album_year: 2019)
             )
         ];
     }

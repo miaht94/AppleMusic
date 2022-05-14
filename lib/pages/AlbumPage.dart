@@ -39,7 +39,8 @@ class AlbumView extends StatelessWidget {
           List<Widget> children;
           if (snapshot.hasData) {
             if (snapshot.data!.album_name == "AlbumError"){
-              children = <Widget>[Scaffold(
+              children = <Widget>[
+                Scaffold(
                   appBar: AppBar(
                     leading:  IconButton(
                         icon:  Icon(SFSymbols.chevron_left, color:Colors.red),

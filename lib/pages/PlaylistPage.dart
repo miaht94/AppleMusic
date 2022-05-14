@@ -1,29 +1,86 @@
-import 'dart:convert';
 import 'dart:ui';
+
+import 'package:apple_music/components/AlbumSongListView/AlbumSongListView.dart';
+import 'package:apple_music/components/AudioController/AudioUi.dart';
+import 'package:apple_music/components/ButtonWithIcon/WideButton.dart';
+import 'package:apple_music/components/ContextMenu/AlbumContextMenu.dart';
+import 'package:apple_music/components/Other/PageLoadError.dart';
 import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylistList.dart';
-import 'package:chewie/chewie.dart';
+import 'package:apple_music/components/TitleComponent/PageTitleBox.dart';
+import 'package:apple_music/constant.dart';
+import 'package:apple_music/models/AlbumSongListViewModel.dart';
+import 'package:apple_music/models/AlbumViewModel.dart';
+import 'package:apple_music/models_refactor/AlbumModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
+import 'package:apple_music/services/http_util.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:http/http.dart' as http;
-import 'package:video_player/video_player.dart';
+import 'package:get_it/get_it.dart';
 
-import '../components/Other/PageLoadError.dart';
+import '../components/AudioController/AudioManager.dart';
+import '../components/AudioController/AudioPageRouteManager.dart';
+import '../components/ContextMenu/ContextMenuManager.dart';
+import '../components/ContextMenu/PlaylistContextMenu.dart';
+import '../models/ArtistViewModel.dart';
 import '../models_refactor/PlaylistModel.dart';
-import '../models_refactor/ArtistModel.dart';
+import 'ArtistPage.dart';
 
-class PlaylistView extends StatefulWidget {
+
+class PlaylistView extends StatelessWidget {
+
   final Future<PlaylistModel?> playlistModel;
-
+  
   const PlaylistView({Key? key, required this.playlistModel}) : super(key: key);
   @override
-  State<PlaylistView> createState() => _PlaylistViewState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FutureBuilder<PlaylistModel?>(
+        future: playlistModel,
+        builder: (BuildContext context, AsyncSnapshot<PlaylistModel?> snapshot) {
+          List<Widget> children;
+          if (snapshot.hasData) {
+            if (snapshot.data!.playlist_name == "PlaylistError"){
+              children = <Widget>[
+                Scaffold(
+                  appBar: AppBar(
+                    leading:  IconButton(
+                        icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        })
+                    ,backgroundColor: Colors.white,
+                    elevation: 0,
+                  ),
+                  body: PageLoadError(title: "Lỗi tải Playlist")
+              )];
+            } else {
+              children = <Widget>[PlaylistViewContent(model: snapshot.data!)];
+            }
+          } else {
+            children = <Widget>[Center(child: CircularProgressIndicator(color: Colors.red))];
+          }
+          return Stack(
+            children: children,
+          );
+        },
+      ),
+    );
+  }
 }
 
-class _PlaylistViewState extends State<PlaylistView> {
+class PlaylistViewContent extends StatefulWidget {
+  const PlaylistViewContent({Key? key, required this.model}) : super(key: key);
 
-  VideoPlayerController? videoPlayerController;
-  ChewieController? chewieController;
-  ValueNotifier isInit = ValueNotifier<bool>(false);
+  final PlaylistModel model;
+
+  @override
+  _PlaylistViewContentState createState() => _PlaylistViewContentState();
+}
+
+class _PlaylistViewContentState extends State<PlaylistViewContent> {
 
   late ScrollController _scrollController = ScrollController();
   bool lastStatus = true;
@@ -36,39 +93,13 @@ class _PlaylistViewState extends State<PlaylistView> {
     }
   }
 
-  // List<SongModel> TopListSongConverter(ArtistModel artistModel){
-  //   List<SongModel> listSong = [];
-  //   if (artistModel.top_song_list != null) {
-  //     for (SongRawModelArtist song in artistModel.top_song_list!){
-  //       listSong.add(SongModel(
-  //         id: song.id,
-  //         lyric_key: song.lyric_key,
-  //         song_name: song.song_name,
-  //         song_key: song.song_key,
-  //         artist: ArtistRawModel(
-  //           album_list_id: artistModel.album_list.map((item) => item.id as String).toList(),
-  //           artist_description: artistModel.artist_description,
-  //           artist_image_url: artistModel.artist_image_url,
-  //           artist_name: artistModel.artist_name,
-  //           top_song_list_id: artistModel.top_song_list != null ? artistModel.top_song_list!.map((item) => item.id as String).toList() : null,
-  //           id: artistModel.id
-  //         ),
-  //         album: song.album,
-  //       ));
-  //     }
-  //   }
-  //   return listSong;
-  // }
-
-
   bool get isShrink {
     return _scrollController.hasClients &&
-        _scrollController.offset > (300 - kToolbarHeight);
+        _scrollController.offset > (230);
   }
 
   @override
   void initState() {
-    
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     super.initState();
@@ -82,187 +113,151 @@ class _PlaylistViewState extends State<PlaylistView> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return FutureBuilder<PlaylistModel?>(
-        future: widget.playlistModel,
-        builder: (BuildContext context, AsyncSnapshot<PlaylistModel?> snapshot) {
-          List<Widget> children;
-          if (snapshot.hasData) {
-            if (snapshot.data!.playlist_name == "PlaylistError"){
-              children = <Widget>[
-                Scaffold(
-                    appBar: AppBar(
-                      leading: IconButton(
-                          icon: const Icon(SFSymbols.chevron_left, color: Colors.red),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                      backgroundColor: Colors.white,
-                    ),
-                    body: PageLoadError(title: "Lỗi tải playist")
-                )
-                ];
-            } else {
-              // if (snapshot.data!.artist_video_url != null && isInit.value == false) {
-              //   videoPlayerController = VideoPlayerController.network(snapshot.data!.artist_video_url!);
-              //   videoPlayerController?.addListener(() {
-              //     if(videoPlayerController!.value.isInitialized){
-              //       isInit.value = true;
-              //     } else {
-              //       isInit.value = false;
-              //     }
-              //   });
-              //     chewieController = ChewieController(
-              //         videoPlayerController: videoPlayerController!,
-              //         aspectRatio: 16 / 16,
-              //         fullScreenByDefault: false ,
-              //         autoPlay: true,
-              //         looping: true,
-              //         showControls : false,
-              //         showOptions : false,
-              //         showControlsOnInitialize : false
-              //     );
-              // }
-              return Scaffold(
-              body: NestedScrollView(
-                controller: _scrollController,
-                headerSliverBuilder: (BuildContext context,
-                    bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      leading: IconButton(
-                          icon: const Icon(SFSymbols.chevron_left, color: Colors.red),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                      pinned: true,
-                      floating: false,
-                      backgroundColor: Colors.white,
-                      expandedHeight: 300.0,
-                      flexibleSpace: FlexibleSpaceBar(
-                        centerTitle: true,
-                        title: Container(
-                          alignment: Alignment.bottomLeft,
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Visibility(
-                                  visible: isShrink ? false : true,
-                                  child: Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Text(snapshot.data!.playlist_name,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 18.0,
-                                          ))),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(left: 30),
-                                  child: Visibility(
-                                    visible: isShrink ? true : false,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Text(snapshot.data!.playlist_name,
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18.0,
-                                              ))),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                    child:
-                                    Visibility(
-                                      visible: !isShrink,
-                                      child: Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: Container(
-                                          width: 40,
-                                          height: 30,
-                                          padding: const EdgeInsets.only(right: 10),
-                                          child: ElevatedButton(
-                                            onPressed: () {},
-                                            child: const Icon(SFSymbols.play_fill,
-                                                color: Colors.white, size: 12),
-                                            style: ElevatedButton.styleFrom(
-                                              shape: const CircleBorder(),
-                                              padding: const EdgeInsets.all(0),
-                                              primary: Colors.red,
-                                              // <-- Button color
-                                              onPrimary: Colors
-                                                  .red, // <-- Splash color
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                )
-                              ]
-                          ),
+    return Scaffold(
+        appBar: AppBar(
+          leading:  IconButton(
+              icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          title: Visibility(
+          visible: isShrink ? true : false,
+              child: Text(widget.model.playlist_name,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.0,
+                  ))
+          ),
+          centerTitle: true,
+          backgroundColor: isShrink ? Colors.white : Colors.transparent,
+          elevation: 0,
+          // ContextMenu Button
+          actions: <Widget>[
+            IconButton(
+                icon:  Icon(SFSymbols.ellipsis, color:Colors.red),
+                onPressed: () {
+                  GetIt.I.get<ContextMenuManager>().insertOverlay(PlaylistContextMenu(playlistModel: widget.model));
+                }),
+            SizedBox(width: 10),
+          ],
+
+        ),
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          controller: _scrollController,
+          padding: EdgeInsets.only(top: 10),
+          child: Column(
+              children: <Widget>[
+                Container(
+                  width: 200,
+                  height: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.teal,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x40FFCCFF),
+                          spreadRadius: 1,
+                          blurRadius: 30,
+                          offset: Offset(0, 0), // Shadow position
                         ),
-                        background: FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: ValueListenableBuilder(
-                            valueListenable: isInit,
-                            builder: (context, a,_) {
-                              if (a == true) {
-                                return Container(
-                                    width: size.width,
-                                    child: AspectRatio(
-                                      aspectRatio: 16 / 16,
-                                      child: Chewie(controller: chewieController!),
-                                    ),
-                                );
-                              } else {
-                                return
-                                  Container(
-                                      width: size.width,
-                                          child: FittedBox(
-                                            fit: BoxFit.fill,
-                                            child: Image.network(snapshot.data!.art_url)
-                                          )
-                                  );
-                              }
-                            }
-                        )
+                      ],
+                    ),
+                  child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(widget.model.art_url)
+                            )
+                ),Container(
+                    alignment: Alignment.topCenter,
+                    child: Text(widget.model.playlist_name, textAlign: TextAlign.center, style: TextStyle(
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        fontFamily: 'Roboto',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        height: 3
+                    ))
+                ),Container(
+                    alignment: Alignment.topCenter,
+                    child: GestureDetector(
+                      onTap: () => {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ArtistView(artistViewModel: HttpUtil().fetchArtistModel(artist_name:widget.model.artist.artist_name)),
+                        //   ),
+                        // )
+                      },
+                      child: Text(widget.model.public == true ? "Playlist công khai" : "Playlist không công khai", textAlign: TextAlign.center, style: TextStyle(
+                          color: Color.fromRGBO(251, 46, 70, 1),
+                          fontFamily: 'Roboto',
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     )
-                  ];
-                },
-                body: ListView(
-                    shrinkWrap: true,
-                    children: [
-                       SongCardInPlaylistList(playlistModel: snapshot.data!)
-                    ]
+                ),Container(
+                    alignment: Alignment.topCenter,
+                    child: Text("CẬP NHẬT HÔM QUA", textAlign: TextAlign.center, style: TextStyle(
+                    color: Color.fromRGBO(196, 196, 196, 1),
+                    fontFamily: 'Roboto',
+                    fontSize: 10,
+                    fontWeight: FontWeight.normal,
+                    height: 2
+                    ),)
                 ),
-              ),
-            );
-            }
-          } else {
-            children = <Widget>[
-              Scaffold(
-                  appBar: AppBar(
-                    leading: IconButton(
-                          icon: const Icon(SFSymbols.chevron_left, color: Colors.red),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                    backgroundColor: Colors.white,
+                Container(
+                  padding: EdgeInsets.symmetric(vertical:10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                          WideButton(
+                              onTap: (){
+                                print("Listing Album Songs");
+                                List<String> id = [];
+                                for (final SongModel song in widget.model.songs) {
+                                  id.add(song.id);
+                                  print(song.id + " added");
+                                }
+                                GetIt.I.get<AudioManager>().clearAndAddAList(id);
+                                Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));
+                              },
+                              title: "Phát", icon: SFSymbols.arrowtriangle_right_fill
+                      ),
+                      SizedBox(width: 10),
+                      WideButton(
+                          onTap: (){
+                            print("Everyday I'm Shuffling");
+                            List<String> id = [];
+                            for (final SongModel song in widget.model.songs) {
+                              id.add(song.id);
+                              print(song.id + "added");
+                            }
+                            GetIt.I.get<AudioManager>().clearAndAddAList(id);
+                            GetIt.I.get<AudioManager>().shuffle();
+                            Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));
+                          },
+                          title: "Xáo trộn", icon: SFSymbols.shuffle
+                      ),
+                    ],
                   ),
-                  body: const Center(
-                      child: const CircularProgressIndicator(color: Colors.red))
-              )
-            ];
-          }
-          return Stack(
-            children: children,
-          );
-        }
+                ),
+                Container(
+                    child: Text((widget.model.playlist_description != null) ? widget.model.playlist_description : '', textAlign: TextAlign.left, style: TextStyle(
+                        color: Color.fromRGBO(126, 126, 130, 0.6700000166893005),
+                        fontFamily: 'Roboto',
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        height: 2
+                    ),)
+                ),
+                Container(padding: EdgeInsets.only(left: kDefaultPadding,
+                    bottom: 200),
+                    child: SongCardInPlaylistList(playlistModel: widget.model),
+                )
+              ]
+          ),
+        )
     );
   }
-
 }
