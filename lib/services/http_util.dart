@@ -19,6 +19,7 @@ class HttpUtil {
   factory HttpUtil() {  
     return httpUtilSingleton;
   }
+
   HttpUtil._internal() {
     dio.httpClientAdapter = isTestingMode ? GetIt.I.get<HttpClientAdapter>() : DefaultHttpClientAdapter();
   }
@@ -423,6 +424,56 @@ class HttpUtil {
     FormData formData = FormData.fromMap(form);
     dynamic response = await dio.post(UPDATE_PROFILE, data: formData, queryParameters: {'app_token': app_token});
     return true;
+  }
+
+  Future<List<SongModel>?> getFavoriteSongList({required String app_token}) async {
+    try {
+      Response res = await dio.get(MY_PROFILE_PATH, queryParameters: {
+        'app_token': app_token
+      });
+      List<SongModel> list = [];
+      for (Map<String, dynamic> i in res.data['favorite_songs']) {
+          (i as Map<String, dynamic>).addAll({'artist': 'null', 'album': 'null');
+          list.add(SongModel.fromJson(i));
+      }
+      print(list[0]);
+      return list;
+    } catch(e) {
+      return null;
+    }
+  }
+
+  Future<List<AlbumModel>?> getFavoriteAlbumList({required String app_token}) async {
+    try {
+      Response res = await dio.get(MY_PROFILE_PATH, queryParameters: {
+        'app_token': app_token
+      });
+      List<AlbumModel> list = [];
+      for (Map<String, dynamic> i in res.data['favorite_albums']) {
+        print(i);
+        list.add(AlbumModel.fromJson(i));
+      }
+      return list;
+    } catch(e) {
+      return null;
+    }
+
+
+  }
+
+  Future<List<ArtistModel>?> getFavoriteArtistList({required String app_token}) async {
+    try {
+      Response res = await dio.get(MY_PROFILE_PATH, queryParameters: {
+        'app_token': app_token
+      });
+      List<ArtistModel> list = [];
+      for (Map<String, dynamic> i in res.data['favorite_artists']) {
+        list.add(ArtistModel.fromJson(i));
+      }
+      return list;
+    } catch (e) {
+      return null;
+    }
   }
 }
 

@@ -276,7 +276,8 @@ class _ArtistViewState extends State<ArtistView> {
                     children: [
                       if (snapshot.data!.highlight_song!.song_name != "NoHighlightSong")
                         ArtistHighlightSong(
-                          album: HighlighSongConverter(snapshot.data!))
+                          album: HighlighSongConverter(snapshot.data!)
+                        )
                       else
                         Container(),
 

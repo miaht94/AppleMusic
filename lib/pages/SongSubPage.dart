@@ -3,11 +3,13 @@ import 'package:apple_music/components/TitleComponent/PageTitleBoxCompact.dart';
 import 'package:apple_music/models/HScrollCircleModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import '../components/AudioController/AudioPageRouteManager.dart';
+import '../components/Other/PageLoadError.dart';
 import '../components/RectangleCardSearchPage/ArtistRectangleCard.dart';
 import '../components/SongCardInPlaylist/SongCardInPlaylist.dart';
 import '../components/SquareCard/HScrollSquareCardWithText.dart';
@@ -35,7 +37,10 @@ const String PAGE_TITLE = "Bài hát";
 class SongSubPage extends StatefulWidget {
   const SongSubPage({
     Key? key,
+    required this.songlist,
   }) : super(key: key);
+
+  final Future<List<SongModel>?> songlist;
 
   @override
   State<SongSubPage> createState() => _SongSubPageState();
@@ -94,33 +99,45 @@ class _SongSubPageState extends State<SongSubPage> {
             centerTitle: true,
             backgroundColor: isShrink ? Colors.white : Colors.transparent,
             elevation: 0),
-        body: SingleChildScrollView(
-            controller: _scrollController,
-            child: Padding(
-              padding: const EdgeInsets.only(left: kDefaultPadding),
-              child: ListView(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  PageTitleBoxCompact(title: PAGE_TITLE),
-                  Padding(
-                    padding: const EdgeInsets.only(left: kDefaultPadding),
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: SongCardInPlaylistModel.getSampleDataList().length,
-                      itemBuilder: (context, i){
-                         return SongCardInPlaylist(songModel: SongCardInPlaylistModel.getSampleDataList()[i],);
-                      },
-                    // child: ListView(
-                    //   children: <Widget>SongCardinPlaylistMode.
-                    // )
-                    ),
+        body: FutureBuilder<List<SongModel>?>(
+          future: widget.songlist,
+          builder: (BuildContext context, AsyncSnapshot<List<SongModel>?> snapshot) {
+            if (!snapshot.hasData) {
+              return PageLoadError(title: "Lỗi tải danh sách");
+            }
+            else {
+              return SingleChildScrollView(
+                controller: _scrollController,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: kDefaultPadding),
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      PageTitleBoxCompact(title: PAGE_TITLE),
+                      Padding(
+                        padding: const EdgeInsets.only(left: kDefaultPadding),
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: SongCardInPlaylistModel
+                              .getSampleDataList()
+                              .length,
+                          itemBuilder: (context, i) {
+                            return SongCardInPlaylist(songModel: snapshot.data![i]);
+                          },
+                          // child: ListView(
+                          //   children: <Widget>SongCardinPlaylistMode.
+                          // )
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            }
+          }
         ),
       );
   }

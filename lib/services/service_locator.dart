@@ -84,18 +84,15 @@ Future <bool> deleteCredential() async {
   
 }
 
-Future < bool > saveCredential(String app_token) async {
-  try {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = directory.path;
-    File file = File('${path}/${CREDENTIAL_PATH}');
-    await file.writeAsString(app_token);
-    return true;
-  } catch (e) {
-    return false;
-  }
-
-
-
+  Future < bool > saveCredential(String app_token) async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final path = directory.path;
+      File file = File('${path}/${CREDENTIAL_PATH}');
+      await file.writeAsString(app_token);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

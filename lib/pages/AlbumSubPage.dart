@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import '../components/AudioController/AudioPageRouteManager.dart';
+import '../components/Other/PageLoadError.dart';
 import '../constant.dart';
 import 'AlbumPage.dart';
 
@@ -24,8 +25,10 @@ const String PAGE_TITLE = "Album";
 class AlbumSubPage extends StatefulWidget {
   const AlbumSubPage({
     Key? key,
+    required this.albumlist
   }) : super(key: key);
 
+  final Future<List<AlbumModel>?> albumlist;
   @override
   State<AlbumSubPage> createState() => _AlbumSubPageState();
 }
@@ -83,30 +86,40 @@ class _AlbumSubPageState extends State<AlbumSubPage> {
             centerTitle: true,
             backgroundColor: isShrink ? Colors.white : Colors.transparent,
             elevation: isShrink ? 1 : 0),
-        body: SingleChildScrollView(
-          controller: _scrollController,
-          child: Padding(
-            padding: const EdgeInsets.only(left: kDefaultPadding),
-            child: ListView(
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              children: [
-                PageTitleBoxCompact(title: PAGE_TITLE),
-                Padding(
-                  padding: const EdgeInsets.only(left: kDefaultPadding),
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: AlbumModel.getSampleAlbum().length,
-                    itemBuilder: (context, i){
-                      return  AlbumRectangleCard(albumModel: AlbumModel.getSampleAlbum()[i], onTapAlbumCard: onTapAlbumCard);
-                    },
+        body: FutureBuilder<List<AlbumModel>?>(
+            future: widget.albumlist,
+            builder: (BuildContext context, AsyncSnapshot<List<AlbumModel>?> snapshot) {
+              if (!snapshot.hasData){
+                return PageLoadError(title: "Lỗi tải danh sách");
+              }
+              else {
+                return SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: kDefaultPadding),
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        PageTitleBoxCompact(title: PAGE_TITLE),
+                        Padding(
+                          padding: const EdgeInsets.only(left: kDefaultPadding),
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: AlbumModel.getSampleAlbum().length,
+                            itemBuilder: (context, i){
+                              return  AlbumRectangleCard(albumModel: snapshot.data![i], onTapAlbumCard: onTapAlbumCard);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
+                );
+              }
+          }
         ),
       );
   }

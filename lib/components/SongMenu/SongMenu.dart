@@ -6,6 +6,8 @@ import 'package:apple_music/pages/SongSubPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../models/CredentialModel.dart';
+import '../../services/http_util.dart';
 import '../AudioController/AudioPageRouteManager.dart';
 
 
@@ -27,17 +29,29 @@ class SongMenu extends StatelessWidget {
             );
           }),
           SongMenuItem(iconName: iconNames['Album'], title: "Album", onTap: (){
+            // Navigator.push(
+            //   GetIt.I.get<AudioPageRouteManager>().getMainContext(),
+            //   MaterialPageRoute(
+            //       builder: (context) => AlbumSubPage()),
+            // );
             Navigator.push(
-              GetIt.I.get<AudioPageRouteManager>().getMainContext(),
+              context,
               MaterialPageRoute(
-                  builder: (context) => AlbumSubPage()),
+                builder: (context) => AlbumSubPage(albumlist:  HttpUtil().getFavoriteAlbumList(app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken)),
+              ),
             );
           }),
           SongMenuItem(iconName: iconNames['MusicNode'], title: "Bài Hát", onTap: (){
+            // Navigator.push(
+            //   GetIt.I.get<AudioPageRouteManager>().getMainContext(),
+            //   MaterialPageRoute(
+            //       builder: (context) => SongSubPage())
+            // );
             Navigator.push(
-              GetIt.I.get<AudioPageRouteManager>().getMainContext(),
+              context,
               MaterialPageRoute(
-                  builder: (context) => SongSubPage())
+                builder: (context) => SongSubPage(songlist:  HttpUtil().getFavoriteSongList(app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken)),
+              ),
             );
           }),
           // SongMenuItem(iconName: iconNames['PlaylistIcon'], title: "Playlist", onTap: (){
