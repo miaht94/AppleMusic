@@ -48,8 +48,8 @@ class _HScrollSquareCardState extends State<HScrollSquareCard> {
             );
           }
           if (index == widget.listItem.length + 1){
-            return const SizedBox(
-              width: kDefaultPadding,
+            return  SizedBox(
+              width: WIDTH,
             );
           }
           return SquareCard(

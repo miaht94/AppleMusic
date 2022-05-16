@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/models/HorizontalCardWithTitleModel.dart';
+import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +27,15 @@ class HorizontalCardWithTitle extends StatefulWidget {
 class _HorizontalCardWithTitle extends State < HorizontalCardWithTitle > {
     _HorizontalCardWithTitle(this.card);
     HorizontalCardWithTitleModel card;
+
+    void onTap(){
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AlbumView(albumViewModel: Future.value(card.albumModel)),
+        ),
+      );
+    }
     @override
     Widget build(BuildContext context) {
         Size size = MediaQuery.of(context).size;
@@ -46,7 +56,7 @@ class _HorizontalCardWithTitle extends State < HorizontalCardWithTitle > {
                     Text(card.title, style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 18)),
                     Text(card.primaryDes, style: TextStyle(color: kPrimaryDesColor, fontSize: kPrimaryDesFontSize, fontWeight: kPrimaryDesFontWeight)),
                     Padding(padding: EdgeInsets.only(bottom: 6)),
-                    HorizontalCard(id: card.id, primaryImagePath: card.primaryImagePath, secondaryImagePath: card.secondaryImagePath, secondaryDes: card.secondaryDes)
+                    HorizontalCard(id: card.id, primaryImagePath: card.primaryImagePath, secondaryImagePath: card.secondaryImagePath, secondaryDes: card.secondaryDes, onTapHandler: onTap,)
                 ]),
         );
     }

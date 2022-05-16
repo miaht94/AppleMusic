@@ -14,6 +14,9 @@ import 'package:apple_music/main.dart'
 as app;
 import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
+import 'package:apple_music/models_refactor/PlaylistModel.dart';
+import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:apple_music/services/service_locator.dart';
@@ -152,28 +155,6 @@ void main() {
     expect(find.text('Red'), findsOneWidget);
     expect(find.text('Taylor Swift'), findsOneWidget);
   });
-
-  testWidgets('Test PlayingSongCard widget', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    tester.takeException();
-    final VerticalBigCard verticalBigCard = VerticalBigCard(
-      description: 'Red',
-      imagePath: 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AAWIpr3.img?w=645&h=484&m=6&x=124&y=145&s=425&d=187',
-      footerColor: Colors.white12,
-    );
-
-    await mockNetworkImagesFor(() => tester.pumpWidget(
-        MediaQuery(
-          data: MediaQueryData(size: Size(370, 720)),
-          child: MaterialApp(
-            home: Scaffold(
-              body: verticalBigCard,
-            ),
-          ),
-        )));
-
-    expect(find.text('Red'), findsOneWidget);
-    });
   });
 
   group('button widget test', (){
@@ -377,7 +358,7 @@ void main() {
           await tester.pumpAndSettle();
           // Verify the counter increments by 1.
           // expect(find.text('Vu'), findsOneWidget);
-          expect(find.text('Đừng bỏ lỡ'), findsOneWidget);
+          expect(find.text('Album nổi bật'), findsOneWidget);
           expect(find.text('Nghe ngay'), findsOneWidget);
           await tester.pump(Duration(milliseconds: 100));
         });

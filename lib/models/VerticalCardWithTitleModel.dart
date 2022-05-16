@@ -1,12 +1,15 @@
 import 'dart:ui';
 
+import 'package:apple_music/models_refactor/PlaylistModel.dart';
+
 class VerticalCardWithTitleModel {
-  VerticalCardWithTitleModel(String title, String description, String imagePath, Color footerColor) {
-    _title = title;
-    _description = description;
+  VerticalCardWithTitleModel(this.playlistModel,  Color footerColor) {
+    _title = playlistModel.playlist_name;
+    _description = playlistModel.playlist_description;
     _footerColor = footerColor;
-    _imagePath = imagePath;
+    _imagePath = playlistModel.art_url;
   }
+  final PlaylistModel playlistModel;
   late String _title;
   late String _description;
   late Color _footerColor;
@@ -43,13 +46,5 @@ class VerticalCardWithTitleModel {
     _imagePath = imagePath;
   }
 
-  static List<VerticalCardWithTitleModel> getSampleData() {
-    return 
-    [
-      new VerticalCardWithTitleModel("Dành cho bạn", "Eve, mikitoP, Yuiko Ohara, fripSize, DAOKO, Hatsune Miku, Takaaki Natsushiro, ...", "https://is2-ssl.mzstatic.com/image/thumb/Features126/v4/28/8f/75/288f7530-80a6-9fa4-2e89-6fd5a1b030a2/U0MtTVMtV1ctVG9kYXlzSGl0cy1NZWdhbl9UaGVlX1N0YWxsaW9uXyZfRHVhX0xpcGEtQURBTV9JRD0xMDEwNDE3ODE2LnBuZw.png/257x257SC.DN01.webp?l=en-GB", Color.fromRGBO(164, 130, 69, 0.6)),
-      new VerticalCardWithTitleModel("Dành cho bạn", "Eve, mikitoP, Yuiko Ohara, fripSize, DAOKO, Hatsune Miku, Takaaki Natsushiro, ...", "https://is2-ssl.mzstatic.com/image/thumb/Features126/v4/28/8f/75/288f7530-80a6-9fa4-2e89-6fd5a1b030a2/U0MtTVMtV1ctVG9kYXlzSGl0cy1NZWdhbl9UaGVlX1N0YWxsaW9uXyZfRHVhX0xpcGEtQURBTV9JRD0xMDEwNDE3ODE2LnBuZw.png/257x257SC.DN01.webp?l=en-GB", Color.fromRGBO(164, 130, 69, 0.6)),
-      new VerticalCardWithTitleModel("Dành cho bạn", "Eve, mikitoP, Yuiko Ohara, fripSize, DAOKO, Hatsune Miku, Takaaki Natsushiro, ...", "https://is2-ssl.mzstatic.com/image/thumb/Features126/v4/28/8f/75/288f7530-80a6-9fa4-2e89-6fd5a1b030a2/U0MtTVMtV1ctVG9kYXlzSGl0cy1NZWdhbl9UaGVlX1N0YWxsaW9uXyZfRHVhX0xpcGEtQURBTV9JRD0xMDEwNDE3ODE2LnBuZw.png/257x257SC.DN01.webp?l=en-GB", Color.fromRGBO(164, 130, 69, 0.6))
-    ];
-  }
 
 }

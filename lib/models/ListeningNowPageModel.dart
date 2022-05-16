@@ -72,17 +72,13 @@ class ListeningNowPageModel {
       );
       if (!isTestingMode && playlist != null) {
         listBestChoice.add(VerticalCardWithTitleModel(
-          playlist.playlist_name,
-          playlist.playlist_description,
-          playlist.art_url,
+          playlist,
           await getImagePalette(NetworkImage(playlist.art_url)),
         ));
       } else {
         if (playlist != null) {
           listBestChoice.add(VerticalCardWithTitleModel(
-              playlist.playlist_name,
-              playlist.playlist_description,
-              playlist.art_url,
+              playlist,
               Colors.black.withOpacity(0.2)
           ));
         }
@@ -95,13 +91,13 @@ class ListeningNowPageModel {
   Future<void> inItListRencentlyPlayed() async{
     // fetch Recently played
     for(String id in listIdItem.listRencentlyPlayed){
-      final song = await HttpUtil().fetchSongModel(id);
-      if (song != null) {
+      final album = await HttpUtil().getAlbumModel(id: id);
+      if (album != null) {
         listRencentlyPlayed.add(HScrollSquareCardModel(
-            song.song.song_name,
-            song.song.artist.artist_name,
-            song.song.album.art_url,
-            song.song.id
+          album.album_name,
+          album.artist.artist_name,
+          album.art_url,
+          album.id
         ));
       }
     }
@@ -138,18 +134,14 @@ class ListeningNowPageModel {
       if (!isTestingMode && playlist != null) {
         if (playlist != null) {
           listYearEndReplays.add(VerticalCardWithTitleModel(
-            playlist.playlist_name,
-            playlist.playlist_description,
-            playlist.art_url,
+            playlist,
             await getImagePalette(NetworkImage(playlist.art_url)),
           ));
         }
       } else {
         if (playlist != null) {
           listYearEndReplays.add(VerticalCardWithTitleModel(
-            playlist.playlist_name,
-            playlist.playlist_description,
-            playlist.art_url,
+            playlist,
             Colors.black.withOpacity(0.2),
           ));
         }

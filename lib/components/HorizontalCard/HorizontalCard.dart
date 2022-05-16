@@ -16,7 +16,7 @@ class HorizontalCard extends StatelessWidget {
   String primaryImagePath;
   String secondaryImagePath;
   String secondaryDes;
-  Function(String id)? onTapHandler;
+  Function()? onTapHandler;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -25,7 +25,7 @@ class HorizontalCard extends StatelessWidget {
       onTap: () {
         print(id);
         if (onTapHandler != null) {
-          onTapHandler!(id);
+          onTapHandler!();
         }
       },
       child: Container(

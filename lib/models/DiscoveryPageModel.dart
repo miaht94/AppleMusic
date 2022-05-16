@@ -61,22 +61,12 @@ class DiscoveryPageModel {
       );
       if (!isTestingMode && album != null) {
         newAlbums.add(HorizontalCardWithTitleModel(
-          'Album mới',
-          album.album_name,
-          album.genre,
-          album.art_url,
-          (album.album_description != null) ? album.album_description! : album.artist.artist_description,
-          album.artist.artist_image_url
+            album
         ));
       } else {
         if (album != null) {
           newAlbums.add(HorizontalCardWithTitleModel(
-              'Album mới',
-              album.album_name,
-              album.genre,
-              album.art_url,
-              (album.album_description != null) ? album.album_description! : album.artist.artist_description,
-              album.artist.artist_image_url
+              album
           ));
         }
       }
@@ -88,13 +78,13 @@ class DiscoveryPageModel {
   Future<void> initDoNotMiss() async{
     // fetch Recently played
     for(String id in listIdItem.doNotMiss){
-      final song = await HttpUtil().fetchSongModel(id);
-      if (song != null) {
+      final album = await HttpUtil().getAlbumModel(id: id);
+      if (album != null) {
         doNotMiss.add(HScrollSquareCardModel(
-            song.song.song_name,
-            song.song.artist.artist_name,
-            song.song.album.art_url,
-            song.song.id
+            album.album_name,
+            album.artist.artist_name,
+            album.art_url,
+            album.id
         ));
       }
     }
