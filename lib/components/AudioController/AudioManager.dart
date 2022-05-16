@@ -3,6 +3,7 @@ import 'package:apple_music/models/LyricModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:just_audio/just_audio.dart';
 class AudioManager {
   final progressNotifier = ValueNotifier<ProgressBarState>(
@@ -12,8 +13,9 @@ class AudioManager {
       dragPosition: Duration.zero,
     ),
   );
-  var isDragging = false;
+  final isLoading = ValueNotifier<bool>(false);
   var isMoving = false;
+  var isDragging = false;
   final pausePlayButtonNotifier = ValueNotifier<PausePlayButtonState>(PausePlayButtonState.paused);
   final childWindowNotifier = ValueNotifier<ChildWindowState>(ChildWindowState.playlist);
   final playlistNotifier = ValueNotifier<List<IndexedAudioSource>>([]);
@@ -28,8 +30,9 @@ class AudioManager {
   List<LyricModel>? currentLyric;
   late AudioPlayer _audioPlayer;
   late ConcatenatingAudioSource _playlist;
+  int _tempCurrentIndex = 0;
 
-  AudioManager(){
+    AudioManager(){
   }
 
   void init() async{
@@ -43,8 +46,13 @@ class AudioManager {
   }
 
   void _initPlaylist() async{
+    if(_audioPlayer.shuffleModeEnabled) {
+      await _audioPlayer.setShuffleModeEnabled(false);
+      isShuffleNotifier.value = false;
+    }
     _playlist = ConcatenatingAudioSource(children: []);
     await _audioPlayer.setAudioSource(_playlist);
+    _tempCurrentIndex = 0;
   }
 
   void _listenForPositionChange(){
@@ -111,16 +119,32 @@ class AudioManager {
         currentLyricNotifier ??= HttpUtil().fetchLyrics(currentSongData.lyricURL);
       }
       // change song fetch
-      if(currentSongIndexNotifier.value != _audioPlayer.currentIndex){
-        currentSongIndexNotifier.value = _audioPlayer.currentIndex!;
-        currentLyricNotifier =  HttpUtil().fetchLyrics(currentSongNotifier.value!.lyricURL);
-        currentLyric = await currentLyricNotifier;
+      if( _tempCurrentIndex != _audioPlayer.currentIndex){
+        _tempCurrentIndex = _audioPlayer.currentIndex!;
+        if (!_audioPlayer.shuffleModeEnabled) {
+          currentSongIndexNotifier.value = _audioPlayer.currentIndex!;
+        }else{
+          currentSongIndexNotifier.value = sequenceState.shuffleIndices.indexOf(_tempCurrentIndex);
+        }
+        if (currentItem != null) {
+          currentLyricNotifier =  HttpUtil().fetchLyrics(currentSongNotifier.value!.lyricURL);
+          currentLyric = await currentLyricNotifier;
+        }
+      }
+
+      if ((isShuffleNotifier.value != sequenceState.shuffleModeEnabled)
+      || (sequenceState.shuffleModeEnabled && _tempCurrentIndex == 0)
+      ){
+        if (!_audioPlayer.shuffleModeEnabled) {
+          currentSongIndexNotifier.value = _audioPlayer.currentIndex!;
+        }else{
+          currentSongIndexNotifier.value = sequenceState.shuffleIndices.indexOf(_tempCurrentIndex);
+        }
       }
 
       List<IndexedAudioSource> playlist = sequenceState.effectiveSequence;
       playlistNotifier.value = playlist;
-      print("Current song in playlist :  ${_playlist.length}");
-      print("Current song in sequence :  ${playlist.length}");
+
       if (playlist.isEmpty || currentItem == null) {
         isFirstSongNotifier.value = true;
         isLastSongNotifier.value = true;
@@ -209,13 +233,15 @@ class AudioManager {
   }
 
   Future<void> move(currentIndex, newIndex) async {
-    isMoving = true;
-    await _playlist.move(currentIndex, newIndex).then((value) => {isMoving = false});
+    if (!_audioPlayer.shuffleModeEnabled) {
+      isMoving = true;
+      await _playlist.move(currentIndex, newIndex).then((value) => {isMoving = false});
+    }
   }
 
   Future<void> clear() async {
-    await _playlist.clear();
     _initPlaylist();
+    await _playlist.clear();
   }
 
   Future<void> addAndPlayASong(String songId) async {
@@ -230,6 +256,7 @@ class AudioManager {
 
   Future<void> clearAndAddAList(List<String> playLists) async {
     await clear();
+    isLoading.value = true;
     List<SongUrlModel> listSongs = [];
     bool isFirst = true;
       for (String songUrl in playLists){
@@ -248,9 +275,11 @@ class AudioManager {
       if (isFirst){
          _audioPlayer.seek(Duration(milliseconds: 0),index : 0);
         isFirst = false;
-        print("play new playlist");
         play();
       }
+    }
+    if (_playlist.length == listSongs.length) {
+      isLoading.value = false;
     }
   }
 
@@ -310,7 +339,13 @@ class AudioManager {
   }
 
   Future<void> removeSong(int index) async{
-    await _playlist.removeAt(index);
+    if (!_audioPlayer.shuffleModeEnabled) {
+      await _playlist.removeAt(index);
+    } else {
+      index = await _playlist.shuffleIndices.indexOf(index);
+      await _playlist.removeAt(index);
+    }
+    EasyLoading.showToast('Xóa thành công', duration: Duration(milliseconds: 500));
   }
 
   int getCurrentSongIndex(){

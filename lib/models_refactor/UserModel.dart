@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/CredentialModel.dart';
+import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:apple_music/models_refactor/ArtistModel.dart';
+import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:dio/dio.dart';
@@ -16,57 +18,57 @@ class UserModel {
   String name;
   String avatarURL;
   String email;
-  List<SongRawModel> favorite_songs;
-  List<AlbumRawModel> favorite_albums;
-  List<ArtistRawModel> favorite_artists;
-  List<PlaylistInUserModel> playlists;
+  List<SongModel> favorite_songs;
+  List<AlbumModel> favorite_albums;
+  List<ArtistModel> favorite_artists;
+  List<PlaylistModel> playlists;
   bool containPlaylist(String id) {
-    for (PlaylistInUserModel playlist in playlists) {
+    for (PlaylistModel playlist in playlists) {
       if (playlist.id == id) return true;
     }
     return false;
   }
   bool containFavSong(String id) {
-    for (SongRawModel song in favorite_songs) {
+    for (SongModel song in favorite_songs) {
       if (song.id == id) return true;
     }
     return false;
   }
   bool containFavAlbum(String id) {
-    for (AlbumRawModel album in favorite_albums) {
+    for (AlbumModel album in favorite_albums) {
       if (album.id == id) return true;
     }
     return false;
   }
   bool containFavArtist(String id) {
-    for (ArtistRawModel artist in favorite_artists) {
+    for (ArtistModel artist in favorite_artists) {
       if (artist.id == id) return true;
     }
     return false;
   }
   factory UserModel.fromJson(Map<String, dynamic> json) {
     List<Map<String, dynamic>> fav_songs_json = List<Map<String, dynamic>>.from(json['favorite_songs']);
-    List <SongRawModel> list_fav_songs_obj = [];
+    List <SongModel> list_fav_songs_obj = [];
     for (Map<String, dynamic> i in fav_songs_json) {
-      list_fav_songs_obj.add(SongRawModel.fromJson(i));
+      list_fav_songs_obj.add(SongModel.fromJson(i));
     }
 
     List<Map<String, dynamic>> fav_albums_json = List<Map<String, dynamic>>.from(json['favorite_albums']);
-    List <AlbumRawModel> list_fav_albums_obj = [];
+    List <AlbumModel> list_fav_albums_obj = [];
     for (Map<String, dynamic> i in fav_albums_json) {
-      list_fav_albums_obj.add(AlbumRawModel.fromJson(i));
+      list_fav_albums_obj.add(AlbumModel.fromJson(i));
     }
 
     List<Map<String, dynamic>> fav_artists_json = List<Map<String, dynamic>>.from(json['favorite_artists']);
-    List <ArtistRawModel> list_fav_artists_obj = [];
+    List <ArtistModel> list_fav_artists_obj = [];
     for (Map<String, dynamic> i in fav_artists_json) {
-      list_fav_artists_obj.add(ArtistRawModel.fromJson(i));
+      list_fav_artists_obj.add(ArtistModel.fromJson(i));
     }
 
     List<Map<String, dynamic>> playlists_json = List<Map<String, dynamic>>.from(json['playlists']);
-    List <PlaylistInUserModel> list_playlists_obj = [];
+    List <PlaylistModel> list_playlists_obj = [];
     for (Map<String, dynamic> i in playlists_json) {
-      list_playlists_obj.add(PlaylistInUserModel.fromJson(i));
+      list_playlists_obj.add(PlaylistModel.fromJson(i));
     }
     return UserModel(
       uid: json['_id'] ,
