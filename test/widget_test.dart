@@ -358,7 +358,7 @@ void main() {
           await tester.pumpAndSettle();
           // Verify the counter increments by 1.
           // expect(find.text('Vu'), findsOneWidget);
-          expect(find.text('Đừng bỏ lỡ'), findsOneWidget);
+          expect(find.text('Album nổi bật'), findsOneWidget);
           expect(find.text('Nghe ngay'), findsOneWidget);
           await tester.pump(Duration(milliseconds: 100));
         });
