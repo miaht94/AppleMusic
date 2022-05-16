@@ -92,7 +92,7 @@ class _ListeningNowState extends State<ListeningNow> {
                         return
                           Container(
                             padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-                            child: HScrollSquareCardWithText(title: "Đừng bỏ lỡ", cards: listeningNowPageModel.listRencentlyPlayed),
+                            child: HScrollSquareCardWithText(title: "Mới nghe gần đây", cards: listeningNowPageModel.listRencentlyPlayed),
                           );} else {
                         return SkeletonLoader(
                           builder:

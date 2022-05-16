@@ -91,13 +91,13 @@ class ListeningNowPageModel {
   Future<void> inItListRencentlyPlayed() async{
     // fetch Recently played
     for(String id in listIdItem.listRencentlyPlayed){
-      final song = await HttpUtil().fetchSongModel(id);
-      if (song != null) {
+      final album = await HttpUtil().getAlbumModel(id: id);
+      if (album != null) {
         listRencentlyPlayed.add(HScrollSquareCardModel(
-            song.song.song_name,
-            song.song.artist.artist_name,
-            song.song.album.art_url,
-            song.song.id
+          album.album_name,
+          album.artist.artist_name,
+          album.art_url,
+          album.id
         ));
       }
     }
