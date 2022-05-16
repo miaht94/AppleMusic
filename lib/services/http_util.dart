@@ -431,9 +431,11 @@ class HttpUtil {
       Response res = await dio.get(MY_PROFILE_PATH, queryParameters: {
         'app_token': app_token
       });
+      print(res);
       List<SongModel> list = [];
       for (Map<String, dynamic> i in res.data['favorite_songs']) {
-          (i as Map<String, dynamic>).addAll({'artist': 'null', 'album': 'null');
+          (i as Map<String, dynamic>).addAll({'artist': i['artist'], 'album': i['album']});
+          print(i);
           list.add(SongModel.fromJson(i));
       }
       print(list[0]);

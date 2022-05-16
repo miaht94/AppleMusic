@@ -22,10 +22,16 @@ class SongMenu extends StatelessWidget {
       Column(
         children: [
           SongMenuItem(iconName: iconNames['Micro'], title: "Nghệ Sĩ", onTap: (){
+            // Navigator.push(
+            //     GetIt.I.get<AudioPageRouteManager>().getMainContext(),
+            //     MaterialPageRoute(
+            //       builder: (context) => ArtistSubPage()),
+            // );
             Navigator.push(
-                GetIt.I.get<AudioPageRouteManager>().getMainContext(),
-                MaterialPageRoute(
-                  builder: (context) => ArtistSubPage()),
+              context,
+              MaterialPageRoute(
+                builder: (context) => ArtistSubPage(artistlist:  HttpUtil().getFavoriteArtistList(app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken)),
+              ),
             );
           }),
           SongMenuItem(iconName: iconNames['Album'], title: "Album", onTap: (){

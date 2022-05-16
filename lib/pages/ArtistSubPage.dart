@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import '../components/AudioController/AudioPageRouteManager.dart';
+import '../components/Other/PageLoadError.dart';
 import '../components/RectangleCardSearchPage/ArtistRectangleCard.dart';
 import '../models/ArtistRectangleCardModel.dart';
 // import '../models/ArtistViewModel.dart';
@@ -24,8 +25,10 @@ const String PAGE_TITLE = "Nghệ sĩ";
 class ArtistSubPage extends StatefulWidget {
   const ArtistSubPage({
     Key? key,
+    required this.artistlist,
   }) : super(key: key);
 
+  final Future<List<ArtistModel>?> artistlist;
   @override
   State<ArtistSubPage> createState() => _ArtistSubPageState();
 }
@@ -83,30 +86,47 @@ class _ArtistSubPageState extends State<ArtistSubPage> {
             centerTitle: true,
             backgroundColor: isShrink ? Colors.white : Colors.transparent,
             elevation: 0),
-        body: SingleChildScrollView(
-            controller: _scrollController,
-            child: Padding(
-              padding: const EdgeInsets.only(left: kDefaultPadding),
-              child: ListView(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  PageTitleBoxCompact(title: PAGE_TITLE),
-                  Padding(
-                    padding: const EdgeInsets.only(left: kDefaultPadding),
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: ArtistModel.getSampleArtist().length,
-                      itemBuilder: (context, i){
-                        return  ArtistRectangleCard(artistModel: ArtistModel.getSampleArtist()[i], onTapArtistCard: onTapArtistCard);
-                      },
+        body: FutureBuilder(
+          future: widget.artistlist,
+          builder: (BuildContext context, AsyncSnapshot<List<ArtistModel>?> snapshot) {
+              if (!snapshot.hasData){
+                return Center(child: CircularProgressIndicator(color: Colors.red));
+                // return PageLoadError(title: "Lỗi tải danh sách");
+              }
+              else {
+                if (snapshot.data!.length == 0){
+                  return PageLoadError(title: "Thư viện nghệ sĩ rỗng");
+                }
+                else {
+                  return SingleChildScrollView(
+                    controller: _scrollController,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: kDefaultPadding),
+                      child: ListView(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        children: [
+                          PageTitleBoxCompact(title: PAGE_TITLE),
+                          Padding(
+                            padding: const EdgeInsets.only(left: kDefaultPadding),
+                            child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, i) {
+                                return ArtistRectangleCard(artistModel: snapshot.data![i],
+                                    onTapArtistCard: onTapArtistCard);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  );
+                }
+              }
+          }
         ),
       );
   }

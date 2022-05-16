@@ -85,7 +85,7 @@ class _SongSubPageState extends State<SongSubPage> {
             leading:  IconButton(
                 icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
                 onPressed: () {
-                  print("Popped");
+                  // print("Popped");
                   Navigator.pop(context);
                 }),
             title: Visibility(
@@ -103,39 +103,44 @@ class _SongSubPageState extends State<SongSubPage> {
           future: widget.songlist,
           builder: (BuildContext context, AsyncSnapshot<List<SongModel>?> snapshot) {
             if (!snapshot.hasData) {
-              return PageLoadError(title: "Lỗi tải danh sách");
+              return Center(child: CircularProgressIndicator(color: Colors.red));
+              // return PageLoadError(title: "Lỗi tải danh sách");
             }
             else {
-              return SingleChildScrollView(
-                controller: _scrollController,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: kDefaultPadding),
-                  child: ListView(
-                    shrinkWrap: true,
-                    physics: const BouncingScrollPhysics(),
-                    children: [
-                      PageTitleBoxCompact(title: PAGE_TITLE),
-                      Padding(
-                        padding: const EdgeInsets.only(left: kDefaultPadding),
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: SongCardInPlaylistModel
-                              .getSampleDataList()
-                              .length,
-                          itemBuilder: (context, i) {
-                            return SongCardInPlaylist(songModel: snapshot.data![i]);
-                          },
-                          // child: ListView(
-                          //   children: <Widget>SongCardinPlaylistMode.
-                          // )
+              if (snapshot.data!.length == 0){
+                return PageLoadError(title: "Thư viện nhạc rỗng");
+              }
+              else {
+                return SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: kDefaultPadding),
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        PageTitleBoxCompact(title: PAGE_TITLE),
+                        Padding(
+                          padding: const EdgeInsets.only(left: kDefaultPadding),
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, i) {
+                              return SongCardInPlaylist(songModel: snapshot.data![i]);
+                            },
+                            // child: ListView(
+                            //   children: <Widget>SongCardinPlaylistMode.
+                            // )
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
+              }
+
             }
           }
         ),

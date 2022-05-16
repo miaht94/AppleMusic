@@ -8,9 +8,12 @@ import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';
 
+import '../components/ContextMenu/ArtistContextMenu.dart';
+import '../components/ContextMenu/ContextMenuManager.dart';
 import '../components/Other/PageLoadError.dart';
 import '../models_refactor/ArtistModel.dart';
 
@@ -172,6 +175,14 @@ class _ArtistViewState extends State<ArtistView> {
                           onPressed: () {
                             Navigator.pop(context);
                           }),
+                      actions: <Widget>[
+                        IconButton(
+                            icon:  Icon(SFSymbols.ellipsis, color:Colors.red),
+                            onPressed: () {
+                              GetIt.I.get<ContextMenuManager>().insertOverlay(ArtistContextMenu(artistModel: snapshot.data!,));
+                            }),
+                        SizedBox(width: 10),
+                      ],
                       pinned: true,
                       floating: false,
                       backgroundColor: Colors.white,
