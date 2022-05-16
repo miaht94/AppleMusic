@@ -219,10 +219,6 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                   }
                 }
             ),
-            Container(
-              padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-              child: TextListView(title: "Khám Phá Thêm"),
-            ),
             SizedBox(height: 100)
           ],
         ),
