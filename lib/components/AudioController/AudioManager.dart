@@ -120,6 +120,7 @@ class AudioManager {
 
         //first time fetch
         currentLyricNotifier ??= HttpUtil().fetchLyrics(currentSongData.lyricURL);
+        currentLyric = await currentLyricNotifier;
       }
       // change song fetch
       if( _tempCurrentIndex != _audioPlayer.currentIndex){
