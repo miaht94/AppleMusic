@@ -1,8 +1,8 @@
 import 'package:apple_music/components/RectangleCardSearchPage/AlbumRectangleCard.dart';
 import 'package:apple_music/components/TitleComponent/PageTitleBoxCompact.dart';
-import 'package:apple_music/models/AlbumRectangleCardModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:apple_music/services/http_util.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
@@ -15,12 +15,13 @@ import 'AlbumPage.dart';
 void onTapAlbumCard(AlbumModel albumModel) {
   Navigator.push(
       GetIt.I.get<AudioPageRouteManager>().getMainContext(),
+      // ignore: inference_failure_on_instance_creation
       MaterialPageRoute(
         builder: (context) => AlbumView(albumViewModel: HttpUtil().getAlbumModel(album_name: albumModel.album_name, artist_name: albumModel.artist.artist_name),
       )));
 }
 
-const String PAGE_TITLE = "Album";
+const String PAGE_TITLE = 'Album';
 
 class AlbumSubPage extends StatefulWidget {
   const AlbumSubPage({
@@ -39,7 +40,7 @@ class _AlbumSubPageState extends State<AlbumSubPage> {
   late ScrollController _scrollController = ScrollController();
   bool lastStatus = true;
 
-  _scrollListener() {
+  void _scrollListener() {
     if (isShrink != lastStatus) {
       setState(() {
         lastStatus = isShrink;
@@ -70,17 +71,20 @@ class _AlbumSubPageState extends State<AlbumSubPage> {
       Scaffold(
         appBar: AppBar(
             leading:  IconButton(
-                icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
+                icon:  const Icon(SFSymbols.chevron_left, color:Colors.red),
                 onPressed: () {
-                  print("Popped");
+                  if (kDebugMode) {
+                    print('Popped');
+                  }
                   Navigator.pop(context);
                 }),
             title: Visibility(
+                // ignore: avoid_bool_literals_in_conditional_expressions
                 visible: isShrink ? true : false,
-                child: Text(PAGE_TITLE,
+                child: const Text(PAGE_TITLE,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18.0,
+                      fontSize: 18,
                     ))
             ),
             centerTitle: true,
@@ -90,12 +94,12 @@ class _AlbumSubPageState extends State<AlbumSubPage> {
             future: widget.albumlist,
             builder: (BuildContext context, AsyncSnapshot<List<AlbumModel>?> snapshot) {
               if (!snapshot.hasData){
-                return Center(child: CircularProgressIndicator(color: Colors.red));
+                return const Center(child: CircularProgressIndicator(color: Colors.red));
                 // return PageLoadError(title: "Lỗi tải danh sách");
               }
               else {
-                if (snapshot.data!.length == 0){
-                    return PageLoadError(title: "Thư viện album rỗng");
+                if (snapshot.data!.isEmpty){
+                    return PageLoadError(title: 'Thư viện album rỗng');
                   }
                 else {
                   return SingleChildScrollView(
@@ -106,12 +110,11 @@ class _AlbumSubPageState extends State<AlbumSubPage> {
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
                           children: [
-                            PageTitleBoxCompact(title: PAGE_TITLE),
+                            const PageTitleBoxCompact(title: PAGE_TITLE),
                             Padding(
                               padding: const EdgeInsets.only(left: kDefaultPadding),
                               child: ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
-                                scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
                                 itemCount: snapshot.data!.length,
                                 itemBuilder: (context, i) {

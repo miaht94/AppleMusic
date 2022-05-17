@@ -6,7 +6,7 @@ import 'package:skeleton_loader/skeleton_loader.dart';
 import '../components/SongCardInPlaylist/HScrollCardListConstants.dart';
 
 class PageSkeleton extends StatefulWidget {
-  PageSkeleton({
+  const PageSkeleton({
     Key? key,
   }) : super(key: key);
 
@@ -14,6 +14,7 @@ class PageSkeleton extends StatefulWidget {
   State<PageSkeleton> createState() => _PageSkeletonState();
 }
 
+// ignore: prefer_mixin
 class _PageSkeletonState extends State<PageSkeleton> with WidgetsBindingObserver {
 
   @override
@@ -22,19 +23,18 @@ class _PageSkeletonState extends State<PageSkeleton> with WidgetsBindingObserver
     return SkeletonLoader(
       builder:
       Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BigtitleSkeleton(),
-            ItemTitleSkeleton(),
+            const BigtitleSkeleton(),
+            const ItemTitleSkeleton(),
             Container(
-              padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
+              padding: const EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
               height: size.height * kVCardHeightRatio,
               child: Row(
                 children: [
                   VerticalBigCardSkeleton(size: size),
                   Container(
-                    width: 10.0,
+                    width: 10,
                     height: size.height * kVCardHeightRatio,
                   ),
                   Expanded(
@@ -45,10 +45,10 @@ class _PageSkeletonState extends State<PageSkeleton> with WidgetsBindingObserver
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: const [
                 ItemTitleSkeleton(),
                 Padding(
-                  padding: const EdgeInsets.only(right: kDefaultPadding),
+                  padding: EdgeInsets.only(right: kDefaultPadding),
                   child: SmallTitleSkeleton(),
                 ),
               ],
@@ -56,20 +56,19 @@ class _PageSkeletonState extends State<PageSkeleton> with WidgetsBindingObserver
             Container(
               height: size.height * SQUARE_CARD_HEIGHT_RATIO,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: kDefaultPadding),
+                    padding: const EdgeInsets.only(left: kDefaultPadding),
                     child: SquareCardWithTextSkeleton(size: size),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: kDefaultPadding),
+                    padding: const EdgeInsets.only(left: kDefaultPadding),
                     child: SquareCardWithTextSkeleton(size: size),
                   ),
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.only(left: kDefaultPadding),
+                      padding: const EdgeInsets.only(left: kDefaultPadding),
                       child: SquareCardWithTextSkeleton(size: size),
                     ),
                   ),
@@ -77,12 +76,8 @@ class _PageSkeletonState extends State<PageSkeleton> with WidgetsBindingObserver
               ),
             )
           ]
-      )
-      ,
-      items: 1,
-      period: Duration(seconds: 2),
+      ),
       highlightColor: Colors.lightBlue.shade300,
-      direction: SkeletonDirection.ltr,
     );
   }
 
@@ -99,7 +94,6 @@ class SquareCardWithTextSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
@@ -108,10 +102,10 @@ class SquareCardWithTextSkeleton extends StatelessWidget {
           color: Colors.white70,
         ),
         Container(
-          padding: EdgeInsets.only(top: kDefaultPadding),
-          child: SmallTitleSkeleton(),
+          padding: const EdgeInsets.only(top: kDefaultPadding),
+          child: const SmallTitleSkeleton(),
         ),
-        Expanded(
+        const Expanded(
           child: SmallTitleSkeleton(),
         )
       ],
@@ -130,13 +124,12 @@ class VerticalBigCardSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SmallTitleSkeleton(),
+        const SmallTitleSkeleton(),
         Expanded(
           child: Container(
-            padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
+            padding: const EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
             width: size.height * kVCardWidthRatio,
             height: size.height * kVCardHeightRatio,
             color: Colors.white70,
@@ -148,19 +141,21 @@ class VerticalBigCardSkeleton extends StatelessWidget {
 }
 
 class HorizontalCardSkeleton extends StatelessWidget {
+  const HorizontalCardSkeleton({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SmallTitleSkeleton(),
-        SmallTitleSkeleton(),
-        SmallTitleSkeleton(),
+        const SmallTitleSkeleton(),
+        const SmallTitleSkeleton(),
+        const SmallTitleSkeleton(),
         Container(
             width: kCardWidth,
             height: kCardHeight,
-            margin: EdgeInsets.only(right: 15),
+            margin: const EdgeInsets.only(right: 15),
             child: Stack(children: [
               Positioned(
                   top: 0,
@@ -179,8 +174,8 @@ class HorizontalCardSkeleton extends StatelessWidget {
                 left: 0,
                 child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
                   Container(
-                      padding: EdgeInsets.only(left: kDefaultCardPadding),
-                      margin: EdgeInsets.only(right: kDefaultCardPadding),
+                      padding: const EdgeInsets.only(left: kDefaultCardPadding),
+                      margin: const EdgeInsets.only(right: kDefaultCardPadding),
                       width: kCardWidth * 0.7,
                       color: Colors.white70,
                   ),
@@ -200,7 +195,7 @@ class SmallTitleSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: kDefaultPadding),
+      margin: const EdgeInsets.only(bottom: kDefaultPadding),
       width: 100,
       height: 10,
       color: Colors.white70,
@@ -216,7 +211,7 @@ class ItemTitleSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(left: kDefaultPadding , bottom: kDefaultPadding),
+        padding: const EdgeInsets.only(left: kDefaultPadding , bottom: kDefaultPadding),
         child: Container(
           height: 20,
           width: 200,
@@ -234,7 +229,7 @@ class BigtitleSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(top: kDefaultPadding * 4 , bottom: kDefaultPadding, left: kDefaultPadding),
+        padding: const EdgeInsets.only(top: kDefaultPadding * 4 , bottom: kDefaultPadding, left: kDefaultPadding),
         child: Container(
           height: 40,
           width: 150,

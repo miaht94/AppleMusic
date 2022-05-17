@@ -1,22 +1,21 @@
 import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
-import 'package:apple_music/components/AudioController/AudioStates.dart';
 import 'package:apple_music/components/AudioController/AudioUi.dart';
 import 'package:apple_music/components/NextPreviousButton/NextSongButton.dart';
 import 'package:apple_music/components/NextPreviousButton/PreviousSongButton.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../ButtonPausePlay/PausePlayButton.dart';
 
+// ignore: must_be_immutable
 class PlayingBar extends StatefulWidget {
   AudioManager audioManager = GetIt.I.get < AudioManager > ();
+  // ignore: sort_constructors_first
   PlayingBar({
     Key ? key
   }): super(key: key);
@@ -33,18 +32,21 @@ class _PlayingBarState extends State < PlayingBar > {
     ValueListenableBuilder < SongUrlModel? > (
       valueListenable: widget.audioManager.currentSongNotifier,
       builder: (context, currentSong, _) {
-        if (currentSong == null) return Container();
+        if (currentSong == null) {
+          return Container();
+        }
         return GestureDetector(
           onTap:  () {
-            Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));
+            // ignore: inference_failure_on_instance_creation
+            Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => const AudioUi()));
           },
           child: Material(
             type: MaterialType.transparency,
             elevation: 6,
             child: Container(
-              padding: EdgeInsets.only(top: kDefaultPadding / 2, left: kDefaultPadding, bottom: kDefaultPadding / 2),
+              padding: const EdgeInsets.only(top: kDefaultPadding / 2, left: kDefaultPadding, bottom: kDefaultPadding / 2),
               width: screenSize.width,
-              color: Color.fromARGB(239, 249, 249, 249),
+              color: const Color.fromARGB(239, 249, 249, 249),
               child: Container(
                 width: screenSize.width,
                 child: Row(children: [
@@ -56,7 +58,7 @@ class _PlayingBarState extends State < PlayingBar > {
                           borderRadius: BorderRadius.all(Radius.circular(8))
                         ),
                         child: CachedNetworkImage(
-                          imageUrl: '${currentSong.song.album.art_url}',
+                          imageUrl: currentSong.song.album.art_url,
                           progressIndicatorBuilder: (context, url, downloadProgress) =>
                           const SkeletonAvatar(),
                             imageBuilder: (context, imageProvider) =>
@@ -81,8 +83,6 @@ class _PlayingBarState extends State < PlayingBar > {
                         children: [
                           Expanded(
                             child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 
                                 Flexible(
@@ -96,7 +96,6 @@ class _PlayingBarState extends State < PlayingBar > {
                                     ], ),
                                 ),
                                 Flexible(
-                                  flex: 1,
                                   child: Container(),
                                 ),
                                 Flexible(

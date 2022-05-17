@@ -1,3 +1,5 @@
+// ignore_for_file: type=lint
+
 Map<String, dynamic> mockUser = {
     '_id': '625d771f133da5aa54397daa',
     'name': 'Đặng Thế Hoàng Anh',
@@ -53,7 +55,9 @@ Map<String, dynamic> mockUser = {
             '__v': 0
         }
     ],
+    // ignore: inference_failure_on_collection_literal
     'favorite_albums': [],
+    // ignore: inference_failure_on_collection_literal
     'favorite_artists': []
 };
 
@@ -154,6 +158,7 @@ Map < String, dynamic > mockPlaylist = {
         'artist_name': 'Vu',
         'artist_description': 'Vu, được viết cách điệu là Vu tên đầy đủ là Hoàng Thái Vu sinh tại Hà Nội, là ca sĩ kiêm sáng tác nhạc người Việt Nam.',
         'highlight_song': null,
+        // ignore: inference_failure_on_collection_literal
         'top_song_list': [],
         'album_list': [
           '625ed08f133da5aa54397e22',
@@ -189,6 +194,7 @@ Map < String, dynamic > mockPlaylist = {
         'artist_name': 'Vu',
         'artist_description': 'Vu, được viết cách điệu là Vu tên đầy đủ là Hoàng Thái Vu sinh tại Hà Nội, là ca sĩ kiêm sáng tác nhạc người Việt Nam.',
         'highlight_song': null,
+        // ignore: inference_failure_on_collection_literal
         'top_song_list': [],
         'album_list': [
           '625ed08f133da5aa54397e22',
@@ -224,6 +230,7 @@ Map < String, dynamic > mockPlaylist = {
         'artist_name': 'Bùi Trường Linh',
         'artist_description': 'buitruonglinh tên đầy đủ là Bùi Trường Linh. Anh chàng ca/ nhạc sĩ sinh năm 1999 đến từ Hà Nội, từng học tại trường Học viện Âm nhạc Quốc gia Việt Nam, sau này chuyển vào TP Hồ Chí Minh sinh sống và học tập tại trường Đại học Sân khấu - Điện ảnh - Truyền hình & Sự kiện.',
         'highlight_song': null,
+        // ignore: inference_failure_on_collection_literal
         'top_song_list': [],
         'album_list': [
           '625ed43c133da5aa54397e45',
@@ -259,6 +266,7 @@ Map < String, dynamic > mockPlaylist = {
         'artist_name': 'Bùi Trường Linh',
         'artist_description': 'buitruonglinh tên đầy đủ là Bùi Trường Linh. Anh chàng ca/ nhạc sĩ sinh năm 1999 đến từ Hà Nội, từng học tại trường Học viện Âm nhạc Quốc gia Việt Nam, sau này chuyển vào TP Hồ Chí Minh sinh sống và học tập tại trường Đại học Sân khấu - Điện ảnh - Truyền hình & Sự kiện.',
         'highlight_song': null,
+        // ignore: inference_failure_on_collection_literal
         'top_song_list': [],
         'album_list': [
           '625ed43c133da5aa54397e45',
@@ -632,6 +640,7 @@ Map < String, dynamic > mockSong = {
       'artist_name': 'Vu',
       'artist_description': 'Vu, được viết cách điệu là Vu tên đầy đủ là Hoàng Thái Vu sinh tại Hà Nội, là ca sĩ kiêm sáng tác nhạc người Việt Nam.',
       'highlight_song': null,
+      // ignore: inference_failure_on_collection_literal
       'top_song_list': [],
       'album_list': [
         '625ed08f133da5aa54397e22',
@@ -648,6 +657,7 @@ Map < String, dynamic > mockArtist = {
   'artist_name': 'Vu',
   'artist_description': 'Vu, được viết cách điệu là Vu tên đầy đủ là Hoàng Thái Vu sinh tại Hà Nội, là ca sĩ kiêm sáng tác nhạc người Việt Nam.',
   'highlight_song': null,
+  // ignore: inference_failure_on_collection_literal
   'top_song_list': [],
   'album_list': [{
       '_id': '625ed08f133da5aa54397e22',
@@ -699,6 +709,7 @@ Map < String, dynamic > mockPlaylistPublic = {
         'artist_name': 'Vu',
         'artist_description': 'Vu, được viết cách điệu là Vu tên đầy đủ là Hoàng Thái Vu sinh tại Hà Nội, là ca sĩ kiêm sáng tác nhạc người Việt Nam.',
         'highlight_song': null,
+        // ignore: inference_failure_on_collection_literal
         'top_song_list': [],
         'album_list': [
           '625ed08f133da5aa54397e22',
@@ -734,6 +745,7 @@ Map < String, dynamic > mockPlaylistPublic = {
         'artist_name': 'Vu',
         'artist_description': 'Vu, được viết cách điệu là Vu tên đầy đủ là Hoàng Thái Vu sinh tại Hà Nội, là ca sĩ kiêm sáng tác nhạc người Việt Nam.',
         'highlight_song': null,
+        // ignore: inference_failure_on_collection_literal
         'top_song_list': [],
         'album_list': [
           '625ed08f133da5aa54397e22',
@@ -769,6 +781,7 @@ Map < String, dynamic > mockPlaylistPublic = {
         'artist_name': 'Bùi Trường Linh',
         'artist_description': 'buitruonglinh tên đầy đủ là Bùi Trường Linh. Anh chàng ca/ nhạc sĩ sinh năm 1999 đến từ Hà Nội, từng học tại trường Học viện Âm nhạc Quốc gia Việt Nam, sau này chuyển vào TP Hồ Chí Minh sinh sống và học tập tại trường Đại học Sân khấu - Điện ảnh - Truyền hình & Sự kiện.',
         'highlight_song': null,
+        // ignore: inference_failure_on_collection_literal
         'top_song_list': [],
         'album_list': [
           '625ed43c133da5aa54397e45',
@@ -804,6 +817,7 @@ Map < String, dynamic > mockPlaylistPublic = {
         'artist_name': 'Bùi Trường Linh',
         'artist_description': 'buitruonglinh tên đầy đủ là Bùi Trường Linh. Anh chàng ca/ nhạc sĩ sinh năm 1999 đến từ Hà Nội, từng học tại trường Học viện Âm nhạc Quốc gia Việt Nam, sau này chuyển vào TP Hồ Chí Minh sinh sống và học tập tại trường Đại học Sân khấu - Điện ảnh - Truyền hình & Sự kiện.',
         'highlight_song': null,
+        // ignore: inference_failure_on_collection_literal
         'top_song_list': [],
         'album_list': [
           '625ed43c133da5aa54397e45',

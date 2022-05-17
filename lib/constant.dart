@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-const String kFontFamily = "Roboto";
+const String kFontFamily = 'Roboto';
 const double kDefaultPadding = 10;
 const Color kHeadlineColor = Color.fromRGBO(179, 179, 179, 1);//
 // final isTestingMode = false;

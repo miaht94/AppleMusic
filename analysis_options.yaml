@@ -19,7 +19,6 @@ linter:
     # - always_specify_types # we use type inference
     - annotate_overrides
     # - avoid_annotating_with_dynamic # we want to be explicit with dynamic
-    - avoid_as
     - avoid_bool_literals_in_conditional_expressions
     # - avoid_catches_without_on_clauses # we catch both Exceptions and Errors
     - avoid_catching_errors
@@ -70,7 +69,6 @@ linter:
     - empty_catches
     - empty_constructor_bodies
     - empty_statements
-    - file_names
     # - flutter_style_todos # don't need those for now
     - hash_and_equals
     - implementation_imports
@@ -88,7 +86,6 @@ linter:
     - no_duplicate_case_values
     - no_logic_in_create_state
     - no_runtimeType_toString
-    - non_constant_identifier_names
     - null_closures
     # - omit_local_variable_types # opposite of always_specify_types
     - one_member_abstracts
@@ -154,7 +151,6 @@ linter:
     - unnecessary_const
     # - unnecessary_final # having finals is the preferred approach
     - unnecessary_getters_setters
-    - unnecessary_lambdas
     - unnecessary_new
     - unnecessary_null_aware_assignments
     - unnecessary_null_in_if_null_operators

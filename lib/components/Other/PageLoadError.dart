@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
+// ignore: must_be_immutable
 class PageLoadError extends StatelessWidget {
   PageLoadError({
     Key? key,
@@ -16,10 +17,9 @@ class PageLoadError extends StatelessWidget {
       height: double.infinity,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Icon(SFSymbols.exclamationmark_circle, color: Colors.red, size: 45),
-                Text(this.title, textAlign: TextAlign.center, style: TextStyle(
+                const Icon(SFSymbols.exclamationmark_circle, color: Colors.red, size: 45),
+                Text(title, textAlign: TextAlign.center, style: const TextStyle(
                     color: Colors.black,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
 
 import '../../models/LyricModel.dart';
 import 'LyricConstant.dart';
 
 class LyricWidget extends StatefulWidget{
-  LyricWidget(Key? key, this.lyric, this.onTap,
+  const LyricWidget(Key? key, this.lyric, this.onTap,
       this._controller, this.id)
       : super(key:key);
   final LyricModel lyric;
@@ -28,20 +27,24 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
   }
 
   @override
+  // ignore: always_declare_return_types
   dispose() {
     widget._controller?.dispose();
     super.dispose();
   }
 
+  // ignore: always_declare_return_types, inference_failure_on_function_return_type
   _onTapUp() {
     widget.onTap(widget.id);
   }
+  // ignore: always_declare_return_types, inference_failure_on_function_return_type
   _onTapDown() {
-    widget._controller?.animateTo(MIN_SCALE,duration: Duration(milliseconds: TAP_DOWN_ANIMATION_DURATION));
+    widget._controller?.animateTo(MIN_SCALE,duration: const Duration(milliseconds: TAP_DOWN_ANIMATION_DURATION));
   }
 
+  // ignore: always_declare_return_types, inference_failure_on_function_return_type
   _onTapCancel() {
-    widget._controller?.animateTo(NORMAL_SCALE,duration: Duration(milliseconds: CANCEL_ANIMATION_DURATION));
+    widget._controller?.animateTo(NORMAL_SCALE,duration: const Duration(milliseconds: CANCEL_ANIMATION_DURATION));
   }
 
   @override
@@ -49,12 +52,12 @@ class _LyricWidgetState extends State<LyricWidget> with TickerProviderStateMixin
     return GestureDetector(
       onTapUp: (_) => _onTapUp(),
       onTapDown: (_) => _onTapDown(),
-      onTapCancel: () => _onTapCancel(),
+      onTapCancel: _onTapCancel,
       child: ScaleTransition(
         scale: widget._controller!,
           child: Container(
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(10),
             decoration:  BoxDecoration(
               color: Colors.white.withOpacity(
                   (widget._controller!.value >= 1.0) ? 0.0

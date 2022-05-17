@@ -12,6 +12,7 @@ class SongUrlModel{
   String lyricURL;
   SongModel song;
 
+  // ignore: sort_constructors_first
   factory SongUrlModel.fromJson(Map<String,dynamic> json){
     return SongUrlModel(
         song_url: json['song_url'],
@@ -41,8 +42,9 @@ class SongModel{
   AlbumRawModel album;
   ArtistRawModel artist;
 
+  // ignore: sort_constructors_first
   factory SongModel.fromJson(Map<String,dynamic> json) {
-    SongModel newSong = SongModel(
+    final SongModel newSong = SongModel(
         id: json['_id'],
         song_name: json['song_name'],
         track_number: json['track_number'],
@@ -78,7 +80,7 @@ class ArtistRawModel {
 
 
   factory ArtistRawModel.fromJson(Map<String, dynamic> json) {
-    ArtistRawModel newArtist = ArtistRawModel(
+    final ArtistRawModel newArtist = ArtistRawModel(
         id: json['_id'],
         artist_name: json['artist_name'],
         artist_description: json['artist_description'],

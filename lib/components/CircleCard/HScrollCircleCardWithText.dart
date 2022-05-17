@@ -1,13 +1,14 @@
+import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/HScrollCircleModel.dart';
 import 'package:flutter/material.dart';
-import 'package:apple_music/constant.dart';
-import 'HScrollCircleCard.dart';
-import '../TitleComponent/SeeAllButton.dart';
+
 import '../TitleComponent/BoldTitle.dart';
+import '../TitleComponent/SeeAllButton.dart';
+import 'HScrollCircleCard.dart';
 import 'HScrollCircleConstant.dart';
 
 class HScrollCircleCardWithText extends StatelessWidget{
-  HScrollCircleCardWithText({Key? key,
+  const HScrollCircleCardWithText({Key? key,
     required this.title,
     required this.cards,
   }): super(key: key);
@@ -26,11 +27,11 @@ class HScrollCircleCardWithText extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: kDefaultPadding * 1.5),
+                padding: const EdgeInsets.only(left: kDefaultPadding * 1.5),
                 child: BoldTitle(title: title),
               ),
               Padding(
-                padding: EdgeInsets.only(right: kDefaultPadding),
+                padding: const EdgeInsets.only(right: kDefaultPadding),
                 child: SeeAllButton(),
               ),
             ],

@@ -1,9 +1,7 @@
-import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
+import 'package:apple_music/constant.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/material.dart';
-import 'package:apple_music/constant.dart';
-import 'package:get_it/get_it.dart';
-import '../../models/ArtistViewModel.dart';
+
 import '../../pages/ArtistPage.dart';
 import 'HScrollCircleConstant.dart';
 
@@ -37,24 +35,25 @@ class CircleCard extends StatelessWidget{
       child: Container(
         width: WIDTH,
         height: size.height * CIRCLE_CARD_HEIGHT_RATIO,
-        margin: EdgeInsets.only(left: kDefaultPadding),
+        margin: const EdgeInsets.only(left: kDefaultPadding),
         child: InkWell(
           onTap: () => {
               Navigator.push(
                 context,
+                // ignore: inference_failure_on_instance_creation
                 MaterialPageRoute(
-                  builder: (context) => ArtistView(artistViewModel: HttpUtil().fetchArtistModel(artist_name:this.artist)),
+                  builder: (context) => ArtistView(artistViewModel: HttpUtil().fetchArtistModel(artist_name:artist)),
                 ),
               )
           },
           child: ListView(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               Card(
                 margin: EdgeInsets.zero,
                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                shape: CircleBorder(
+                shape: const CircleBorder(
                 ),
                 child: Container(
                   height: WIDTH,

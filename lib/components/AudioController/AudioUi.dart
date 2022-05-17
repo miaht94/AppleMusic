@@ -1,4 +1,5 @@
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
+import 'package:apple_music/components/AudioController/AudioStates.dart';
 import 'package:apple_music/components/ButtonLyric/LyricButton.dart';
 import 'package:apple_music/components/ButtonPausePlay/PausePlayButton.dart';
 import 'package:apple_music/components/ButtonPlaylist/PlaylistButton.dart';
@@ -14,16 +15,15 @@ import 'package:apple_music/components/RepeatButton/RepeatButton.dart';
 import 'package:apple_music/components/ShuffleButton/ShuffleButton.dart';
 import 'package:apple_music/models/LyricModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
+
 import '../../services/service_locator.dart';
 import 'AudioManager.dart';
-import 'package:apple_music/components/AudioController/AudioStates.dart';
 
 class AudioUi extends StatefulWidget {
-  AudioUi({
+  const AudioUi({
     Key? key,
   }) : super(key: key);
 
@@ -31,9 +31,10 @@ class AudioUi extends StatefulWidget {
   State<AudioUi> createState() => _AudioUiState();
 }
 
+// ignore: prefer_mixin
 class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
   bool isPlaying = false;
-  String lyricUrl = "";
+  String lyricUrl = '';
   final AudioManager _audioManager = getIt<AudioManager>();
 
   @override
@@ -60,11 +61,11 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
               return Material(
                 type: MaterialType.transparency,
                 child: Dismissible(
-                  key :  Key('AudioUi'),
+                  key :  const Key('AudioUi'),
                   direction: DismissDirection.down,
                   onDismissed: (_) => Navigator.pop(GetIt.I.get<AudioPageRouteManager>().getMainContext()),
                   child: Container(
-                    color: Color.fromRGBO(21, 45, 75, 0.8235294117647058),
+                    color: const Color.fromRGBO(21, 45, 75, 0.8235294117647058),
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -74,54 +75,54 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                           child: _buildChildWindow()
                         ),
                         Positioned(
-                          bottom: 190.0,
+                          bottom: 190,
                           width: size.width * 0.99,
                           child: _buildProgessBar()
                         ),
                         _buildCurrentSong(),
                         _buildCurrentArtWork(),
                         Positioned(
-                          bottom: 68.0,
-                          left: 100.0,
-                          right: 100.0,
-                          height: 100.0,
+                          bottom: 68,
+                          left: 100,
+                          right: 100,
+                          height: 100,
                           child: Center(child: _buildButtonPausePlay())
                         ),
                         Positioned(
-                          bottom: 0.0,
-                          left: 50.0,
-                          width: 64.0,
-                          height: 64.0,
+                          bottom: 0,
+                          left: 50,
+                          width: 64,
+                          height: 64,
                           child: _buildLyricButton(),
                         ),
                         Positioned(
-                          bottom: 0.0,
-                          right: 50.0,
-                          width: 64.0,
-                          height: 64.0,
+                          bottom: 0,
+                          right: 50,
+                          width: 64,
+                          height: 64,
                           child: _buildPlaylistButton(),
                         ),
                         Positioned(
-                          bottom: 85.0,
-                          right: 50.0,
-                          width: 64.0,
-                          height: 64.0,
+                          bottom: 85,
+                          right: 50,
+                          width: 64,
+                          height: 64,
                           child: _buldNextSongButton(),
                         ),
                         Positioned(
-                          bottom: 85.0,
-                          left: 30.0,
-                          width: 64.0,
-                          height: 64.0,
+                          bottom: 85,
+                          left: 30,
+                          width: 64,
+                          height: 64,
                           child: _buldPreviousSongButton(),
                         ),
                         Positioned(
-                          top: 130.0,
-                          right: 10.0,
+                          top: 130,
+                          right: 10,
                           child: _buildManagePlaylist(),
                         ),
                         Positioned(
-                          top: 45.0,
+                          top: 45,
                           child: Container(
                             height: 3,
                             width: MediaQuery.of(context).size.width * 0.25,
@@ -154,7 +155,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
               );
           } else {
             EasyLoading.show(status: 'Loading');
-            return SizedBox();
+            return const SizedBox();
           }
         }
     );
@@ -173,11 +174,10 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                 blur: 5,
                 backgroundImagePath: currentSong.song.album.art_url,
                 child: Container(
-                  padding: EdgeInsets.only(left: 20.0),
+                  padding: const EdgeInsets.only(left: 20),
                   child: ValueListenableBuilder<ChildWindowState>(
                       valueListenable: _audioManager.childWindowNotifier,
                       builder: (_, value, __) {
-                        var size = MediaQuery.of(context).size;
                         return Stack(
                             children: [
                               AnimatedOpacity(
@@ -185,6 +185,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeIn,
                                 child: IgnorePointer(
+                                  // ignore: avoid_bool_literals_in_conditional_expressions
                                   ignoring: (value != ChildWindowState.lyrics) ? true : false,
                                   child: _buildLyrics(),
                                 )
@@ -194,6 +195,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeIn,
                                 child: IgnorePointer(
+                                  // ignore: avoid_bool_literals_in_conditional_expressions
                                   ignoring: (value != ChildWindowState.playlist) ? true : false,
                                   child: _buildPlaylist(),
                                 ),
@@ -206,7 +208,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                 );
               } else {
                 return
-                  SizedBox();
+                  const SizedBox();
             }
         }
       );
@@ -218,40 +220,36 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
   }
 
   Widget _buildLyrics() {
-    var size = MediaQuery.of(context).size;
 
     return
-      Container(
-        child:
-        ValueListenableBuilder<SongUrlModel?>(
-          valueListenable: _audioManager.currentSongNotifier,
-          builder: (_, currentSong, __) {
-            return FutureBuilder<List<LyricModel>>(
-              future: _audioManager.currentLyricNotifier,
-              builder: (context, snapshot) {
-                if(snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-                return ValueListenableBuilder<int>(
-                  valueListenable: _audioManager.lyricIndexNotifier,
-                  builder: (_, index, __) {
-                      return ListLyrics(
-                        currentPosition: _audioManager.progressNotifier.value.dragPosition,
-                        currentTime: _audioManager.progressNotifier.value.current,
-                        onTimeChanged: _audioManager.seek,
-                        onPositionChanged: _audioManager.drag,
-                        lyrics: snapshot.data!,
-                      );
-                    }
-                  );
-                }
-                else {
-                      return
-                          SizedBox();
-                    }
-                  },
+      ValueListenableBuilder<SongUrlModel?>(
+        valueListenable: _audioManager.currentSongNotifier,
+        builder: (_, currentSong, __) {
+          return FutureBuilder<List<LyricModel>>(
+            future: _audioManager.currentLyricNotifier,
+            builder: (context, snapshot) {
+              if(snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+              return ValueListenableBuilder<int>(
+                valueListenable: _audioManager.lyricIndexNotifier,
+                builder: (_, index, __) {
+                    return ListLyrics(
+                      currentPosition: _audioManager.progressNotifier.value.dragPosition,
+                      currentTime: _audioManager.progressNotifier.value.current,
+                      onTimeChanged: _audioManager.seek,
+                      onPositionChanged: _audioManager.drag,
+                      lyrics: snapshot.data!,
+                    );
+                  }
                 );
               }
-            ),
-      );
+              else {
+                    return
+                        const SizedBox();
+                  }
+                },
+              );
+            }
+          );
   }
 
   Widget _buildCurrentArtWork() {
@@ -265,7 +263,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
   Widget _buildProgessBar() {
     return
       Container(
-        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+        padding: const EdgeInsets.only(left: 20, right: 20),
         child: ValueListenableBuilder<ProgressBarState>(
           valueListenable: _audioManager.progressNotifier,
           builder: (_, value, __) {
@@ -298,27 +296,25 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
 
   Widget _buildManagePlaylist() {
     return
-    Container(
-      child: ValueListenableBuilder<ChildWindowState>(
-          valueListenable: _audioManager.childWindowNotifier,
-          builder: (_, value, __) {
-            var size = MediaQuery.of(context).size;
-            return AnimatedOpacity(
-                opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeIn,
-                child: AbsorbPointer(
-                  absorbing: (value != ChildWindowState.playlist) ? true : false,
-                  child:  Row(
-                    children: [
-                      _buldShuffleButton(),
-                      _buildRepeatButton(),
-                    ],
-                  ),
-                )
-            );
-          }
-      ),
+    ValueListenableBuilder<ChildWindowState>(
+        valueListenable: _audioManager.childWindowNotifier,
+        builder: (_, value, __) {
+          return AnimatedOpacity(
+              opacity: (value != ChildWindowState.playlist)? 0.0: 1.0,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+              child: AbsorbPointer(
+                // ignore: avoid_bool_literals_in_conditional_expressions
+                absorbing: (value != ChildWindowState.playlist) ? true : false,
+                child:  Row(
+                  children: [
+                    _buldShuffleButton(),
+                    _buildRepeatButton(),
+                  ],
+                ),
+              )
+          );
+        }
     );
   }
   Widget _buildRepeatButton() {

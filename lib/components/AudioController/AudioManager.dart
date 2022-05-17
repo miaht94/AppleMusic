@@ -32,9 +32,8 @@ class AudioManager {
   late ConcatenatingAudioSource _playlist;
   int _tempCurrentIndex = 0;
 
-    AudioManager(){
-  }
 
+  // ignore: avoid_void_async
   void init() async{
     _audioPlayer = AudioPlayer();
     _initPlaylist();
@@ -45,6 +44,7 @@ class AudioManager {
 
   }
 
+  // ignore: avoid_void_async
   void _initPlaylist() async{
     if(_audioPlayer.shuffleModeEnabled) {
       await _audioPlayer.setShuffleModeEnabled(false);
@@ -102,6 +102,7 @@ class AudioManager {
         pausePlayButtonNotifier.value = PausePlayButtonState.playing;
       } else {
         _audioPlayer.seek(Duration.zero);
+        // ignore: cascade_invocations
         _audioPlayer.pause();
       }
     });
@@ -109,7 +110,9 @@ class AudioManager {
 
   void _listenForSequenceState(){
     _audioPlayer.sequenceStateStream.listen((sequenceState) async{
-      if (sequenceState == null) return;
+      if (sequenceState == null) {
+        return;
+      }
       final currentItem = sequenceState.currentSource;
       if (!isMoving && currentItem != null) {
         final SongUrlModel currentSongData = currentItem.tag;
@@ -142,7 +145,7 @@ class AudioManager {
         }
       }
 
-      List<IndexedAudioSource> playlist = sequenceState.effectiveSequence;
+      final List<IndexedAudioSource> playlist = sequenceState.effectiveSequence;
       playlistNotifier.value = playlist;
 
       if (playlist.isEmpty || currentItem == null) {
@@ -189,6 +192,7 @@ class AudioManager {
     childWindowNotifier.value = ChildWindowState.playlist;
   }
 
+  // ignore: avoid_void_async
   void shuffle() async{
     final enable = !_audioPlayer.shuffleModeEnabled;
     if (enable) {
@@ -232,7 +236,7 @@ class AudioManager {
 
   }
 
-  Future<void> move(currentIndex, newIndex) async {
+  Future<void> move(int currentIndex,int newIndex) async {
     if (!_audioPlayer.shuffleModeEnabled) {
       isMoving = true;
       await _playlist.move(currentIndex, newIndex).then((value) => {isMoving = false});
@@ -246,34 +250,36 @@ class AudioManager {
 
   Future<void> addAndPlayASong(String songId) async {
     await insertNext(songId);
+    // ignore: non_constant_identifier_names
     int CurrentIndex = _audioPlayer.currentIndex ?? 0;
     if (CurrentIndex != _playlist.length && _playlist.length != 1){
       CurrentIndex ++;
     }
-    _audioPlayer.seek(Duration(seconds: 0),index : CurrentIndex);
+    await _audioPlayer.seek(const Duration(),index : CurrentIndex);
     play();
   }
 
   Future<void> clearAndAddAList(List<String> playLists) async {
     await clear();
     isLoading.value = true;
-    List<SongUrlModel> listSongs = [];
+    final List<SongUrlModel> listSongs = [];
     bool isFirst = true;
-      for (String songUrl in playLists){
+      for (final String songUrl in playLists){
         try {
           final SongUrlModel? songUrlModel = await HttpUtil().fetchSongModel(songUrl);
           listSongs.add(songUrlModel!);
+        // ignore: empty_catches
         } catch(e) {
       }
     }
     currentLyricNotifier = HttpUtil().fetchLyrics(listSongs[0].lyricURL);
     currentLyric = await currentLyricNotifier;
-    for (SongUrlModel value in listSongs){
+    for (final SongUrlModel value in listSongs){
       await _playlist.add(AudioSource.uri(Uri.parse(value.song_url),
           tag: value
       ));
       if (isFirst){
-         _audioPlayer.seek(Duration(milliseconds: 0),index : 0);
+         await _audioPlayer.seek(const Duration(),index : 0);
         isFirst = false;
         play();
       }
@@ -284,15 +290,16 @@ class AudioManager {
   }
 
   Future<void> addAList(List<String> playLists) async {
-    List<SongUrlModel> listSongs = [];
-      for (String songUrl in playLists){
+    final List<SongUrlModel> listSongs = [];
+      for (final String songUrl in playLists){
         try {
           final SongUrlModel? songUrlModel = await HttpUtil().fetchSongModel(songUrl);
           listSongs.add(songUrlModel!);
+        // ignore: empty_catches
         } catch(e) {
       }
     }
-    for (SongUrlModel value in listSongs){
+    for (final SongUrlModel value in listSongs){
       await _playlist.add(AudioSource.uri(Uri.parse(value.song_url),
           tag: value
       ));
@@ -307,8 +314,10 @@ class AudioManager {
     late SongUrlModel? value;
     try {
       value = await HttpUtil().fetchSongModel(songId);
+    // ignore: empty_catches
     } catch(e) {
     }
+    // ignore: non_constant_identifier_names
     int CurrentIndex = _audioPlayer.currentIndex ?? 0;
     if (CurrentIndex != _playlist.length){
       CurrentIndex ++;
@@ -325,6 +334,7 @@ class AudioManager {
     late SongUrlModel? value;
     try {
       value = await HttpUtil().fetchSongModel(songId);
+    // ignore: empty_catches
     } catch(e) {
     }
     if(_playlist.length == 0){
@@ -342,10 +352,10 @@ class AudioManager {
     if (!_audioPlayer.shuffleModeEnabled) {
       await _playlist.removeAt(index);
     } else {
-      index = await _playlist.shuffleIndices.indexOf(index);
+      index = _playlist.shuffleIndices.indexOf(index);
       await _playlist.removeAt(index);
     }
-    EasyLoading.showToast('Xóa thành công', duration: Duration(milliseconds: 500));
+    await EasyLoading.showToast('Xóa thành công', duration: const Duration(milliseconds: 500));
   }
 
   int getCurrentSongIndex(){

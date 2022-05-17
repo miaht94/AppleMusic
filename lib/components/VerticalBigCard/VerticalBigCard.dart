@@ -2,16 +2,17 @@ import 'dart:ui';
 
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/components/VerticalBigCard/VerticalBigCardConstant.dart';
-import 'package:apple_music/models/VerticalCardWithTitleModel.dart';
 import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:apple_music/pages/PlaylistPage.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class VerticalBigCard extends StatefulWidget {
   late String description;
   late String imagePath;
   Color footerColor;
   final PlaylistModel playlistModel;
+  // ignore: sort_constructors_first
   VerticalBigCard({
     Key ? key,
     required this.playlistModel,
@@ -30,7 +31,7 @@ class _VerticalBigCardState extends State < VerticalBigCard > with SingleTickerP
   late AnimationController anc;
   @override
   void initState() {
-    anc = new AnimationController(vsync: this, duration: Duration(milliseconds: 50));
+    anc = AnimationController(vsync: this, duration: const Duration(milliseconds: 50));
     super.initState();
     setState(() {
     });
@@ -48,6 +49,7 @@ class _VerticalBigCardState extends State < VerticalBigCard > with SingleTickerP
     });
     Navigator.push(
       context,
+      // ignore: inference_failure_on_instance_creation
       MaterialPageRoute(
         builder: (context) => PlaylistView(playlistModel: Future.value(widget.playlistModel)),
       ),
@@ -63,9 +65,9 @@ class _VerticalBigCardState extends State < VerticalBigCard > with SingleTickerP
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    double cardWidth = size.height * kVCardWidthRatio;
-    double cardHeight = size.height * kVCardHeightRatio;
+    final Size size = MediaQuery.of(context).size;
+    final double cardWidth = size.height * kVCardWidthRatio;
+    final double cardHeight = size.height * kVCardHeightRatio;
     return GestureDetector(
       onTapDown: (TapDownDetails details) {
         onTapDown();
@@ -73,17 +75,16 @@ class _VerticalBigCardState extends State < VerticalBigCard > with SingleTickerP
       onTapUp: (TapUpDetails details) {
         onTapUp();
       },
-      onTapCancel: () {
-        onTapCancel();
-      },
+      onTapCancel: onTapCancel,
       child: AnimatedBuilder(
         animation: anc,
         builder: (context, child) =>
         Container(
           height: cardHeight,
           width: cardWidth,
+          margin: const EdgeInsets.only(right: kVCardMargin),
           child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(kCardBorderRadius)),
+            borderRadius: const BorderRadius.all(Radius.circular(kCardBorderRadius)),
             child: Stack(
 
               children: [
@@ -114,20 +115,19 @@ class _VerticalBigCardState extends State < VerticalBigCard > with SingleTickerP
                       child: Container(height: 100,
                         decoration: BoxDecoration(
                           color: widget.footerColor.withOpacity(0.6),
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(kVCardBorderRadius), bottomRight: Radius.circular(kVCardBorderRadius))
+                          borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(kVCardBorderRadius), bottomRight: Radius.circular(kVCardBorderRadius))
                         ),
                         alignment: Alignment.center,
-                        child: Text(widget.description, style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: kCardDesSize), textAlign: TextAlign.center,), 
+                        child: Text(widget.description, style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: kCardDesSize), textAlign: TextAlign.center,),
                       ),
                     ),
                   )
 
                 ),
-                Positioned(child: Container(width: double.infinity, height: double.infinity, color: Color.fromARGB(255, 129, 129, 129).withOpacity(anc.value * 0.25), ))
+                Positioned(child: Container(width: double.infinity, height: double.infinity, color: const Color.fromARGB(255, 129, 129, 129).withOpacity(anc.value * 0.25), ))
               ]
             ),
-          ),
-          margin: EdgeInsets.only(right: kVCardMargin)
+          )
         ),
       ),
     );

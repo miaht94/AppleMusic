@@ -10,7 +10,7 @@ const double kVCardMargin = kDefaultPadding*1.2;
 const double kVCardBorderRadius = 8;
 
 const Color kVCardShadowColor = Color.fromRGBO(0, 0, 0, 0.3);
-const Offset kVCardShadowOffset = const Offset(0, 4);
+const Offset kVCardShadowOffset = Offset(0, 4);
 const double kVCardShadowBlurRadius = 10;
 
 const Color kVCardDesBackgroundColor = Color.fromRGBO(164, 130, 69, 0.6);

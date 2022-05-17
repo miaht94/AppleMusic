@@ -4,7 +4,6 @@ import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/HScrollCircleModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/HorizontalCardWithTitleModel.dart';
-import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/foundation.dart';
@@ -26,6 +25,7 @@ class DiscoveryPageModel {
 
   bool isInit = false;
 
+  // ignore: avoid_void_async
   void init() async{
     listIdItem = await fetchDiscoveryModelPage();
     await initNewAlbums();
@@ -43,7 +43,7 @@ class DiscoveryPageModel {
         queryParameters: {
           'page_name': 'DiscoveryPage'
         });
-    http.Client client = GetIt.I.get<http.Client>();
+    final http.Client client = GetIt.I.get<http.Client>();
     final response = await client.get(httpURI);
     if (response.statusCode == 200) {
       const JsonDecoder decoder = JsonDecoder();
@@ -55,7 +55,7 @@ class DiscoveryPageModel {
 
   Future<void> initNewAlbums() async {
     // fetch best choice playlist
-    for(String id in listIdItem.newAlbums){
+    for(final String id in listIdItem.newAlbums){
       final album = await HttpUtil().getAlbumModel(
         id: id,
       );
@@ -77,7 +77,7 @@ class DiscoveryPageModel {
 
   Future<void> initDoNotMiss() async{
     // fetch Recently played
-    for(String id in listIdItem.doNotMiss){
+    for(final String id in listIdItem.doNotMiss){
       final album = await HttpUtil().getAlbumModel(id: id);
       if (album != null) {
         doNotMiss.add(HScrollSquareCardModel(
@@ -94,7 +94,7 @@ class DiscoveryPageModel {
   Future<void> initListFavoriteArtist() async{
     // fetch Favorite Artist
     try{
-      for(String id in listIdItem.listFavoriteArtist){
+      for(final String id in listIdItem.listFavoriteArtist){
         final artist = await HttpUtil().fetchArtistModel(id: id);
         if (artist != null) {
           listFavoriteArtist.add(HScrollCircleCardModel(
@@ -114,7 +114,7 @@ class DiscoveryPageModel {
 
   Future<void> initBestNewSongs() async{
     // fetch Recently played
-    for(String id in listIdItem.bestNewSongs){
+    for(final String id in listIdItem.bestNewSongs){
       final song = await HttpUtil().fetchSongModel(id);
       if (song != null) {
         bestNewSongs.add(song.song);
@@ -140,8 +140,9 @@ class DiscoveryItem{
   List<String> listFavoriteArtist;
   List<String> bestNewSongs;
 
+  // ignore: sort_constructors_first
   factory DiscoveryItem.fromJson(Map<String, dynamic> json) {
-    var a =  DiscoveryItem(
+    final a =  DiscoveryItem(
       List<String>.from(json['new_albums']),
       List<String>.from(json['do_not_miss']),
       List<String>.from(json['favorite_artist']),

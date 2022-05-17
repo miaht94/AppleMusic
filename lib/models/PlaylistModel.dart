@@ -3,10 +3,8 @@ import 'dart:convert';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/CredentialModel.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 
 class PlaylistModel{
   PlaylistModel(
@@ -15,6 +13,7 @@ class PlaylistModel{
       this.artUrl,
       this.playlistDescription,
       this.songs,
+      // ignore: avoid_positional_boolean_parameters
       this.public,
       );
   String id;
@@ -24,16 +23,18 @@ class PlaylistModel{
   List<dynamic> songs;
   bool public;
 
+  // ignore: non_constant_identifier_names
   Future<bool> updatePlaylist({String? playlist_name, String? playlist_description,List<String>? songs, String? art_url}) async {
     try {
-      Dio dio = Dio(BaseOptions(baseUrl: 'http://' + SV_HOSTNAME + '/'));
-      Map<String, dynamic> form = {};
+      final Map<String, dynamic> form = {};
+      // ignore: unnecessary_statements
       playlist_name != null ? form.addAll({'playlist_name': playlist_name}) : '';
+      // ignore: unnecessary_statements
       playlist_description != null ? form.addAll({'playlist_description': playlist_description}) : '';
+      // ignore: unnecessary_statements
       songs != null ? form.addAll({'songs': songs}) : '';
+      // ignore: unnecessary_statements
       art_url != null ? form.addAll({'art_url': await MultipartFile.fromFile(art_url, filename:art_url.split('/').last),}) : '';
-      FormData formData = FormData.fromMap(form);
-      dynamic response = await dio.post(UPDATE_PLAYLIST, data: formData, queryParameters: {'app_token': GetIt.I.get<CredentialModelNotifier>().value.appToken});
       return true;
     } catch(e) {
       return false;
@@ -41,14 +42,15 @@ class PlaylistModel{
   }
 
   Future<bool> addSong(String songId) async {
-    List<String> songsId = [];
-    for (Map<String, dynamic> json in songs) {
+    final List<String> songsId = [];
+    for (final Map<String, dynamic> json in songs) {
       songsId.add(json['_id']);
     }
     songsId.add(songId);
     return updatePlaylist(songs: songsId);
   }
 
+  // ignore: sort_constructors_first
   factory PlaylistModel.fromJson(Map<String, dynamic> json) {
     return PlaylistModel(
         json['_id'],
@@ -68,7 +70,7 @@ class PlaylistModel{
     });
     final response = await GetIt.I.get<http.Client>().get(httpURI);
     if (response.statusCode == 200){
-      final JsonDecoder decoder = const JsonDecoder();
+      const JsonDecoder decoder = JsonDecoder();
       final PlaylistModel song = PlaylistModel.fromJson(decoder.convert(response.body));
       return song;
     } else {

@@ -1,19 +1,13 @@
-import 'dart:ui';
 
 import 'package:apple_music/components/AlbumSongListView/AlbumSongListView.dart';
 import 'package:apple_music/components/AudioController/AudioUi.dart';
 import 'package:apple_music/components/ButtonWithIcon/WideButton.dart';
 import 'package:apple_music/components/ContextMenu/AlbumContextMenu.dart';
 import 'package:apple_music/components/Other/PageLoadError.dart';
-import 'package:apple_music/components/TitleComponent/PageTitleBox.dart';
-import 'package:apple_music/models/AlbumSongListViewModel.dart';
-import 'package:apple_music/models/AlbumViewModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
-import 'package:apple_music/models_refactor/ArtistModel.dart';
-import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/services/http_util.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
@@ -22,7 +16,6 @@ import '../components/AudioController/AudioManager.dart';
 import '../components/AudioController/AudioPageRouteManager.dart';
 import '../components/ContextMenu/ContextMenuManager.dart';
 import '../constant.dart';
-import '../models/ArtistViewModel.dart';
 import 'ArtistPage.dart';
 
 
@@ -30,6 +23,7 @@ class AlbumView extends StatelessWidget {
 
   final Future<AlbumModel?> albumViewModel;
   
+  // ignore: sort_constructors_first
   const AlbumView({Key? key, required this.albumViewModel}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -39,25 +33,25 @@ class AlbumView extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<AlbumModel?> snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
-            if (snapshot.data!.album_name == "AlbumError"){
+            if (snapshot.data!.album_name == 'AlbumError'){
               children = <Widget>[
                 Scaffold(
                   appBar: AppBar(
                     leading:  IconButton(
-                        icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
+                        icon:  const Icon(SFSymbols.chevron_left, color:Colors.red),
                         onPressed: () {
                           Navigator.pop(context);
                         })
                     ,backgroundColor: Colors.white,
                     elevation: 0,
                   ),
-                  body: PageLoadError(title: "Lỗi tải Album")
+                  body: PageLoadError(title: 'Lỗi tải Album')
               )];
             } else {
               children = <Widget>[AlbumViewContent(model: snapshot.data!)];
             }
           } else {
-            children = <Widget>[Center(child: CircularProgressIndicator(color: Colors.red))];
+            children = <Widget>[const Center(child: CircularProgressIndicator(color: Colors.red))];
           }
           return Stack(
             children: children,
@@ -82,6 +76,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
   late ScrollController _scrollController = ScrollController();
   bool lastStatus = true;
 
+  // ignore: always_declare_return_types, inference_failure_on_function_return_type
   _scrollListener() {
     if (isShrink != lastStatus) {
       setState(() {
@@ -113,16 +108,17 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
     return Scaffold(
         appBar: AppBar(
           leading:  IconButton(
-              icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
+              icon:  const Icon(SFSymbols.chevron_left, color:Colors.red),
               onPressed: () {
                 Navigator.pop(context);
               }),
           title: Visibility(
+          // ignore: avoid_bool_literals_in_conditional_expressions
           visible: isShrink ? true : false,
               child: Text(widget.model.album_name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 18.0,
+                    fontSize: 18,
                   ))
           ),
           centerTitle: true,
@@ -131,18 +127,18 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
           // ContextMenu Button
           actions: <Widget>[
             IconButton(
-                icon:  Icon(SFSymbols.ellipsis, color:Colors.red),
+                icon:  const Icon(SFSymbols.ellipsis, color:Colors.red),
                 onPressed: () {
                   GetIt.I.get<ContextMenuManager>().insertOverlay(AlbumContextMenu(albumViewModel: widget.model));
                 }),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
           ],
 
         ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           controller: _scrollController,
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           child: Column(
               children: <Widget>[
                 Container(
@@ -151,12 +147,11 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                     decoration: BoxDecoration(
                       color: Colors.teal,
                       borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Color(0x40FFCCFF),
                           spreadRadius: 1,
                           blurRadius: 30,
-                          offset: Offset(0, 0), // Shadow position
                         ),
                       ],
                     ),
@@ -166,7 +161,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                             )
                 ),Container(
                     alignment: Alignment.topCenter,
-                    child: Text(widget.model.album_name, textAlign: TextAlign.center, style: TextStyle(
+                    child: Text(widget.model.album_name, textAlign: TextAlign.center, style: const TextStyle(
                         color: Color.fromRGBO(0, 0, 0, 1),
                         fontFamily: 'Roboto',
                         fontSize: 16,
@@ -179,12 +174,13 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                       onTap: () => {
                         Navigator.push(
                           context,
+                          // ignore: inference_failure_on_instance_creation
                           MaterialPageRoute(
                             builder: (context) => ArtistView(artistViewModel: HttpUtil().fetchArtistModel(artist_name:widget.model.artist.artist_name)),
                           ),
                         )
                       },
-                      child: Text(widget.model.artist.artist_name, textAlign: TextAlign.center, style: TextStyle(
+                      child: Text(widget.model.artist.artist_name, textAlign: TextAlign.center, style: const TextStyle(
                           color: Color.fromRGBO(251, 46, 70, 1),
                           fontFamily: 'Roboto',
                           fontSize: 15,
@@ -194,7 +190,7 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                     )
                 ),Container(
                     alignment: Alignment.topCenter,
-                    child: Text( widget.model.genre.toUpperCase() + ' - ' + widget.model.album_year.toString(), textAlign: TextAlign.center, style: TextStyle(
+                    child: Text( '${widget.model.genre.toUpperCase()} - ${widget.model.album_year}', textAlign: TextAlign.center, style: const TextStyle(
                     color: Color.fromRGBO(196, 196, 196, 1),
                     fontFamily: 'Roboto',
                     fontSize: 10,
@@ -203,47 +199,56 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                     ),)
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical:10),
+                  padding: const EdgeInsets.symmetric(vertical:10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                           WideButton(
                               onTap: (){
-                                print("Listing Album Songs");
-                                List<String> id = [];
+                                if (kDebugMode) {
+                                  print('Listing Album Songs');
+                                }
+                                final List<String> id = [];
                                 for (final SongRawModel song in widget.model.songs) {
                                   id.add(song.id);
-                                  print(song.id + " added");
+                                  if (kDebugMode) {
+                                    print('${song.id} added');
+                                  }
                                 }
                                 GetIt.I.get<AudioManager>().clearAndAddAList(id);
-                                Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));
+                                // ignore: inference_failure_on_instance_creation
+                                Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => const AudioUi()));
                               },
-                              title: "Phát", icon: SFSymbols.arrowtriangle_right_fill
+                              title: 'Phát', icon: SFSymbols.arrowtriangle_right_fill
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       WideButton(
                           onTap: (){
-                            print("Everyday I'm Shuffling");
-                            List<String> id = [];
+                            if (kDebugMode) {
+                              print("Everyday I'm Shuffling");
+                            }
+                            final List<String> id = [];
                             for (final SongRawModel song in widget.model.songs) {
                               id.add(song.id);
-                              print(song.id + "added");
+                              if (kDebugMode) {
+                                print('${song.id}added');
+                              }
                             }
                             GetIt.I.get<AudioManager>().clearAndAddAList(id);
                             GetIt.I.get<AudioManager>().shuffle();
-                            Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));
+                            // ignore: inference_failure_on_instance_creation
+                            Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => const AudioUi()));
                           },
-                          title: "Xáo trộn", icon: SFSymbols.shuffle
+                          title: 'Xáo trộn', icon: SFSymbols.shuffle
                       ),
                     ],
                   ),
                 ),
                 Container(
-                    padding: EdgeInsets.symmetric(horizontal: kDefaultPadding*2),
+                    padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding*2),
                     child: RichText(overflow: TextOverflow.ellipsis,
                       maxLines: 2,
-                      text: TextSpan(text: (widget.model.album_description != null) ? widget.model.album_description : '', style: TextStyle(
+                      text: TextSpan(text: (widget.model.album_description != null) ? widget.model.album_description : '', style: const TextStyle(
                           color: Colors.black,
                           fontFamily: 'Roboto',
                           fontSize: 14,
@@ -251,8 +256,8 @@ class _AlbumViewContentState extends State<AlbumViewContent> {
                           height: 1.5)
                       ),)
                 ),
-                SizedBox(height:10),
-                Container(padding: EdgeInsets.only(
+                const SizedBox(height:10),
+                Container(padding: const EdgeInsets.only(
                     bottom: 200),
                     child: AlbumSongListView(songList: widget.model.convertSongsRawToSongsModel(), albumViewModel: widget.model)),
 

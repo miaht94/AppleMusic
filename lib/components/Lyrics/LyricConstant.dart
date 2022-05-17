@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 const double MIN_SCALE = 0.95;
-const double NORMAL_SCALE = 1.0;
+const double NORMAL_SCALE = 1;
 const double MAX_SCALE = 1.05;
 const double MIN_BLUR = 0.01;
-const double NORMAL_BLUR = 1.0;
+const double NORMAL_BLUR = 1;
 
 const double OPACITY_SCALE = 1.5;
 

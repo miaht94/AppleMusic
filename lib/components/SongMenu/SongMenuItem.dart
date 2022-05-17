@@ -1,7 +1,8 @@
+import 'package:apple_music/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'SongMenuConstant.dart';
-import 'package:apple_music/constant.dart';
 import 'SongMenuIcon.dart';
 
 class SongMenuItem extends StatelessWidget{
@@ -20,25 +21,26 @@ class SongMenuItem extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     final size = MediaQuery.of(context).size;
-    final _WIDTH = size.width - kDefaultPadding;
+    // ignore: non_constant_identifier_names
+    final WIDTH = size.width - kDefaultPadding;
     return
       InkWell(
         onTap: onTap,
         child: Container(
-          padding: EdgeInsets.only(bottom: kDefaultPadding),
+          padding: const EdgeInsets.only(bottom: kDefaultPadding),
               child: Column(
                 children: [
                   Padding(
-                    padding:EdgeInsets.only(bottom: kDefaultPadding),
+                    padding:const EdgeInsets.only(bottom: kDefaultPadding),
                     child: Container(
-                      height: 1.0,
-                      width: _WIDTH,
+                      height: 1,
+                      width: WIDTH,
                       color:kHeadlineColor,
                     )
                   ),
                   Container(
                     height: size.height * SONG_MENU_ITEM_HEIGHT_RATIO,
-                    width: _WIDTH,
+                    width: WIDTH,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -48,7 +50,7 @@ class SongMenuItem extends StatelessWidget{
                               WidgetSpan(
                                   child: SvgPicture.asset(iconName),
                               ),
-                              WidgetSpan(
+                              const WidgetSpan(
                                   child: SizedBox(
                                     width: kDefaultPadding,
                                   )
@@ -68,7 +70,7 @@ class SongMenuItem extends StatelessWidget{
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(right: kDefaultPadding),
+                          padding: const EdgeInsets.only(right: kDefaultPadding),
                           child: SvgPicture.asset(leftArrowIcon),
                         )
                       ],

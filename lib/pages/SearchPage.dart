@@ -12,12 +12,8 @@ import 'package:apple_music/components/RectangleCardSearchPage/PlaylistRectangle
 import 'package:apple_music/components/SearchBar/SearchBar.dart';
 import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylistBigger.dart';
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/AlbumRectangleCardModel.dart';
-import 'package:apple_music/models/ArtistRectangleCardModel.dart';
 import 'package:apple_music/models/HorizontalScrollCategoryModel.dart';
-import 'package:apple_music/models/PlaylistRectangleCardModel.dart';
 import 'package:apple_music/models/SearchPageModel.dart';
-import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:apple_music/models_refactor/PlaylistModel.dart';
@@ -66,6 +62,7 @@ class _SearchPageState extends State < SearchPage > {
   }
 
   void onTapArtistCard(ArtistModel artistModel) {
+    // ignore: inference_failure_on_instance_creation
     Navigator.of(_context!).push(MaterialPageRoute(builder: (context) => ArtistView(artistViewModel: Future.value(artistModel))));
   }
 
@@ -74,6 +71,7 @@ class _SearchPageState extends State < SearchPage > {
   }
 
   void onTapAlbumCard(AlbumModel albumModel) {
+    // ignore: inference_failure_on_instance_creation
     Navigator.of(_context!).push(MaterialPageRoute(builder: (context) => AlbumView(albumViewModel: Future.value(albumModel))));
   }
 
@@ -145,7 +143,8 @@ class _SearchPageState extends State < SearchPage > {
                                 case 'playlist_name':
                                   for (final PlaylistModel model in data) {
                                     renderList.add(PlaylistRectangleCard(playlistModel: model, onTapPlaylistCard: onTapPlaylistCard, onTapPlaylistMoreButton: onTapPlaylistMoreButton));
-                                    renderList.add(SizedBox(height: kDefaultPadding,));
+                                    // ignore: cascade_invocations
+                                    renderList.add(const SizedBox(height: kDefaultPadding,));
                                   }
                                   break;
                               }

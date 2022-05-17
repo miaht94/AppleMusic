@@ -5,17 +5,19 @@ import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/ListeningNowPageModel.dart';
 import 'package:apple_music/pages/PageSkeleton.dart';
 import 'package:apple_music/services/service_locator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
+
+import '../components/CircleCard/HScrollCircleCardWithText.dart';
 import '../components/SongCardInPlaylist/HScrollCardListConstants.dart';
 import '../components/SquareCard/HScrollSquareCardWithText.dart';
-import '../components/CircleCard/HScrollCircleCardWithText.dart';
 import '../components/TitleComponent/PageTitleBox.dart';
 import '../constant.dart';
 
 class ListeningNow extends StatefulWidget {
-  ListeningNow({
+  const ListeningNow({
     Key? key,
   }) : super(key: key);
 
@@ -32,7 +34,9 @@ class _ListeningNowState extends State<ListeningNow> {
     if(!listeningNowPageModel.isInit){
       listeningNowPageModel.init();
     }
-    print(GetIt.I.get<CredentialModelNotifier>().value.appToken);
+    if (kDebugMode) {
+      print(GetIt.I.get<CredentialModelNotifier>().value.appToken);
+    }
   }
 
   @override
@@ -43,11 +47,11 @@ class _ListeningNowState extends State<ListeningNow> {
       ListView(
               physics: const BouncingScrollPhysics(),
               children: [
-                PageTitleBox(title: "Nghe Ngay", hasAvt: true,)
+                PageTitleBox(title: 'Nghe Ngay', hasAvt: true,)
                 ,
                 Container(
-                  padding: EdgeInsets.only(left: kDefaultPadding),
-                  child: BoldTitle(title: "Lựa Chọn Hàng Đầu")
+                  padding: const EdgeInsets.only(left: kDefaultPadding),
+                  child: const BoldTitle(title: 'Lựa Chọn Hàng Đầu')
                 ),
                 ValueListenableBuilder<bool>(
                   valueListenable: listeningNowPageModel.isListBestChoiceDone,
@@ -55,20 +59,20 @@ class _ListeningNowState extends State<ListeningNow> {
                   if (isDone) {
                     return
                     Container(
-                      padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
+                      padding: const EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
                       child: VerticalBigCardsWithTitle(cards :listeningNowPageModel.listBestChoice),
                     );
                   } else {
                     return SkeletonLoader(
                         builder:
                         Container(
-                          padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
+                          padding: const EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
                           height: size.height * kVCardHeightRatio,
                           child: Row(
                             children: [
                                 VerticalBigCardSkeleton(size: size),
                                 Container(
-                                  width: 10.0,
+                                  width: 10,
                                   height: size.height * kVCardHeightRatio,
                                 ),
                                 Expanded(
@@ -77,10 +81,7 @@ class _ListeningNowState extends State<ListeningNow> {
                               ],
                             ),
                           ),
-                        items: 1,
-                        period: Duration(seconds: 2),
                         highlightColor: Colors.lightBlue.shade300,
-                        direction: SkeletonDirection.ltr,
                     );
                     }
                   }
@@ -91,38 +92,34 @@ class _ListeningNowState extends State<ListeningNow> {
                       if (isDone) {
                         return
                           Container(
-                            padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-                            child: HScrollSquareCardWithText(title: "Album nổi bật", cards: listeningNowPageModel.listRencentlyPlayed),
+                            padding: const EdgeInsets.only(bottom: VerticalComponentPadding),
+                            child: HScrollSquareCardWithText(title: 'Album nổi bật', cards: listeningNowPageModel.listRencentlyPlayed),
                           );} else {
                         return SkeletonLoader(
                           builder:
                           Container(
                             height: size.height * SQUARE_CARD_HEIGHT_RATIO,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: kDefaultPadding),
+                                  padding: const EdgeInsets.only(left: kDefaultPadding),
                                   child: SquareCardWithTextSkeleton(size: size),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(left: kDefaultPadding),
+                                  padding: const EdgeInsets.only(left: kDefaultPadding),
                                   child: SquareCardWithTextSkeleton(size: size),
                                 ),
                                 Expanded(
                                   child: Container(
-                                    padding: EdgeInsets.only(left: kDefaultPadding),
+                                    padding: const EdgeInsets.only(left: kDefaultPadding),
                                     child: SquareCardWithTextSkeleton(size: size),
                                   ),
                                 ),
                               ],
                             ),
                         ),
-                          items: 1,
-                          period: Duration(seconds: 2),
                           highlightColor: Colors.lightBlue.shade300,
-                          direction: SkeletonDirection.ltr,
                         );
                       }
                     }
@@ -133,45 +130,41 @@ class _ListeningNowState extends State<ListeningNow> {
                       if (isDone) {
                         return
                           Container(
-                            padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-                            child: HScrollCircleCardWithText(title: "Nghệ Sĩ Được Yêu Thích", cards: listeningNowPageModel.listFavoriteArtist),
+                            padding: const EdgeInsets.only(bottom: VerticalComponentPadding),
+                            child: HScrollCircleCardWithText(title: 'Nghệ Sĩ Được Yêu Thích', cards: listeningNowPageModel.listFavoriteArtist),
                           );} else {
                         return SkeletonLoader(
                           builder:
                           Container(
                             height: size.height * SQUARE_CARD_HEIGHT_RATIO,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: kDefaultPadding),
+                                  padding: const EdgeInsets.only(left: kDefaultPadding),
                                   child: SquareCardWithTextSkeleton(size: size),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.only(left: kDefaultPadding),
+                                  padding: const EdgeInsets.only(left: kDefaultPadding),
                                   child: SquareCardWithTextSkeleton(size: size),
                                 ),
                                 Expanded(
                                   child: Container(
-                                    padding: EdgeInsets.only(left: kDefaultPadding),
+                                    padding: const EdgeInsets.only(left: kDefaultPadding),
                                     child: SquareCardWithTextSkeleton(size: size),
                                   ),
                                 ),
                               ],
                             ),
                         ),
-                      items: 1,
-                      period: Duration(seconds: 2),
                       highlightColor: Colors.lightBlue.shade300,
-                      direction: SkeletonDirection.ltr,
                       );
                       }
                     }
                 ),
                 Container(
-                    padding: EdgeInsets.only(left: kDefaultPadding),
-                    child: BoldTitle(title: "Replay cuối năm")
+                    padding: const EdgeInsets.only(left: kDefaultPadding),
+                    child: const BoldTitle(title: 'Replay cuối năm')
                 ),
                 ValueListenableBuilder<bool>(
                     valueListenable: listeningNowPageModel.isListYearEndReplaysDone,
@@ -179,19 +172,19 @@ class _ListeningNowState extends State<ListeningNow> {
                       if (isDone) {
                         return
                           Container(
-                            padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
+                            padding: const EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
                             child: VerticalBigCardsWithTitle(cards :listeningNowPageModel.listYearEndReplays),
                           );} else {
                         return SkeletonLoader(
                           builder:
                           Container(
-                            padding: EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
+                            padding: const EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
                             height: size.height * kVCardHeightRatio,
                             child: Row(
                               children: [
                                 VerticalBigCardSkeleton(size: size),
                                 Container(
-                                  width: 10.0,
+                                  width: 10,
                                   height: size.height * kVCardHeightRatio,
                                 ),
                                 Expanded(
@@ -200,15 +193,12 @@ class _ListeningNowState extends State<ListeningNow> {
                               ],
                             ),
                         ),
-                      items: 1,
-                      period: Duration(seconds: 2),
                       highlightColor: Colors.lightBlue.shade300,
-                      direction: SkeletonDirection.ltr,
                       );
                       }
                     }
                 ),
-                SizedBox(height: 100)
+                const SizedBox(height: 100)
               ],
             );
           }

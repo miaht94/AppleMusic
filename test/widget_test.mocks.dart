@@ -44,7 +44,6 @@ class MockLoginUtil extends _i1.Mock implements _i4.LoginUtil {
   _i5.Future<bool> saveCredential(String? app_token) =>
       (super.noSuchMethod(Invocation.method(#saveCredential, [app_token]),
           returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
-  @override
   _i5.Future<_i2.UserModel> getUserInfo(String? appToken) =>
       (super.noSuchMethod(Invocation.method(#getUserInfo, [appToken]),
               returnValue: Future<_i2.UserModel>.value(_FakeUserModel_0()))

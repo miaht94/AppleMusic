@@ -1,5 +1,5 @@
-import 'package:flutter_svg/flutter_svg.dart';
 
+// ignore: strict_raw_type
 const Map iconNames = {
   'Micro': 'assets/icons/Micro.svg',
   'Album': 'assets/icons/Album.svg',

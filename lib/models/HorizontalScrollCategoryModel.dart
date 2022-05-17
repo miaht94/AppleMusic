@@ -3,24 +3,26 @@ import 'package:uuid/uuid.dart';
 
 class HorizontalScrollCategoryModel {
   HorizontalScrollCategoryModel(List<CategoryModel> categoryModels) {
-    if (categoryModels.length == 0) throw ArgumentError(["categoryModels List length must be greater than 0"]);
-    // selectedElementId = categoryModels[0].id;
+    if (categoryModels.isEmpty) {
+      throw ArgumentError(['categoryModels List length must be greater than 0']);
+    }
     selectedElementId = categoryModels[0].id;
     _categoryModels = categoryModels;
   }
-  String selectedElementId = ("");
+  String selectedElementId = '';
   List<CategoryModel> _categoryModels = [];
   List<CategoryModel> get categoryModels {
     return _categoryModels;
   }
 
+  // ignore: prefer_constructors_over_static_methods
   static HorizontalScrollCategoryModel createDefaultModel() {
-    List<String> categories = ["Bài hát", "Nghệ sĩ", "Album", "Playlist"];
-    List<String> _id = ["song_name", "artist_name", "album_name", "playlist_name"];
-    List<CategoryModel> categoryModels = [];
+    final List<String> categories = ['Bài hát', 'Nghệ sĩ', 'Album', 'Playlist'];
+    final List<String> _id = ['song_name', 'artist_name', 'album_name', 'playlist_name'];
+    final List<CategoryModel> categoryModels = [];
     int count = 0;
-    for (String name in categories) {
-      CategoryModel categoryModel = CategoryModel(name, _id[count]);
+    for (final String name in categories) {
+      final CategoryModel categoryModel = CategoryModel(name, _id[count]);
       categoryModels.add(categoryModel);
       count++;
     }
@@ -32,9 +34,11 @@ class CategoryModel {
   CategoryModel(String categoryName, String? _id) {
 
     _categoryName = categoryName;
-    if (_id == null) 
-      this._id = Uuid().v4();
-    else this._id = _id;
+    if (_id == null) {
+      this._id = const Uuid().v4();
+    } else {
+      this._id = _id;
+    }
   }
   late String _id;
   late String _categoryName;

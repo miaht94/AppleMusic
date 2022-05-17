@@ -22,8 +22,9 @@ class ArtistModel{
   List<AlbumRawModel> album_list;
   String? artist_video_url;
 
+  // ignore: sort_constructors_first
   factory ArtistModel.fromJson(Map<String,dynamic> json){
-    ArtistModel newArtist = ArtistModel(
+    final ArtistModel newArtist = ArtistModel(
     id: json['_id'],
     artist_name:  json['artist_name'],
     artist_description:  json['artist_description'],
@@ -45,18 +46,19 @@ class ArtistModel{
   }
 
   ArtistRawModel toRawModel() {
-    return ArtistRawModel(id: this.id, artist_name: this.artist_name, artist_description: this.artist_description, album_list_id: this.album_list.map((e) => e.id).toList(), artist_image_url: this.artist_image_url, artist_video_url: this.artist_video_url);
+    return ArtistRawModel(id: id, artist_name: artist_name, artist_description: artist_description, album_list_id: album_list.map((e) => e.id).toList(), artist_image_url: artist_image_url, artist_video_url: artist_video_url);
   }
 
   SongModel songRawModelArtistToSongModel(SongRawModelArtist songRawModelArtist) {
-    return SongModel(id: songRawModelArtist.id, song_name: songRawModelArtist.song_name, song_key: songRawModelArtist.song_key, lyric_key: songRawModelArtist.lyric_key, album: songRawModelArtist.album, artist: this.toRawModel());
+    return SongModel(id: songRawModelArtist.id, song_name: songRawModelArtist.song_name, song_key: songRawModelArtist.song_key, lyric_key: songRawModelArtist.lyric_key, album: songRawModelArtist.album, artist: toRawModel());
   }
 
   List<SongModel> convertTopSongListToSongModel() {
-    if (top_song_list != null)
+    if (top_song_list != null) {
       return top_song_list!.map((e) => songRawModelArtistToSongModel(e)).toList();
-    else
+    } else {
       return [];
+    }
   }
 }
 
@@ -78,8 +80,9 @@ class SongRawModelArtist {
   String song_key;
   String lyric_key;
   AlbumRawModel album;
+  // ignore: sort_constructors_first
   factory SongRawModelArtist.fromJson(Map<String, dynamic> json) {
-    SongRawModelArtist newSong = SongRawModelArtist(
+    final SongRawModelArtist newSong = SongRawModelArtist(
         id: json['_id'],
         song_name: json['song_name'],
         song_key: json['song_key'],
@@ -111,8 +114,9 @@ class AlbumRawModel {
   String art_url;
   int album_year;
   List<String> songsId;
+  // ignore: sort_constructors_first
   factory AlbumRawModel.fromJson(Map<String,dynamic> json){
-    AlbumRawModel newALbum = AlbumRawModel(
+    final AlbumRawModel newALbum = AlbumRawModel(
         id: json['_id'],
         album_name: json['album_name'],
         genre: json['genre'],
@@ -126,79 +130,79 @@ class AlbumRawModel {
 
 
 Map<String, dynamic> sampleJson = {
-    "_id": "625ed0c3133da5aa54397e27",
-    "artist_name": "Vũ",
-    "artist_image_url": "https://photo-resize-zmp3.zmdcdn.me/w360_r1x1_jpeg/avatars/b/a/d/2/bad27197c6774fc04c039c040ed8813c.jpg",
-    "artist_description": "Vũ, được viết cách điệu là Vũ tên đầy đủ là Hoàng Thái Vũ sinh tại Hà Nội, là ca sĩ kiêm sáng tác nhạc người Việt Nam.",
-    "artist_video_url": null,
-    "highlight_song": {
-        "_id": "625ecfc7133da5aa54397e1e",
-        "song_name": "Đông kiếm em",
-        "track_number": null,
-        "collaboration": null,
-        "song_key": "musics/ac018820-9bab-4b82-b2a2-097d7b8ecef9.mp3",
-        "lyric_key": "lyrics/a037b1d0-e0b3-4b53-a2f7-bfb6cf373163.json",
-        "__v": 0,
-        "album": {
-            "_id": "625ed08f133da5aa54397e22",
-            "album_name": "Đông kiếm em",
-            "genre": "Acoustic",
-            "art_url": "https://avatar-ex-swe.nixcdn.com/playlist/2020/08/11/b/4/5/7/1597138746575_500.jpg",
-            "album_year": 2019,
-            "songs": [
-                "625ecfc7133da5aa54397e1e"
+    '_id': '625ed0c3133da5aa54397e27',
+    'artist_name': 'Vũ',
+    'artist_image_url': 'https://photo-resize-zmp3.zmdcdn.me/w360_r1x1_jpeg/avatars/b/a/d/2/bad27197c6774fc04c039c040ed8813c.jpg',
+    'artist_description': 'Vũ, được viết cách điệu là Vũ tên đầy đủ là Hoàng Thái Vũ sinh tại Hà Nội, là ca sĩ kiêm sáng tác nhạc người Việt Nam.',
+    'artist_video_url': null,
+    'highlight_song': {
+        '_id': '625ecfc7133da5aa54397e1e',
+        'song_name': 'Đông kiếm em',
+        'track_number': null,
+        'collaboration': null,
+        'song_key': 'musics/ac018820-9bab-4b82-b2a2-097d7b8ecef9.mp3',
+        'lyric_key': 'lyrics/a037b1d0-e0b3-4b53-a2f7-bfb6cf373163.json',
+        '__v': 0,
+        'album': {
+            '_id': '625ed08f133da5aa54397e22',
+            'album_name': 'Đông kiếm em',
+            'genre': 'Acoustic',
+            'art_url': 'https://avatar-ex-swe.nixcdn.com/playlist/2020/08/11/b/4/5/7/1597138746575_500.jpg',
+            'album_year': 2019,
+            'songs': [
+                '625ecfc7133da5aa54397e1e'
             ],
-            "__v": 0,
-            "album_description": null
+            '__v': 0,
+            'album_description': null
         }
     },
-    "top_song_list": [
+    'top_song_list': [
         {
-            "_id": "625ecfc7133da5aa54397e1e",
-            "song_name": "Đông kiếm em",
-            "track_number": null,
-            "collaboration": null,
-            "song_key": "musics/ac018820-9bab-4b82-b2a2-097d7b8ecef9.mp3",
-            "lyric_key": "lyrics/a037b1d0-e0b3-4b53-a2f7-bfb6cf373163.json",
-            "__v": 0,
-            "album": {
-                "_id": "625ed08f133da5aa54397e22",
-                "album_name": "Đông kiếm em",
-                "genre": "Acoustic",
-                "art_url": "https://avatar-ex-swe.nixcdn.com/playlist/2020/08/11/b/4/5/7/1597138746575_500.jpg",
-                "album_year": 2019,
-                "songs": [
-                    "625ecfc7133da5aa54397e1e"
+            '_id': '625ecfc7133da5aa54397e1e',
+            'song_name': 'Đông kiếm em',
+            'track_number': null,
+            'collaboration': null,
+            'song_key': 'musics/ac018820-9bab-4b82-b2a2-097d7b8ecef9.mp3',
+            'lyric_key': 'lyrics/a037b1d0-e0b3-4b53-a2f7-bfb6cf373163.json',
+            '__v': 0,
+            'album': {
+                '_id': '625ed08f133da5aa54397e22',
+                'album_name': 'Đông kiếm em',
+                'genre': 'Acoustic',
+                'art_url': 'https://avatar-ex-swe.nixcdn.com/playlist/2020/08/11/b/4/5/7/1597138746575_500.jpg',
+                'album_year': 2019,
+                'songs': [
+                    '625ecfc7133da5aa54397e1e'
                 ],
-                "__v": 0,
-                "album_description": null
+                '__v': 0,
+                'album_description': null
             }
         }
     ],
-    "album_list": [
+    'album_list': [
         {
-            "_id": "625ed08f133da5aa54397e22",
-            "album_name": "Đông kiếm em",
-            "genre": "Acoustic",
-            "art_url": "https://avatar-ex-swe.nixcdn.com/playlist/2020/08/11/b/4/5/7/1597138746575_500.jpg",
-            "album_year": 2019,
-            "songs": [
-                "625ecfc7133da5aa54397e1e"
+            '_id': '625ed08f133da5aa54397e22',
+            'album_name': 'Đông kiếm em',
+            'genre': 'Acoustic',
+            'art_url': 'https://avatar-ex-swe.nixcdn.com/playlist/2020/08/11/b/4/5/7/1597138746575_500.jpg',
+            'album_year': 2019,
+            'songs': [
+                '625ecfc7133da5aa54397e1e'
             ],
-            "__v": 0,
-            "album_description": null
+            '__v': 0,
+            'album_description': null
         },
         {
-            "_id": "625ed23d133da5aa54397e31",
-            "album_name": "Lạ Lùng",
-            "genre": "Acoustic",
-            "art_url": "https://i1.sndcdn.com/artworks-000427399239-nqi3tb-t500x500.jpg",
-            "album_year": 2019,
-            "songs": [
-                "625ed1cf133da5aa54397e29"
+            '_id': '625ed23d133da5aa54397e31',
+            'album_name': 'Lạ Lùng',
+            'genre': 'Acoustic',
+            'art_url': 'https://i1.sndcdn.com/artworks-000427399239-nqi3tb-t500x500.jpg',
+            'album_year': 2019,
+            'songs': [
+                '625ed1cf133da5aa54397e29'
             ],
-            "__v": 0,
-            "album_description": null
+            '__v': 0,
+            'album_description': null
         }
     ]
 };

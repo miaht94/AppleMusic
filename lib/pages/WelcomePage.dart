@@ -1,20 +1,14 @@
-import 'dart:convert';
 
-import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/services/http_util.dart';
-import 'package:apple_music/services/service_locator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart'
-as http;
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:skeletons/skeletons.dart';
 class WelcomePageArgument {
   final String appToken;
+  // ignore: sort_constructors_first
   WelcomePageArgument(this.appToken);
 }
 
@@ -57,11 +51,11 @@ class _WelcomePageState extends State < WelcomePage > with TickerProviderStateMi
                 if (snapshot.hasData && snapshot.connectionState != ConnectionState.waiting && snapshot.data != null) {
                   context.loaderOverlay.hide();
                   final UserModel user = snapshot.data!;
-                  Animation < double > anc = AnimationController(vsync: this);
+                  final Animation < double > anc = AnimationController(vsync: this);
                   return Welcome(avatarURL: user.avatarURL, email: user.email, name: user.name, listenable: anc);
 
                 } else {
-                  return Container(child: Text("Loading"), );
+                  return const Text('Loading');
                 }
               }
             )
@@ -73,19 +67,20 @@ class _WelcomePageState extends State < WelcomePage > with TickerProviderStateMi
 }
 
 
+// ignore: must_be_immutable
 class Welcome extends AnimatedWidget {
-  Welcome({
+  Welcome({Key? key,
     required Listenable listenable,
     required this.avatarURL,
     required this.name,
     required this.email
-  }): super(listenable: listenable);
+  }): super(key: key, listenable: listenable);
   String avatarURL;
   String name;
   String email;
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    final Size screenSize = MediaQuery.of(context).size;
     // TODO: implement build
     return Center(child:
       Container(
@@ -101,14 +96,14 @@ class Welcome extends AnimatedWidget {
                 imageUrl: avatarURL,
                 imageBuilder: (context, imageProvider) => CircleAvatar(backgroundImage: imageProvider, ),
                 placeholder: (context, url) => 
-                  SkeletonAvatar(style: SkeletonAvatarStyle(shape: BoxShape.circle),),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                  const SkeletonAvatar(style: SkeletonAvatarStyle(shape: BoxShape.circle),),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
             SizedBox(height: screenSize.height/20,),
             Container(
-              child: Text("Hi! ${name}, welcome to Apple Muvik.", style: TextStyle(fontSize: 20), textAlign: TextAlign.center,),
               width: screenSize.width/1.5,
+              child: Text('Hi! $name, welcome to Apple Muvik.', style: const TextStyle(fontSize: 20), textAlign: TextAlign.center,),
             ),
             SizedBox(height: screenSize.height/20,),
             Container(
@@ -122,12 +117,12 @@ class Welcome extends AnimatedWidget {
                   },
                   child: Container( 
                     alignment: Alignment.center,
-                    child: Text("Get Started", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Color.fromARGB(183, 222, 89, 44).withOpacity(0.5)
+                      color: const Color.fromARGB(183, 222, 89, 44).withOpacity(0.5)
                     )
-                  ,)
+                  ,
+                    child: const Text('Get Started', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),)
                 )
               ,)
             )

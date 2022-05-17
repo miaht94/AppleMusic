@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 
 class AudioPageRouteManager{
 
-  AudioPageRouteManager(){
-  }
+  AudioPageRouteManager();
 
   late BuildContext _context;
 
-  void setMainContext(BuildContext mainContext){
+  Future<void> setMainContext(BuildContext mainContext) async {
     _context = mainContext;
   }
 

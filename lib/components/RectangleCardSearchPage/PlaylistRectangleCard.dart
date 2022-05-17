@@ -1,22 +1,23 @@
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/PlaylistRectangleCardModel.dart';
 import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:skeletons/skeletons.dart';
 
+// ignore: must_be_immutable
 class PlaylistRectangleCard extends StatelessWidget {
   PlaylistRectangleCard({Key? key, required this.playlistModel, this.onTapPlaylistCard, this.onTapPlaylistMoreButton, this.renderMoreButton, this.renderDivider}) : super(key: key);
   PlaylistModel playlistModel;
   bool? renderMoreButton;
   bool? renderDivider;
+  // ignore: inference_failure_on_function_return_type
   Function(PlaylistModel)? onTapPlaylistCard;
+  // ignore: inference_failure_on_function_return_type
   Function(PlaylistModel)? onTapPlaylistMoreButton;
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    final Size screenSize = MediaQuery.of(context).size;
     return Material(
       type: MaterialType.transparency,
       child: InkWell(
@@ -27,23 +28,18 @@ class PlaylistRectangleCard extends StatelessWidget {
         },
         child: Container(
             width: screenSize.width,
-            // margin: EdgeInsets.only(bottom: kDefaultPadding),
             child: Row(children: [
               Container(
                 width: 60,
                 height: 60,
-                margin: EdgeInsets.only(right: kDefaultPadding),
-                decoration: BoxDecoration(
-                  // image: DecorationImage(
-                  //   image: Image.network(playlistRectangleCardModel.artURL).image, 
-                  //   fit: BoxFit.cover
-                  // ),
+                margin: const EdgeInsets.only(right: kDefaultPadding),
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(8))
                 ),
                 child: CachedNetworkImage(
                   imageUrl: playlistModel.art_url,
                   fit: BoxFit.cover,
-                  placeholder: (context, _) => SkeletonAvatar(),
+                  placeholder: (context, _) => const SkeletonAvatar(),
                   imageBuilder: (context, imageProvider) =>
                   Container(
                 width: 60,
@@ -54,7 +50,7 @@ class PlaylistRectangleCard extends StatelessWidget {
                     image: imageProvider,
                     fit: BoxFit.cover
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(8))
+                  borderRadius: const BorderRadius.all(Radius.circular(8))
                 ),),
                 ),
                 // child: CircleAvatar(backgroundImage : Image.network(albumRectangleCardModel.artURL,).image)
@@ -64,10 +60,9 @@ class PlaylistRectangleCard extends StatelessWidget {
                   height: 60,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                     if (renderDivider == null || renderDivider!)
-                      Divider(
+                      const Divider(
                         height: 4,
                         thickness: 0.4,
                         indent: 10,
@@ -83,24 +78,24 @@ class PlaylistRectangleCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                            Text(playlistModel.playlist_name, style: TextStyle(fontSize: 16, color: Colors.black)),
-                            Text("Playlist", style: TextStyle(fontSize: 13, color: Colors.grey),)
+                            Text(playlistModel.playlist_name, style: const TextStyle(fontSize: 16, color: Colors.black)),
+                            const Text('Playlist', style: TextStyle(fontSize: 13, color: Colors.grey),)
                                               ],),
                           ),
                           if (renderMoreButton?? true) 
                           Align(
                               alignment: Alignment.centerRight,
                               child: Padding(
-                                padding: EdgeInsets.all(12.0),
+                                padding: const EdgeInsets.all(12),
                                 child: Material(
                                 
                                   child: Ink(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       shape: BoxShape.circle
                                     ),
                                     child: InkWell(
                                       borderRadius: BorderRadius.circular(100),
-                                      child: Icon(SFSymbols.ellipsis, size: 18),
+                                      child: const Icon(SFSymbols.ellipsis, size: 18),
                                       onTap: () {
                                         if (onTapPlaylistMoreButton != null) {
                                           onTapPlaylistMoreButton!(playlistModel);

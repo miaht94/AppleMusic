@@ -1,11 +1,13 @@
 import 'package:apple_music/components/AudioController/AudioManager.dart';
+import 'package:apple_music/components/AudioController/AudioStates.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCardConstant.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
-import 'package:apple_music/components/AudioController/AudioStates.dart';
 
 class CurrentArtWork extends StatefulWidget{
+  const CurrentArtWork({Key? key}) : super(key: key);
+
 
   @override
   State<CurrentArtWork> createState() => _CurrentArtWorkState();
@@ -17,7 +19,7 @@ class _CurrentArtWorkState extends State<CurrentArtWork> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
     return
       ValueListenableBuilder<ChildWindowState>(
@@ -40,7 +42,7 @@ class _CurrentArtWorkState extends State<CurrentArtWork> {
       builder: (_,currentSong,__){
         if(currentSong != null){
           return Container(
-            padding: EdgeInsets.only(left: PLAYING_PADDING),
+            padding: const EdgeInsets.only(left: PLAYING_PADDING),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network(

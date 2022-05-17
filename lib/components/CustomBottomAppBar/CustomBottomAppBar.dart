@@ -1,16 +1,14 @@
 import 'dart:ui';
 
 import 'package:apple_music/components/CustomBottomAppBar/CustomBottomAppBarConstant.dart';
-import 'package:apple_music/constant.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:skeletons/skeletons.dart';
 
 import 'CustomBottomAppBarButton.dart';
 import 'PlayingBar.dart';
 
+// ignore: must_be_immutable
 class CustomBottomAppBar extends StatefulWidget {
   CustomBottomAppBar({Key? key,required this.pageController}) : super(key: key);
   PageController pageController;

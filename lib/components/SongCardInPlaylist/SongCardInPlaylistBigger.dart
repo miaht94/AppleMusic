@@ -1,12 +1,11 @@
-import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:skeletons/skeletons.dart';
 
+// ignore: must_be_immutable
 class SongCardInPlaylistBigger extends StatefulWidget {
   SongCardInPlaylistBigger({
     Key ? key,
@@ -14,7 +13,9 @@ class SongCardInPlaylistBigger extends StatefulWidget {
     this.onTapSongCardInPlaylist,
     this.onTapSongCardMoreButton,
   }): super(key: key);
+  // ignore: inference_failure_on_function_return_type
   Function(SongModel) ? onTapSongCardMoreButton;
+  // ignore: inference_failure_on_function_return_type
   Function(SongModel) ? onTapSongCardInPlaylist;
   final SongModel songModel;
   @override

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:apple_music/components/AudioController/AudioUi.dart';
 import 'package:apple_music/components/ButtonWithIcon/WideButton.dart';
@@ -6,7 +5,7 @@ import 'package:apple_music/components/Other/PageLoadError.dart';
 import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylistList.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
@@ -22,6 +21,7 @@ class PlaylistView extends StatelessWidget {
 
   final Future<PlaylistModel?> playlistModel;
   
+  // ignore: sort_constructors_first
   const PlaylistView({Key? key, required this.playlistModel}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class _PlaylistViewContentState extends State<PlaylistViewContent> {
   late ScrollController _scrollController = ScrollController();
   bool lastStatus = true;
 
-  _scrollListener() {
+  void _scrollListener() {
     if (isShrink != lastStatus) {
       setState(() {
         lastStatus = isShrink;
@@ -110,11 +110,12 @@ class _PlaylistViewContentState extends State<PlaylistViewContent> {
               Navigator.pop(context);
             }),
         title: Visibility(
+            // ignore: avoid_bool_literals_in_conditional_expressions
             visible: isShrink ? true : false,
             child: Text(widget.model.playlist_name,
                 style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 18.0,
+                  fontSize: 18,
                 ))
         ),
         centerTitle: true,
@@ -205,33 +206,42 @@ class _PlaylistViewContentState extends State<PlaylistViewContent> {
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 WideButton(
                                     onTap: (){
-                                      print('Listing Album Songs');
-                                      List<String> id = [];
+                                      if (kDebugMode) {
+                                        print('Listing Album Songs');
+                                      }
+                                      final List<String> id = [];
                                       for (final SongModel song in widget.model.songs) {
                                         id.add(song.id);
-                                        print(song.id + ' added');
+                                        if (kDebugMode) {
+                                          print('${song.id} added');
+                                        }
                                       }
                                       GetIt.I.get<AudioManager>().clearAndAddAList(id);
-                                      Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));
+                                      // ignore: inference_failure_on_instance_creation
+                                      Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => const AudioUi()));
                                     },
                                     title: 'Phát', icon: SFSymbols.arrowtriangle_right_fill
                                 ),
                                 const SizedBox(width: 10),
                                 WideButton(
                                     onTap: (){
-                                      print("Everyday I'm Shuffling");
-                                      List<String> id = [];
+                                      if (kDebugMode) {
+                                        print("Everyday I'm Shuffling");
+                                      }
+                                      final List<String> id = [];
                                       for (final SongModel song in widget.model.songs) {
                                         id.add(song.id);
-                                        print(song.id + 'added');
+                                        if (kDebugMode) {
+                                          print('${song.id}added');
+                                        }
                                       }
                                       GetIt.I.get<AudioManager>().clearAndAddAList(id);
                                       GetIt.I.get<AudioManager>().shuffle();
-                                      Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => AudioUi()));
+                                      // ignore: inference_failure_on_instance_creation
+                                      Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => const AudioUi()));
                                     },
                                     title: 'Xáo trộn', icon: SFSymbols.shuffle
                                 ),
@@ -242,6 +252,7 @@ class _PlaylistViewContentState extends State<PlaylistViewContent> {
                             padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding*2),
                               child: RichText(overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
+                                // ignore: unnecessary_null_comparison
                                 text: TextSpan(text: (widget.model.playlist_description != null) ? widget.model.playlist_description : '', style: const TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Roboto',

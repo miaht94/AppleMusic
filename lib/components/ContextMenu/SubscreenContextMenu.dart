@@ -1,14 +1,9 @@
-import 'dart:math';
 
-import 'package:apple_music/components/ContextMenu/ContextMenuItem.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
-import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
-import 'package:apple_music/constant.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:get_it/get_it.dart';
 
+// ignore: must_be_immutable
 class SubscreenContextMenu extends StatefulWidget {
   SubscreenContextMenu({
     Key ? key,
@@ -25,11 +20,11 @@ class SubscreenContextMenu extends StatefulWidget {
   Function? onDispose;
   void closeSubscreen(Function callback) {
     anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
+    // ignore: cascade_invocations
     anim.addStatusListener((status) {
       if (status.name == 'completed') {
         GetIt.I.get < ContextMenuManager > ().removeOverlay(name);
-        if (callback != null)
-          callback();
+        callback();
       }
     });
   }
@@ -44,6 +39,7 @@ class _SubscreenContextMenu extends State < SubscreenContextMenu > with SingleTi
   @override
   void initState() {
     super.initState();
+    // ignore: always_put_control_body_on_new_line
     if (widget.init != null) widget.init!();
     widget.anim = AnimationController(vsync: this, value: 0, lowerBound: -10000, upperBound: 10000);
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
@@ -60,6 +56,7 @@ class _SubscreenContextMenu extends State < SubscreenContextMenu > with SingleTi
   @override
   void dispose() {
     super.dispose();
+    // ignore: unnecessary_statements
     widget.onDispose != null ? widget.onDispose!() : '';
   }
   GlobalKey posKey = GlobalKey();
@@ -67,7 +64,7 @@ class _SubscreenContextMenu extends State < SubscreenContextMenu > with SingleTi
   Widget build(BuildContext context) {
     
     final Size size = MediaQuery.of(context).size;
-    _maxBottomPos = (size.height/2 - (childHeight ?? 0)/2);
+    _maxBottomPos = size.height/2 - (childHeight ?? 0)/2;
     return
     Offstage(
       offstage: widget.invisible,

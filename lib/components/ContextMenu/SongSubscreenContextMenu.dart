@@ -1,16 +1,14 @@
 import 'dart:io';
 
 import 'package:advance_notification/advance_notification.dart';
-import 'package:apple_music/components/AudioController/AudioManager.dart';
-import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/ContextMenu/PlaylistContextMenu.dart';
-import 'package:apple_music/components/ContextMenu/SongContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/SongContextMenuInPlaylistSubscreen.dart';
 import 'package:apple_music/components/ContextMenu/SubscreenContextMenu.dart';
 import 'package:apple_music/components/RectangleCardSearchPage/PlaylistRectangleCard.dart';
 import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylistBigger.dart';
 import 'package:apple_music/components/TextButton/TextButton.dart'
+// ignore: library_prefixes
 as CustomTextButton;
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/CredentialModel.dart';
@@ -18,29 +16,23 @@ import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/services/http_util.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 
+// ignore: must_be_immutable
 class SongSubscreenContextMenu extends SubscreenContextMenu {
-  SongSubscreenContextMenu({
+  SongSubscreenContextMenu({Key? key,
     this.songModel
-  }): super(
+  }): super(key: key,
     init: () {
-      // if (GetIt.I.isRegistered<SongSubscreenContextMenuManger>()) {
-      //     GetIt.I.unregister<SongSubscreenContextMenuManger>();
-      //   }
-      //   GetIt.I.registerLazySingleton<SongSubscreenContextMenuManger>(() => SongSubscreenContextMenuManger());
-      //   GetIt.I.get<SongSubscreenContextMenuManger>().songSelected = songModel;
+
     },
     body: (context) {
       
-      final Size size = MediaQuery.of(context).size;
       return Container(
         // width: size.width,
         // height: size.height/2,
@@ -60,7 +52,7 @@ class SongSubscreenContextMenu extends SubscreenContextMenu {
           ),
       );
     },
-    name: "SongSubscreenContextMenu",
+    name: 'SongSubscreenContextMenu',
     onDispose: () 
       {
         // if (GetIt.I.isRegistered<SongSubscreenContextMenuManger>()) {
@@ -73,11 +65,12 @@ class SongSubscreenContextMenu extends SubscreenContextMenu {
     SongModel? songModel;
 }
 
+// ignore: strict_raw_type
 Route _createRoutePageCreatePlaylist() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => CreateNewPlaylistPage(),
+    pageBuilder: (context, animation, secondaryAnimation) => const CreateNewPlaylistPage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0);
+      const begin = Offset(1, 0);
       const end = Offset.zero;
       const curve = Curves.ease;
 
@@ -91,11 +84,12 @@ Route _createRoutePageCreatePlaylist() {
   );
 }
 
+// ignore: strict_raw_type
 Route _createRoutePageViewSongPlaylist(PlaylistModel playlistModel, SongModel? songToAdd) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => ViewAllSongsInPlaylist(playlistSelected: playlistModel, songSelected: songToAdd,),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0);
+      const begin = Offset(1, 0);
       const end = Offset.zero;
       const curve = Curves.ease;
 
@@ -164,8 +158,8 @@ class _ViewAllPlaylistsPageState extends State<ViewAllPlaylistsPage> {
                     ),
                   ], ),
               ),
-              Row(children: [
-                const Expanded(child: Divider(thickness: 0.2, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
+              Row(children: const [
+                Expanded(child: Divider(thickness: 0.2, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
               ], ),
               Container(
                 alignment: Alignment.centerLeft,
@@ -186,6 +180,7 @@ class _ViewAllPlaylistsPageState extends State<ViewAllPlaylistsPage> {
                   if (!snapshot.hasData || snapshot.connectionState != ConnectionState.done) {
                     return const CircularProgressIndicator();
                   }
+                  // ignore: always_put_control_body_on_new_line
                   if (snapshot.data == null) return Container();
                   final List < Widget > playlistsWidget = [];
                   for (final PlaylistModel playlistModel in snapshot.data!) {
@@ -203,6 +198,7 @@ class _ViewAllPlaylistsPageState extends State<ViewAllPlaylistsPage> {
                         },
                       ),
                     );
+                    // ignore: cascade_invocations
                     playlistsWidget.add(const SizedBox(height: kDefaultPadding, ));
                   }
                   return Container(
@@ -221,7 +217,7 @@ class _ViewAllPlaylistsPageState extends State<ViewAllPlaylistsPage> {
 }
 
 class CreateNewPlaylistPage extends StatefulWidget {
-  CreateNewPlaylistPage({
+  const CreateNewPlaylistPage({
     Key ? key
   }): super(key: key);
 
@@ -272,17 +268,17 @@ class _CreateNewPlaylistPageState extends State < CreateNewPlaylistPage > {
                       if (!currentFocus.hasPrimaryFocus) {
                         currentFocus.unfocus();
                       }
-                      if (titleController.text == "") {
+                      if (titleController.text == '') {
                         const AdvanceSnackBar(
-                          message: "Bạn chưa điền tiêu đề",
+                          message: 'Bạn chưa điền tiêu đề',
                           mode: Mode.ADVANCE,
                           type: sType.ERROR,
-                          duration: const Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
+                          duration: Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
                         return;
                       }
-                      if (descriptionController.text == "") {
+                      if (descriptionController.text == '') {
                         const AdvanceSnackBar(
-                          message: "Bạn chưa đền mô tả",
+                          message: 'Bạn chưa đền mô tả',
                           mode: Mode.ADVANCE,
                           type: sType.ERROR,
                           duration: Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
@@ -290,21 +286,21 @@ class _CreateNewPlaylistPageState extends State < CreateNewPlaylistPage > {
                       }
                       if (image == null) {
                         const AdvanceSnackBar(
-                          message: "Bạn chưa thêm ảnh",
+                          message: 'Bạn chưa thêm ảnh',
                           mode: Mode.ADVANCE,
                           type: sType.ERROR,
-                          duration: const Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
+                          duration: Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
                         return;
                       }
-                      EasyLoading.show(status: 'Đang tạo playlist');
+                      await EasyLoading.show(status: 'Đang tạo playlist');
                       final bool suc = await HttpUtil().addPlaylist(title: titleController.text, description: descriptionController.text, imagePath: image!.path,app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
                       if (suc) {
                         await GetIt.I.get<UserModelNotifier>().refreshUser();
-                        EasyLoading.showSuccess("Thành công", duration: const Duration(seconds: 2));
+                        await EasyLoading.showSuccess('Thành công', duration: const Duration(seconds: 2));
                         
                         GetIt.I.get<ViewAllPlaylistManagerNotifier>().refreshPage();
                       } else {
-                        EasyLoading.showError("Có lỗi xảy ra", duration: const Duration(seconds: 2));
+                        await EasyLoading.showError('Có lỗi xảy ra', duration: const Duration(seconds: 2));
                       }
                       if (Navigator.of(context).canPop()) {
                         Navigator.of(context).pop();
@@ -351,10 +347,9 @@ class _CreateNewPlaylistPageState extends State < CreateNewPlaylistPage > {
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("Tiêu đề: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: const Color.fromARGB(255, 61, 61, 61)), ),
+                              const Text('Tiêu đề: ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 61, 61, 61)), ),
                               TextField(
                                 controller: titleController,
                                 decoration: const InputDecoration(
@@ -362,7 +357,7 @@ class _CreateNewPlaylistPageState extends State < CreateNewPlaylistPage > {
                                 ),
                               ),
                               const SizedBox(height: 10, ),
-                              const Text("Mô tả: ", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: const Color.fromARGB(255, 61, 61, 61)), ),
+                              const Text('Mô tả: ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 61, 61, 61)), ),
                               TextField(
                                 controller: descriptionController,
                                 decoration: const InputDecoration(
@@ -408,7 +403,6 @@ class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
   @override
   Widget build(BuildContext context) {
     return Material(
-      type: MaterialType.canvas,
       borderRadius: BorderRadius.circular(10),
       color: Colors.white,
       child: ValueListenableBuilder<ViewAllSongPageManager>(
@@ -443,21 +437,21 @@ class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
                         color: Colors.blue,
                         textSize: 20,
                         onTap: () async {
-                          EasyLoading.show(status: "Đang tải");
+                          await EasyLoading.show(status: 'Đang tải');
                           final bool success = await HttpUtil().addSongToPlaylist(song_id : viewAllSongPageManager.songSelected!.id, playlist_id: viewAllSongPageManager.playlistSelected.id, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
                           if (success) {
-                            EasyLoading.showSuccess("Thành công", duration: const Duration(seconds: 3));
+                            await EasyLoading.showSuccess('Thành công', duration: const Duration(seconds: 3));
 
                           } else {
-                            EasyLoading.showError("Có lỗi xảy ra", duration: const Duration(seconds: 3));
+                            await EasyLoading.showError('Có lỗi xảy ra', duration: const Duration(seconds: 3));
                           }
                           GetIt.I.get<ViewAllSongPageManagerNotifer>().refreshPage();
                         }
                       ),
                 ], ),
             ),
-            Row(children: [
-              const Expanded(child: Divider(thickness: 0.2, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
+            Row(children: const [
+              Expanded(child: Divider(thickness: 0.2, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
             ], ),
       
             Expanded(
@@ -500,6 +494,7 @@ class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
                           ),
                         ),
                       );
+                      // ignore: cascade_invocations
                       songsWidget.add(const SizedBox(height: kDefaultPadding, ));
                     }
                     return CustomScrollView(
@@ -511,7 +506,7 @@ class _ViewAllSongsInPlaylistState extends State < ViewAllSongsInPlaylist > {
                       ],
                     );
                   } else {
-                    return const Center(child: const CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
       
       
@@ -562,6 +557,7 @@ class ViewAllSongPageManager {
 
 class ViewAllSongPageManagerNotifer extends ValueNotifier<ViewAllSongPageManager> {
   ViewAllSongPageManagerNotifer(ViewAllSongPageManager value) : super(value);
+  // ignore: use_setters_to_change_properties
   void changeSongSelected(SongModel songSelected) {
     value.songSelected = songSelected;
   }

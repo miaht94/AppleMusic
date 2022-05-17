@@ -6,7 +6,7 @@ const double kCardHeight = 200;
 
 const Color kInnerShadowColor = Color.fromRGBO(0, 0, 0, 0.3);
 
-const double kDefaultCardPadding = 13.0;
+const double kDefaultCardPadding = 13;
 const Color kCategoryTextColor = Color.fromRGBO(137, 136, 136, 1);
 const FontWeight kCategoryFontWeight = FontWeight.w400;
 const double kCategoryFontSize = 14;

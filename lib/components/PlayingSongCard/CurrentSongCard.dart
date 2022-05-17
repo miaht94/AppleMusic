@@ -1,18 +1,18 @@
 import 'package:apple_music/components/AudioController/AudioManager.dart';
+import 'package:apple_music/components/AudioController/AudioStates.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/ContextMenu/SongContextMenu.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCard.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCardConstant.dart';
-import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/services/service_locator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:apple_music/components/AudioController/AudioStates.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 
 class CurrentSongCard extends StatefulWidget{
+  const CurrentSongCard({Key? key}) : super(key: key);
+
 
   @override
   State<CurrentSongCard> createState() => _CurrentSongCardState();
@@ -32,23 +32,23 @@ class _CurrentSongCardState extends State<CurrentSongCard> {
             children: [
               Positioned(
                 top: FIRST_CURRENT_SONG_CARD_TOP,
-                left: 0.0,
-                right: 0.0,
+                left: 0,
+                right: 0,
                 child: AnimatedOpacity(
                   opacity: (value != ChildWindowState.song)? 1.0: 0.0,
                   duration: SONG_CARD_BLUR_ANIMATION_DURATION,
                   curve: CUBIC_ANIMATION,
                   child: Container(
 
-                    padding: EdgeInsets.only(left: FIRST_CURRENT_SONG_CARD_PADDING),
+                    padding: const EdgeInsets.only(left: FIRST_CURRENT_SONG_CARD_PADDING),
                     child: _buildCard(),
                     ),
                   ),
                 ),
               Positioned(
                 top: SECOND_CURRENT_SONG_CARD_TOP,
-                left: 0.0,
-                right: 0.0,
+                left: 0,
+                right: 0,
                 child: AnimatedOpacity(
                   opacity: (value != ChildWindowState.song)? 0.0: 1.0,
                   duration: SONG_CARD_BLUR_ANIMATION_DURATION,
@@ -88,7 +88,7 @@ class _CurrentSongCardState extends State<CurrentSongCard> {
                   imageSize: 60,
                   songNameFontSize: 20,
                   artistFontSize: 15,
-                  songNameColor: Color.fromRGBO(255, 255, 255, 0.95),
+                  songNameColor: const Color.fromRGBO(255, 255, 255, 0.95),
                   hasArtWork: false,
                 ),
                 Positioned(
@@ -96,14 +96,14 @@ class _CurrentSongCardState extends State<CurrentSongCard> {
                   height: 27,
                   top: 15,
                   child: DecoratedBox(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.white24,
                     ),
                     child: IconButton(
-                        padding: EdgeInsets.all(0.0),
+                        padding: const EdgeInsets.all(0),
                         onPressed: () => onContextMenuPress(currentSong),
-                        icon: Icon(
+                        icon: const Icon(
                           SFSymbols.ellipsis_vertical,
                           color: Colors.white,
                           size:22,
@@ -113,9 +113,10 @@ class _CurrentSongCardState extends State<CurrentSongCard> {
                 )
               ],
             );
-          } else
+          } else {
             return
-              SizedBox();
+              const SizedBox();
+          }
         },
       );
   }

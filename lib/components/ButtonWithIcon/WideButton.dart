@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
+// ignore: must_be_immutable
 class WideButton extends StatelessWidget {
   WideButton({
     Key? key,
@@ -12,6 +13,7 @@ class WideButton extends StatelessWidget {
 
   late String title;
   late IconData icon;
+  // ignore: inference_failure_on_function_return_type
   Function() onTap;
 
   @override
@@ -23,18 +25,17 @@ class WideButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(7),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              primary: Color.fromRGBO(242, 242, 242, 1),
-              padding: EdgeInsets.symmetric(vertical: 15),
+              primary: const Color.fromRGBO(242, 242, 242, 1),
+              padding: const EdgeInsets.symmetric(vertical: 15),
           ),
           onPressed: onTap,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children : <Widget> [
-                  Icon(this.icon
+                  Icon(icon
                       , color: Colors.red, size: 15),
-                  SizedBox(width: 5),
-                  Text(this.title, style: TextStyle(
+                  const SizedBox(width: 5),
+                  Text(title, style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold, color: Colors.red)),
                 ]
