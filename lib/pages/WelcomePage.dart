@@ -107,7 +107,13 @@ class Welcome extends AnimatedWidget {
             ),
             SizedBox(height: screenSize.height/20,),
             Container(
-              child: Text("Hi! ${name}, welcome to Apple Muvik.", style: TextStyle(fontSize: 20), textAlign: TextAlign.center,),
+              child: Text("${name},\nhãy cùng bắt đầu nghe nhạc!", textAlign: TextAlign.center, style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Roboto',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )),
+              // child: Text("Hi! ${name}, welcome to Bách Music.", style: TextStyle(fontSize: 20), textAlign: TextAlign.center,),
               width: screenSize.width/1.5,
             ),
             SizedBox(height: screenSize.height/20,),
@@ -122,10 +128,10 @@ class Welcome extends AnimatedWidget {
                   },
                   child: Container( 
                     alignment: Alignment.center,
-                    child: Text("Get Started", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
+                    child: Text("Bắt đầu", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Color.fromARGB(183, 222, 89, 44).withOpacity(0.5)
+                      color: Colors.red.withOpacity(1)
                     )
                   ,)
                 )

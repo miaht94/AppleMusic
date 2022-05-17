@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Bach Music',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

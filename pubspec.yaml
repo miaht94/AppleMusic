@@ -1,5 +1,5 @@
-name: apple_music
-description: A new Flutter project.
+name: bach_music
+description: A music app with Apple Music-like flavor.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -60,6 +60,7 @@ dependencies:
   mockito: ^5.1.0
   network_image_mock: ^2.1.0
   build_runner: ^2.1.10
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -73,6 +74,14 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
   http_mock_adapter: ^0.3.2
+  flutter_launcher_icons: "^0.9.0"
+
+flutter_icons:
+  image_path: "assets/appicons/icon.png"
+  android: true
+  ios: true
+  # optionally, as transparency is not allowed on app store
+  remove_alpha_ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -8,7 +8,7 @@ const Color kHeadlineColor = Color.fromRGBO(179, 179, 179, 1);//
 // final isTestingMode = false;
 final isTestingMode = Platform.environment.containsKey('FLUTTER_TEST');
 // padding chiều dọc giữa các component
-// VD giữa đừng bỏ lỡ với nghệ sĩ được yêu thích.
+// VD giữa đừng bỏ lỡ với nghệ sĩ được Thư viện.
 const double VerticalComponentPadding = 20;
 
 const String CREDENTIAL_PATH = 'credential.txt';

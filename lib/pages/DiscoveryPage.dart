@@ -142,7 +142,7 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                     return
                       Container(
                         padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-                        child: HScrollCircleCardWithText(title: "Nghệ Sĩ Được Yêu Thích", cards: discoveryPageModel.listFavoriteArtist),
+                        child: HScrollCircleCardWithText(title: "Nghệ Sĩ Được Thư viện", cards: discoveryPageModel.listFavoriteArtist),
                       );} else {
                     return SkeletonLoader(
                       builder:

@@ -134,7 +134,7 @@ class _ListeningNowState extends State<ListeningNow> {
                         return
                           Container(
                             padding: EdgeInsets.only(bottom: VerticalComponentPadding),
-                            child: HScrollCircleCardWithText(title: "Nghệ Sĩ Được Yêu Thích", cards: listeningNowPageModel.listFavoriteArtist),
+                            child: HScrollCircleCardWithText(title: "Nghệ Sĩ Được Thư viện", cards: listeningNowPageModel.listFavoriteArtist),
                           );} else {
                         return SkeletonLoader(
                           builder:

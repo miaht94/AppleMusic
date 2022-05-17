@@ -72,14 +72,20 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: [
                       Image.asset('assets/images/AppleIcon.png', width: screenSize.width / 2, ),
-                      SizedBox(height: screenSize.height / 10, ),
+                      Text("Chào mừng đến với\nBach Music!", textAlign: TextAlign.center, style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Roboto',
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      )),
+                      SizedBox(height: screenSize.height / 20, ),
                       Container(
                         width: screenSize.width * 0.6,
                         height: screenSize.height * 0.05,
                         child: GestureDetector(
                           child: SignInButton(
                             Buttons.Google,
-                            text: 'Sign in with Google',
+                            text: 'Đăng nhập với Google',
                             onPressed: () async {
                               const JsonDecoder decoder = JsonDecoder();
                               Map < String, dynamic > response = decoder.convert(await authGoogle());

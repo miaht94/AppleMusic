@@ -442,14 +442,14 @@ elements:
     value: //android.widget.FrameLayout[1]/android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.view.View[1]/android.widget.Button[2]
     priority: 1
 - id: 3RdAE7_n8UaU0Yf0elTmSA
-  name: Thêm vào yêu thích1
+  name: Thêm vào Thư viện1
   type:
     id: jUwODgyNjAyNzk2NTk4NDY
     name: android.view.View
     source: System
   locators:
   - name: XPATH
-    value: //android.view.View[@content-desc = 'Thêm vào yêu thích']
+    value: //android.view.View[@content-desc = 'Thêm vào Thư viện']
     priority: 1
   - name: XPATH
     value: //android.view.View/android.view.View[5]

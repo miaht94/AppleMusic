@@ -43,10 +43,10 @@ class AlbumContextMenu extends ContextMenu{
           ValueListenableBuilder<UserModel>(valueListenable: GetIt.I.get<UserModelNotifier>(), builder: (context, userModel, _) {
             return !userModel.containFavAlbum(albumViewModel.id) ?
           ContextMenuItem(
-            title: "Thêm vào yêu thích", 
+            title: "Thêm vào thư viện",
             iconData: SFSymbols.heart,
             onTapItem: () async {
-              EasyLoading.show(status: "Đang thêm album vào yêu thích");
+              EasyLoading.show(status: "Đang thêm album vào thư viện");
               bool suc = await HttpUtil().updateFavorite(favorite_albums: [albumViewModel.id], action: FAVORITE_ACTION.push, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
               if (suc) {
                 await GetIt.I.get<UserModelNotifier>().refreshUser();
@@ -61,10 +61,10 @@ class AlbumContextMenu extends ContextMenu{
             },
           ) :
           ContextMenuItem(
-            title: "Xóa khỏi yêu thích", 
+            title: "Xóa khỏi thư viện",
             iconData: SFSymbols.heart_slash,
             onTapItem: () async {
-              EasyLoading.show(status: "Đang xóa album khỏi yêu thích");
+              EasyLoading.show(status: "Đang xóa album khỏi thư viện");
               bool suc = await HttpUtil().updateFavorite(favorite_albums: [albumViewModel.id], action: FAVORITE_ACTION.pop, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
               if (suc) {
                 await GetIt.I.get<UserModelNotifier>().refreshUser();
