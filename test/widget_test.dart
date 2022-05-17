@@ -94,6 +94,7 @@ void main() {
       id: 1111,
       name: 'Red',
       width: 200,
+      isPlaylist: false,
     );
 
     await mockNetworkImagesFor(() => tester.pumpWidget(

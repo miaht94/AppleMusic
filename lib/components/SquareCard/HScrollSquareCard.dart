@@ -58,6 +58,7 @@ class _HScrollSquareCardState extends State<HScrollSquareCard> {
             artist: widget.listItem[index - 1].albumArtist,
             id: index - 1,
             width: WIDTH,
+            isPlaylist: false,
           );
         },
     );

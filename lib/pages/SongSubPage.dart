@@ -104,7 +104,6 @@ class _SongSubPageState extends State<SongSubPage> {
           builder: (BuildContext context, AsyncSnapshot<List<SongModel>?> snapshot) {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator(color: Colors.red));
-              // return PageLoadError(title: "Lỗi tải danh sách");
             }
             else {
               if (snapshot.data!.length == 0){

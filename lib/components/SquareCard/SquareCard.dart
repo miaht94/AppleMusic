@@ -1,4 +1,5 @@
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
+import 'package:apple_music/pages/PlaylistPage.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:apple_music/services/service_locator.dart';
 
@@ -8,6 +9,7 @@ import 'package:apple_music/pages/AlbumPage.dart';
 
 import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
+import '../../models_refactor/PlaylistModel.dart';
 import 'HScrollSquareConstant.dart';
 
 class SquareCard extends StatelessWidget{
@@ -16,7 +18,9 @@ class SquareCard extends StatelessWidget{
     required this.name,
     required this.artist,
     required this.id,
-    required this.width
+    required this.width,
+    required this.isPlaylist,
+    this.playlistModel
   }): super(key: key);
 
   final String imageUrl;
@@ -24,6 +28,8 @@ class SquareCard extends StatelessWidget{
   final String artist;
   final int id;
   final double width;
+  final bool isPlaylist;
+  dynamic playlistModel;
 
   // HScrollSquareCardModel model;
 
@@ -47,13 +53,12 @@ class SquareCard extends StatelessWidget{
         margin :EdgeInsets.only(left: kDefaultPadding),
         child: InkWell(
           onTap: () {
-            //if ... != null
-            //onTapSquareCard(model);
-            print(this.name);
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AlbumView(albumViewModel:  HttpUtil().getAlbumModel(album_name: this.name,artist_name:  this.artist)),
+                builder: (context) =>
+                isPlaylist ?  PlaylistView(playlistModel: playlistModel) :
+                AlbumView(albumViewModel:  HttpUtil().getAlbumModel(album_name: this.name,artist_name:  this.artist)),
               ),
             );
           },

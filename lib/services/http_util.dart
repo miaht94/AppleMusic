@@ -477,6 +477,21 @@ class HttpUtil {
       return null;
     }
   }
+
+  Future<List<PlaylistModel>?> getMyPlaylists({required String app_token}) async {
+    try {
+      Response res = await dio.get(MY_PROFILE_PATH, queryParameters: {
+        'app_token': app_token
+      });
+      List<PlaylistModel> list = [];
+      for (Map<String, dynamic> i in res.data['playlists']) {
+        list.add(PlaylistModel.fromJson(i));
+      }
+      return list;
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 enum FAVORITE_ACTION{
