@@ -1,13 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'CustomBottomAppBarConstant.dart';
 
+// ignore: must_be_immutable
 class CustomAppBarButton extends StatefulWidget {
   CustomAppBarButton({Key? key, required this.icon, required this.title, this.onTapHandler, required this.isActivated}) : super(key: key);
   IconData icon;
   bool isActivated;
   String title;
+  // ignore: inference_failure_on_function_return_type
   Function()? onTapHandler;
   @override
   State<CustomAppBarButton> createState() => _CustomAppBarButtonState();
@@ -23,7 +25,9 @@ class _CustomAppBarButtonState extends State<CustomAppBarButton> {
   }
   void onTap() {
     setState(() {
-      print("Tap");
+      if (kDebugMode) {
+        print('Tap');
+      }
       
       // iconColor = kActiveButtonBackgroundColor;
     });
@@ -42,9 +46,7 @@ class _CustomAppBarButtonState extends State<CustomAppBarButton> {
                   
                   // radius: 20,
                 //  borderRadius: BorderRadius.all(Radius.elliptical(10, 10)),
-                  onTap: () {
-                    onTap();
-                  },
+                  onTap: onTap,
                   child: Container(
                     alignment: Alignment.center,
                     color: Colors.transparent,

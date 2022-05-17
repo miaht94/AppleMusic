@@ -1,11 +1,14 @@
+// ignore_for_file: inference_failure_on_uninitialized_variable
+
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 
 import 'ProgressBarConstant.dart';
 
 
+// ignore: duplicate_ignore
 class ProgressBarObject extends LeafRenderObjectWidget {
   const ProgressBarObject({
     Key? key,
@@ -26,7 +29,9 @@ class ProgressBarObject extends LeafRenderObjectWidget {
   final Duration totalTime;
   final Duration currentTime;
   final AnimationController? controller;
+  // ignore: prefer_typing_uninitialized_variables,
   final onTimeChanged;
+  // ignore: prefer_typing_uninitialized_variables
   final onPositionChanged;
 
   @override
@@ -57,7 +62,9 @@ class ProgressBarObject extends LeafRenderObjectWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties){
     super.debugFillProperties(properties);
     properties.add(ColorProperty('barColor', barColor));
+    // ignore: cascade_invocations
     properties.add(ColorProperty('thumbColor', thumbColor));
+    // ignore: cascade_invocations
     properties.add(DoubleProperty('thumbSize', thumbSize));
   }
 }
@@ -70,7 +77,9 @@ class RenderProgessBarObject extends RenderBox {
     required double thumbSize,
     required AnimationController? controller,
     required Duration currentTime,
+    // ignore: inference_failure_on_untyped_parameter
     required onTimeChanged,
+    // ignore: inference_failure_on_untyped_parameter
     required onPositionChanged,
 
   })  : _barColor = barColor,
@@ -105,7 +114,7 @@ class RenderProgessBarObject extends RenderBox {
       };
   }
 
-  double _currentThumbValue = 0.0;
+  double _currentThumbValue = 0;
 
   Color get barColor => _barColor;
   Color _barColor;
@@ -113,8 +122,9 @@ class RenderProgessBarObject extends RenderBox {
   Duration get currentTime => _currentTime;
   Duration _currentTime;
   set currentTime(Duration value){
-    if (value == _currentTime)
+    if (value == _currentTime) {
       return;
+    }
     _currentTime = value;
     _currentThumbValue = _getCurrentPosition();
 
@@ -122,8 +132,9 @@ class RenderProgessBarObject extends RenderBox {
   }
 
   set barColor(Color value){
-    if (value == _barColor)
+    if (value == _barColor) {
       return;
+    }
     _barColor = value;
     markNeedsPaint();
   }
@@ -131,8 +142,9 @@ class RenderProgessBarObject extends RenderBox {
   Color get thumbColor => _thumbColor;
   Color _thumbColor;
   set thumbColor(Color value){
-    if (value == _thumbColor)
+    if (value == _thumbColor) {
       return;
+    }
     _thumbColor = value;
     markNeedsPaint();
   }
@@ -140,8 +152,9 @@ class RenderProgessBarObject extends RenderBox {
   Duration get totalTime => _totalTime;
   Duration _totalTime;
   set totalTime(Duration value){
-    if (value == _totalTime)
+    if (value == _totalTime) {
       return;
+    }
     _totalTime = value;
     markNeedsPaint();
   }
@@ -149,8 +162,9 @@ class RenderProgessBarObject extends RenderBox {
   double get thumbSize => _thumbSize;
   double _thumbSize;
   set thumbSize(double value) {
-    if (_thumbSize == value)
+    if (_thumbSize == value) {
       return;
+    }
     _thumbSize = value;
     markNeedsLayout();
   }
@@ -162,7 +176,7 @@ class RenderProgessBarObject extends RenderBox {
   @override
   Size computeDryLayout(BoxConstraints constraints) {
     final desiredWidth = constraints.maxWidth;
-    final desiredHeight = DESIRED_HEIGHT;
+    const desiredHeight = DESIRED_HEIGHT;
     final desiredSize = Size(desiredWidth, desiredHeight);
     return constraints.constrain(desiredSize);
   }
@@ -181,7 +195,9 @@ class RenderProgessBarObject extends RenderBox {
   @override
   void paint(PaintingContext context, Offset offset){
     final canvas = context.canvas;
+    // ignore: cascade_invocations
     canvas.save();
+    // ignore: cascade_invocations
     canvas.translate(offset.dx, offset.dy);
 
     // paint played bar
@@ -203,33 +219,39 @@ class RenderProgessBarObject extends RenderBox {
     final center = Offset(thumbDx, size.height / 2);
     canvas.drawCircle(center, thumbSize / 2, thumbPaint);
 
+    // ignore: cascade_invocations
     canvas.restore();
   }
 
+  // ignore: non_constant_identifier_names
   void PaintRemainDuration(Canvas canvas) {
     final remainDurationString = _getStringDuration(_getDuration(1.0 - _currentThumbValue));
-    TextSpan textSpanRemain = TextSpan(style: TextStyle(color: barColor), text: "- ${remainDurationString}");
-    TextPainter textPainter = TextPainter(text: textSpanRemain,
+    final TextSpan textSpanRemain = TextSpan(style: TextStyle(color: barColor), text: '- $remainDurationString');
+    final TextPainter textPainter = TextPainter(text: textSpanRemain,
         textAlign: TextAlign.left,
         textDirection: TextDirection.ltr
     );
+    // ignore: cascade_invocations
     textPainter.layout();
     final remainDuration = Offset(size.width - textPainter.width, size.height);
     textPainter.paint(canvas, remainDuration);
   }
 
+  // ignore: non_constant_identifier_names
   void PaintCurrentDuration(Canvas canvas) {
     final currentDurationString = _getStringDuration(_getDuration(_currentThumbValue));
-    TextSpan textSpanCurrent = TextSpan(style: TextStyle(color: barColor), text: currentDurationString);
-    TextPainter textPainter = TextPainter(text: textSpanCurrent,
+    final TextSpan textSpanCurrent = TextSpan(style: TextStyle(color: barColor), text: currentDurationString);
+    final TextPainter textPainter = TextPainter(text: textSpanCurrent,
         textAlign: TextAlign.left,
         textDirection: TextDirection.ltr
     );
+    // ignore: cascade_invocations
     textPainter.layout();
     final currentDuration = Offset(0, size.height);
     textPainter.paint(canvas, currentDuration);
   }
 
+  // ignore: non_constant_identifier_names
   void PaintRemainBar(Canvas canvas) {
     final remainBarPaint = Paint()
       ..color = barColor.withOpacity(REMAIN_BAR_OPACITY)
@@ -267,7 +289,7 @@ class RenderProgessBarObject extends RenderBox {
   }
 
   void _updateThumbPosition(Offset localPosition) {
-    var dx = localPosition.dx.clamp(0, size.width);
+    final dx = localPosition.dx.clamp(0, size.width);
     _currentThumbValue = dx / size.width;
     markNeedsPaint();
   }
@@ -288,19 +310,21 @@ class RenderProgessBarObject extends RenderBox {
     if(_totalTime.inSeconds.isFinite && thumbValue.isFinite){
       return Duration(seconds: (_totalTime.inSeconds * thumbValue).toInt());
     }
-    return Duration(seconds: 0);
+    return const Duration();
   }
 
   String _getStringDuration(Duration duration){
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
     String twoDigitHours = twoDigits(duration.inHours.remainder(60));
-    twoDigitHours = duration.inHours > 0 ? "${twoDigitHours}:":"";
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "${twoDigitHours}$twoDigitMinutes:$twoDigitSeconds";
+    twoDigitHours = duration.inHours > 0 ? '$twoDigitHours:':'';
+    final String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    final String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    // ignore: prefer_single_quotes
+    return "$twoDigitHours$twoDigitMinutes:$twoDigitSeconds";
   }
 
   double _getCurrentPosition() {
+    // ignore: unnecessary_null_comparison
     if (_currentTime == null) {
       return 0;
     }

@@ -5,6 +5,7 @@ import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
+// ignore: must_be_immutable
 class PausePlayButton extends StatefulWidget{
   PausePlayButton({Key? key, this.buttonSize, this.buttonColor}) : super(key: key);
 
@@ -21,7 +22,7 @@ class _PausePlayButtonState extends State<PausePlayButton> with TickerProviderSt
   void initState() {
     super.initState();
     animationController =
-        AnimationController(duration: new Duration(seconds: 2), vsync: this);
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
     animationController.repeat();
   }
 

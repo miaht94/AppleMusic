@@ -1,17 +1,12 @@
-import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
+import 'package:apple_music/constant.dart';
+import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:apple_music/pages/PlaylistPage.dart';
 import 'package:apple_music/services/http_util.dart';
-import 'package:apple_music/services/service_locator.dart';
-
-import 'package:apple_music/models/AlbumViewModel.dart';
-import 'package:apple_music/models/HScrollSquareModel.dart';
-import 'package:apple_music/pages/AlbumPage.dart';
-
 import 'package:flutter/material.dart';
-import 'package:apple_music/constant.dart';
-import '../../models_refactor/PlaylistModel.dart';
+
 import 'HScrollSquareConstant.dart';
 
+// ignore: must_be_immutable
 class SquareCard extends StatelessWidget{
   SquareCard({Key? key,
     required this.imageUrl,
@@ -45,20 +40,20 @@ class SquareCard extends StatelessWidget{
   @override
   Widget build (BuildContext context) {
 
-    final size = MediaQuery.of(context).size;
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
         width: width,
-        margin :EdgeInsets.only(left: kDefaultPadding),
+        margin :const EdgeInsets.only(left: kDefaultPadding),
         child: InkWell(
           onTap: () {
             Navigator.push(
               context,
+              // ignore: inference_failure_on_instance_creation
               MaterialPageRoute(
                 builder: (context) =>
                 isPlaylist ?  PlaylistView(playlistModel: playlistModel) :
-                AlbumView(albumViewModel:  HttpUtil().getAlbumModel(album_name: this.name,artist_name:  this.artist)),
+                AlbumView(albumViewModel:  HttpUtil().getAlbumModel(album_name: name,artist_name:  artist)),
               ),
             );
           },
@@ -67,7 +62,7 @@ class SquareCard extends StatelessWidget{
           },
           child: ListView(
             shrinkWrap: true,
-            physics:NeverScrollableScrollPhysics(),
+            physics:const NeverScrollableScrollPhysics(),
             children: [
               Card(
                 margin: EdgeInsets.zero,
@@ -84,7 +79,7 @@ class SquareCard extends StatelessWidget{
                   ),
                 )
               ),
-              SizedBox(height:4),
+              const SizedBox(height:4),
               Text(
                 name,
                 maxLines: 1,

@@ -12,6 +12,7 @@ class WideButtonWhite extends StatelessWidget {
 
   late String title;
   late IconData icon;
+  // ignore: inference_failure_on_function_return_type
   Function() onTap;
 
   @override
@@ -24,17 +25,16 @@ class WideButtonWhite extends StatelessWidget {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               primary: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 15),
+              padding: const EdgeInsets.symmetric(vertical: 15),
           ),
           onPressed: onTap,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children : <Widget> [
-                  Icon(this.icon
+                  Icon(icon
                       , color: Colors.red, size: 15),
-                  SizedBox(width: 5),
-                  Text(this.title, style: TextStyle(
+                  const SizedBox(width: 5),
+                  Text(title, style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold, color: Colors.red)),
                 ]

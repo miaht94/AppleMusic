@@ -1,7 +1,8 @@
+import 'package:apple_music/constant.dart';
 import 'package:flutter/material.dart';
+
 import 'PageTitle.dart';
 import 'TitleComponentConstant.dart';
-import 'package:apple_music/constant.dart';
 
 class PageTitleBoxCompact extends StatelessWidget {
   const PageTitleBoxCompact({
@@ -17,7 +18,7 @@ class PageTitleBoxCompact extends StatelessWidget {
     return Container(
     width: size.width,
     height: size.height * PAGE_TITLE_BOX_COMPACT_HEIGHT_RATIO,
-    padding: EdgeInsets.all(kDefaultPadding),
+    padding: const EdgeInsets.all(kDefaultPadding),
     child: Align(
     alignment: Alignment.bottomLeft,
     child: PageTitle(title: title),

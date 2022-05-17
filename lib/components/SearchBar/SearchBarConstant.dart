@@ -7,7 +7,7 @@ const double kSearchBarMaxWidth = double.infinity;
 const double kSearchBarMinWidth = 300;
 const double kSearchBarMinHeight = 30;
 
-const double kSearchBarBorderRadius = 5.0;
+const double kSearchBarBorderRadius = 5;
 const Color kBackgroundSearchBarColor = Color.fromRGBO(238, 238, 238, 1);
 const Color kPlaceholderColor = Color.fromRGBO(185, 185, 188, 1);
 const double kPaddingBtwIconAndSearchBar = 10;

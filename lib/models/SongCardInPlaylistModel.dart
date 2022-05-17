@@ -163,15 +163,17 @@ class SongCardInPlaylistModel {
         ];
     }
 
+    // ignore: sort_constructors_first
     factory SongCardInPlaylistModel.fromJson(Map<String, dynamic> json) {
-        return new SongCardInPlaylistModel(json["song_name"], json["artist"]["artist_name"], json["album"]["art_url"], json["_id"], json["album"]["genre"]);
+        return SongCardInPlaylistModel(json['song_name'], json['artist']['artist_name'], json['album']['art_url'], json['_id'], json['album']['genre']);
     }
 
 
+    // ignore: inference_failure_on_untyped_parameter
     static Future<List<SongModel>> convert(json) async {
-        List<SongModel> list = [];
-        for (var object in json) {
-            SongUrlModel? song = await HttpUtil().fetchSongModel(object["_id"]);
+        final List<SongModel> list = [];
+        for (final object in json) {
+            final SongUrlModel? song = await HttpUtil().fetchSongModel(object['_id']);
             list.add(song!.song);
         }
         return list;
@@ -183,11 +185,11 @@ class SongCardInPlaylistModel {
         });
         final  response = await http.get(httpURI);
         if (response.statusCode == 200){
-            JsonDecoder decoder = JsonDecoder();
-            SongCardInPlaylistModel song = SongCardInPlaylistModel.fromJson(decoder.convert(response.body)["song"]);
+            const JsonDecoder decoder = JsonDecoder();
+            final SongCardInPlaylistModel song = SongCardInPlaylistModel.fromJson(decoder.convert(response.body)['song']);
             return song;
         } else {
-            return Future.error('No song for Id(${id})');
+            return Future.error('No song for Id($id)');
         }
 
     }

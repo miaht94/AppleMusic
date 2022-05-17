@@ -1,8 +1,8 @@
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCardConstant.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
+// ignore: must_be_immutable
 class PlayingSongCard extends StatefulWidget {
   PlayingSongCard({Key? key, required this.songName,
     required this.artistName,
@@ -64,15 +64,15 @@ class _PlayingSongCardState extends State<PlayingSongCard> {
                         ),
                       )
                   ),
-                  (widget.hasArtWork != null && widget.hasArtWork! == true) ? Align(
+                  if (widget.hasArtWork != null && widget.hasArtWork! == true) const Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
-                          padding: EdgeInsets.all(12.0),
+                          padding: EdgeInsets.all(12),
                           child: Icon(SFSymbols.bars,
                             size:18,
                             color: Colors.grey,)
                       )
-                  ): SizedBox(),
+                  ) else const SizedBox(),
                 ]
             )
     );
@@ -85,7 +85,7 @@ class _PlayingSongCardState extends State<PlayingSongCard> {
             height:  widget.imageSize,
             width: widget.imageSize,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(5.0),
+              borderRadius: BorderRadius.circular(5),
               child: Image.network(
                 widget.artURL,
                 fit: BoxFit.fill,
@@ -93,7 +93,7 @@ class _PlayingSongCardState extends State<PlayingSongCard> {
             )
         );
     } else{
-      return SizedBox(
+      return const SizedBox(
       );
     }
   }

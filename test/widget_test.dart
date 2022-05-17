@@ -1,3 +1,5 @@
+// ignore_for_file: type=lint
+
 import 'dart:convert';
 import 'package:apple_music/components/ButtonPausePlay/PausePlayButton.dart';
 import 'package:apple_music/components/ButtonPlaylist/PlaylistButton.dart';
@@ -7,16 +9,12 @@ import 'package:apple_music/components/PlayingSongCard/PlayingSongCard.dart';
 import 'package:apple_music/components/RectangleCardSearchPage/AlbumRectangleCard.dart';
 import 'package:apple_music/components/RepeatButton/RepeatButton.dart';
 import 'package:apple_music/components/ShuffleButton/ShuffleButton.dart';
-import 'package:apple_music/components/VerticalBigCard/VerticalBigCard.dart';
 import 'package:apple_music/components/squareCard/SquareCard.dart';
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/main.dart'
 as app;
 import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
-import 'package:apple_music/models_refactor/ArtistModel.dart';
-import 'package:apple_music/models_refactor/PlaylistModel.dart';
-import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:apple_music/services/service_locator.dart';
@@ -318,16 +316,6 @@ void main() {
             GetIt.I.unregister < http.Client > ();
           }
           GetIt.I.registerLazySingleton < http.Client > (() => mockClient);
-          UserModel mockUserModel = UserModel(
-            uid: 'adadawdawd',
-            name: 'Bach Tran Xuan',
-            avatarURL: 'https://lh3.googleusercontent.com/a-/AOh14GhYu0ISDEEC1dqAccVc3I2QA92833wgw7f0sjZplg=s96-c',
-            email: 'tranxuanbach1@gmail.com',
-            playlists: [],
-            favorite_songs: [],
-            favorite_albums: [],
-            favorite_artists: []
-          );
           when(loginUtil.checkLoginStatus()).thenAnswer((_) async {
             if (GetIt.I.isRegistered < UserModelNotifier > () & GetIt.I.isRegistered < CredentialModelNotifier > ()) {
               GetIt.I.unregister < UserModelNotifier > ();
@@ -460,16 +448,6 @@ void main() {
               GetIt.I.unregister < http.Client > ();
             }
             GetIt.I.registerLazySingleton < http.Client > (() => mockClient);
-            UserModel mockUserModel = UserModel(
-              uid: 'adadawdawd',
-              name: 'Bach Tran Xuan',
-              avatarURL: 'https://lh3.googleusercontent.com/a-/AOh14GhYu0ISDEEC1dqAccVc3I2QA92833wgw7f0sjZplg=s96-c',
-              email: 'tranxuanbach1@gmail.com',
-              playlists: [],
-              favorite_songs: [],
-              favorite_albums: [],
-              favorite_artists: []
-            );
             when(loginUtil.checkLoginStatus()).thenAnswer((_) async {
               if (GetIt.I.isRegistered < UserModelNotifier > () & GetIt.I.isRegistered < CredentialModelNotifier > ()) {
                 GetIt.I.unregister < UserModelNotifier > ();
@@ -611,16 +589,6 @@ void main() {
               GetIt.I.unregister < http.Client > ();
             }
             GetIt.I.registerLazySingleton < http.Client > (() => mockClient);
-            UserModel mockUserModel = UserModel(
-              uid: 'adadawdawd',
-              name: 'Bach Tran Xuan',
-              avatarURL: 'https://lh3.googleusercontent.com/a-/AOh14GhYu0ISDEEC1dqAccVc3I2QA92833wgw7f0sjZplg=s96-c',
-              email: 'tranxuanbach1@gmail.com',
-              playlists: [],
-              favorite_songs: [],
-              favorite_albums: [],
-              favorite_artists: []
-            );
             when(loginUtil.checkLoginStatus()).thenAnswer((_) async {
               if (GetIt.I.isRegistered < UserModelNotifier > () & GetIt.I.isRegistered < CredentialModelNotifier > ()) {
                 GetIt.I.unregister < UserModelNotifier > ();
@@ -770,16 +738,6 @@ void main() {
               GetIt.I.unregister < http.Client > ();
             }
             GetIt.I.registerLazySingleton < http.Client > (() => mockClient);
-            UserModel mockUserModel = UserModel(
-              uid: 'adadawdawd',
-              name: 'Bach Tran Xuan',
-              avatarURL: 'https://lh3.googleusercontent.com/a-/AOh14GhYu0ISDEEC1dqAccVc3I2QA92833wgw7f0sjZplg=s96-c',
-              email: 'tranxuanbach1@gmail.com',
-              playlists: [],
-              favorite_songs: [],
-              favorite_albums: [],
-              favorite_artists: []
-            );
             when(loginUtil.checkLoginStatus()).thenAnswer((_) async {
               if (GetIt.I.isRegistered < UserModelNotifier > () & GetIt.I.isRegistered < CredentialModelNotifier > ()) {
                 GetIt.I.unregister < UserModelNotifier > ();
@@ -936,16 +894,6 @@ void main() {
               GetIt.I.unregister < http.Client > ();
             }
             GetIt.I.registerLazySingleton < http.Client > (() => mockClient);
-            UserModel mockUserModel = UserModel(
-              uid: 'adadawdawd',
-              name: 'Bach Tran Xuan',
-              avatarURL: 'https://lh3.googleusercontent.com/a-/AOh14GhYu0ISDEEC1dqAccVc3I2QA92833wgw7f0sjZplg=s96-c',
-              email: 'tranxuanbach1@gmail.com',
-              playlists: [],
-              favorite_songs: [],
-              favorite_albums: [],
-              favorite_artists: []
-            );
             when(loginUtil.checkLoginStatus()).thenAnswer((_) async {
               if (GetIt.I.isRegistered < UserModelNotifier > () & GetIt.I.isRegistered < CredentialModelNotifier > ()) {
                 GetIt.I.unregister < UserModelNotifier > ();
@@ -1103,16 +1051,6 @@ void main() {
               GetIt.I.unregister < http.Client > ();
             }
             GetIt.I.registerLazySingleton < http.Client > (() => mockClient);
-            UserModel mockUserModel = UserModel(
-              uid: 'adadawdawd',
-              name: 'Bach Tran Xuan',
-              avatarURL: 'https://lh3.googleusercontent.com/a-/AOh14GhYu0ISDEEC1dqAccVc3I2QA92833wgw7f0sjZplg=s96-c',
-              email: 'tranxuanbach1@gmail.com',
-              playlists: [],
-              favorite_songs: [],
-              favorite_albums: [],
-              favorite_artists: []
-            );
             when(loginUtil.checkLoginStatus()).thenAnswer((_) async {
               if (GetIt.I.isRegistered < UserModelNotifier > () & GetIt.I.isRegistered < CredentialModelNotifier > ()) {
                 GetIt.I.unregister < UserModelNotifier > ();

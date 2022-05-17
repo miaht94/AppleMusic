@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        '/loginPage': (context) => LoginPage(),
+        '/loginPage': (context) => const LoginPage(),
         '/welcomePage': (context) => const WelcomePage(),
         '/homePage': (context) => const MyHomePage(),
         // '/playingPage': (context) => AudioUi(),
@@ -67,7 +67,7 @@ class _MyHomePageState extends State < MyHomePage > {
   @override
   void initState() {
     super.initState();
-    pageController = new PageController();
+    pageController = PageController();
     _audioManager.init();
     pageController = PageController();
   }
@@ -79,7 +79,7 @@ class _MyHomePageState extends State < MyHomePage > {
   }
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
     contextMenuManager.context = context;
     audioPageRouteManager.setMainContext(context);
 
@@ -104,9 +104,8 @@ class _MyHomePageState extends State < MyHomePage > {
             resizeToAvoidBottomInset: false,
             body:
               PageView(
-                scrollDirection: Axis.horizontal,
                 controller: pageController,
-                children: < Widget > [
+                children: const < Widget > [
                   Center(
                     child: ListeningNow(),
                   ),

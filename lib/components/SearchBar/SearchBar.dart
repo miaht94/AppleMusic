@@ -1,14 +1,16 @@
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/components/SearchBar/SearchBarConstant.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
+// ignore: must_be_immutable
 class SearchBar extends StatefulWidget {
   SearchBar({
     Key ? key,
     this.onSubmitSearchBar
   }): super(key: key);
+  // ignore: inference_failure_on_function_return_type
   Function(String) ? onSubmitSearchBar;
   @override
   State < SearchBar > createState() => _SearchBarState();
@@ -17,16 +19,18 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State < SearchBar > {
   Color cancelButtonFontColor = kCancelButtonFontColor;
   late TextEditingController inputController;
-  FocusNode focusNode = FocusNode(canRequestFocus: true);
+  FocusNode focusNode = FocusNode();
   bool xMarkVisible = false;
   
   @override
   void initState() {
     super.initState();
-    inputController = TextEditingController(text: "");
+    inputController = TextEditingController(text: '');
     inputController.addListener(() {
-      print(inputController.text);
-      if (inputController.text != "") {
+      if (kDebugMode) {
+        print(inputController.text);
+      }
+      if (inputController.text != '') {
         setState(() {
           xMarkVisible = true;
         });
@@ -60,9 +64,10 @@ class _SearchBarState extends State < SearchBar > {
   }
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    return LayoutBuilder(builder: ((context, constraints) {
-      print(constraints);
+    return LayoutBuilder(builder: (context, constraints) {
+      if (kDebugMode) {
+        print(constraints);
+      }
       return Row(
         children: [
           Expanded(
@@ -87,20 +92,20 @@ class _SearchBarState extends State < SearchBar > {
                     child: Container(
                       alignment: Alignment.center,
                       child: TextField(
-                        maxLines: 1,
-                        style: TextStyle(fontSize: 17),
+                        style: const TextStyle(fontSize: 17),
                         textAlignVertical: TextAlignVertical.center,
                         autocorrect: false,
                         focusNode: focusNode,
                         onSubmitted: (String value) {
-                          widget.onSubmitSearchBar != null ? widget.onSubmitSearchBar!(value) : "";
+                          // ignore: unnecessary_statements
+                          widget.onSubmitSearchBar != null ? widget.onSubmitSearchBar!(value) : '';
                         },
                         controller: inputController,
                         decoration: InputDecoration(
                           filled: true,
                           prefixIcon:
                           Icon(Icons.search, color: Theme.of(context).iconTheme.color),
-                          border: OutlineInputBorder(
+                          border: const OutlineInputBorder(
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.all(Radius.circular(kCardBorderRadius))),
                           fillColor: Theme.of(context).inputDecorationTheme.fillColor,
@@ -113,7 +118,7 @@ class _SearchBarState extends State < SearchBar > {
 
                   if (xMarkVisible)
                     GestureDetector(
-                      child: Icon(
+                      child: const Icon(
                         SFSymbols.xmark_circle_fill,
                         color: kXMarkCircleFontColor,
                       ),
@@ -126,36 +131,31 @@ class _SearchBarState extends State < SearchBar > {
             ),
           ),
           if (focusNode.hasFocus)
-            Flexible(flex: 1, child: Container()),
+            Flexible(child: Container()),
             if (focusNode.hasFocus)
               Expanded(
                 flex: 2,
-                child: Container(
-
-                  child: GestureDetector(
-                    onTapDown: (TapDownDetails details) {
+                child: GestureDetector(
+                  onTapDown: (TapDownDetails details) {
+                    if (kDebugMode) {
                       print(constraints);
-                      onTapDownCancelBtn();
-                    },
-                    onTapUp: (TapUpDetails details) {
-                      onTapUpCancelBtn();
-                    },
-                    onTapCancel: () {
-                      onTapUpCancelBtn();
-                    },
-                    child: Container(
-                      child: Text("Hủy",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(color: cancelButtonFontColor,
-                          overflow: TextOverflow.clip
-                        )
-                      )
-                    ),
+                    }
+                    onTapDownCancelBtn();
+                  },
+                  onTapUp: (TapUpDetails details) {
+                    onTapUpCancelBtn();
+                  },
+                  onTapCancel: onTapUpCancelBtn,
+                  child: Text('Hủy',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(color: cancelButtonFontColor,
+                      overflow: TextOverflow.clip
+                    )
                   ),
                 ),
               )
         ],
       );
-    }));
+    });
   }
 }

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 class RepeatButton extends StatefulWidget{
+  const RepeatButton({Key? key}) : super(key: key);
+
 
   @override
   State<RepeatButton> createState() => _RepeatButtonState();
@@ -15,8 +17,8 @@ class _RepeatButtonState extends State<RepeatButton> {
   final _audioManager = getIt<AudioManager>();
 
 
+  @override
   Widget build(BuildContext context){
-    var size = MediaQuery.of(context).size;
 
     return
       ValueListenableBuilder<RepeatState>(
@@ -26,9 +28,13 @@ class _RepeatButtonState extends State<RepeatButton> {
             Container(
               height: BUTTON_SIZE * 1.1,
               width: BUTTON_SIZE * 1.2,
-              margin: EdgeInsets.only(left: 10.0),
+              margin: const EdgeInsets.only(left: 10),
+              decoration: BoxDecoration(
+                color: (value != RepeatState.noRepeat) ? ON_CLICK_BACKGROUND_COLOR : BACKGROUND_COLOR,
+                borderRadius: const BorderRadius.all(Radius.circular(BUTTON_BORDER_RADIUS)),
+              ),
               child: IconButton(
-                padding: EdgeInsets.all(0.0),
+                padding: const EdgeInsets.all(0),
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 icon: Icon(
@@ -38,10 +44,6 @@ class _RepeatButtonState extends State<RepeatButton> {
                         : REPEAT_BUTTON_COLOR ),
                 iconSize: BUTTON_SIZE,
                 onPressed: _audioManager.repeat,
-              ),
-              decoration: BoxDecoration(
-                color: (value != RepeatState.noRepeat) ? ON_CLICK_BACKGROUND_COLOR : BACKGROUND_COLOR,
-                borderRadius: BorderRadius.all(Radius.circular(BUTTON_BORDER_RADIUS)),
               ),
             );
           }

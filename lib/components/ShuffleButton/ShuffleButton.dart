@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 class ShuffleButton extends StatefulWidget{
+  const ShuffleButton({Key? key}) : super(key: key);
+
 
   @override
   State<ShuffleButton> createState() => _ShuffleButtonState();
@@ -14,8 +16,8 @@ class _ShuffleButtonState extends State<ShuffleButton> {
   final _audioManager = getIt<AudioManager>();
 
 
+  @override
   Widget build(BuildContext context){
-    var size = MediaQuery.of(context).size;
 
     return
       ValueListenableBuilder<bool>(
@@ -25,20 +27,20 @@ class _ShuffleButtonState extends State<ShuffleButton> {
             Container(
               height: BUTTON_SIZE * 1.1,
               width: BUTTON_SIZE * 1.2,
+              decoration: BoxDecoration(
+                color: value ? ON_CLICK_BACKGROUND_COLOR : BACKGROUND_COLOR,
+                borderRadius: const BorderRadius.all(Radius.circular(BUTTON_BORDER_RADIUS)),
+              ),
               child: IconButton(
-                padding: EdgeInsets.all(0.0),
+                padding: const EdgeInsets.all(0),
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 icon: Icon(SFSymbols.shuffle,
-                    color: (value)
+                    color: value
                         ? ON_CLICK_SHUFFLE_BUTTON_COLOR
                         : SHUFFLE_BUTTON_COLOR ),
                 iconSize: BUTTON_SIZE,
                 onPressed: _audioManager.shuffle,
-              ),
-              decoration: BoxDecoration(
-                color: (value) ? ON_CLICK_BACKGROUND_COLOR : BACKGROUND_COLOR,
-                borderRadius: BorderRadius.all(Radius.circular(BUTTON_BORDER_RADIUS)),
               ),
             );
           }

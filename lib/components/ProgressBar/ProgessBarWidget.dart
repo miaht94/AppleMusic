@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'ProgessBarObject.dart';
 import 'ProgressBarConstant.dart';
-import 'dart:math';
 
 
+// ignore: must_be_immutable
 class ProgessBarWidget extends StatefulWidget {
    ProgessBarWidget({
     Key? key,
@@ -17,7 +18,9 @@ class ProgessBarWidget extends StatefulWidget {
   Duration currentTime;
   Duration totalTime;
 
+  // ignore: prefer_typing_uninitialized_variables, inference_failure_on_uninitialized_variable
   var onTimeChanged;
+  // ignore: prefer_typing_uninitialized_variables, inference_failure_on_uninitialized_variable
   var onPositionChanged;
 
    @override
@@ -43,22 +46,20 @@ class _ProgessBarWidgetState extends State<ProgessBarWidget> with TickerProvider
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ProgressBarObject(
-              barColor: BAR_COLOR,
-              thumbColor: THUMB_COLOR,
-              thumbSize: animation!.value,
-              controller: controller,
-              currentTime: widget.currentTime,
-              totalTime: (widget.totalTime.compareTo(Duration.zero) == 0) ?const Duration(milliseconds: 1) : widget.totalTime,
-              onTimeChanged: widget.onTimeChanged,
-              onPositionChanged: widget.onPositionChanged,
-            ),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ProgressBarObject(
+            barColor: BAR_COLOR,
+            thumbColor: THUMB_COLOR,
+            thumbSize: animation!.value,
+            controller: controller,
+            currentTime: widget.currentTime,
+            totalTime: (widget.totalTime.compareTo(Duration.zero) == 0) ?const Duration(milliseconds: 1) : widget.totalTime,
+            onTimeChanged: widget.onTimeChanged,
+            onPositionChanged: widget.onPositionChanged,
+          ),
+        ],
       ),
     );
   }

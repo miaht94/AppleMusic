@@ -1,4 +1,3 @@
-import 'package:apple_music/models/LyricModel.dart';
 
 class ProgressBarState {
   ProgressBarState({
@@ -28,6 +27,7 @@ class AudioMetadata {
   final String genre;
   final String id;
 
+  // ignore: sort_constructors_first
   AudioMetadata({
     required this.artwork,
     required this.title,

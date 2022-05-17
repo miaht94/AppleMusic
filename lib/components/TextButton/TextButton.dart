@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TextButton extends StatefulWidget {
   TextButton({Key? key, required this.text, this.iconLeft, this.iconRight, required this.color, this.iconSize, required this.textSize, this.onTap}) : super(key: key);
   String text;
@@ -21,7 +23,9 @@ class _TextButtonState extends State<TextButton> {
     
     return GestureDetector(
       onTap: () {
-        print("tap");
+        if (kDebugMode) {
+          print('tap');
+        }
         if (widget.onTap != null) {
           widget.onTap!();
         }

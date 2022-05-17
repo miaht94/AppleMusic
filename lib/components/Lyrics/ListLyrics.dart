@@ -4,6 +4,7 @@ import '../../models/LyricModel.dart';
 import 'LyricConstant.dart';
 import 'LyricWidget.dart';
 
+// ignore: must_be_immutable
 class ListLyrics extends StatefulWidget{
   ListLyrics({Key? key,
     required this.currentTime,
@@ -18,7 +19,9 @@ class ListLyrics extends StatefulWidget{
   Duration currentPosition;
   List<LyricModel> lyrics;
 
+  // ignore: prefer_typing_uninitialized_variables, inference_failure_on_uninitialized_variable
   var onTimeChanged;
+  // ignore: prefer_typing_uninitialized_variables, inference_failure_on_uninitialized_variable
   var onPositionChanged;
 
   @override
@@ -27,12 +30,17 @@ class ListLyrics extends StatefulWidget{
 
 class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
 
+  // ignore: non_constant_identifier_names, prefer_typing_uninitialized_variables, inference_failure_on_uninitialized_variable
   var _PlayingLyric;
+  // ignore: non_constant_identifier_names, prefer_typing_uninitialized_variables, inference_failure_on_uninitialized_variable
   var _PlayingId;
+  // ignore: prefer_typing_uninitialized_variables, inference_failure_on_uninitialized_variable
   var lyrics;
   late final List<Widget> children;
   late List<AnimationController?> animationControllers;
 
+  @override
+  // ignore: always_declare_return_types
   initState() {
     super.initState();
     _init();
@@ -45,7 +53,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     for (var i = 0; i < lyrics.length; i++){
       animationControllers.add(AnimationController(
         vsync: this,
-        value: 1.0,
+        value: 1,
         upperBound: 1.5,
         lowerBound: 0.5,
       ));
@@ -79,7 +87,9 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     super.dispose();
   }
 
+  // ignore: inference_failure_on_untyped_parameter
   void _onItemTapUp(id) {
+    assert(id != null);
     if(_PlayingLyric != null) {
       widget.onPositionChanged(lyrics[id].startTime);
       widget.onTimeChanged(lyrics[id].startTime);
@@ -87,10 +97,11 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     }
   }
 
+  // ignore: inference_failure_on_untyped_parameter
   void _handleAnimation(id) {
     if (_PlayingId != id) {
       if(_PlayingId != null){
-        animationControllers[_PlayingId]!.animateTo(NORMAL_SCALE, duration: Duration(milliseconds: RESIZE_ANIMATION_DURATION));
+        animationControllers[_PlayingId]!.animateTo(NORMAL_SCALE, duration: const Duration(milliseconds: RESIZE_ANIMATION_DURATION));
       }
 
       setState(() {
@@ -99,19 +110,19 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
           _PlayingId = id;
         }});
 
-      animationControllers[id]!.animateTo(MAX_SCALE,duration: Duration(milliseconds: TAP_UP_ANIMATION_DURATION));
+      animationControllers[id]!.animateTo(MAX_SCALE,duration: const Duration(milliseconds: TAP_UP_ANIMATION_DURATION));
 
       if(_PlayingLyric != null) {
         Scrollable.ensureVisible(
             _PlayingLyric!,
             alignment: LYRIC_SCROLL_ALIGHTMENT,
-            duration: Duration(milliseconds: SCROLL_ANIMATION_DURATION),
+            duration: const Duration(milliseconds: SCROLL_ANIMATION_DURATION),
             curve: Curves.easeOutCubic
         );
       }
     }
     else{
-      animationControllers[id]!.animateTo(MAX_SCALE,duration: Duration(milliseconds: 200));
+      animationControllers[id]!.animateTo(MAX_SCALE,duration: const Duration(milliseconds: 200));
     }
   }
 
@@ -139,7 +150,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     _checkCurrentlyric();
     return
       SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: children

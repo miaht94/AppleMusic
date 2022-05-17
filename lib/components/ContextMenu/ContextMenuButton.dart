@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 
+// ignore: must_be_immutable
 class ContextMenuButton extends StatefulWidget {
   ContextMenuButton({Key? key, required this.child, required this.buttonName}) : super(key: key);
   Widget child;
@@ -12,6 +13,7 @@ class ContextMenuButton extends StatefulWidget {
 class _ContextMenuButtonState extends State<ContextMenuButton> {
   GlobalKey childKey = GlobalKey();
   @override
+  // ignore: must_call_super
   void initState() {
     GetIt.I.get<Map<String, GlobalKey>>().putIfAbsent(widget.buttonName, () => childKey);
   }

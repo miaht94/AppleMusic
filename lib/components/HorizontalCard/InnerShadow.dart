@@ -41,7 +41,9 @@ class _RenderInnerShadow extends RenderProxyBox {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    if (child == null) return;
+    if (child == null) {
+      return;
+    }
     final Rect rectOuter = offset & size;
     final Rect rectInner = Rect.fromLTWH(
       offset.dx,

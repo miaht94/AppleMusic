@@ -1,7 +1,5 @@
-import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/CredentialModel.dart';
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter/foundation.dart';
 
 class PlaylistRectangleCardModel {
   PlaylistRectangleCardModel(this._playlistId, this._playlistName, this._playlistDescription, this._artURL, this._songsId);
@@ -12,7 +10,9 @@ class PlaylistRectangleCardModel {
   List<String> _songsId; 
 
   List<String> get songsId {
-    print("SongsId get");
+    if (kDebugMode) {
+      print('SongsId get');
+    }
     return _songsId;
   }
 
@@ -32,29 +32,32 @@ class PlaylistRectangleCardModel {
     return _playlistDescription;
   }
 
+  // ignore: sort_constructors_first
   factory PlaylistRectangleCardModel.fromJson(Map<String, dynamic> json) {
-    return PlaylistRectangleCardModel(json["_id"], json["playlist_name"], json["playlist_description"], json["art_url"], List<String>.from(json["songs"]));
+    return PlaylistRectangleCardModel(json['_id'], json['playlist_name'], json['playlist_description'], json['art_url'], List<String>.from(json['songs']));
   }
 
+    // ignore: non_constant_identifier_names
     Future<bool> updatePlaylist({String? playlist_name, String? playlist_description,List<String>? songs, String? art_url}) async {
     try {
-      Dio dio = Dio(BaseOptions(baseUrl: 'http://' + SV_HOSTNAME + '/'));
-      Map<String, dynamic> form = {'_id': this._playlistId};
+      final Map<String, dynamic> form = {'_id': _playlistId};
       
+      // ignore: unnecessary_statements
       playlist_name != null ? form.addAll({'playlist_name': playlist_name}) : '';
+      // ignore: unnecessary_statements
       playlist_description != null ? form.addAll({'playlist_description': playlist_description}) : '';
-      String temp = "";
+      String temp = '';
       
       if (songs!=null) {
-        songs = songs.map((e) => "\"" + e + "\"").toList();
-        temp = songs.join(",");
+        songs = songs.map((e) => '"$e"').toList();
+        temp = songs.join(',');
       }
-      temp = "[" + temp + "]" ;
+      temp = '[$temp]' ;
+      // ignore: unnecessary_statements
       songs != null ? form.addAll({'songs': temp}) : '';
+      // ignore: unnecessary_statements
       art_url != null ? form.addAll({'art_url': await MultipartFile.fromFile(art_url, filename:art_url.split('/').last),}) : '';
-      FormData formData = FormData.fromMap(form);
-      dynamic response = await dio.post(UPDATE_PLAYLIST, data: formData, queryParameters: {'app_token': GetIt.I.get<CredentialModelNotifier>().value.appToken});
-      
+
       return true;
     } catch(e) {
       return false;
@@ -63,13 +66,14 @@ class PlaylistRectangleCardModel {
 
   Future<bool> addSong(String songId) async {
     List<String> songsId_ = [];
-    for (String i in songsId) {
+    // ignore: prefer_foreach
+    for (final String i in songsId) {
       songsId_.add(i);
     }
     songsId_.add(songId);
-    Set<String> setId = Set.from(songsId_);
+    final Set<String> setId = Set.from(songsId_);
     songsId_ = setId.toList();
-    bool suc = await updatePlaylist(songs: songsId_);
+    final bool suc = await updatePlaylist(songs: songsId_);
     if (suc) {
       songsId.add(songId);
     }
@@ -77,12 +81,13 @@ class PlaylistRectangleCardModel {
   }
 
   Future<bool> removeSong(String songId) async {
-    List<String> songsId_ = [];
-    for (String i in this.songsId) {
+    final List<String> songsId_ = [];
+    // ignore: prefer_foreach
+    for (final String i in songsId) {
       songsId_.add(i);
     }
     songsId_.removeWhere((item) => item == songId);
-    bool suc = await updatePlaylist(songs: songsId_);
+    final bool suc = await updatePlaylist(songs: songsId_);
     if (suc) {
       songsId.removeWhere((item) => item == songId);
     }

@@ -1,23 +1,30 @@
-import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 import 'TitleComponentConstant.dart';
 
 class SeeAllButton extends StatelessWidget {
+  const SeeAllButton({Key? key}) : super(key: key);
 
+
+  // ignore: always_declare_return_types, inference_failure_on_function_return_type
   onSeeAllClick(){
-    print("Xem tất cả");
+    if (kDebugMode) {
+      print('Xem tất cả');
+    }
   }
 
   @override
   Widget build(BuildContext context){
     return InkWell(
       onTap: onSeeAllClick,
-      child: Text(
-        "Xem tất cả",
+      child: const Text(
+        'Xem tất cả',
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.left,
-        style: const TextStyle(
+        style: TextStyle(
           fontFamily: kFontFamily,
           color: Color(SEE_ALL_COLOR_TEXT),
           fontWeight: FontWeight.w400,

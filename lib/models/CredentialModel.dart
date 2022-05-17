@@ -3,10 +3,11 @@ import 'package:flutter/cupertino.dart';
 class CredentialModel {
   CredentialModel(this._appToken);
   String _appToken;
+  // ignore: unnecessary_getters_setters
   String get appToken {
     return _appToken;
   }
-  void set appToken(String appToken) {
+  set appToken(String appToken) {
     _appToken = appToken;
   }
 }

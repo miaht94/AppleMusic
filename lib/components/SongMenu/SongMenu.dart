@@ -9,7 +9,6 @@ import 'package:get_it/get_it.dart';
 
 import '../../models/CredentialModel.dart';
 import '../../services/http_util.dart';
-import '../AudioController/AudioPageRouteManager.dart';
 
 
 class SongMenu extends StatelessWidget {
@@ -22,14 +21,10 @@ class SongMenu extends StatelessWidget {
     return
       Column(
         children: [
-          SongMenuItem(iconName: iconNames['Micro'], title: "Nghệ Sĩ", onTap: (){
-            // Navigator.push(
-            //     GetIt.I.get<AudioPageRouteManager>().getMainContext(),
-            //     MaterialPageRoute(
-            //       builder: (context) => ArtistSubPage()),
-            // );
+          SongMenuItem(iconName: iconNames['Micro'], title: 'Nghệ Sĩ', onTap: (){
             Navigator.push(
               context,
+              // ignore: inference_failure_on_instance_creation
               MaterialPageRoute(
                 builder: (context) => ValueListenableBuilder(
                   valueListenable: GetIt.I.get<UserModelNotifier>(),
@@ -37,14 +32,10 @@ class SongMenu extends StatelessWidget {
               ),
             );
           }),
-          SongMenuItem(iconName: iconNames['Album'], title: "Album", onTap: (){
-            // Navigator.push(
-            //   GetIt.I.get<AudioPageRouteManager>().getMainContext(),
-            //   MaterialPageRoute(
-            //       builder: (context) => AlbumSubPage()),
-            // );
+          SongMenuItem(iconName: iconNames['Album'], title: 'Album', onTap: (){
             Navigator.push(
               context,
+              // ignore: inference_failure_on_instance_creation
               MaterialPageRoute(
                 builder: (context) => ValueListenableBuilder(
                   valueListenable: GetIt.I.get<UserModelNotifier>(),
@@ -57,26 +48,15 @@ class SongMenu extends StatelessWidget {
               ),
             );
           }),
-          SongMenuItem(iconName: iconNames['MusicNode'], title: "Bài Hát", onTap: (){
-            // Navigator.push(
-            //   GetIt.I.get<AudioPageRouteManager>().getMainContext(),
-            //   MaterialPageRoute(
-            //       builder: (context) => SongSubPage())
-            // );
+          SongMenuItem(iconName: iconNames['MusicNode'], title: 'Bài Hát', onTap: (){
             Navigator.push(
               context,
+              // ignore: inference_failure_on_instance_creation
               MaterialPageRoute(
                 builder: (context) => SongSubPage(songlist:  HttpUtil().getFavoriteSongList(app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken)),
               ),
             );
           }),
-          // SongMenuItem(iconName: iconNames['PlaylistIcon'], title: "Playlist", onTap: (){
-          //   Navigator.push(
-          //     GetIt.I.get<AudioPageRouteManager>().getMainContext(),
-          //     MaterialPageRoute(
-          //         builder: (context) => ArtistSubPage()),
-          //   );
-          // })
         ],
       );
   }

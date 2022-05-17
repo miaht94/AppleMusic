@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
 import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListWithText.dart';
 import 'package:apple_music/components/SquareCard/HScrollSquareCardWithText.dart';
 import 'package:apple_music/constant.dart';
@@ -20,6 +19,7 @@ import '../models_refactor/ArtistModel.dart';
 class ArtistView extends StatefulWidget {
   final Future<ArtistModel?> artistViewModel;
 
+  // ignore: sort_constructors_first
   const ArtistView({Key? key, required this.artistViewModel}) : super(key: key);
   @override
   State<ArtistView> createState() => _ArtistViewState();
@@ -30,12 +30,13 @@ class _ArtistViewState extends State<ArtistView> {
 
   VideoPlayerController? videoPlayerController;
   ChewieController? chewieController;
+  // ignore: strict_raw_type
   ValueNotifier isInit = ValueNotifier<bool>(false);
 
   late ScrollController _scrollController = ScrollController();
   bool lastStatus = true;
 
-  _scrollListener() {
+  void _scrollListener() {
     if (isShrink != lastStatus) {
       setState(() {
         lastStatus = isShrink;
@@ -46,8 +47,8 @@ class _ArtistViewState extends State<ArtistView> {
   ArtistHighlightSongModel HighlighSongConverter(ArtistModel artist) {
     int _albumYear = 0;
     String _artURL = 'https://i1.sndcdn.com/artworks-000145857756-irf4fe-t500x500.jpg';
-    for (AlbumRawModel album in artist.album_list){
-      for (String songId in album.songsId){
+    for (final AlbumRawModel album in artist.album_list){
+      for (final String songId in album.songsId){
         if (songId == artist.highlight_song?.id){
           _albumYear = album.album_year;
           _artURL = album.art_url;
@@ -64,20 +65,20 @@ class _ArtistViewState extends State<ArtistView> {
   }
 
   List<SongModel> TopListSongConverter(ArtistModel artistModel){
-    List<SongModel> listSong = [];
+    final List<SongModel> listSong = [];
     if (artistModel.top_song_list != null) {
-      for (SongRawModelArtist song in artistModel.top_song_list!){
+      for (final SongRawModelArtist song in artistModel.top_song_list!){
         listSong.add(SongModel(
           id: song.id,
           lyric_key: song.lyric_key,
           song_name: song.song_name,
           song_key: song.song_key,
           artist: ArtistRawModel(
-            album_list_id: artistModel.album_list.map((item) => item.id as String).toList(),
+            album_list_id: artistModel.album_list.map((item) => item.id).toList(),
             artist_description: artistModel.artist_description,
             artist_image_url: artistModel.artist_image_url,
             artist_name: artistModel.artist_name,
-            top_song_list_id: artistModel.top_song_list != null ? artistModel.top_song_list!.map((item) => item.id as String).toList() : null,
+            top_song_list_id: artistModel.top_song_list != null ? artistModel.top_song_list!.map((item) => item.id).toList() : null,
             id: artistModel.id
           ),
           album: song.album,
@@ -88,8 +89,8 @@ class _ArtistViewState extends State<ArtistView> {
   }
 
   List<HScrollSquareCardModel> SquareCardsConverter(ArtistModel artistModel){
-    List<HScrollSquareCardModel> listSquareCard = [];
-    for (AlbumRawModel album in artistModel.album_list){
+    final List<HScrollSquareCardModel> listSquareCard = [];
+    for (final AlbumRawModel album in artistModel.album_list){
       listSquareCard.add(HScrollSquareCardModel(
         album.album_name,
         artistModel.artist_name,
@@ -122,13 +123,13 @@ class _ArtistViewState extends State<ArtistView> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
     return FutureBuilder<ArtistModel?>(
         future: widget.artistViewModel,
         builder: (BuildContext context, AsyncSnapshot<ArtistModel?> snapshot) {
           List<Widget> children;
           if (snapshot.hasData) {
-            if (snapshot.data!.artist_name == "ArtistError"){
+            if (snapshot.data!.artist_name == 'ArtistError'){
               children = <Widget>[
                 Scaffold(
                     appBar: AppBar(
@@ -139,7 +140,7 @@ class _ArtistViewState extends State<ArtistView> {
                           }),
                       backgroundColor: Colors.white,
                     ),
-                    body: PageLoadError(title: "Lỗi tải nghệ sĩ")
+                    body: PageLoadError(title: 'Lỗi tải nghệ sĩ')
                 )
                 ];
             } else {
@@ -154,8 +155,7 @@ class _ArtistViewState extends State<ArtistView> {
                 });
                   chewieController = ChewieController(
                       videoPlayerController: videoPlayerController!,
-                      aspectRatio: 16 / 16,
-                      fullScreenByDefault: false ,
+                      aspectRatio: 16 / 16 ,
                       autoPlay: true,
                       looping: true,
                       showControls : false,
@@ -177,16 +177,15 @@ class _ArtistViewState extends State<ArtistView> {
                           }),
                       actions: <Widget>[
                         IconButton(
-                            icon:  Icon(SFSymbols.ellipsis, color:Colors.red),
+                            icon:  const Icon(SFSymbols.ellipsis, color:Colors.red),
                             onPressed: () {
                               GetIt.I.get<ContextMenuManager>().insertOverlay(ArtistContextMenu(artistModel: snapshot.data!,));
                             }),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                       ],
                       pinned: true,
-                      floating: false,
                       backgroundColor: Colors.white,
-                      expandedHeight: 300.0,
+                      expandedHeight: 300,
                       flexibleSpace: FlexibleSpaceBar(
                         centerTitle: true,
                         title: Container(
@@ -196,27 +195,29 @@ class _ArtistViewState extends State<ArtistView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Visibility(
+                                  // ignore: avoid_bool_literals_in_conditional_expressions
                                   visible: isShrink ? false : true,
                                   child: Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Text(snapshot.data!.artist_name,
                                           style: const TextStyle(
                                             color: Colors.white,
-                                            fontSize: 18.0,
+                                            fontSize: 18,
                                           ))),
                                 ),
                                 Container(
                                   padding: const EdgeInsets.only(left: 30),
                                   child: Visibility(
+                                    // ignore: avoid_bool_literals_in_conditional_expressions
                                     visible: isShrink ? true : false,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
+                                      padding: const EdgeInsets.only(left: 8),
                                       child: Align(
                                           alignment: Alignment.bottomCenter,
                                           child: Text(snapshot.data!.artist_name,
                                               style: const TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 18.0,
+                                                fontSize: 18,
                                               ))),
                                     ),
                                   ),
@@ -233,8 +234,6 @@ class _ArtistViewState extends State<ArtistView> {
                                           padding: const EdgeInsets.only(right: 10),
                                           child: ElevatedButton(
                                             onPressed: () {},
-                                            child: const Icon(SFSymbols.play_fill,
-                                                color: Colors.white, size: 12),
                                             style: ElevatedButton.styleFrom(
                                               shape: const CircleBorder(),
                                               padding: const EdgeInsets.all(0),
@@ -243,6 +242,8 @@ class _ArtistViewState extends State<ArtistView> {
                                               onPrimary: Colors
                                                   .red, // <-- Splash color
                                             ),
+                                            child: const Icon(SFSymbols.play_fill,
+                                                color: Colors.white, size: 12),
                                           ),
                                         ),
                                       ),
@@ -285,33 +286,33 @@ class _ArtistViewState extends State<ArtistView> {
                 body: ListView(
                     shrinkWrap: true,
                     children: [
-                      if (snapshot.data!.highlight_song!.song_name != "NoHighlightSong")
+                      if (snapshot.data!.highlight_song!.song_name != 'NoHighlightSong')
                         ArtistHighlightSong(
                           album: HighlighSongConverter(snapshot.data!)
                         )
                       else
                         Container(),
 
-                      if (snapshot.data!.top_song_list!.length != 0)
+                      if (snapshot.data!.top_song_list!.isNotEmpty)
                         HScrollCardListWithText(
-                          title: "Ca Khúc Mới Hay Nhất",
+                          title: 'Ca Khúc Mới Hay Nhất',
                           cards: TopListSongConverter(snapshot.data!)
                       )
                       else
                         Container(),
 
-                      if (snapshot.data!.album_list.length != 0)
+                      if (snapshot.data!.album_list.isNotEmpty)
                         Container(
                           padding: const EdgeInsets.only(
                               bottom: VerticalComponentPadding),
                         child: HScrollSquareCardWithText(
-                            title: "Album đã phát hành",
+                            title: 'Album đã phát hành',
                             cards: SquareCardsConverter(snapshot.data!)
                         ),
                       )
                       else
                         Container(),
-                      SizedBox(
+                      const SizedBox(
                         height:200
                       )
                     ]
@@ -332,7 +333,7 @@ class _ArtistViewState extends State<ArtistView> {
                     backgroundColor: Colors.white,
                   ),
                   body: const Center(
-                      child: const CircularProgressIndicator(color: Colors.red))
+                      child: CircularProgressIndicator(color: Colors.red))
               )
             ];
           }
@@ -355,50 +356,48 @@ class ArtistHighlightSong extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(20),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5.0),
-                  child: Image.network(
-                    album.artURL,
-                    height: 100,
-                    width: 100,
-                  ),
-                )
-            ),
-            Expanded(
-                child: Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                                Text(album.songYear.toString(), style: const TextStyle(fontSize: 11, color: Colors.grey)),
-                                const SizedBox(height: 5),
-                                Text(album.songName, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                                const SizedBox(height: 5),
-                                Text(album.songArtist, style: const TextStyle(fontSize: 11, color: Colors.grey)),
-                                const SizedBox(height: 5),
-                                Container(
-                                  height:19,
-                                  width:19,
-                                  child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Icon(SFSymbols.plus, color: Colors.red, size:16),
-                                    style: ElevatedButton.styleFrom(
-                                      shape: const CircleBorder(),
-                                      padding: const EdgeInsets.all(0),
-                                      primary: const Color.fromRGBO(250, 250, 250, 100), // <-- Button color
-                                      onPrimary: const Color.fromRGBO(250, 250, 250, 100), // <-- Splash color
-                                    ),
+    return Row(
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.all(20),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Image.network(
+                  album.artURL,
+                  height: 100,
+                  width: 100,
+                ),
+              )
+          ),
+          Expanded(
+              child: Column(
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                              Text(album.songYear.toString(), style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                              const SizedBox(height: 5),
+                              Text(album.songName, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                              const SizedBox(height: 5),
+                              Text(album.songArtist, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                              const SizedBox(height: 5),
+                              Container(
+                                height:19,
+                                width:19,
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    shape: const CircleBorder(),
+                                    padding: const EdgeInsets.all(0),
+                                    primary: const Color.fromRGBO(250, 250, 250, 100), // <-- Button color
+                                    onPrimary: const Color.fromRGBO(250, 250, 250, 100), // <-- Splash color
                                   ),
+                                  child: const Icon(SFSymbols.plus, color: Colors.red, size:16),
                                 ),
-                              ],
-                            )
-            )
-      ])
-    );
+                              ),
+                            ],
+                          )
+          )
+    ]);
   }
 }
 
@@ -430,6 +429,7 @@ class ArtistHighlightSongModel {
     return _id;
   }
 
+  // ignore: sort_constructors_first
   factory ArtistHighlightSongModel.fromJson(Map<String, dynamic> json) {
     return ArtistHighlightSongModel(
       json['song']['song_name'],
@@ -440,22 +440,24 @@ class ArtistHighlightSongModel {
     );
   }
 
+  // ignore: inference_failure_on_untyped_parameter
   static Future<ArtistHighlightSongModel> getHighlightSongByID(id) async {
     final Uri httpURI = Uri(scheme: 'http', host: SV_HOSTNAME, port: SV_PORT, path: SONG_PATH, queryParameters: {
       '_id': id
     });
     final  response = await http.get(httpURI);
     if (response.statusCode == 200){
-      JsonDecoder decoder = const JsonDecoder();
-      ArtistHighlightSongModel song = ArtistHighlightSongModel.fromJson(decoder.convert(response.body));
+      const JsonDecoder decoder = JsonDecoder();
+      final ArtistHighlightSongModel song = ArtistHighlightSongModel.fromJson(decoder.convert(response.body));
       return song;
     } else {
-      return Future.error('No song for Id(${id})');
+      return Future.error('No song for Id($id)');
     }
   }
 
+  // ignore: prefer_constructors_over_static_methods
   static ArtistHighlightSongModel getSampleData() {
-    return new ArtistHighlightSongModel("Message In A Bottle (Taylor's Version)", "Taylor Swift", 2022, "https://upload.wikimedia.org/wikipedia/en/4/47/Taylor_Swift_-_Red_%28Taylor%27s_Version%29.png", "123456");
+    return ArtistHighlightSongModel("Message In A Bottle (Taylor's Version)", 'Taylor Swift', 2022, 'https://upload.wikimedia.org/wikipedia/en/4/47/Taylor_Swift_-_Red_%28Taylor%27s_Version%29.png', '123456');
   }
 }
 

@@ -1,13 +1,11 @@
-import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/AlbumRectangleCardModel.dart';
 import 'package:apple_music/models_refactor/AlbumModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:skeletons/skeletons.dart';
 
+// ignore: must_be_immutable
 class AlbumRectangleCard extends StatelessWidget {
   AlbumRectangleCard({
     Key ? key,
@@ -16,7 +14,9 @@ class AlbumRectangleCard extends StatelessWidget {
     this.onTapAlbumMoreButton
   }): super(key: key);
   AlbumModel albumModel;
+  // ignore: inference_failure_on_function_return_type
   Function(AlbumModel) ? onTapAlbumCard;
+  // ignore: inference_failure_on_function_return_type
   Function(AlbumModel) ? onTapAlbumMoreButton;
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class AlbumRectangleCard extends StatelessWidget {
               // child: CircleAvatar(backgroundImage : Image.network(albumRectangleCardModel.artURL,).image)
               child: CachedNetworkImage(
                 imageUrl: albumModel.art_url,
-                placeholder: (context, _) => SkeletonAvatar(),
+                placeholder: (context, _) => const SkeletonAvatar(),
                 imageBuilder: (context, imageProvider) =>
                 Container(
                   width: 60,
@@ -57,7 +57,7 @@ class AlbumRectangleCard extends StatelessWidget {
                       image: imageProvider,
                       fit: BoxFit.cover
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(8))
+                    borderRadius: const BorderRadius.all(Radius.circular(8))
                   ), ),
               ),
             ),
@@ -66,9 +66,8 @@ class AlbumRectangleCard extends StatelessWidget {
                 height: 60,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Divider(
+                    const Divider(
                       height: 4,
                       thickness: 0.4,
                       indent: 10,
@@ -84,23 +83,23 @@ class AlbumRectangleCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(albumModel.album_name, style: TextStyle(fontSize: 16, color: Colors.black)),
-                                Text("${albumModel.artist.artist_name} - Album", style: TextStyle(fontSize: 13, color: Colors.grey), )
+                                Text(albumModel.album_name, style: const TextStyle(fontSize: 16, color: Colors.black)),
+                                Text('${albumModel.artist.artist_name} - Album', style: const TextStyle(fontSize: 13, color: Colors.grey), )
                               ], ),
                           ),
                           Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
-                              padding: EdgeInsets.all(12.0),
+                              padding: const EdgeInsets.all(12),
                               child: Material(
                                 type: MaterialType.transparency,
                                 child: Ink(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     shape: BoxShape.circle
                                   ),
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(100),
-                                    child: Icon(SFSymbols.ellipsis, size: 18),
+                                    child: const Icon(SFSymbols.ellipsis, size: 18),
                                     onTap: () {
                                       if (onTapAlbumMoreButton != null) {
                                         onTapAlbumMoreButton!(albumModel);

@@ -4,13 +4,13 @@ import 'package:apple_music/components/TitleComponent/PageTitleBoxCompact.dart';
 import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/services/http_util.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import '../components/AudioController/AudioPageRouteManager.dart';
 import '../components/Other/PageLoadError.dart';
 import '../components/RectangleCardSearchPage/ArtistRectangleCard.dart';
-import '../models/ArtistRectangleCardModel.dart';
 // import '../models/ArtistViewModel.dart';
 import '../constant.dart';
 import 'ArtistPage.dart';
@@ -18,6 +18,7 @@ import 'ArtistPage.dart';
 void onTapArtistCard(ArtistModel artistModel) {
   Navigator.push(
    GetIt.I.get<AudioPageRouteManager>().getMainContext(),
+    // ignore: inference_failure_on_instance_creation
     MaterialPageRoute(
    builder: (context) =>
     ValueListenableBuilder(
@@ -31,7 +32,7 @@ void onTapArtistCard(ArtistModel artistModel) {
   ));
 }
 
-const String PAGE_TITLE = "Nghệ sĩ";
+const String PAGE_TITLE = 'Nghệ sĩ';
 
 class ArtistSubPage extends StatefulWidget {
   void onTapArtistCardMoreButton(ArtistModel artistModel) {
@@ -53,7 +54,7 @@ class _ArtistSubPageState extends State<ArtistSubPage> {
   late ScrollController _scrollController = ScrollController();
   bool lastStatus = true;
 
-  _scrollListener() {
+  void _scrollListener() {
     if (isShrink != lastStatus) {
       setState(() {
         lastStatus = isShrink;
@@ -84,17 +85,20 @@ class _ArtistSubPageState extends State<ArtistSubPage> {
       Scaffold(
         appBar: AppBar(
             leading:  IconButton(
-                icon:  Icon(SFSymbols.chevron_left, color:Colors.red),
+                icon:  const Icon(SFSymbols.chevron_left, color:Colors.red),
                 onPressed: () {
-                  print("Popped");
+                  if (kDebugMode) {
+                    print('Popped');
+                  }
                   Navigator.pop(context);
                 }),
             title: Visibility(
+                // ignore: avoid_bool_literals_in_conditional_expressions
                 visible: isShrink ? true : false,
-                child: Text(PAGE_TITLE,
+                child: const Text(PAGE_TITLE,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18.0,
+                      fontSize: 18,
                     ))
             ),
             centerTitle: true,
@@ -104,12 +108,12 @@ class _ArtistSubPageState extends State<ArtistSubPage> {
           future: widget.artistlist,
           builder: (BuildContext context, AsyncSnapshot<List<ArtistModel>?> snapshot) {
               if (!snapshot.hasData){
-                return Center(child: CircularProgressIndicator(color: Colors.red));
+                return const Center(child: CircularProgressIndicator(color: Colors.red));
                 // return PageLoadError(title: "Lỗi tải danh sách");
               }
               else {
-                if (snapshot.data!.length == 0){
-                  return PageLoadError(title: "Thư viện nghệ sĩ rỗng");
+                if (snapshot.data!.isEmpty){
+                  return PageLoadError(title: 'Thư viện nghệ sĩ rỗng');
                 }
                 else {
                   return SingleChildScrollView(
@@ -120,12 +124,11 @@ class _ArtistSubPageState extends State<ArtistSubPage> {
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
                         children: [
-                          PageTitleBoxCompact(title: PAGE_TITLE),
+                          const PageTitleBoxCompact(title: PAGE_TITLE),
                           Padding(
                             padding: const EdgeInsets.only(left: kDefaultPadding),
                             child: ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
-                              scrollDirection: Axis.vertical,
                               shrinkWrap: true,
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, i) {

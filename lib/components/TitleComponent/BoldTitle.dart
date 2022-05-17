@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:apple_music/constant.dart';
+import 'package:flutter/material.dart';
+
 import 'TitleComponentConstant.dart';
 
 class BoldTitle extends StatelessWidget {

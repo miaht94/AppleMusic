@@ -4,6 +4,7 @@ import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
+// ignore: must_be_immutable
 class NextSongButton extends StatefulWidget{
   NextSongButton({Key? key, this.buttonSize, this.buttonColor}) : super(key: key);
   Color? buttonColor;
@@ -16,8 +17,8 @@ class _NextSongButtonState extends State<NextSongButton> {
   final _audioManager = getIt<AudioManager>();
 
 
+  @override
   Widget build(BuildContext context){
-    var size = MediaQuery.of(context).size;
 
     return
       ValueListenableBuilder<bool>(
@@ -29,11 +30,11 @@ class _NextSongButtonState extends State<NextSongButton> {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 icon: Icon(SFSymbols.forward_fill,
-                    color: (value)
+                    color: value
                         ? (widget.buttonColor != null ? widget.buttonColor!.withOpacity(widget.buttonColor!.opacity * 0.2) : UNAVAILABLE_NEXT_PREVIOUS_BUTTON_COLOR)
-                        : (widget.buttonColor != null ? widget.buttonColor : AVAILABLE_NEXT_PREVIOUS_BUTTON_COLOR)) ,
+                        : (widget.buttonColor ?? AVAILABLE_NEXT_PREVIOUS_BUTTON_COLOR)) ,
                 iconSize: widget.buttonSize ?? BUTTON_SIZE,
-                onPressed: (value) ? null : _audioManager.seekToNext,
+                onPressed: value ? null : _audioManager.seekToNext,
               );
           }
       );

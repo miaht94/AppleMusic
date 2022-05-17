@@ -1,2 +1,2 @@
 
-const double LYRIC_BUTTON_SIZE = 28.0;
+const double LYRIC_BUTTON_SIZE = 28;

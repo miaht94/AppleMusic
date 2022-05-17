@@ -1,8 +1,9 @@
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/components/HorizontalCard/InnerShadow.dart';
-import 'package:apple_music/constant.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class HorizontalCard extends StatelessWidget {
   HorizontalCard(
       {Key? key,
@@ -16,14 +17,16 @@ class HorizontalCard extends StatelessWidget {
   String primaryImagePath;
   String secondaryImagePath;
   String secondaryDes;
+  // ignore: inference_failure_on_function_return_type
   Function()? onTapHandler;
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     // print(size);
     return GestureDetector(
       onTap: () {
-        print(id);
+        if (kDebugMode) {
+          print(id);
+        }
         if (onTapHandler != null) {
           onTapHandler!();
         }
@@ -31,7 +34,7 @@ class HorizontalCard extends StatelessWidget {
       child: Container(
           width: kCardWidth,
           height: kCardHeight,
-          margin: EdgeInsets.only(right: 15),
+          margin: const EdgeInsets.only(right: 15),
           // color: Colors.blue,
           // child: Text("Bach", style: TextStyle(fontWeight: FontWeight.w500, fontStyle: FontStyle.italic, fontSize: 50, ),),
           decoration: BoxDecoration(
@@ -45,8 +48,7 @@ class HorizontalCard extends StatelessWidget {
                 width: kCardWidth,
                 height: kCardHeight,
                 child: InnerShadow(
-                  offset: Offset(0, -50),
-                  blur: 10,
+                  offset: const Offset(0, -50),
                   color: kInnerShadowColor,
                   child: Container(
                     width: kCardWidth,
@@ -68,12 +70,12 @@ class HorizontalCard extends StatelessWidget {
               left: 0,
               child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 Container(
-                    padding: EdgeInsets.only(left: kDefaultCardPadding),
-                    margin: EdgeInsets.only(right: kDefaultCardPadding),
+                    padding: const EdgeInsets.only(left: kDefaultCardPadding),
+                    margin: const EdgeInsets.only(right: kDefaultCardPadding),
                     width: kCardWidth * 0.7,
                     child: Text(
                       secondaryDes,
-                      style: TextStyle(fontSize: 12, color: Colors.white),
+                      style: const TextStyle(fontSize: 12, color: Colors.white),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     )),
@@ -92,7 +94,7 @@ class HorizontalCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5)),
                   // padding: EdgeInsets.only(right: kDefaultCardPadding),
                 ),
-                SizedBox(width: kDefaultCardPadding)
+                const SizedBox(width: kDefaultCardPadding)
               ]),
             )
           ])),

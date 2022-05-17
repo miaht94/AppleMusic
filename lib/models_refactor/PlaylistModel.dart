@@ -1,4 +1,3 @@
-import 'package:apple_music/components/SongCardInPlaylist/SongCardInPlaylist.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 
@@ -11,13 +10,14 @@ class PlaylistModel {
   List<SongModel> songs;
   bool public;
 
+  // ignore: sort_constructors_first
   factory PlaylistModel.fromJson(Map<String, dynamic> json) {
-    List<SongModel> song_artist_pairs = [];
-    for (Map<String, dynamic> i in json['songs']) {
+    final List<SongModel> song_artist_pairs = [];
+    for (final Map<String, dynamic> i in json['songs']) {
       (i['song'] as Map<String, dynamic>).addAll({'artist': i['artist'], 'album': i['album']});
       song_artist_pairs.add(SongModel.fromJson(i['song']));
     }
-    PlaylistModel newPlaylist = new PlaylistModel(
+    final PlaylistModel newPlaylist = PlaylistModel(
       id : json['_id'], 
       playlist_name : json['playlist_name'], 
       art_url : json['art_url'], 
@@ -27,12 +27,13 @@ class PlaylistModel {
     return newPlaylist;
   }
 
+  // ignore: prefer_constructors_over_static_methods
   static PlaylistModel getSampleData() {
     return PlaylistModel(
-        id: "",
-        playlist_name: "Playlist 1",
-        art_url: "https://images.adsttc.com/media/images/560e/de10/e58e/ce71/dd00/00e4/large_jpg/open-uri20151002-6331-vgbckd.jpg?1443814887",
-        playlist_description: "The parameter extendBodyBehindAppBar extend the body to include the height of the AppBar, if specified. Scaffold from Flutter. ",
+        id: '',
+        playlist_name: 'Playlist 1',
+        art_url: 'https://images.adsttc.com/media/images/560e/de10/e58e/ce71/dd00/00e4/large_jpg/open-uri20151002-6331-vgbckd.jpg?1443814887',
+        playlist_description: 'The parameter extendBodyBehindAppBar extend the body to include the height of the AppBar, if specified. Scaffold from Flutter. ',
         songs: SongCardInPlaylistModel.getSampleDataList(),
         public: true
     );

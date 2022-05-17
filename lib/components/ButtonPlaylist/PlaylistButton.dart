@@ -1,12 +1,14 @@
 import 'package:apple_music/components/AudioController/AudioManager.dart';
+import 'package:apple_music/components/AudioController/AudioStates.dart';
 import 'package:apple_music/components/ButtonPlaylist/PlaylistButtonConstant.dart';
 import 'package:apple_music/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:apple_music/components/AudioController/AudioStates.dart';
 
 
 class PlaylistButton extends StatefulWidget{
+  const PlaylistButton({Key? key}) : super(key: key);
+
   @override
   State<PlaylistButton> createState() => _PlaylistButtonState();
 }
@@ -16,7 +18,6 @@ class _PlaylistButtonState extends State<PlaylistButton> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return
       ValueListenableBuilder<ChildWindowState>(
         valueListenable: _audioManager.childWindowNotifier,

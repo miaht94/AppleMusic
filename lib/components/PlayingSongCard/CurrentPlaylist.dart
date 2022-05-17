@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:apple_music/components/AudioController/AudioManager.dart';
 import 'package:apple_music/components/PlayingSongCard/PlayingSongCard.dart';
@@ -8,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 class CurrentPlaylist extends StatefulWidget {
+  const CurrentPlaylist({Key? key}) : super(key: key);
+
 
   @override
   State<CurrentPlaylist> createState() => _CurrentPlaylistState();
@@ -25,21 +26,21 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
           return ValueListenableBuilder<List<IndexedAudioSource>>(
             valueListenable: _audioManager.playlistNotifier,
             builder: (_, playlist, __) {
+              // ignore: inference_failure_on_collection_literal
               if (playlist != []) {
 
-                List<Widget> children = [];
+                final List<Widget> children = [];
 
                 for (int index = 0; index < playlist.length; index++) {
-                  IndexedAudioSource song = playlist[index];
-                  SongUrlModel tag = song.tag;
+                  final IndexedAudioSource song = playlist[index];
+                  final SongUrlModel tag = song.tag;
                   children.add(
                       Dismissible(
                         key :  UniqueKey(),
-                        direction: DismissDirection.horizontal,
                         onDismissed: (_)=>{_audioManager.removeSong(index)},
                         child: Container(
                           key: ValueKey(index),
-                          margin: EdgeInsets.only(top: 10.0),
+                          margin: const EdgeInsets.only(top: 10),
                           child: PlayingSongCard(
                             songName: tag.song.song_name,
                             artistName: tag.song.artist.artist_name,
@@ -48,36 +49,39 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
                             imageSize: 50,
                             songNameFontSize: 16,
                             artistFontSize: 12,
-                            songNameColor: (currentIndex == index)  ? Color.fromRGBO(255, 255, 255, 1) : Color.fromRGBO(255, 255, 255, 0.60),
+                            songNameColor: (currentIndex == index)  ? const Color.fromRGBO(255, 255, 255, 1) : const Color.fromRGBO(255, 255, 255, 0.60),
                             hasArtWork: true,
                           ),
                         ),
                       )
                   );
-                };
+                }
                 children.add(
                     SizedBox(
-                      key: ValueKey(-1),
+                      key: const ValueKey(-1),
                       height: 200,
                       width: size.width,
                     )
                 );
                 return
                   Container(
-                    margin: EdgeInsets.only(top: 200),
+                    margin: const EdgeInsets.only(top: 200),
                     child: ReorderableListView(
-                       padding: EdgeInsets.only(bottom: 100.0),
+                       padding: const EdgeInsets.only(bottom: 100),
                         proxyDecorator: _proxyDecorator,
-                        onReorder: ((oldIndex, newIndex){
-                          if (oldIndex < newIndex) newIndex--;
+                        onReorder: (oldIndex, newIndex){
+                          if (oldIndex < newIndex) {
+                            newIndex--;
+                          }
                           _audioManager.move(oldIndex, newIndex);
-                        }),
+                        },
                         children: children
                     ),
                   );
-              } else
+              } else {
                 return
-                  SizedBox();
+                  const SizedBox();
+              }
             },
           );
         },
@@ -88,11 +92,9 @@ class _CurrentPlaylistState extends State<CurrentPlaylist> {
     return AnimatedBuilder(
       animation: animation,
       builder: (BuildContext context, Widget? child) {
-        final double animValue = Curves.easeInOut.transform(animation.value);
-        final double elevation = lerpDouble(0, 0.1, animValue)!;
         return Material(
-          color: Color.fromRGBO(255, 255, 255, 0.0),
-          shadowColor: Color.fromRGBO(255, 255, 255, 0.01),
+          color: const Color.fromRGBO(255, 255, 255, 0),
+          shadowColor: const Color.fromRGBO(255, 255, 255, 0.01),
           child: child,
 
         );

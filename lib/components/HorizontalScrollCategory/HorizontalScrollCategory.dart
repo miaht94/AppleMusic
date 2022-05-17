@@ -2,23 +2,25 @@ import 'package:apple_music/components/HorizontalScrollCategory/CategoryElement.
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/HorizontalScrollCategoryModel.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
+// ignore: must_be_immutable
 class HorizontalScrollCategory extends StatelessWidget {
   HorizontalScrollCategory({
                             Key? key, 
                             required this.horizontalScrollCategoryModel,
                             required this.onTapElement,
                           }) : super(key: key);
+  // ignore: inference_failure_on_function_return_type
   Function(CategoryModel) onTapElement;
   HorizontalScrollCategoryModel horizontalScrollCategoryModel;
   List<Widget> _initListCategoryElement(String selectedElementId) {
-    List<Widget> listCategoryElement = [];
-    for (CategoryModel i in horizontalScrollCategoryModel.categoryModels) {
+    final List<Widget> listCategoryElement = [];
+    for (final CategoryModel i in horizontalScrollCategoryModel.categoryModels) {
       listCategoryElement.add(CategoryElement(categoryModel: i, isSelected: i.id == selectedElementId, onTapElement: onTapElement,));
-      listCategoryElement.add(SizedBox(width: kDefaultPadding));
+      // ignore: cascade_invocations
+      listCategoryElement.add(const SizedBox(width: kDefaultPadding));
     }
-    listCategoryElement.insert(0, SizedBox(width: kDefaultPadding));
+    listCategoryElement.insert(0, const SizedBox(width: kDefaultPadding));
     return listCategoryElement;
   }
 
@@ -27,7 +29,7 @@ class HorizontalScrollCategory extends StatelessWidget {
     
     
     // TODO: implement build
-          List<Widget> listCategoryElement =_initListCategoryElement(horizontalScrollCategoryModel.selectedElementId); 
+          final List<Widget> listCategoryElement =_initListCategoryElement(horizontalScrollCategoryModel.selectedElementId);
           return Container(
             color: Colors.white,
             child: SingleChildScrollView(

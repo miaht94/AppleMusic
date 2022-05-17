@@ -1,6 +1,4 @@
 import 'package:apple_music/models_refactor/AlbumModel.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:uuid/uuid.dart';
 
 class HorizontalCardWithTitleModel {
     HorizontalCardWithTitleModel(this.albumModel) {

@@ -20,6 +20,7 @@ class SongModel {
   String artwork;
   String artist;
   String genre;
+  // ignore: sort_constructors_first
   factory SongModel.fromJson(Map<String, dynamic> json) {
     return SongModel(
         json['song']['_id'],
@@ -38,7 +39,7 @@ class SongModel {
     });
     final  response = await GetIt.I.get<http.Client>().get(httpURI);
     if (response.statusCode == 200){
-      final JsonDecoder decoder = JsonDecoder();
+      const JsonDecoder decoder = JsonDecoder();
       final SongModel song = SongModel.fromJson(decoder.convert(response.body));
       return song;
     } else {

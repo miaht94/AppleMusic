@@ -5,7 +5,7 @@ import '../../models_refactor/PlaylistModel.dart';
 import 'SongCardInPlaylist.dart';
 
 class SongCardInPlaylistList extends StatelessWidget {
-  SongCardInPlaylistList({
+  const SongCardInPlaylistList({
     Key? key,
     required this.playlistModel,
   }) : super(key: key);
@@ -21,7 +21,6 @@ class SongCardInPlaylistList extends StatelessWidget {
           child: ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.all(0),
-              scrollDirection: Axis.vertical,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return SongCardInPlaylist(songModel: playlistModel.songs[index]);

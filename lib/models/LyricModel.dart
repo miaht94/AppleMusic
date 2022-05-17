@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,8 +8,10 @@ class LyricModel{
   final GlobalKey key;
   final String lyric;
   final Duration startTime;
+  // ignore: sort_constructors_first
   LyricModel._({required this.key, required this.lyric, required this.startTime});
 
+  // ignore: sort_constructors_first
   factory LyricModel.fromJson(Map<String, dynamic> json) {
     return LyricModel._(
         key: GlobalKey(),
@@ -16,20 +19,26 @@ class LyricModel{
         startTime: Duration(milliseconds : ((json['timestamp']) * 1000).toInt()),
     );
   }
+  // ignore: inference_failure_on_untyped_parameter
   static  Future<List<LyricModel>> fetchLyrics(url) async {
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes))['scripts'];
+      final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes))['scripts'];
       // List<LyricModel> list = [];
-      print(data);
-      if (response.body != null) {
-        print("fetch lyric");
-        return data.map((item) => LyricModel.fromJson(item)).toList();
+      if (kDebugMode) {
+        print(data);
       }
+      if (kDebugMode) {
+        print('fetch lyric');
+      }
+      // ignore: unnecessary_lambdas
+      return data.map((item) => LyricModel.fromJson(item)).toList();
       // return list;
     } else {
 
-      print('Request failed with status: ${response.statusCode}.');
+      if (kDebugMode) {
+        print('Request failed with status: ${response.statusCode}.');
+      }
     }
     return [];
   }

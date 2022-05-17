@@ -20,17 +20,18 @@ class AlbumRectangleCardModel {
   String get artistName {
     return _artistName;
   }
+  // ignore: sort_constructors_first
   factory AlbumRectangleCardModel.fromJson(Map<String, dynamic> json) {
-    return AlbumRectangleCardModel(json["_id"], json["album_name"], json["genre"], json["art_url"], json["artist"]["artist_name"]);
+    return AlbumRectangleCardModel(json['_id'], json['album_name'], json['genre'], json['art_url'], json['artist']['artist_name']);
   }
 
   static List<AlbumRectangleCardModel> getSampleData() {
     return [
-      AlbumRectangleCardModel("123456", "Red", "Pop", "https://avatar-ex-swe.nixcdn.com/song/2018/05/21/6/e/e/1/1526887767068_640.jpg", "Taylor Swift"),
-      AlbumRectangleCardModel("123456", "Red", "Pop", "https://avatar-ex-swe.nixcdn.com/song/2018/05/21/6/e/e/1/1526887767068_640.jpg", "Taylor Swift"),
-      AlbumRectangleCardModel("123456", "Red", "Pop", "https://avatar-ex-swe.nixcdn.com/song/2018/05/21/6/e/e/1/1526887767068_640.jpg", "Taylor Swift"),
-      AlbumRectangleCardModel("123456", "Red", "Pop", "https://avatar-ex-swe.nixcdn.com/song/2018/05/21/6/e/e/1/1526887767068_640.jpg", "Taylor Swift"),
-      AlbumRectangleCardModel("123456", "Red", "Pop", "https://avatar-ex-swe.nixcdn.com/song/2018/05/21/6/e/e/1/1526887767068_640.jpg", "Taylor Swift"),
+      AlbumRectangleCardModel('123456', 'Red', 'Pop', 'https://avatar-ex-swe.nixcdn.com/song/2018/05/21/6/e/e/1/1526887767068_640.jpg', 'Taylor Swift'),
+      AlbumRectangleCardModel('123456', 'Red', 'Pop', 'https://avatar-ex-swe.nixcdn.com/song/2018/05/21/6/e/e/1/1526887767068_640.jpg', 'Taylor Swift'),
+      AlbumRectangleCardModel('123456', 'Red', 'Pop', 'https://avatar-ex-swe.nixcdn.com/song/2018/05/21/6/e/e/1/1526887767068_640.jpg', 'Taylor Swift'),
+      AlbumRectangleCardModel('123456', 'Red', 'Pop', 'https://avatar-ex-swe.nixcdn.com/song/2018/05/21/6/e/e/1/1526887767068_640.jpg', 'Taylor Swift'),
+      AlbumRectangleCardModel('123456', 'Red', 'Pop', 'https://avatar-ex-swe.nixcdn.com/song/2018/05/21/6/e/e/1/1526887767068_640.jpg', 'Taylor Swift'),
     ];
 
   }

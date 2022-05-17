@@ -1,5 +1,3 @@
-import 'package:advance_notification/advance_notification.dart';
-import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuItem.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
@@ -17,19 +15,20 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import 'package:skeletons/skeletons.dart';
 
+// ignore: must_be_immutable
 class PlaylistContextMenu extends ContextMenu{
   PlaylistContextMenu({Key? key, required this.playlistModel}): 
     super(key: key,
-      name: "PlaylistContextMenu",
+      name: 'PlaylistContextMenu',
       action: [
           ContextMenuItem(
-            title: "Phát tất cả", 
+            title: 'Phát tất cả',
             iconData: SFSymbols.text_insert,
             onTapItem: () {
-              GetIt.I.get<ContextMenuManager>().contextMenuMap["PlaylistContextMenu"]!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
-              GetIt.I.get<ContextMenuManager>().contextMenuMap["PlaylistContextMenu"]!.anim.addStatusListener((status) {
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['PlaylistContextMenu']!.anim.animateTo(-1, duration: const Duration(milliseconds: 300), curve: Curves.easeOutExpo);
+              GetIt.I.get<ContextMenuManager>().contextMenuMap['PlaylistContextMenu']!.anim.addStatusListener((status) {
                 if (status.name == 'completed') {
-                  GetIt.I.get<ContextMenuManager>().removeOverlay("PlaylistContextMenu");
+                  GetIt.I.get<ContextMenuManager>().removeOverlay('PlaylistContextMenu');
                 }
               });
               // AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
@@ -37,7 +36,7 @@ class PlaylistContextMenu extends ContextMenu{
           ),
           if (GetIt.I.get<UserModelNotifier>().value.containPlaylist(playlistModel.id))
             ContextMenuItem(
-              title: "Xóa playlist", 
+              title: 'Xóa playlist',
               iconData: SFSymbols.delete_left,
               onTapItem: () async{
                 // throw UnimplementedError();
@@ -45,15 +44,16 @@ class PlaylistContextMenu extends ContextMenu{
                           status: 'Đang xóa',
                           maskType: EasyLoadingMaskType.clear,
                         );
-                bool success = await HttpUtil().deletePlaylist(id: playlistModel.id, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
+                final bool success = await HttpUtil().deletePlaylist(id: playlistModel.id, app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
                 if (success) {
-                  await EasyLoading.showSuccess("Đã xóa", duration: Duration(seconds: 3));
+                  await EasyLoading.showSuccess('Đã xóa', duration: const Duration(seconds: 3));
                   await GetIt.I.get<UserModelNotifier>().refreshUser();
                 }
                   
-                else 
-                  await EasyLoading.showError("Xóa thất bại", duration: Duration(seconds: 3));
-                GetIt.I.get<ContextMenuManager>().contextMenuMap["PlaylistContextMenu"]!.closeContextMenu(() {
+                else {
+                  await EasyLoading.showError('Xóa thất bại', duration: const Duration(seconds: 3));
+                }
+                GetIt.I.get<ContextMenuManager>().contextMenuMap['PlaylistContextMenu']!.closeContextMenu(() {
                   // AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
                   GetIt.I.get<SearchPageManager>().refresh();
                 });
@@ -63,11 +63,11 @@ class PlaylistContextMenu extends ContextMenu{
             ),
             if (GetIt.I.get<UserModelNotifier>().value.containPlaylist(playlistModel.id))
             ContextMenuItem(
-              title: "Sửa playlist", 
+              title: 'Sửa playlist',
               iconData: Icons.edit,
               onTapItem: () async{
                 
-                GetIt.I.get<ContextMenuManager>().contextMenuMap["PlaylistContextMenu"]!.closeContextMenu(() {
+                GetIt.I.get<ContextMenuManager>().contextMenuMap['PlaylistContextMenu']!.closeContextMenu(() {
                   // AdvanceSnackBar(message: "Yay! you got it", bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
                   GetIt.I.get<ContextMenuManager>().insertSubscreen(PlaylistSubscreenContextMenu(playlistSelected: playlistModel));
                 });
@@ -75,51 +75,49 @@ class PlaylistContextMenu extends ContextMenu{
                 
               },
             )],
-      header: Container(
-        child: Row(
-          
-          children: [
-            CachedNetworkImage(
-              imageUrl: playlistModel.art_url, 
-              placeholder: (_, __) => SkeletonAvatar(),
-              imageBuilder: (context, imageProvider) => 
-                Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    image: DecorationImage(image: imageProvider, fit: BoxFit.cover)
+      header: Row(
+
+        children: [
+          CachedNetworkImage(
+            imageUrl: playlistModel.art_url,
+            placeholder: (_, __) => const SkeletonAvatar(),
+            imageBuilder: (context, imageProvider) =>
+              Container(
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(image: imageProvider, fit: BoxFit.cover)
+                ),
+              ),
+          ),
+          const SizedBox(width: kDefaultPadding * 2),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  playlistModel.playlist_name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
-            ),
-            SizedBox(width: kDefaultPadding * 2),
-            Expanded(
-              child: Column(
-                children: [
-                  Text(
-                    playlistModel.playlist_name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold
-                    ),
+                const Text(
+                  'Playlist',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.red,
+                    fontWeight: FontWeight.w400
                   ),
-                  Text(
-                    "Playlist",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.red,
-                      fontWeight: FontWeight.w400
-                    ),
-                  ),
-                  
-                ],
-                crossAxisAlignment: CrossAxisAlignment.start,
-              )
+                ),
+
+              ],
             )
-          ]
-        )
+          )
+        ]
       )
     );
   PlaylistModel playlistModel;

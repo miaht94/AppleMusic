@@ -5,6 +5,9 @@ import 'dart:io';
 import 'package:advance_notification/advance_notification.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/ContextMenu/SubscreenContextMenu.dart';
+import 'package:apple_music/components/TextButton/TextButton.dart'
+// ignore: library_prefixes
+as CustomTextButton;
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models_refactor/PlaylistModel.dart';
@@ -15,11 +18,10 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:apple_music/components/TextButton/TextButton.dart'
-as CustomTextButton;
 
+// ignore: must_be_immutable
 class PlaylistSubscreenContextMenu extends SubscreenContextMenu {
-  PlaylistSubscreenContextMenu({required this.playlistSelected}): super(
+  PlaylistSubscreenContextMenu({Key? key, required this.playlistSelected}): super(key: key,
     init: () {
       // if (GetIt.I.isRegistered<SongSubscreenContextMenuManger>()) {
       //     GetIt.I.unregister<SongSubscreenContextMenuManger>();
@@ -29,7 +31,6 @@ class PlaylistSubscreenContextMenu extends SubscreenContextMenu {
     },
     body: (context) {
       
-      final Size size = MediaQuery.of(context).size;
       return Container(
         // width: size.width,
         // height: size.height/2,
@@ -60,6 +61,7 @@ class PlaylistSubscreenContextMenu extends SubscreenContextMenu {
     PlaylistModel playlistSelected;
 }
 
+// ignore: must_be_immutable
 class EditPlaylistPage extends StatefulWidget {
   EditPlaylistPage({
     Key ? key,
@@ -128,7 +130,7 @@ class _EditPlaylistPageState extends State < EditPlaylistPage > {
                             message: 'Bạn chưa điền tiêu đề',
                             mode: Mode.ADVANCE,
                             type: sType.ERROR,
-                            duration: const Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
+                            duration: Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
                           return;
                         }
                         if (descriptionController.text == '') {
@@ -144,16 +146,16 @@ class _EditPlaylistPageState extends State < EditPlaylistPage > {
                             message: 'Bạn chưa thêm ảnh',
                             mode: Mode.ADVANCE,
                             type: sType.ERROR,
-                            duration: const Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
+                            duration: Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
                           return;
                         }
-                        EasyLoading.show(status: 'Đang sửa playlist');
+                        await EasyLoading.show(status: 'Đang sửa playlist');
                         final bool suc = await HttpUtil().updatePlaylist(id: snapshot.data!.id ,playlist_name: titleController.text, playlist_description: descriptionController.text, imagePath: image != null ? image!.path : null,app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
                         if (suc) {
-                          EasyLoading.showSuccess('Thành công', duration: const Duration(seconds: 2));
+                          await EasyLoading.showSuccess('Thành công', duration: const Duration(seconds: 2));
                        
                         } else {
-                          EasyLoading.showError('Có lỗi xảy ra', duration: const Duration(seconds: 2));
+                          await EasyLoading.showError('Có lỗi xảy ra', duration: const Duration(seconds: 2));
                         }
                         if (Navigator.of(context).canPop()) {
                           Navigator.of(context).pop();
@@ -200,10 +202,9 @@ class _EditPlaylistPageState extends State < EditPlaylistPage > {
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Tiêu đề: ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: const Color.fromARGB(255, 61, 61, 61)), ),
+                                const Text('Tiêu đề: ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 61, 61, 61)), ),
                                 TextField(
                                   controller: titleController,
                                   decoration: const InputDecoration(
@@ -211,7 +212,7 @@ class _EditPlaylistPageState extends State < EditPlaylistPage > {
                                   ),
                                 ),
                                 const SizedBox(height: 10, ),
-                                const Text('Mô tả: ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: const Color.fromARGB(255, 61, 61, 61)), ),
+                                const Text('Mô tả: ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Color.fromARGB(255, 61, 61, 61)), ),
                                 TextField(
                                   controller: descriptionController,
                                   decoration: const InputDecoration(
@@ -228,8 +229,9 @@ class _EditPlaylistPageState extends State < EditPlaylistPage > {
         
               )
             ]);}
-            else 
-            return Center(child: CircularProgressIndicator(color: Colors.red));
+            else {
+              return const Center(child: CircularProgressIndicator(color: Colors.red));
+            }
           } 
           
         ),

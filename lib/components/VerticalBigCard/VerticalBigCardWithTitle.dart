@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'VerticalBigCard.dart';
 import 'VerticalBigCardConstant.dart';
 
+// ignore: must_be_immutable
 class VerticalBigCardWithTitle extends StatelessWidget {
 
   VerticalCardWithTitleModel model;
+  // ignore: sort_constructors_first
   VerticalBigCardWithTitle({Key? key, required this.model}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -14,8 +16,8 @@ class VerticalBigCardWithTitle extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-      Text(model.title, style: TextStyle(color: kVCardTitleColor, fontSize: kCardTitleSize)),
-      SizedBox(height: 5,),
+      Text(model.title, style: const TextStyle(color: kVCardTitleColor, fontSize: kCardTitleSize)),
+      const SizedBox(height: 5,),
       VerticalBigCard(playlistModel: model.playlistModel, footerColor: model.footerColor,)
     ]);
   }
