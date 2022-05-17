@@ -1,11 +1,19 @@
 import 'dart:convert';
+import 'package:apple_music/components/AudioController/AudioManager.dart';
+import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
+import 'package:apple_music/components/AudioController/AudioUi.dart';
 import 'package:apple_music/components/SongCardInPlaylist/HScrollCardListWithText.dart';
 import 'package:apple_music/components/SquareCard/HScrollSquareCardWithText.dart';
 import 'package:apple_music/constant.dart';
+import 'package:apple_music/models/CredentialModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
+import 'package:apple_music/services/http_util.dart';
 import 'package:chewie/chewie.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -233,7 +241,29 @@ class _ArtistViewState extends State<ArtistView> {
                                           height: 30,
                                           padding: const EdgeInsets.only(right: 10),
                                           child: ElevatedButton(
-                                            onPressed: () {},
+                                            onPressed: () async {
+                                              if (snapshot.data!.top_song_list != null) {
+                                                final List<String> id = [];
+                                                final List<SongRawModelArtist> topSong = snapshot.data!.top_song_list!;
+                                                for (final SongRawModelArtist song in topSong) {
+                                                  id.add(song.id);
+                                                  if (kDebugMode) {
+                                                    print('${song.id} added');
+                                                  }
+                                                }
+                                                await EasyLoading.showToast('Play top song of ${snapshot.data!.artist_name}', duration: const Duration(milliseconds:  500));
+                                                await GetIt.I.get<AudioManager>().clearAndAddAList(id);
+                                                // ignore: inference_failure_on_instance_creation
+                                                await Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => const AudioUi()));
+                                              } else {
+                                                final List<String> id = snapshot.data!.album_list[0].songsId;
+
+                                                await EasyLoading.showToast('Play first album of ${snapshot.data!.artist_name}', duration: const Duration(milliseconds:  500));
+                                                await GetIt.I.get<AudioManager>().clearAndAddAList(id);
+                                                // ignore: inference_failure_on_instance_creation
+                                                await Navigator.push(GetIt.I.get<AudioPageRouteManager>().getMainContext(), PageRouteBuilder(opaque: false, pageBuilder: (_, __, ___) => const AudioUi()));
+                                              }
+                                            },
                                             style: ElevatedButton.styleFrom(
                                               shape: const CircleBorder(),
                                               padding: const EdgeInsets.all(0),
@@ -384,7 +414,16 @@ class ArtistHighlightSong extends StatelessWidget {
                                 height:19,
                                 width:19,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await EasyLoading.show(status: 'Đang thêm vào yêu thích');
+                                    final bool suc = await HttpUtil().updateFavorite(app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, action: FAVORITE_ACTION.push, favorite_songs: [album.id]);
+                                    await GetIt.I.get<UserModelNotifier>().refreshUser();
+                                    if (suc) {
+                                      await EasyLoading.showSuccess('Thành công', duration: const Duration(seconds: 2));
+                                    } else {
+                                      await EasyLoading.showError('Thất bại', duration: const Duration(seconds: 2));
+                                    }
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     shape: const CircleBorder(),
                                     padding: const EdgeInsets.all(0),
