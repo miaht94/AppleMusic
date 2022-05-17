@@ -24,6 +24,7 @@ import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/pages/AlbumPage.dart';
 import 'package:apple_music/pages/ArtistPage.dart';
+import 'package:apple_music/pages/PlaylistPage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -81,8 +82,8 @@ class _SearchPageState extends State < SearchPage > {
     GetIt.I.get<ContextMenuManager>().insertOverlay(AlbumContextMenu(albumViewModel: albumModel));
   }
 
-  void onTapPlaylistCard(PlaylistModel playlistRectangleCardModel) {
-    throw UnimplementedError();
+  void onTapPlaylistCard(PlaylistModel playlistModel) {
+    Navigator.of(_context!).push(MaterialPageRoute(builder: (context) => PlaylistView(playlistModel: Future.value(playlistModel))));
   }
 
   void onTapPlaylistMoreButton(PlaylistModel playlistModel) {
@@ -105,7 +106,7 @@ class _SearchPageState extends State < SearchPage > {
           child: Stack(
             children: [
               Positioned(
-                top: 100,
+                top: 150,
                 width: screenSize.width,
                 child: 
                 LayoutBuilder(
@@ -114,6 +115,7 @@ class _SearchPageState extends State < SearchPage > {
                       return SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                       child: Column(children: [
+                        
                         FutureBuilder<dynamic>(
                           builder: (context, snapshot) {
                             
@@ -145,7 +147,7 @@ class _SearchPageState extends State < SearchPage > {
                                 case 'playlist_name':
                                   for (final PlaylistModel model in data) {
                                     renderList.add(PlaylistRectangleCard(playlistModel: model, onTapPlaylistCard: onTapPlaylistCard, onTapPlaylistMoreButton: onTapPlaylistMoreButton));
-                                    renderList.add(SizedBox(height: kDefaultPadding,));
+                                    renderList.add(const SizedBox(height: kDefaultPadding,));
                                   }
                                   break;
                               }
@@ -161,7 +163,7 @@ class _SearchPageState extends State < SearchPage > {
                       ]),
                     );
                     } else {
-                      return const Center(child: Text('ADADAD'),);
+                      return const Center(child: Text('Hiện chưa có kết quả nào'),);
                     }
                   }
                 )
@@ -170,8 +172,10 @@ class _SearchPageState extends State < SearchPage > {
                 // top: 0,
                 // left: 0,
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 20,),
+                    const Padding(padding: EdgeInsets.only(left: kDefaultPadding),child: Text('Tìm Kiếm', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold), textAlign: TextAlign.left,)),
                     // SizedBox(height: kDefaultPadding * 6),
                     Container(
                       width: screenSize.width,

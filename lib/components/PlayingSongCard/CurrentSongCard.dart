@@ -92,25 +92,27 @@ class _CurrentSongCardState extends State<CurrentSongCard> {
                   hasArtWork: false,
                 ),
                 Positioned(
-                  right: 10,
+                  right: 15,
                   height: 27,
                   top: 15,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white24,
-                    ),
-                    child: IconButton(
-                        padding: EdgeInsets.all(0.0),
-                        onPressed: () => onContextMenuPress(currentSong),
-                        icon: Icon(
+                  child: 
+                  Material(
+                    type: MaterialType.transparency,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(100),
+                      radius: 100,
+                      onTap: (){
+                        onContextMenuPress(currentSong);
+                      },
+                      child: Icon(
                           SFSymbols.ellipsis_vertical,
                           color: Colors.white,
                           size:22,
                         )
-                    ),
-                  ),
-                )
+                      ),
+                    )
+                  
+                  ,)
               ],
             );
           } else

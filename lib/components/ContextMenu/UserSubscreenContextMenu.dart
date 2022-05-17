@@ -236,7 +236,7 @@ class _UserModelEditState extends State<UserModelEdit> {
                       CustomTextButton.TextButton(
                         text: 'Quay lại',
                         iconLeft: SFSymbols.chevron_left,
-                        color: Colors.blue,
+                        color: Colors.red,
                         textSize: 20,
                         onTap: () {
                           Navigator.of(context).pop();
@@ -245,8 +245,8 @@ class _UserModelEditState extends State<UserModelEdit> {
                       Expanded(child: Container()),
                       CustomTextButton.TextButton(
                         text: 'Xác nhận ',
-                        iconRight: SFSymbols.plus_circle_fill,
-                        color: Colors.blue,
+                        iconRight: SFSymbols.checkmark_alt_circle_fill,
+                        color: Colors.red,
                         textSize: 20,
                         onTap: () async {
                           EasyLoading.show(status: "Đang cập nhật");
@@ -264,7 +264,7 @@ class _UserModelEditState extends State<UserModelEdit> {
                     ], ),
                 ),
                 Row(children: [
-                  const Expanded(child: Divider(thickness: 0.2, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
+                  const Expanded(child: Divider(thickness: 0.1, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
                 ], ),
               CachedNetworkImage(imageUrl: userModel.avatarURL, imageBuilder: (context, provider) {
                 return Container(

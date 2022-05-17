@@ -1,5 +1,6 @@
 import 'package:apple_music/components/SongMenu/SongMenuIcon.dart';
 import 'package:apple_music/components/SongMenu/SongMenuItem.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/pages/AlbumSubPage.dart';
 import 'package:apple_music/pages/ArtistSubPage.dart';
 import 'package:apple_music/pages/SongSubPage.dart';
@@ -30,7 +31,9 @@ class SongMenu extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ArtistSubPage(artistlist:  HttpUtil().getFavoriteArtistList(app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken)),
+                builder: (context) => ValueListenableBuilder(
+                  valueListenable: GetIt.I.get<UserModelNotifier>(),
+                  builder: (context, _, __) => ArtistSubPage(artistlist:  HttpUtil().getFavoriteArtistList(app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken))),
               ),
             );
           }),
@@ -43,7 +46,14 @@ class SongMenu extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AlbumSubPage(albumlist:  HttpUtil().getFavoriteAlbumList(app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken)),
+                builder: (context) => ValueListenableBuilder(
+                  valueListenable: GetIt.I.get<UserModelNotifier>(),
+                  builder:(context, value, child) =>  
+                    AlbumSubPage(
+                      albumlist:  HttpUtil().getFavoriteAlbumList(
+                        app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken)
+                      )
+                    ),
               ),
             );
           }),

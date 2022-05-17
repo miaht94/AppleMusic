@@ -136,6 +136,7 @@ class _PlaylistViewContentState extends State<PlaylistViewContent> {
           controller: _scrollController,
           child: Column(
               children: <Widget>[
+                
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 450,
@@ -255,10 +256,21 @@ class _PlaylistViewContentState extends State<PlaylistViewContent> {
                     ],
                   ),
                 ),
+                SizedBox(height: kDefaultPadding,),
+                Container(
+                  padding: EdgeInsets.only(left: kDefaultPadding),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Danh sách bài hát",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  )
+                ),
                 Container(
                     padding: const EdgeInsets.only(left: kDefaultPadding, bottom: 200),
                     child: SongCardInPlaylistList(playlistModel: widget.model),
-                )
+                ),
+                
+                // SizedBox(height: 120,)
               ]
           ),
         )

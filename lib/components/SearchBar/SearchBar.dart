@@ -105,7 +105,7 @@ class _SearchBarState extends State < SearchBar > {
                             borderRadius: BorderRadius.all(Radius.circular(kCardBorderRadius))),
                           fillColor: Theme.of(context).inputDecorationTheme.fillColor,
                           contentPadding: EdgeInsets.zero,
-                          hintText: 'Search',
+                          hintText: 'Nhập từ khóa để tìm',
                         ),
                       ),
                     )

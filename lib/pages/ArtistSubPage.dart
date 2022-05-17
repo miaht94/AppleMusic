@@ -1,5 +1,8 @@
+import 'package:apple_music/components/ContextMenu/ArtistContextMenu.dart';
+import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/TitleComponent/PageTitleBoxCompact.dart';
 import 'package:apple_music/models_refactor/ArtistModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -16,13 +19,24 @@ void onTapArtistCard(ArtistModel artistModel) {
   Navigator.push(
    GetIt.I.get<AudioPageRouteManager>().getMainContext(),
     MaterialPageRoute(
-   builder: (context) => ArtistView(artistViewModel: HttpUtil().fetchArtistModel(artist_name: artistModel.artist_name)),
+   builder: (context) =>
+    ValueListenableBuilder(
+      valueListenable: GetIt.I.get<UserModelNotifier>(),
+      builder: (context, _, __) => ArtistView(
+        artistViewModel: HttpUtil().fetchArtistModel(
+          artist_name: artistModel.artist_name
+        )
+      )
+    ),
   ));
 }
 
 const String PAGE_TITLE = "Nghệ sĩ";
 
 class ArtistSubPage extends StatefulWidget {
+  void onTapArtistCardMoreButton(ArtistModel artistModel) {
+    GetIt.I.get<ContextMenuManager>().insertOverlay(ArtistContextMenu(artistModel: artistModel));
+  }
   const ArtistSubPage({
     Key? key,
     required this.artistlist,
@@ -115,11 +129,15 @@ class _ArtistSubPageState extends State<ArtistSubPage> {
                               shrinkWrap: true,
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, i) {
-                                return ArtistRectangleCard(artistModel: snapshot.data![i],
-                                    onTapArtistCard: onTapArtistCard);
+                                return ArtistRectangleCard(
+                                  artistModel: snapshot.data![i],
+                                  onTapArtistCard: onTapArtistCard,
+                                  onTapArtistCardMoreButton: widget.onTapArtistCardMoreButton,
+                                );
                               },
                             ),
                           ),
+                          const SizedBox(height: 150)
                         ],
                       ),
                     ),

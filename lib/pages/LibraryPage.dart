@@ -29,7 +29,8 @@ class LibraryPage extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(left: kDefaultPadding),
                 child: RecentlyViewed(playlistlist: HttpUtil().getMyPlaylists(app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken)),
-              )
+              ),
+              SizedBox(height: 140)
             ]
         ),
       );

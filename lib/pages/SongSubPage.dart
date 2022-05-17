@@ -4,6 +4,7 @@ import 'package:apple_music/models/HScrollCircleModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/SongCardInPlaylistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
+import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -28,7 +29,14 @@ void onTapArtistCard(ArtistRectangleCardModel artistRectangleCardModel) {
   Navigator.push(
    GetIt.I.get<AudioPageRouteManager>().getMainContext(),
     MaterialPageRoute(
-   builder: (context) => ArtistView(artistViewModel: HttpUtil().fetchArtistModel(artist_name:artistRectangleCardModel.artistName)),
+   builder: (context) => ValueListenableBuilder(
+     valueListenable: GetIt.I.get<UserModelNotifier>(),
+     builder: (context, _, __) => ArtistView(
+       artistViewModel: HttpUtil().fetchArtistModel(
+         artist_name:artistRectangleCardModel.artistName
+         )
+        )
+      ),
   ));
 }
 
@@ -134,6 +142,7 @@ class _SongSubPageState extends State<SongSubPage> {
                             // )
                           ),
                         ),
+                        const SizedBox(height: 150)
                       ],
                     ),
                   ),

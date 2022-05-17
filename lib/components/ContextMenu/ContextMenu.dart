@@ -156,7 +156,7 @@ class _ContextMenuState extends State < ContextMenu > with SingleTickerProviderS
                     // height: widget.height,
                     // padding: EdgeInsets.only(left: kDefaultPadding * 2, top: kDefaultPadding * 2, right: kDefaultPadding * 2, bottom: kDefaultPadding),
                     alignment: Alignment.center,
-                    decoration: const BoxDecoration(color: Colors.white, borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: const Radius.circular(20))),
+                    decoration: const BoxDecoration(color: Colors.white, borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: const Radius.circular(20))),
                     child: SingleChildScrollView(
                       child: Column(
                       

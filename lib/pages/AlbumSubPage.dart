@@ -1,3 +1,5 @@
+import 'package:apple_music/components/ContextMenu/AlbumContextMenu.dart';
+import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/RectangleCardSearchPage/AlbumRectangleCard.dart';
 import 'package:apple_music/components/TitleComponent/PageTitleBoxCompact.dart';
 import 'package:apple_music/models/AlbumRectangleCardModel.dart';
@@ -27,7 +29,9 @@ class AlbumSubPage extends StatefulWidget {
     Key? key,
     required this.albumlist
   }) : super(key: key);
-
+  void onTapAlbumMoreButton(AlbumModel albumModel) {
+    GetIt.I.get<ContextMenuManager>().insertOverlay(AlbumContextMenu(albumViewModel: albumModel));
+  }
   final Future<List<AlbumModel>?> albumlist;
   @override
   State<AlbumSubPage> createState() => _AlbumSubPageState();
@@ -115,14 +119,19 @@ class _AlbumSubPageState extends State<AlbumSubPage> {
                                 shrinkWrap: true,
                                 itemCount: snapshot.data!.length,
                                 itemBuilder: (context, i) {
-                                  return AlbumRectangleCard(albumModel: snapshot.data![i],
-                                      onTapAlbumCard: onTapAlbumCard);
+                                  return AlbumRectangleCard(
+                                    albumModel: snapshot.data![i],
+                                    onTapAlbumCard: onTapAlbumCard,
+                                    onTapAlbumMoreButton: widget.onTapAlbumMoreButton
+                                  );
                                 },
                               ),
                             ),
+                            const SizedBox(height: 150)
                           ],
                         ),
                       ),
+                      
                     );
                 }
 
