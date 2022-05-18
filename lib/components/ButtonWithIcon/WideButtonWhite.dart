@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
+// ignore: must_be_immutable
 class WideButtonWhite extends StatelessWidget {
   WideButtonWhite({
     Key? key,

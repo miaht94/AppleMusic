@@ -16,23 +16,20 @@ class LibraryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-      Container(
-        // padding: const EdgeInsets.only(left: kDefaultPadding),
-        child: ListView(
-            physics: const BouncingScrollPhysics(),
-            children: [
-              PageTitleBox(title: "Thư Viện"),
-              Container(
-                padding: EdgeInsets.only(left: kDefaultPadding, bottom: kDefaultPadding),
-                child: SongMenu(),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: kDefaultPadding),
-                child: RecentlyViewed(playlistlist: HttpUtil().getMyPlaylists(app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken)),
-              ),
-              SizedBox(height: 140)
-            ]
-        ),
+      ListView(
+          physics: const BouncingScrollPhysics(),
+          children: [
+            PageTitleBox(title: 'Thư Viện'),
+            Container(
+              padding: const EdgeInsets.only(left: kDefaultPadding, bottom: kDefaultPadding),
+              child: const SongMenu(),
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: kDefaultPadding),
+              child: RecentlyViewed(playlistlist: HttpUtil().getMyPlaylists(app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken)),
+            ),
+            const SizedBox(height: 140)
+          ]
       );
   }
 }

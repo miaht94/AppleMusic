@@ -124,6 +124,7 @@ class SongRawModel {
   String? collaboration;
   String song_key;
   String lyric_key;
+  // ignore: sort_constructors_first
   factory SongRawModel.fromJson(Map<String, dynamic> json) {
     final SongRawModel newSong = SongRawModel(
         id: json['_id'],

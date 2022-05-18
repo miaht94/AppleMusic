@@ -75,17 +75,17 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                           child: _buildChildWindow()
                         ),
                         Positioned(
-                          bottom: 152.0,
+                          bottom: 152,
                           width: size.width * 0.99,
                           child: _buildProgessBar()
                         ),
                         _buildCurrentSong(),
                         _buildCurrentArtWork(),
                         Positioned(
-                          bottom: 60.0,
-                          left: 100.0,
-                          right: 100.0,
-                          height: 100.0,
+                          bottom: 60,
+                          left: 100,
+                          right: 100,
+                          height: 100,
                           child: Center(child: _buildButtonPausePlay())
                         ),
                         Positioned(
@@ -103,17 +103,17 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
                           child: _buildPlaylistButton(),
                         ),
                         Positioned(
-                          bottom: 80.0,
-                          right: 30.0,
-                          width: 64.0,
-                          height: 64.0,
+                          bottom: 80,
+                          right: 30,
+                          width: 64,
+                          height: 64,
                           child: _buldNextSongButton(),
                         ),
                         Positioned(
-                          bottom: 80.0,
-                          left: 30.0,
-                          width: 64.0,
-                          height: 64.0,
+                          bottom: 80,
+                          left: 30,
+                          width: 64,
+                          height: 64,
                           child: _buldPreviousSongButton(),
                         ),
                         Positioned(
@@ -216,7 +216,7 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
 
   Widget _buildPlaylist() {
     return
-      CurrentPlaylist();
+      const CurrentPlaylist();
   }
 
   Widget _buildLyrics() {
@@ -253,11 +253,11 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
   }
 
   Widget _buildCurrentArtWork() {
-    return CurrentArtWork();
+    return const CurrentArtWork();
   }
 
   Widget _buildCurrentSong() {
-    return CurrentSongCard();
+    return const CurrentSongCard();
   }
 
   Widget _buildProgessBar() {
@@ -283,11 +283,11 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
   }
 
   Widget _buildLyricButton() {
-    return LyricButton();
+    return const LyricButton();
   }
 
   Widget _buildPlaylistButton() {
-    return PlaylistButton();
+    return const PlaylistButton();
   }
 
   Widget _buldNextSongButton() {
@@ -318,11 +318,11 @@ class _AudioUiState extends State<AudioUi> with WidgetsBindingObserver {
     );
   }
   Widget _buildRepeatButton() {
-    return RepeatButton();
+    return const RepeatButton();
   }
 
   Widget _buldShuffleButton() {
-    return ShuffleButton();
+    return const ShuffleButton();
   }
 
   Widget _buldPreviousSongButton() {

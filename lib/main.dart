@@ -135,7 +135,7 @@ class MainScreenPageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       controller: pageController,
       children: const < Widget > [
         Center(

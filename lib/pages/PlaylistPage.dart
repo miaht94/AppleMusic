@@ -267,12 +267,12 @@ class _PlaylistViewContentState extends State<PlaylistViewContent> {
                     ],
                   ),
                 ),
-                SizedBox(height: kDefaultPadding,),
+                const SizedBox(height: kDefaultPadding,),
                 Container(
-                  padding: EdgeInsets.only(left: kDefaultPadding),
+                  padding: const EdgeInsets.only(left: kDefaultPadding),
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Danh sách bài hát",
+                  child: const Text(
+                    'Danh sách bài hát',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   )
                 ),

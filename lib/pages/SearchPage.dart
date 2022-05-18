@@ -81,6 +81,7 @@ class _SearchPageState extends State < SearchPage > {
   }
 
   void onTapPlaylistCard(PlaylistModel playlistModel) {
+    // ignore: inference_failure_on_instance_creation
     Navigator.of(_context!).push(MaterialPageRoute(builder: (context) => PlaylistView(playlistModel: Future.value(playlistModel))));
   }
 

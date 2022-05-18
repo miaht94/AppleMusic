@@ -265,8 +265,8 @@ class _UserModelEditState extends State<UserModelEdit> {
                       ),
                     ], ),
                 ),
-                Row(children: [
-                  const Expanded(child: Divider(thickness: 0.1, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
+                Row(children: const [
+                  Expanded(child: Divider(thickness: 0.1, color: Colors.black, height: 10, indent: 0, endIndent: 0, ))
                 ], ),
               CachedNetworkImage(imageUrl: userModel.avatarURL, imageBuilder: (context, provider) {
                 return Container(

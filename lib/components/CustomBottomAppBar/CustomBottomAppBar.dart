@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:apple_music/components/CustomBottomAppBar/CustomBottomAppBarConstant.dart';
-import 'package:apple_music/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';

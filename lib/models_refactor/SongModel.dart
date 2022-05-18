@@ -79,6 +79,7 @@ class ArtistRawModel {
   String artist_image_url;
 
 
+  // ignore: sort_constructors_first
   factory ArtistRawModel.fromJson(Map<String, dynamic> json) {
     final ArtistRawModel newArtist = ArtistRawModel(
         id: json['_id'],

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 
 // ignore: must_be_immutable
@@ -23,7 +24,9 @@ class _ContextMenuButtonState extends State<ContextMenuButton> {
     return GestureDetector(
       // behavior: HitTestBehavior.opaque,
       onTap: () {
-        print((childKey.currentContext!.findRenderObject() as RenderBox).localToGlobal(Offset.zero));
+        if (kDebugMode) {
+          print((childKey.currentContext!.findRenderObject() as RenderBox).localToGlobal(Offset.zero));
+        }
       },
       child: Container(key: childKey, child: widget.child)
       );

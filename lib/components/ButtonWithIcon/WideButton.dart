@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 // ignore: must_be_immutable
 class WideButton extends StatelessWidget {

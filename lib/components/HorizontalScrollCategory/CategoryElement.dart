@@ -49,7 +49,7 @@ class _CategoryElementState extends State < CategoryElement > with SingleTickerP
                       height: 30,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: kCategoryElementSelectedBackgroundColor),
+                          border: Border.all(color: kCategoryElementSelectedBackgroundColor),
                           borderRadius: BorderRadius.circular(kCategoryElementBorderRadius)
                       ),
                       child: Text(widget.categoryModel.categoryName, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: kCategoryElementFontSize, color: widget.isSelected ? kCategoryElementOnSelectedFontColor : kCategoryElementNotSelectedFontColor, fontWeight: FontWeight.bold), ),

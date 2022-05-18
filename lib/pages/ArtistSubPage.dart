@@ -1,3 +1,5 @@
+// ignore_for_file: sort_constructors_first
+
 import 'package:apple_music/components/ContextMenu/ArtistContextMenu.dart';
 import 'package:apple_music/components/ContextMenu/ContextMenuManager.dart';
 import 'package:apple_music/components/TitleComponent/PageTitleBoxCompact.dart';
