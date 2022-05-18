@@ -26,17 +26,6 @@ class SquareCard extends StatelessWidget{
   final bool isPlaylist;
   dynamic playlistModel;
 
-  // HScrollSquareCardModel model;
-
-  // late AudioPageRouteManager audioPageRouteManager = getIt<AudioPageRouteManager>();
-  //
-  // onCardTap() {
-  //   Navigator.pushNamed(audioPageRouteManager.getMainContext(), '/playingPage');
-  // }
-
-  // final Function(HScrollSquareCardModel)? onTapSquareCard;
-
-
   @override
   Widget build (BuildContext context) {
 

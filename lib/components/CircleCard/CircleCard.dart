@@ -1,5 +1,5 @@
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/services/http_util.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:flutter/material.dart';
 
 import '../../pages/ArtistPage.dart';
@@ -7,24 +7,11 @@ import 'HScrollCircleConstant.dart';
 
 class CircleCard extends StatelessWidget{
   const CircleCard({Key? key,
-    required this.imageUrl,
-    required this.artist,
-    required this.id,
+    required this.artistModel,
 
   }): super(key: key);
 
-  final String imageUrl;
-  final String artist;
-  final int id;
-
-  // onCardTap(context) {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => ArtistView(artistViewModel: ArtistViewModel.getArtist(this.artist)),
-  //     ),
-  //   );
-  // }
+  final ArtistModel artistModel;
 
   @override
   Widget build (BuildContext context) {
@@ -42,7 +29,7 @@ class CircleCard extends StatelessWidget{
                 context,
                 // ignore: inference_failure_on_instance_creation
                 MaterialPageRoute(
-                  builder: (context) => ArtistView(artistViewModel: HttpUtil().fetchArtistModel(artist_name:artist)),
+                  builder: (context) => ArtistView(artistViewModel: Future.value(artistModel)),
                 ),
               )
           },
@@ -59,13 +46,13 @@ class CircleCard extends StatelessWidget{
                   height: WIDTH,
                   width: WIDTH,
                   child: Image.network(
-                    imageUrl,
+                    artistModel.artist_image_url,
                     fit: BoxFit.cover,
                   ),
                 )
               ),
               Text(
-                artist,
+                artistModel.artist_name,
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

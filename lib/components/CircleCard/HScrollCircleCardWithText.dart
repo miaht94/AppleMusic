@@ -1,5 +1,5 @@
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/HScrollCircleModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:flutter/material.dart';
 
 import '../TitleComponent/BoldTitle.dart';
@@ -14,7 +14,7 @@ class HScrollCircleCardWithText extends StatelessWidget{
   }): super(key: key);
 
   final String title;
-  final List<HScrollCircleCardModel> cards;
+  final List<ArtistModel> cards;
 
 
   @override
@@ -30,9 +30,9 @@ class HScrollCircleCardWithText extends StatelessWidget{
                 padding: const EdgeInsets.only(left: kDefaultPadding * 1.5),
                 child: BoldTitle(title: title),
               ),
-              Padding(
+               Padding(
                 padding: const EdgeInsets.only(right: kDefaultPadding),
-                child: SeeAllButton(),
+                child: SeeAllButton(typeOfList: TypeOfList.artist, list: cards,),
               ),
             ],
           ),

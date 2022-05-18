@@ -1,4 +1,5 @@
 import 'package:apple_music/components/TitleComponent/BoldTitle.dart';
+import 'package:apple_music/components/TitleComponent/SeeAllButton.dart';
 import 'package:apple_music/components/VerticalBigCard/VerticalBigCardConstant.dart';
 import 'package:apple_music/components/VerticalBigCard/VerticalBigCardsWithTitle.dart';
 import 'package:apple_music/models/CredentialModel.dart';
@@ -91,9 +92,26 @@ class _ListeningNowState extends State<ListeningNow> {
                     builder: (context, isDone,_) {
                       if (isDone) {
                         return
-                          Container(
-                            padding: const EdgeInsets.only(bottom: VerticalComponentPadding),
-                            child: HScrollSquareCardWithText(title: 'Album nổi bật', cards: listeningNowPageModel.listRencentlyPlayed),
+                          Column(
+                            children: [
+                              Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(left: kDefaultPadding * 1.5),
+                                  child: BoldTitle(title: 'Album nổi bật'),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: kDefaultPadding),
+                                  child: SeeAllButton(typeOfList: TypeOfList.album, list: listeningNowPageModel.listRencentlyPlayedRaw,),
+                                ),
+                              ],
+                            ),
+                              Container(
+                                padding: const EdgeInsets.only(bottom: VerticalComponentPadding),
+                                child: HScrollSquareCardWithText(title: 'Album nổi bật', cards: listeningNowPageModel.listRencentlyPlayed),
+                              ),
+                            ],
                           );} else {
                         return SkeletonLoader(
                           builder:

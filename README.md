@@ -9,6 +9,10 @@ Build and Test:\
 
 Test:\
 [![Codemagic test status](https://api.codemagic.io/apps/626b6b056248df56992be58c/626b6fc36248dfc3f57eca98/status_badge.svg)](https://codemagic.io/apps/626b6b056248df56992be58c/626b6fc36248dfc3f57eca98/latest_build)
+
+Lint:\
+[![GitHub Super-Linter](https://github.com/miaht94/AppleMusic/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+
 ## Resources
 
 [Figma model](https://www.figma.com/file/LGo3Zh3bQTfa7Vv324ht83/Apple-Music?node-id=460%3A58758)
@@ -16,24 +20,16 @@ Test:\
 [Presentation (updating)](https://docs.google.com/presentation/d/1SzBRXU1pCXUB9xV-2OOYq6o0wPWXd59jgbDelIraF70/edit#slide=id.g1191c048876_0_182)
 
 ## Installation
-
 1. Clone this repository
-
 1. Make sure flutter is installed. Open the project folder in Android Studio.
-
 1. Open ```pubspec.yaml``` and choose "Pub get" or run
-
-```
+```flutter
 flutter pub get
 ```
-
 4. Compile and run ```main.dart```. 
-
 Using Pixel 3XL Android Emulator is recommended.
-
 ## Test
 [Test_link](https://github.com/miaht94/AppleMusic/tree/dev/test)
-
 1. Test result for testProject Test : [Test_result](https://github.com/miaht94/AppleMusic/tree/dev/test/test_from_test_project/TestResult)
 2. For widget test using : ` flutter test ` to run test.
 3. Result of flutter test: [Result](https://github.com/miaht94/AppleMusic/blob/dev/test/test_result_flutter_test.png)

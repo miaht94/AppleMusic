@@ -130,7 +130,7 @@ class _AlbumSubPageState extends State<AlbumSubPage> {
                                 },
                               ),
                             ),
-                            const SizedBox(height: 150)
+                            const SizedBox(height: 100,)
                           ],
                         ),
                       ),

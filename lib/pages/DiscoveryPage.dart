@@ -1,5 +1,7 @@
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart' show kCardHeight;
 import 'package:apple_music/components/HorizontalCard/HorizontalCardsWithTitle.dart';
+import 'package:apple_music/components/TitleComponent/BoldTitle.dart';
+import 'package:apple_music/components/TitleComponent/SeeAllButton.dart';
 import 'package:apple_music/models/DiscoveryPageModel.dart';
 import 'package:apple_music/pages/PageSkeleton.dart';
 import 'package:apple_music/services/service_locator.dart';
@@ -66,12 +68,12 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
                       height: kCardHeight * 1.4,
                       child: Row(
                         children: [
-                          HorizontalCardSkeleton(),
+                          const HorizontalCardSkeleton(),
                           Container(
                             width: 5,
                             height: kCardHeight,
                           ),
-                          Expanded(
+                          const Expanded(
                             child: HorizontalCardSkeleton(),
                           ),
                         ],
@@ -87,9 +89,26 @@ class _DiscoveryPageState extends State<DiscoveryPage> {
               builder: (context, isDone,_) {
                 if (isDone) {
                   return
-                    Container(
-                      padding: const EdgeInsets.only(bottom: VerticalComponentPadding),
-                      child: HScrollSquareCardWithText(title: 'Đừng bỏ lỡ', cards: discoveryPageModel.doNotMiss),
+                    Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children:  [
+                            const Padding(
+                              padding: EdgeInsets.only(left: kDefaultPadding * 1.5),
+                              child: BoldTitle(title: 'Đừng bỏ lỡ'),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: kDefaultPadding),
+                              child: SeeAllButton(typeOfList: TypeOfList.album, list: discoveryPageModel.doNotMissRaw,),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(bottom: VerticalComponentPadding),
+                          child: HScrollSquareCardWithText(title: 'Đừng bỏ lỡ', cards: discoveryPageModel.doNotMiss),
+                        ),
+                      ],
                     );} else {
                   return SkeletonLoader(
                     builder:

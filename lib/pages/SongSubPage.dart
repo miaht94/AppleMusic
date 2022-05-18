@@ -131,7 +131,7 @@ class _SongSubPageState extends State<SongSubPage> {
                             // )
                           ),
                         ),
-                        const SizedBox(height: 150)
+                        const SizedBox(height: 100,),
                       ],
                     ),
                   ),
