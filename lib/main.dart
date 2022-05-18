@@ -103,21 +103,14 @@ class _MyHomePageState extends State < MyHomePage > {
             Scaffold(
             resizeToAvoidBottomInset: false,
             body:
-              PageView(
-                controller: pageController,
-                children: const < Widget > [
-                  Center(
-                    child: ListeningNow(),
-                  ),
-                  Center(
-                    child: DiscoveryPage(),
-                  ),
-                  Center(
-                    child: LibraryPage(),
-                  ),
-                  SearchPage()
-                ],
-              ))
+              LayoutBuilder(
+
+                builder: (context, _) { 
+                  audioPageRouteManager.setSecondaryContext(context);
+                  return MainScreenPageView(pageController: pageController);
+                }
+              )
+            )
           )
         ),
         Positioned(
@@ -127,6 +120,35 @@ class _MyHomePageState extends State < MyHomePage > {
         ),
       ], )
 
+    );
+  }
+}
+
+class MainScreenPageView extends StatelessWidget {
+  const MainScreenPageView({
+    Key? key,
+    required this.pageController,
+  }) : super(key: key);
+
+  final PageController pageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView(
+      physics: NeverScrollableScrollPhysics(),
+      controller: pageController,
+      children: const < Widget > [
+        Center(
+          child: ListeningNow(),
+        ),
+        Center(
+          child: DiscoveryPage(),
+        ),
+        Center(
+          child: LibraryPage(),
+        ),
+        SearchPage()
+      ],
     );
   }
 }

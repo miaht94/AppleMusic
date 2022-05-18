@@ -1,9 +1,12 @@
 import 'dart:ui';
 
+import 'package:apple_music/components/AudioController/AudioPageRouteManager.dart';
 import 'package:apple_music/components/CustomBottomAppBar/CustomBottomAppBarConstant.dart';
+import 'package:apple_music/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:get_it/get_it.dart';
 
 import 'CustomBottomAppBarButton.dart';
 import 'PlayingBar.dart';
@@ -51,9 +54,11 @@ class _CustomBottomAppBar extends State < CustomBottomAppBar > {
                   child: CustomAppBarButton(
                     title: 'Nghe ngay', 
                     icon: SFSymbols.play_circle,
-                    isActivated: widget.pageController.page != null ? widget.pageController.page!.toInt() == 0 : widget.pageController.initialPage == 0,
+                    isActivated: widget.pageController.hasClients && widget.pageController.page != null ? widget.pageController.page!.toInt() == 0 : widget.pageController.initialPage == 0,
                     onTapHandler: () {
-                    
+                      if (Navigator.of(GetIt.I.get<AudioPageRouteManager>().getSecondaryContext()!).canPop()) {
+                        Navigator.of(GetIt.I.get<AudioPageRouteManager>().getSecondaryContext()!).popUntil((route) => route.isFirst);
+                      }
                       widget.pageController.animateToPage(0, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
                     },)
                 ),
@@ -61,9 +66,13 @@ class _CustomBottomAppBar extends State < CustomBottomAppBar > {
                   child: CustomAppBarButton(
                     title: 'Khám phá', 
                     icon: SFSymbols.cube,
-                    isActivated: widget.pageController.page != null ? widget.pageController.page!.toInt() == 1 : widget.pageController.initialPage == 1,
+                    isActivated: widget.pageController.hasClients && widget.pageController.page != null ? widget.pageController.page!.toInt() == 1 : widget.pageController.initialPage == 1,
                     onTapHandler: () {
+                      if (Navigator.of(GetIt.I.get<AudioPageRouteManager>().getSecondaryContext()!).canPop()) {
+                        Navigator.of(GetIt.I.get<AudioPageRouteManager>().getSecondaryContext()!).popUntil((route) => route.isFirst);
+                      } 
                       widget.pageController.animateToPage(1, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                      
                     }
                   )
                 ),
@@ -71,17 +80,25 @@ class _CustomBottomAppBar extends State < CustomBottomAppBar > {
                   child: CustomAppBarButton(
                     title: 'Thư viện', 
                     icon: SFSymbols.music_note_list,
-                    isActivated: widget.pageController.page != null ? widget.pageController.page!.toInt() == 2 : widget.pageController.initialPage == 2,
+                    isActivated: widget.pageController.hasClients && widget.pageController.page != null ? widget.pageController.page!.toInt() == 2 : widget.pageController.initialPage == 2,
                     onTapHandler: () {
+                      if (Navigator.of(GetIt.I.get<AudioPageRouteManager>().getSecondaryContext()!).canPop()) {
+                        Navigator.of(GetIt.I.get<AudioPageRouteManager>().getSecondaryContext()!).popUntil((route) => route.isFirst);
+                      }
+                      // widget.pageController.jumpToPage(2);
+                      // Navigator.of(GetIt.I.get<AudioPageRouteManager>().getMainContext()).pushReplacementNamed('/homePage');
                       widget.pageController.animateToPage(2, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
                     })
                 ),
                 Flexible(
                   child: CustomAppBarButton(title: 'Tìm kiếm', icon: SFSymbols.search,
-                  isActivated: widget.pageController.page != null ? widget.pageController.page!.toInt() == 3 : widget.pageController.initialPage == 3,
+                  isActivated: widget.pageController.hasClients && widget.pageController.page != null ? widget.pageController.page!.toInt() == 3 : widget.pageController.initialPage == 3,
                   onTapHandler: () {
-                      widget.pageController.animateToPage(3, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
-                    })
+                    if (Navigator.of(GetIt.I.get<AudioPageRouteManager>().getSecondaryContext()!).canPop()) {
+                      Navigator.of(GetIt.I.get<AudioPageRouteManager>().getSecondaryContext()!).popUntil((route) => route.isFirst);
+                    }
+                    widget.pageController.animateToPage(3, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                  })
                 ),
               ], ),
             ),

@@ -95,7 +95,6 @@ class _CurrentSongCardState extends State<CurrentSongCard> {
                   right: 15,
                   height: 27,
                   top: 15,
-<<<<<<< HEAD
                   child: 
                   Material(
                     type: MaterialType.transparency,
@@ -105,18 +104,7 @@ class _CurrentSongCardState extends State<CurrentSongCard> {
                       onTap: (){
                         onContextMenuPress(currentSong);
                       },
-                      child: Icon(
-=======
-                  child: DecoratedBox(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white24,
-                    ),
-                    child: IconButton(
-                        padding: const EdgeInsets.all(0),
-                        onPressed: () => onContextMenuPress(currentSong),
-                        icon: const Icon(
->>>>>>> 7437876887fdcfd2e419c966a2069440dcb388f1
+                      child: const Icon(
                           SFSymbols.ellipsis_vertical,
                           color: Colors.white,
                           size:22,

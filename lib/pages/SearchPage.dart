@@ -106,60 +106,62 @@ class _SearchPageState extends State < SearchPage > {
               Positioned(
                 top: 150,
                 width: screenSize.width,
+                height: screenSize.height - 150,
                 child: 
                 LayoutBuilder(
                   builder: (context, constraints) {
                     if (searchPageModel.searchString != '' && GetIt.I.get<SearchPageManager>().value.inSearchedMode) {
-                      return SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                      child: Column(children: [
-                        
-                        FutureBuilder<dynamic>(
-                          builder: (context, snapshot) {
+                      return FutureBuilder<dynamic>(
+                        builder: (context, snapshot) {
+                          
+                          if (!snapshot.hasData || snapshot.connectionState != ConnectionState.done) {
                             
-                            if (!snapshot.hasData || snapshot.connectionState != ConnectionState.done) {
-                              
-                              context.loaderOverlay.show();
-                              return Container();
-                            } else {
-                              final String searchMode = GetIt.I.get<SearchPageManager>().value.searchMode;
-                              final List<Widget> renderList = [];
-                              final List<dynamic> data = snapshot.data!;
-                              switch(searchMode) {
-                                case 'song_name':
-                                  for (final SongModel model in data) {
-                                    renderList.add(SongCardInPlaylistBigger(songModel: model, onTapSongCardMoreButton: onTapSongCardMoreButton, onTapSongCardInPlaylist: onTapSongCard,));
-                                  }
-                                  break;
-                                case 'artist_name':
-                                  for (final ArtistModel model in data) {
-                                    renderList.add(ArtistRectangleCard(artistModel: model, onTapArtistCard: onTapArtistCard, onTapArtistCardMoreButton: onTapArtistCardMoreButton));
-                                  }
-                                  break;
-                                case 'album_name':
-                                  for (final AlbumModel model in data) {
-                                    renderList.add(AlbumRectangleCard(albumModel: model, onTapAlbumMoreButton: onTapAlbumMoreButton, onTapAlbumCard: onTapAlbumCard,));
-                                  }
-                                  break;
+                            context.loaderOverlay.show();
+                            return Container();
+                          } else {
+                            final String searchMode = GetIt.I.get<SearchPageManager>().value.searchMode;
+                            final List<Widget> renderList = [];
+                            final List<dynamic> data = snapshot.data!;
+                            switch(searchMode) {
+                              case 'song_name':
+                                for (final SongModel model in data) {
+                                  renderList.add(SongCardInPlaylistBigger(songModel: model, onTapSongCardMoreButton: onTapSongCardMoreButton, onTapSongCardInPlaylist: onTapSongCard,));
+                                }
+                                renderList.add(const SizedBox(height: 120));
+                                break;
+                              case 'artist_name':
+                                for (final ArtistModel model in data) {
+                                  renderList.add(ArtistRectangleCard(artistModel: model, onTapArtistCard: onTapArtistCard, onTapArtistCardMoreButton: onTapArtistCardMoreButton));
+                                }
+                                renderList.add(const SizedBox(height: 120));
+                                break;
+                              case 'album_name':
+                                for (final AlbumModel model in data) {
+                                  renderList.add(AlbumRectangleCard(albumModel: model, onTapAlbumMoreButton: onTapAlbumMoreButton, onTapAlbumCard: onTapAlbumCard,));
+                                }
+                                renderList.add(const SizedBox(height: 120));
+                                break;
 
-                                case 'playlist_name':
-                                  for (final PlaylistModel model in data) {
-                                    renderList.add(PlaylistRectangleCard(playlistModel: model, onTapPlaylistCard: onTapPlaylistCard, onTapPlaylistMoreButton: onTapPlaylistMoreButton));
-                                    renderList.add(const SizedBox(height: kDefaultPadding,));
-                                  }
-                                  break;
-                              }
-                              
-                              
-                              context.loaderOverlay.hide();
-                              return Center(child: Column(children: renderList));
+                              case 'playlist_name':
+                                for (final PlaylistModel model in data) {
+                                  renderList.add(PlaylistRectangleCard(playlistModel: model, onTapPlaylistCard: onTapPlaylistCard, onTapPlaylistMoreButton: onTapPlaylistMoreButton));
+                                  
+                                }
+                                renderList.add(const SizedBox(height: 120));
+                                break;
                             }
-                              
-                          },
-                          future: GetIt.I.get<SearchPageManager>().value.queryResult!,
-                        )
-                      ]),
-                    );
+                            
+                            
+                            context.loaderOverlay.hide();
+                            return ListView(
+                              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                              children: renderList
+                            );
+                          }
+                            
+                        },
+                        future: GetIt.I.get<SearchPageManager>().value.queryResult!,
+                      );
                     } else {
                       return const Center(child: Text('Hiện chưa có kết quả nào'),);
                     }

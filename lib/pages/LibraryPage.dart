@@ -16,7 +16,6 @@ class LibraryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-<<<<<<< HEAD
       Container(
         // padding: const EdgeInsets.only(left: kDefaultPadding),
         child: ListView(
@@ -34,22 +33,6 @@ class LibraryPage extends StatelessWidget {
               SizedBox(height: 140)
             ]
         ),
-=======
-      ListView(
-          physics: const BouncingScrollPhysics(),
-          children: [
-            PageTitleBox(title: 'Thư Viện'),
-            Container(
-              padding: const EdgeInsets.only(left: kDefaultPadding, bottom: kDefaultPadding),
-              child: const SongMenu(),
-            ),
-            Container(
-              padding: const EdgeInsets.only(left: kDefaultPadding),
-              child: RecentlyViewed(playlistlist: HttpUtil().getMyPlaylists(app_token:GetIt.I.get<CredentialModelNotifier>().value.appToken)),
-            ),
-            const SizedBox(height: 120),
-          ]
->>>>>>> 7437876887fdcfd2e419c966a2069440dcb388f1
       );
   }
 }
