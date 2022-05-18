@@ -26,11 +26,12 @@ Lint:\
 
 1. Open ```pubspec.yaml``` and choose "Pub get" or run
 
-```
+```flutter
 flutter pub get
 ```
 
 4. Compile and run ```main.dart```. 
+
 
 Using Pixel 3XL Android Emulator is recommended.
 
