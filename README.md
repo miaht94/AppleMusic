@@ -33,7 +33,6 @@ flutter pub get
 
 4. Compile and run ```main.dart```. 
 Using Pixel 3XL Android Emulator is recommended.
-
 ## Test
 [Test_link](https://github.com/miaht94/AppleMusic/tree/dev/test)
 
