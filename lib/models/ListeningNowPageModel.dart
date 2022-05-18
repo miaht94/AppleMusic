@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:apple_music/constant.dart';
 import 'package:apple_music/models/CredentialModel.dart';
-import 'package:apple_music/models/HScrollCircleModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/VerticalCardWithTitleModel.dart';
+import 'package:apple_music/models_refactor/AlbumModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,8 @@ class ListeningNowPageModel {
 
   List<VerticalCardWithTitleModel> listBestChoice = [];
   List<HScrollSquareCardModel> listRencentlyPlayed = [];
-  List<HScrollCircleCardModel> listFavoriteArtist = [];
+  List<AlbumModel> listRencentlyPlayedRaw = [];
+  List<ArtistModel> listFavoriteArtist = [];
   List<VerticalCardWithTitleModel> listYearEndReplays = [];
 
   ValueNotifier<bool> isListBestChoiceDone = ValueNotifier<bool>(false);
@@ -92,6 +94,7 @@ class ListeningNowPageModel {
     for(final String id in listIdItem.listRencentlyPlayed){
       final album = await HttpUtil().getAlbumModel(id: id);
       if (album != null) {
+        listRencentlyPlayedRaw.add(album);
         listRencentlyPlayed.add(HScrollSquareCardModel(
           album.album_name,
           album.artist.artist_name,
@@ -109,10 +112,7 @@ class ListeningNowPageModel {
       for(final String id in listIdItem.listFavoriteArtist){
       final artist = await HttpUtil().fetchArtistModel(id: id);
       if (artist != null) {
-        listFavoriteArtist.add(HScrollCircleCardModel(
-          artist.artist_name,
-          artist.artist_image_url,
-        ));
+        listFavoriteArtist.add(artist);
       }
     }
     isListFavoriteArtistDone.value = true;

@@ -1,9 +1,10 @@
 import 'dart:convert' show JsonDecoder;
 
 import 'package:apple_music/constant.dart';
-import 'package:apple_music/models/HScrollCircleModel.dart';
 import 'package:apple_music/models/HScrollSquareModel.dart';
 import 'package:apple_music/models/HorizontalCardWithTitleModel.dart';
+import 'package:apple_music/models_refactor/AlbumModel.dart';
+import 'package:apple_music/models_refactor/ArtistModel.dart';
 import 'package:apple_music/models_refactor/SongModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:flutter/foundation.dart';
@@ -14,7 +15,8 @@ class DiscoveryPageModel {
 
   List<HorizontalCardWithTitleModel> newAlbums = [];
   List<HScrollSquareCardModel> doNotMiss = [];
-  List<HScrollCircleCardModel> listFavoriteArtist = [];
+  List<AlbumModel> doNotMissRaw = [];
+  List<ArtistModel> listFavoriteArtist = [];
   List<SongModel> bestNewSongs = [];
 
   ValueNotifier<bool> isNewAlbumsDone = ValueNotifier<bool>(false);
@@ -80,6 +82,7 @@ class DiscoveryPageModel {
     for(final String id in listIdItem.doNotMiss){
       final album = await HttpUtil().getAlbumModel(id: id);
       if (album != null) {
+        doNotMissRaw.add(album);
         doNotMiss.add(HScrollSquareCardModel(
             album.album_name,
             album.artist.artist_name,
@@ -97,10 +100,9 @@ class DiscoveryPageModel {
       for(final String id in listIdItem.listFavoriteArtist){
         final artist = await HttpUtil().fetchArtistModel(id: id);
         if (artist != null) {
-          listFavoriteArtist.add(HScrollCircleCardModel(
-            artist.artist_name,
-            artist.artist_image_url,
-          ));
+          listFavoriteArtist.add(
+            artist
+          );
         }
       }
       isListFavoriteArtistDone.value = true;

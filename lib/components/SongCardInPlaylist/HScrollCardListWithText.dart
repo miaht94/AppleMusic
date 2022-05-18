@@ -29,7 +29,7 @@ class HScrollCardListWithText extends StatelessWidget{
               ),
               Padding(
                 padding: const EdgeInsets.only(right: kDefaultPadding * 2),
-                child: SeeAllButton(),
+                child: SeeAllButton(typeOfList: TypeOfList.song, list: cards,),
               ),
             ],
           ),
