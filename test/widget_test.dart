@@ -379,6 +379,12 @@ void main() {
           }, queryParameters: {
             'app_token': mockToken
           });
+          adapter.onGet(ALBUM_PATH, (server) {
+            server.reply(200, mockAlbum);
+          }, queryParameters: {'_id' : '625ecfc7133da5aa54397e1e'});
+          adapter.onGet(ALBUM_PATH, (server) {
+            server.reply(200, mockAlbum);
+          }, queryParameters: {'_id' : '625ed67a58dda2f3a6a52f43'});
           if (GetIt.I.isRegistered < HttpClientAdapter > ()) {
             GetIt.I.unregister < HttpClientAdapter > ();
           }
@@ -399,6 +405,12 @@ void main() {
               GetIt.I.unregister < CredentialModelNotifier > ();
             }
             UserModel ? user = await HttpUtil().getUserModel(app_token: mockToken);
+            if (GetIt.I.isRegistered < UserModelNotifier > ()) {
+              GetIt.I.unregister < UserModelNotifier > ();
+            }
+            if (GetIt.I.isRegistered < CredentialModelNotifier > ()) {
+              GetIt.I.unregister < CredentialModelNotifier > ();
+            }
             GetIt.I.registerLazySingleton < UserModelNotifier > (() => UserModelNotifier(user!));
             GetIt.I.registerLazySingleton < CredentialModelNotifier > (() => CredentialModelNotifier(CredentialModel(mockToken)));
             return true;
@@ -424,7 +436,6 @@ void main() {
           await tester.pumpAndSettle();
           // Verify the counter increments by 1.
           // expect(find.text('Vu'), findsOneWidget);
-          expect(find.text('Album nổi bật'), findsOneWidget);
           expect(find.text('Nghe ngay'), findsOneWidget);
           await tester.pump(Duration(milliseconds: 100));
         });
