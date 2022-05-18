@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: [
                       Image.asset('assets/images/AppleIcon.png', width: screenSize.width / 2, ),
-                      const Text('Chào mừng đến với\nBach Music!', textAlign: TextAlign.center, style: TextStyle(
+                      const Text('Chào mừng đến với\nApple Music!', textAlign: TextAlign.center, style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Roboto',
                         fontSize: 25,
