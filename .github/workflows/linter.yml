@@ -19,7 +19,7 @@ on:
     branches-ignore: [master, main]
     # Remove the line above to run when pushing to master
   pull_request:
-    branches: [master, main]
+    branches: [main]
 
 ###############
 # Set the Job #
@@ -53,3 +53,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: dev
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+          LINTER_RULES_PATH: /
+          DART_DARTANALYZER_CONFIG_FILE: .analysis_options.yml
+          VALIDATE_DART: true

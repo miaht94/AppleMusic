@@ -57,11 +57,9 @@ class _RenderInnerShadow extends RenderProxyBox {
       ..blendMode = BlendMode.srcATop
       ..imageFilter = ImageFilter.blur(sigmaX: blur, sigmaY: blur)
       ..colorFilter = ColorFilter.mode(color, BlendMode.srcOut);
-    // canvas.translate(10, 10);
     canvas
       ..saveLayer(rectOuter, shadowPaint)
       ..saveLayer(rectInner, Paint())
-    // canvas..save()
       ..translate(dx, dy);
     context.paintChild(child!, offset);
     context.canvas..restore()..restore()..restore();
