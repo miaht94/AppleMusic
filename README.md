@@ -11,8 +11,7 @@ Test:\
 [![Codemagic test status](https://api.codemagic.io/apps/626b6b056248df56992be58c/626b6fc36248dfc3f57eca98/status_badge.svg)](https://codemagic.io/apps/626b6b056248df56992be58c/626b6fc36248dfc3f57eca98/latest_build)
 
 Lint:\
-[![GitHub Super-Linter](https://github.com/miaht94/AppleMusic/workflows/Lint%20Code%20Base/badge.svg)]
-(https://github.com/marketplace/actions/super-linter)
+[![GitHub Super-Linter](https://github.com/miaht94/AppleMusic/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 ## Resources
 
@@ -28,12 +27,11 @@ Lint:\
 
 1. Open ```pubspec.yaml``` and choose "Pub get" or run
 
-```
+```flutter
 flutter pub get
 ```
 
 4. Compile and run ```main.dart```. 
-
 Using Pixel 3XL Android Emulator is recommended.
 
 ## Test
