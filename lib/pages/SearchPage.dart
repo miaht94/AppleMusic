@@ -146,7 +146,7 @@ class _SearchPageState extends State < SearchPage > {
                               case 'playlist_name':
                                 for (final PlaylistModel model in data) {
                                   renderList.add(PlaylistRectangleCard(playlistModel: model, onTapPlaylistCard: onTapPlaylistCard, onTapPlaylistMoreButton: onTapPlaylistMoreButton));
-                                  
+                                  renderList.add(const SizedBox(height: kDefaultPadding));
                                 }
                                 renderList.add(const SizedBox(height: 120));
                                 break;
