@@ -174,40 +174,48 @@ class _ViewAllPlaylistsPageState extends State<ViewAllPlaylistsPage> {
                       ), 
                     ),
               ),
-              FutureBuilder<List<PlaylistModel>?>(
-                future: viewAllPlaylistsManager.futureAllPlaylists,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData || snapshot.connectionState != ConnectionState.done) {
-                    return const CircularProgressIndicator();
-                  }
-                  // ignore: always_put_control_body_on_new_line
-                  if (snapshot.data == null) return Container();
-                  final List < Widget > playlistsWidget = [];
-                  for (final PlaylistModel playlistModel in snapshot.data!) {
-                    playlistsWidget.add(
-                      PlaylistRectangleCard(
-                        onTapPlaylistCard: (playlistSelected) {
-                          
-                          Navigator.of(context).push(_createRoutePageViewSongPlaylist(playlistModel, viewAllPlaylistsManager.songSelected));
-                        },
-                        playlistModel: playlistModel,
-                        renderMoreButton: true,
-                        renderDivider: false,
-                        onTapPlaylistMoreButton: (playlistRectangleCardModel) {
-                          GetIt.I.get<ContextMenuManager>().insertOverlay(PlaylistContextMenu(playlistModel: playlistModel));
-                        },
-                      ),
-                    );
-                    // ignore: cascade_invocations
-                    playlistsWidget.add(const SizedBox(height: kDefaultPadding, ));
-                  }
-                  return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                    child: 
-                        SingleChildScrollView(
-                          child: Column(children: playlistsWidget),
+              Expanded(
+                child: FutureBuilder<List<PlaylistModel>?>(
+                  future: viewAllPlaylistsManager.futureAllPlaylists,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData || snapshot.connectionState != ConnectionState.done) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    // ignore: always_put_control_body_on_new_line
+                    if (snapshot.data == null) return Container();
+                    final List < Widget > playlistsWidget = [];
+                    for (final PlaylistModel playlistModel in snapshot.data!) {
+                      playlistsWidget.add(
+                        PlaylistRectangleCard(
+                          onTapPlaylistCard: (playlistSelected) {
+                            
+                            Navigator.of(context).push(_createRoutePageViewSongPlaylist(playlistModel, viewAllPlaylistsManager.songSelected));
+                          },
+                          playlistModel: playlistModel,
+                          renderMoreButton: true,
+                          renderDivider: false,
+                          onTapPlaylistMoreButton: (playlistRectangleCardModel) {
+                            GetIt.I.get<ContextMenuManager>().insertOverlay(PlaylistContextMenu(playlistModel: playlistModel));
+                          },
+                        ),
+                      );
+                      // ignore: cascade_invocations
+                      playlistsWidget.add(const SizedBox(height: kDefaultPadding, ));
+                    }
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                      child: 
+                        CustomScrollView(
+                          slivers: [
+                            SliverFillRemaining(
+                              hasScrollBody: false,
+                              child: Column(children: playlistsWidget),
+                            )
+                          ],
                         )
-                );}
+                    );
+                  }
+                ),
               )
           ],
         ),
