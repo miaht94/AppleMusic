@@ -104,6 +104,11 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
         animationControllers[_PlayingId]!.animateTo(NORMAL_SCALE, duration: const Duration(milliseconds: RESIZE_ANIMATION_DURATION));
       }
 
+      if(_PlayingId == null && id == 0){
+        animationControllers[0]!.animateTo(NORMAL_SCALE, duration: const Duration(milliseconds: RESIZE_ANIMATION_DURATION));
+      }
+
+
       setState(() {
         if (_PlayingLyric != lyrics[id].key.currentContext){
           _PlayingLyric = lyrics[id].key.currentContext;
@@ -130,7 +135,7 @@ class _ListLyricsState extends State<ListLyrics> with TickerProviderStateMixin{
     const int start =  1;
 
     for(int i = start; i < lyrics.length; i ++){
-      if (widget.currentPosition < lyrics[i].startTime){
+      if (widget.currentPosition <= lyrics[i].startTime){
         final int id = i - 1;
         _handleAnimation(id);
         break;

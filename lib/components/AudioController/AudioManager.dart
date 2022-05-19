@@ -67,10 +67,13 @@ class AudioManager {
         const int start =  0;
         if (currentLyric != null) {
           for(int i = start; i < currentLyric!.length; i ++){
-            if (position < currentLyric![i].startTime) {
+            if (position <= currentLyric![i].startTime) {
               lyricIndexNotifier.value = i;
               break;
             }
+          }
+          if (position > currentLyric![currentLyric!.length - 1].startTime){
+            lyricIndexNotifier.value = currentLyric!.length - 1;
           }
         }
       }
