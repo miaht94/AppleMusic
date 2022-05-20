@@ -1,4 +1,3 @@
-
 import 'package:apple_music/models_refactor/UserModel.dart';
 import 'package:apple_music/services/http_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -103,7 +102,7 @@ class Welcome extends AnimatedWidget {
             SizedBox(height: screenSize.height/20,),
             Container(
               width: screenSize.width/1.5,
-              child: Text('Hi! $name, welcome to Apple Muvik.', style: const TextStyle(fontSize: 20), textAlign: TextAlign.center,),
+              child: Text('Hi! $name, welcome to Apple Muzic.', style: const TextStyle(fontSize: 20), textAlign: TextAlign.center,),
             ),
             SizedBox(height: screenSize.height/20,),
             Container(
