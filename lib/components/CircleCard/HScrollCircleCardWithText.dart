@@ -27,7 +27,7 @@ class HScrollCircleCardWithText extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: kDefaultPadding * 1.5),
+                padding: const EdgeInsets.only(left: kDefaultPadding),
                 child: BoldTitle(title: title),
               ),
                Padding(

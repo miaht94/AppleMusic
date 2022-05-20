@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:apple_music/components/HorizontalCard/HorizontalCardConstant.dart';
 import 'package:apple_music/components/VerticalBigCard/VerticalBigCardConstant.dart';
+import 'package:apple_music/constant.dart';
 import 'package:apple_music/models_refactor/PlaylistModel.dart';
 import 'package:apple_music/pages/PlaylistPage.dart';
 import 'package:flutter/material.dart';
@@ -113,6 +114,7 @@ class _VerticalBigCardState extends State < VerticalBigCard > with SingleTickerP
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                       child: Container(height: 100,
+                        padding: const EdgeInsets.symmetric(horizontal:kDefaultPadding),
                         decoration: BoxDecoration(
                           color: widget.footerColor.withOpacity(0.6),
                           borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(kVCardBorderRadius), bottomRight: Radius.circular(kVCardBorderRadius))

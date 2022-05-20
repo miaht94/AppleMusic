@@ -5,6 +5,7 @@ import 'package:apple_music/pages/AlbumSubPage.dart';
 import 'package:apple_music/pages/ArtistSubPage.dart';
 import 'package:apple_music/pages/SongSubPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../models/CredentialModel.dart';
@@ -21,7 +22,7 @@ class SongMenu extends StatelessWidget {
     return
       Column(
         children: [
-          SongMenuItem(iconName: iconNames['Micro'], title: 'Nghệ Sĩ', onTap: (){
+          SongMenuItem(icon: SFSymbols.music_mic, title: 'Nghệ Sĩ', onTap: (){
             Navigator.push(
               context,
               // ignore: inference_failure_on_instance_creation
@@ -32,7 +33,7 @@ class SongMenu extends StatelessWidget {
               ),
             );
           }),
-          SongMenuItem(iconName: iconNames['Album'], title: 'Album', onTap: (){
+          SongMenuItem(icon: SFSymbols.music_albums, title: 'Album', onTap: (){
             Navigator.push(
               context,
               // ignore: inference_failure_on_instance_creation
@@ -48,7 +49,7 @@ class SongMenu extends StatelessWidget {
               ),
             );
           }),
-          SongMenuItem(iconName: iconNames['MusicNode'], title: 'Bài Hát', onTap: (){
+          SongMenuItem(icon: SFSymbols.music_note_list, title: 'Bài Hát', onTap: (){
             Navigator.push(
               context,
               // ignore: inference_failure_on_instance_creation

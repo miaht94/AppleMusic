@@ -24,18 +24,22 @@ class WideButton extends StatelessWidget {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               primary: const Color.fromRGBO(242, 242, 242, 1),
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              // padding: const EdgeInsets.symmetric(vertical: 0),
           ),
           onPressed: onTap,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+
                 children : <Widget> [
                   Icon(icon
-                      , color: Colors.red, size: 15),
+                      , color: Colors.red, size: 15 ),
                   const SizedBox(width: 5),
-                  Text(title, style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold, color: Colors.red)),
+                  Container(
+                    
+                    child: Text(title, style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold, color: Colors.red)),
+                  ),
                 ]
             ),
         ),

@@ -52,7 +52,7 @@ class _ListeningNowState extends State<ListeningNow> {
                 ,
                 Container(
                   padding: const EdgeInsets.only(left: kDefaultPadding),
-                  child: const BoldTitle(title: 'Lựa Chọn Hàng Đầu')
+                  child: const BoldTitle(title: 'Lựa chọn hàng đầu')
                 ),
                 ValueListenableBuilder<bool>(
                   valueListenable: listeningNowPageModel.isListBestChoiceDone,
@@ -60,7 +60,7 @@ class _ListeningNowState extends State<ListeningNow> {
                   if (isDone) {
                     return
                     Container(
-                      padding: const EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
+                      padding: const EdgeInsets.only(bottom: VerticalComponentPadding),
                       child: VerticalBigCardsWithTitle(cards :listeningNowPageModel.listBestChoice),
                     );
                   } else {
@@ -98,7 +98,7 @@ class _ListeningNowState extends State<ListeningNow> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Padding(
-                                  padding: EdgeInsets.only(left: kDefaultPadding * 1.5),
+                                  padding: EdgeInsets.only(left: kDefaultPadding),
                                   child: BoldTitle(title: 'Album nổi bật'),
                                 ),
                                 Padding(
@@ -149,7 +149,7 @@ class _ListeningNowState extends State<ListeningNow> {
                         return
                           Container(
                             padding: const EdgeInsets.only(bottom: VerticalComponentPadding),
-                            child: HScrollCircleCardWithText(title: 'Nghệ Sĩ Được Yêu Thích', cards: listeningNowPageModel.listFavoriteArtist),
+                            child: HScrollCircleCardWithText(title: 'Nghệ sĩ được yêu thích', cards: listeningNowPageModel.listFavoriteArtist),
                           );} else {
                         return SkeletonLoader(
                           builder:
@@ -190,7 +190,7 @@ class _ListeningNowState extends State<ListeningNow> {
                       if (isDone) {
                         return
                           Container(
-                            padding: const EdgeInsets.only(bottom: VerticalComponentPadding, left: kDefaultPadding),
+                            padding: const EdgeInsets.only(bottom: VerticalComponentPadding),
                             child: VerticalBigCardsWithTitle(cards :listeningNowPageModel.listYearEndReplays),
                           );} else {
                         return SkeletonLoader(

@@ -1,3 +1,4 @@
+import 'package:apple_music/constant.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class VerticalBigCardsWithTitle extends StatelessWidget {
       widgets.add(VerticalBigCardWithTitle(model: cards[i]));
     }
     return SingleChildScrollView(
+        // ignore: unnecessary_const
+        padding: const EdgeInsets.only(left: kDefaultPadding*1.5),
         scrollDirection: Axis.horizontal,
         child: Row(children:
           widgets

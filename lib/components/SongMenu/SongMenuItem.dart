@@ -1,5 +1,6 @@
 import 'package:apple_music/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'SongMenuConstant.dart';
@@ -8,12 +9,12 @@ import 'SongMenuIcon.dart';
 class SongMenuItem extends StatelessWidget{
   SongMenuItem({
     Key? key,
-    required this.iconName,
+    required this.icon,
     required this.title,
     required this.onTap
   }): super(key: key);
 
-  final String iconName;
+  final IconData icon;
   final String title;
   final String leftArrowIcon = iconNames['LeftArrowIcon'];
   final Null Function() onTap;
@@ -48,7 +49,7 @@ class SongMenuItem extends StatelessWidget{
                           text: TextSpan(
                             children: [
                               WidgetSpan(
-                                  child: SvgPicture.asset(iconName),
+                                  child: Icon(icon, color: Colors.red),
                               ),
                               const WidgetSpan(
                                   child: SizedBox(

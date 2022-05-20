@@ -52,11 +52,11 @@ class SongContextMenu extends ContextMenu{
           ValueListenableBuilder<UserModel>(valueListenable: GetIt.I.get<UserModelNotifier>(), builder: (context, userModel, _) {
             if (!GetIt.I.get<UserModelNotifier>().value.containFavSong(songModel.id)) {
               return ContextMenuItem(
-            title: 'Thêm vào yêu thích', 
+            title: 'Thêm vào thư viện', 
             iconData: SFSymbols.heart,
             onTapItem: () async {
               // throw UnimplementedError();
-              await EasyLoading.show(status: 'Đang thêm vào yêu thích');
+              await EasyLoading.show(status: 'Đang thêm vào thư viện');
               final bool suc = await HttpUtil().updateFavorite(app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, action: FAVORITE_ACTION.push, favorite_songs: [songModel.id]);
               await GetIt.I.get<UserModelNotifier>().refreshUser();
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.closeContextMenu(() {
@@ -67,16 +67,16 @@ class SongContextMenu extends ContextMenu{
                 }
                 
               });
-              // AdvanceSnackBar(message: 'Đã thêm vào yêu thích', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+              // AdvanceSnackBar(message: 'Đã thêm vào thư viện', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           );
             } else {
               return ContextMenuItem(
-            title: 'Xóa khỏi yêu thích', 
+            title: 'Xóa khỏi thư viện', 
             iconData: SFSymbols.heart_slash,
             onTapItem: () async {
               // throw UnimplementedError();
-              await EasyLoading.show(status: 'Đang xóa khỏi yêu thích');
+              await EasyLoading.show(status: 'Đang xóa khỏi thư viện');
               final bool suc = await HttpUtil().updateFavorite(app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, action: FAVORITE_ACTION.pop, favorite_songs: [songModel.id]);
               await GetIt.I.get<UserModelNotifier>().refreshUser();
               GetIt.I.get<ContextMenuManager>().contextMenuMap['SongContextMenu']!.closeContextMenu(() {
@@ -87,7 +87,7 @@ class SongContextMenu extends ContextMenu{
                 }
                 
               });
-              // AdvanceSnackBar(message: 'Đã thêm vào yêu thích', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
+              // AdvanceSnackBar(message: 'Đã thêm vào thư viện', bgColor: Colors.blueAccent).show(GetIt.I.get<AudioPageRouteManager>().getMainContext());
             },
           );
             }
