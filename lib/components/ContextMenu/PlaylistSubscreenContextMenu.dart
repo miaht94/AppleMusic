@@ -37,7 +37,7 @@ class PlaylistSubscreenContextMenu extends SubscreenContextMenu {
         padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
           // color: Colors.red,
           child: Container(
-            height: 300,
+            height: 270,
 
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -45,7 +45,7 @@ class PlaylistSubscreenContextMenu extends SubscreenContextMenu {
             ),
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: EditPlaylistPage(futurePlaylistModel: Future.value(playlistSelected))
+              home: EditPlaylistPage(playlistModel: (playlistSelected))
             ),
           ),
       );
@@ -65,19 +65,25 @@ class PlaylistSubscreenContextMenu extends SubscreenContextMenu {
 class EditPlaylistPage extends StatefulWidget {
   EditPlaylistPage({
     Key ? key,
-    this.futurePlaylistModel
+    this.playlistModel
   }): super(key: key);
-  Future<PlaylistModel>? futurePlaylistModel;
+  PlaylistModel? playlistModel;
   @override
   State < EditPlaylistPage > createState() => _EditPlaylistPageState();
 }
 
 class _EditPlaylistPageState extends State < EditPlaylistPage > {
   final ImagePicker _picker = ImagePicker();
-
+  
+  @override
+  void initState() {
+    titleController = TextEditingController();
+    descriptionController = TextEditingController();
+    super.initState();
+  }
   XFile ? image;
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  TextEditingController? titleController;
+  TextEditingController? descriptionController;
   bool firstTime = true;
   @override
   Widget build(BuildContext context) {
@@ -89,14 +95,14 @@ class _EditPlaylistPageState extends State < EditPlaylistPage > {
           color: Colors.white,
           borderRadius: BorderRadius.circular(10)
         ),
-        child: FutureBuilder<PlaylistModel>(
-          future: widget.futurePlaylistModel,
-          builder:(context, snapshot) {
-            if (snapshot.hasData && snapshot.data != null && snapshot.connectionState != ConnectionState.waiting) {
+        child: LayoutBuilder(
+          // future: widget.futurePlaylistModel,
+          builder:(context, _) {
+            if (widget.playlistModel != null) {
             if (firstTime) {
               firstTime = false;
-              titleController.text = snapshot.data!.playlist_name;
-              descriptionController.text = snapshot.data!.playlist_description;
+              titleController!.text = widget.playlistModel!.playlist_name;
+              descriptionController!.text = widget.playlistModel!.playlist_description;
             }
             return Column(
             children: [
@@ -125,7 +131,7 @@ class _EditPlaylistPageState extends State < EditPlaylistPage > {
                         if (!currentFocus.hasPrimaryFocus) {
                           currentFocus.unfocus();
                         }
-                        if (titleController.text == '') {
+                        if (titleController!.text == '') {
                           const AdvanceSnackBar(
                             message: 'Bạn chưa điền tiêu đề',
                             mode: Mode.ADVANCE,
@@ -133,7 +139,7 @@ class _EditPlaylistPageState extends State < EditPlaylistPage > {
                             duration: Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
                           return;
                         }
-                        if (descriptionController.text == '') {
+                        if (descriptionController!.text == '') {
                           const AdvanceSnackBar(
                             message: 'Bạn chưa đền mô tả',
                             mode: Mode.ADVANCE,
@@ -141,16 +147,8 @@ class _EditPlaylistPageState extends State < EditPlaylistPage > {
                             duration: Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
                           return;
                         }
-                        if (image == null) {
-                          const AdvanceSnackBar(
-                            message: 'Bạn chưa thêm ảnh',
-                            mode: Mode.ADVANCE,
-                            type: sType.ERROR,
-                            duration: Duration(seconds: 3), ).show(GetIt.I.get < ContextMenuManager > ().context);
-                          return;
-                        }
                         await EasyLoading.show(status: 'Đang sửa playlist');
-                        final bool suc = await HttpUtil().updatePlaylist(id: snapshot.data!.id ,playlist_name: titleController.text, playlist_description: descriptionController.text, imagePath: image != null ? image!.path : null,app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
+                        final bool suc = await HttpUtil().updatePlaylist(id: widget.playlistModel!.id ,playlist_name: titleController!.text, playlist_description: descriptionController!.text, imagePath: image != null ? image!.path : null,app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken);
                         if (suc) {
                           await EasyLoading.showSuccess('Thành công', duration: const Duration(seconds: 2));
                        
@@ -189,7 +187,7 @@ class _EditPlaylistPageState extends State < EditPlaylistPage > {
                               decoration: BoxDecoration(
                                 color: Colors.grey.shade300,
                                 borderRadius: BorderRadius.circular(10),
-                                image: image != null ? DecorationImage(image: Image.file(File(image!.path)).image, fit: BoxFit.cover) : DecorationImage(image: Image.network(snapshot.data!.art_url).image,  fit: BoxFit.cover)
+                                image: image != null ? DecorationImage(image: Image.file(File(image!.path)).image, fit: BoxFit.cover) : DecorationImage(image: Image.network(widget.playlistModel!.art_url).image,  fit: BoxFit.cover)
                               ),
         
                               child: image == null ? SvgPicture.asset('assets/icons/Gallery.svg', color: Colors.white, ) : null,

@@ -111,6 +111,24 @@ class _VerticalBigCardState extends State < VerticalBigCard > with SingleTickerP
                   width: cardWidth,
                   child: ClipRRect(
                     // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(kVCardBorderRadius), bottomRight: Radius.circular(kVCardBorderRadius)),
+                    child: Container(height: 100,
+                      padding: const EdgeInsets.symmetric(horizontal:kDefaultPadding),
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(164, 41, 38, 38),
+                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(kVCardBorderRadius), bottomRight: Radius.circular(kVCardBorderRadius))
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(widget.description, style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: kCardDesSize), textAlign: TextAlign.center,),
+                    ),
+                  )
+
+                ),
+                Positioned(
+                  left: 0,
+                  bottom: 0,
+                  width: cardWidth,
+                  child: ClipRRect(
+                    // borderRadius: BorderRadius.only(bottomLeft: Radius.circular(kVCardBorderRadius), bottomRight: Radius.circular(kVCardBorderRadius)),
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                       child: Container(height: 100,

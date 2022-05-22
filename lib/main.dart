@@ -147,7 +147,7 @@ class MainScreenPageView extends StatelessWidget {
         Center(
           child: LibraryPage(),
         ),
-        SearchPage()
+        Center(child: SearchPage())
       ],
     );
   }
