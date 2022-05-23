@@ -497,7 +497,7 @@ class HttpUtil {
     }
     final FormData formData = FormData.fromMap(form);
     // ignore: inference_failure_on_function_invocation
-    await dio.post(UPDATE_PROFILE, data: formData, queryParameters: {'app_token': app_token});
+    await dio.post(UPDATE_PLAYLIST, data: formData, queryParameters: {'app_token': app_token});
     return true;
   }
 

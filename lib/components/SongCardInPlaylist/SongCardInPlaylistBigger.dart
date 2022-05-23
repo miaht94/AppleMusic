@@ -77,7 +77,7 @@ class _SongCardInPlaylistStateBigger extends State < SongCardInPlaylistBigger > 
                     const Divider(
                       height: 4,
                       thickness: 0.4,
-                      indent: 10,
+                      indent: 0,
                       endIndent: 0,
                       color: Colors.grey,
                     ),
