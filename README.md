@@ -6,7 +6,7 @@ A Apple Music-like flavor online music streaming app on Android with Flutter.
 
 [Homepage](https://miaht94.github.io/AppleMusic/) / 
 [Figma model](https://www.figma.com/file/LGo3Zh3bQTfa7Vv324ht83/Apple-Music?node-id=460%3A58758) /
-[Presentation](https://docs.google.com/presentation/d/1SzBRXU1pCXUB9xV-2OOYq6o0wPWXd59jgbDelIraF70/edit#slide=id.g1191c048876_0_182)
+[Presentation](https://docs.google.com/presentation/d/1SzBRXU1pCXUB9xV-2OOYq6o0wPWXd59jgbDelIraF70/edit#slide=id.g1191c048876_0_182) / 
 [Demo video](https://youtu.be/skMcWY0eLqA)
 
 
