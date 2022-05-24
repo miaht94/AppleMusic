@@ -176,9 +176,9 @@ class _SearchPageState extends State < SearchPage > {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20,),
-                    const Padding(padding: EdgeInsets.only(left: kDefaultPadding),child: Text('Tìm Kiếm', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold), textAlign: TextAlign.left,)),
-                    // SizedBox(height: kDefaultPadding * 6),
+                    const SizedBox(height: 30),
+                    // const Padding(padding: EdgeInsets.only(left: kDefaultPadding),child: Text('Tìm Kiếm', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold), textAlign: TextAlign.left,)),
+                    // // SizedBox(height: kDefaultPadding * 6),
                     Container(
                       width: screenSize.width,
                       padding: const EdgeInsets.symmetric(horizontal: kDefaultCardPadding),

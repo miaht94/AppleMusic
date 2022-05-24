@@ -102,7 +102,7 @@ class Welcome extends AnimatedWidget {
             SizedBox(height: screenSize.height/20,),
             Container(
               width: screenSize.width/1.5,
-              child: Text('Hi! $name, welcome to Apple Muzic.', style: const TextStyle(fontSize: 20), textAlign: TextAlign.center,),
+              child: Text('Chào! $name, hãy bắt đầu thưởng thức âm nhạc!', style: const TextStyle(fontSize: 20), textAlign: TextAlign.center,),
             ),
             SizedBox(height: screenSize.height/20,),
             Container(
@@ -121,7 +121,7 @@ class Welcome extends AnimatedWidget {
                       color: const Color.fromARGB(183, 222, 89, 44).withOpacity(0.5)
                     )
                   ,
-                    child: const Text('Get Started', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),)
+                    child: const Text('Bắt đầu', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),)
                 )
               ,)
             )

@@ -415,7 +415,7 @@ class ArtistHighlightSong extends StatelessWidget {
                                 width:19,
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    await EasyLoading.show(status: 'Đang thêm vào yêu thích');
+                                    await EasyLoading.show(status: 'Đang thêm vào thư viện');
                                     final bool suc = await HttpUtil().updateFavorite(app_token: GetIt.I.get<CredentialModelNotifier>().value.appToken, action: FAVORITE_ACTION.push, favorite_songs: [album.id]);
                                     await GetIt.I.get<UserModelNotifier>().refreshUser();
                                     if (suc) {
